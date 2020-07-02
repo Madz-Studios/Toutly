@@ -4,7 +4,9 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -133,10 +135,16 @@ class _SelectPhotosState extends State<SelectPhotos> {
       setState(() {
         _imageFile = pickedFile;
       });
-    } catch (e) {
-      setState(() {
-        _pickImageError = e;
-      });
+    } on PlatformException catch (platFormException) {
+      if (platFormException.code == 'PERMISSION_DENIED') {
+        AppSettings.openLocationSettings();
+      } else {
+        print('platFormException code ${platFormException.code}');
+        print('platFormException message ${platFormException.message}');
+        setState(() {
+          _pickImageError = platFormException;
+        });
+      }
     } finally {
       Navigator.pop(context);
     }
