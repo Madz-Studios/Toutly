@@ -12,31 +12,34 @@ T _$identity<T>(T value) => value;
 class _$PostEventTearOff {
   const _$PostEventTearOff();
 
-  PostEventTitleChanged titleChanged({String title}) {
+  PostEventTitleChanged titleChanged({@required String title}) {
     return PostEventTitleChanged(
       title: title,
     );
   }
 
-  PostEventDescriptionChanged descriptionChanged({String description}) {
+  PostEventDescriptionChanged descriptionChanged(
+      {@required String description}) {
     return PostEventDescriptionChanged(
       description: description,
     );
   }
 
-  PostEventPreferredItemChanged preferredItemChanged({String preferredItem}) {
+  PostEventPreferredItemChanged preferredItemChanged(
+      {@required String preferredItem}) {
     return PostEventPreferredItemChanged(
       preferredItem: preferredItem,
     );
   }
 
-  PostEventLocationChanged locationChanged({String location}) {
+  PostEventLocationChanged locationChanged({@required String location}) {
     return PostEventLocationChanged(
       location: location,
     );
   }
 
-  PostEventAddPhotoToList addPhotoToList({String path, PickedFile pickedFile}) {
+  PostEventAddPhotoToList addPhotoToList(
+      {@required String path, @required PickedFile pickedFile}) {
     return PostEventAddPhotoToList(
       path: path,
       pickedFile: pickedFile,
@@ -44,7 +47,7 @@ class _$PostEventTearOff {
   }
 
   PostEventRemovePhotoFromList removePhotoFromList(
-      {String path, PickedFile pickedFile}) {
+      {@required String path, @required PickedFile pickedFile}) {
     return PostEventRemovePhotoFromList(
       path: path,
       pickedFile: pickedFile,
@@ -52,19 +55,21 @@ class _$PostEventTearOff {
   }
 
   PostEventPostButtonPressed postButtonPressed(
-      String category,
-      String title,
-      String description,
-      String preferredItem,
-      String location,
-      GeoPoint geoPoint) {
+      {@required String category,
+      @required String title,
+      @required String description,
+      @required String preferredItem,
+      @required String address,
+      @required GeoPoint geoLocation,
+      @required String geoHash}) {
     return PostEventPostButtonPressed(
-      category,
-      title,
-      description,
-      preferredItem,
-      location,
-      geoPoint,
+      category: category,
+      title: title,
+      description: description,
+      preferredItem: preferredItem,
+      address: address,
+      geoLocation: geoLocation,
+      geoHash: geoHash,
     );
   }
 }
@@ -87,8 +92,9 @@ mixin _$PostEvent {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -98,8 +104,14 @@ mixin _$PostEvent {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -166,7 +178,7 @@ class _$PostEventTitleChangedCopyWithImpl<$Res>
 }
 
 class _$PostEventTitleChanged implements PostEventTitleChanged {
-  const _$PostEventTitleChanged({this.title});
+  const _$PostEventTitleChanged({@required this.title}) : assert(title != null);
 
   @override
   final String title;
@@ -208,8 +220,9 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -230,8 +243,14 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -283,7 +302,8 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
 }
 
 abstract class PostEventTitleChanged implements PostEvent {
-  const factory PostEventTitleChanged({String title}) = _$PostEventTitleChanged;
+  const factory PostEventTitleChanged({@required String title}) =
+      _$PostEventTitleChanged;
 
   String get title;
   $PostEventTitleChangedCopyWith<PostEventTitleChanged> get copyWith;
@@ -320,7 +340,8 @@ class _$PostEventDescriptionChangedCopyWithImpl<$Res>
 }
 
 class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
-  const _$PostEventDescriptionChanged({this.description});
+  const _$PostEventDescriptionChanged({@required this.description})
+      : assert(description != null);
 
   @override
   final String description;
@@ -363,8 +384,9 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -385,8 +407,14 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -438,7 +466,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
 }
 
 abstract class PostEventDescriptionChanged implements PostEvent {
-  const factory PostEventDescriptionChanged({String description}) =
+  const factory PostEventDescriptionChanged({@required String description}) =
       _$PostEventDescriptionChanged;
 
   String get description;
@@ -479,7 +507,8 @@ class _$PostEventPreferredItemChangedCopyWithImpl<$Res>
 }
 
 class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
-  const _$PostEventPreferredItemChanged({this.preferredItem});
+  const _$PostEventPreferredItemChanged({@required this.preferredItem})
+      : assert(preferredItem != null);
 
   @override
   final String preferredItem;
@@ -522,8 +551,9 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -544,8 +574,14 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -597,8 +633,8 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
 }
 
 abstract class PostEventPreferredItemChanged implements PostEvent {
-  const factory PostEventPreferredItemChanged({String preferredItem}) =
-      _$PostEventPreferredItemChanged;
+  const factory PostEventPreferredItemChanged(
+      {@required String preferredItem}) = _$PostEventPreferredItemChanged;
 
   String get preferredItem;
   $PostEventPreferredItemChangedCopyWith<PostEventPreferredItemChanged>
@@ -634,7 +670,8 @@ class _$PostEventLocationChangedCopyWithImpl<$Res>
 }
 
 class _$PostEventLocationChanged implements PostEventLocationChanged {
-  const _$PostEventLocationChanged({this.location});
+  const _$PostEventLocationChanged({@required this.location})
+      : assert(location != null);
 
   @override
   final String location;
@@ -677,8 +714,9 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -699,8 +737,14 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -752,7 +796,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
 }
 
 abstract class PostEventLocationChanged implements PostEvent {
-  const factory PostEventLocationChanged({String location}) =
+  const factory PostEventLocationChanged({@required String location}) =
       _$PostEventLocationChanged;
 
   String get location;
@@ -790,7 +834,10 @@ class _$PostEventAddPhotoToListCopyWithImpl<$Res>
 }
 
 class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
-  const _$PostEventAddPhotoToList({this.path, this.pickedFile});
+  const _$PostEventAddPhotoToList(
+      {@required this.path, @required this.pickedFile})
+      : assert(path != null),
+        assert(pickedFile != null);
 
   @override
   final String path;
@@ -839,8 +886,9 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -861,8 +909,14 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -914,8 +968,9 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
 }
 
 abstract class PostEventAddPhotoToList implements PostEvent {
-  const factory PostEventAddPhotoToList({String path, PickedFile pickedFile}) =
-      _$PostEventAddPhotoToList;
+  const factory PostEventAddPhotoToList(
+      {@required String path,
+      @required PickedFile pickedFile}) = _$PostEventAddPhotoToList;
 
   String get path;
   PickedFile get pickedFile;
@@ -956,7 +1011,10 @@ class _$PostEventRemovePhotoFromListCopyWithImpl<$Res>
 }
 
 class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
-  const _$PostEventRemovePhotoFromList({this.path, this.pickedFile});
+  const _$PostEventRemovePhotoFromList(
+      {@required this.path, @required this.pickedFile})
+      : assert(path != null),
+        assert(pickedFile != null);
 
   @override
   final String path;
@@ -1005,8 +1063,9 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -1027,8 +1086,14 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1081,7 +1146,8 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
 
 abstract class PostEventRemovePhotoFromList implements PostEvent {
   const factory PostEventRemovePhotoFromList(
-      {String path, PickedFile pickedFile}) = _$PostEventRemovePhotoFromList;
+      {@required String path,
+      @required PickedFile pickedFile}) = _$PostEventRemovePhotoFromList;
 
   String get path;
   PickedFile get pickedFile;
@@ -1098,8 +1164,9 @@ abstract class $PostEventPostButtonPressedCopyWith<$Res> {
       String title,
       String description,
       String preferredItem,
-      String location,
-      GeoPoint geoPoint});
+      String address,
+      GeoPoint geoLocation,
+      String geoHash});
 }
 
 class _$PostEventPostButtonPressedCopyWithImpl<$Res>
@@ -1119,29 +1186,42 @@ class _$PostEventPostButtonPressedCopyWithImpl<$Res>
     Object title = freezed,
     Object description = freezed,
     Object preferredItem = freezed,
-    Object location = freezed,
-    Object geoPoint = freezed,
+    Object address = freezed,
+    Object geoLocation = freezed,
+    Object geoHash = freezed,
   }) {
     return _then(PostEventPostButtonPressed(
-      category == freezed ? _value.category : category as String,
-      title == freezed ? _value.title : title as String,
-      description == freezed ? _value.description : description as String,
-      preferredItem == freezed ? _value.preferredItem : preferredItem as String,
-      location == freezed ? _value.location : location as String,
-      geoPoint == freezed ? _value.geoPoint : geoPoint as GeoPoint,
+      category: category == freezed ? _value.category : category as String,
+      title: title == freezed ? _value.title : title as String,
+      description:
+          description == freezed ? _value.description : description as String,
+      preferredItem: preferredItem == freezed
+          ? _value.preferredItem
+          : preferredItem as String,
+      address: address == freezed ? _value.address : address as String,
+      geoLocation:
+          geoLocation == freezed ? _value.geoLocation : geoLocation as GeoPoint,
+      geoHash: geoHash == freezed ? _value.geoHash : geoHash as String,
     ));
   }
 }
 
 class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
-  const _$PostEventPostButtonPressed(this.category, this.title,
-      this.description, this.preferredItem, this.location, this.geoPoint)
+  const _$PostEventPostButtonPressed(
+      {@required this.category,
+      @required this.title,
+      @required this.description,
+      @required this.preferredItem,
+      @required this.address,
+      @required this.geoLocation,
+      @required this.geoHash})
       : assert(category != null),
         assert(title != null),
         assert(description != null),
         assert(preferredItem != null),
-        assert(location != null),
-        assert(geoPoint != null);
+        assert(address != null),
+        assert(geoLocation != null),
+        assert(geoHash != null);
 
   @override
   final String category;
@@ -1152,13 +1232,15 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
   @override
   final String preferredItem;
   @override
-  final String location;
+  final String address;
   @override
-  final GeoPoint geoPoint;
+  final GeoPoint geoLocation;
+  @override
+  final String geoHash;
 
   @override
   String toString() {
-    return 'PostEvent.postButtonPressed(category: $category, title: $title, description: $description, preferredItem: $preferredItem, location: $location, geoPoint: $geoPoint)';
+    return 'PostEvent.postButtonPressed(category: $category, title: $title, description: $description, preferredItem: $preferredItem, address: $address, geoLocation: $geoLocation, geoHash: $geoHash)';
   }
 
   @override
@@ -1176,12 +1258,14 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
             (identical(other.preferredItem, preferredItem) ||
                 const DeepCollectionEquality()
                     .equals(other.preferredItem, preferredItem)) &&
-            (identical(other.location, location) ||
+            (identical(other.address, address) ||
                 const DeepCollectionEquality()
-                    .equals(other.location, location)) &&
-            (identical(other.geoPoint, geoPoint) ||
+                    .equals(other.address, address)) &&
+            (identical(other.geoLocation, geoLocation) ||
                 const DeepCollectionEquality()
-                    .equals(other.geoPoint, geoPoint)));
+                    .equals(other.geoLocation, geoLocation)) &&
+            (identical(other.geoHash, geoHash) ||
+                const DeepCollectionEquality().equals(other.geoHash, geoHash)));
   }
 
   @override
@@ -1191,8 +1275,9 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
       const DeepCollectionEquality().hash(title) ^
       const DeepCollectionEquality().hash(description) ^
       const DeepCollectionEquality().hash(preferredItem) ^
-      const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(geoPoint);
+      const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(geoLocation) ^
+      const DeepCollectionEquality().hash(geoHash);
 
   @override
   $PostEventPostButtonPressedCopyWith<PostEventPostButtonPressed>
@@ -1215,8 +1300,9 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
             String title,
             String description,
             String preferredItem,
-            String location,
-            GeoPoint geoPoint),
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -1225,8 +1311,8 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
     assert(postButtonPressed != null);
-    return postButtonPressed(
-        category, title, description, preferredItem, location, geoPoint);
+    return postButtonPressed(category, title, description, preferredItem,
+        address, geoLocation, geoHash);
   }
 
   @override
@@ -1238,14 +1324,20 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
-    Result postButtonPressed(String category, String title, String description,
-        String preferredItem, String location, GeoPoint geoPoint),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (postButtonPressed != null) {
-      return postButtonPressed(
-          category, title, description, preferredItem, location, geoPoint);
+      return postButtonPressed(category, title, description, preferredItem,
+          address, geoLocation, geoHash);
     }
     return orElse();
   }
@@ -1293,19 +1385,21 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
 
 abstract class PostEventPostButtonPressed implements PostEvent {
   const factory PostEventPostButtonPressed(
-      String category,
-      String title,
-      String description,
-      String preferredItem,
-      String location,
-      GeoPoint geoPoint) = _$PostEventPostButtonPressed;
+      {@required String category,
+      @required String title,
+      @required String description,
+      @required String preferredItem,
+      @required String address,
+      @required GeoPoint geoLocation,
+      @required String geoHash}) = _$PostEventPostButtonPressed;
 
   String get category;
   String get title;
   String get description;
   String get preferredItem;
-  String get location;
-  GeoPoint get geoPoint;
+  String get address;
+  GeoPoint get geoLocation;
+  String get geoHash;
   $PostEventPostButtonPressedCopyWith<PostEventPostButtonPressed> get copyWith;
 }
 

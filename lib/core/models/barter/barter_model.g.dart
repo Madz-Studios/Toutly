@@ -9,6 +9,7 @@ part of 'barter_model.dart';
 BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
   return BarterModel(
     active: json['active'] as bool,
+    address: json['address'] as String,
     publicAccess: json['publicAccess'] as bool,
     category: json['category'] as String,
     dateCreated:
@@ -20,9 +21,8 @@ BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     itemId: json['itemId'] as String,
     geoHash: json['geoHash'] as String,
-    geoPoint: BarterModel._fromJsonGeoPoint(json['geoPoint'] as GeoPoint),
+    geoLocation: BarterModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
     likes: json['likes'] as int,
-    location: json['location'] as String,
     photosUrl: (json['photosUrl'] as List)?.map((e) => e as String)?.toList(),
     preferredItem: json['preferredItem'] as String,
     title: json['title'] as String,
@@ -33,6 +33,7 @@ BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
     <String, dynamic>{
       'active': instance.active,
+      'address': instance.address,
       'publicAccess': instance.publicAccess,
       'category': instance.category,
       'dateCreated': BarterModel._toJsonTimestamp(instance.dateCreated),
@@ -41,9 +42,8 @@ Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
       'description': instance.description,
       'itemId': instance.itemId,
       'geoHash': instance.geoHash,
-      'geoPoint': BarterModel._toJsonGeoPoint(instance.geoPoint),
+      'geoLocation': BarterModel._toJsonGeoPoint(instance.geoLocation),
       'likes': instance.likes,
-      'location': instance.location,
       'photosUrl': instance.photosUrl,
       'preferredItem': instance.preferredItem,
       'title': instance.title,

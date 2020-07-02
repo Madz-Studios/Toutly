@@ -26,7 +26,7 @@ dependencies:
 
   #bloc related libs
   flutter_bloc: ^4.0.0
-  rxdart: ^0.24.0
+  rxdart: ^0.23.1
 
   #firebase related libs
   firebase_core: 0.4.5
@@ -53,6 +53,7 @@ dependencies:
 
   #utilities related libs
   app_settings: ^4.0.1+1
+  geoflutterfire: ^2.1.0
   google_map_location_picker: ^3.3.3
   google_maps_flutter: ^0.5.28+1
   geolocator: ^5.3.2+2

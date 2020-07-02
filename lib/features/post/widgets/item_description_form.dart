@@ -12,6 +12,7 @@ import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
@@ -31,7 +32,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final TextEditingController _locationController = TextEditingController();
 
   String _selectedCategory;
-  GeoPoint _geoPoint;
+  GeoPoint _geoLocation;
+  String _geoHash;
 
   @override
   void initState() {
@@ -90,12 +92,13 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   void _onFormSubmitted() {
     _postBloc.add(
       PostEvent.postButtonPressed(
-        _selectedCategory,
-        _titleController.text,
-        _descriptionController.text,
-        _preferredItemController.text,
-        _locationController.text,
-        _geoPoint,
+        address: _locationController.text,
+        category: _selectedCategory,
+        description: _descriptionController.text,
+        preferredItem: _preferredItemController.text,
+        geoLocation: _geoLocation,
+        geoHash: _geoHash,
+        title: _titleController.text,
       ),
     );
   }
@@ -226,7 +229,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             ),
             InkWell(
               onTap: () {
-                _getCurrentLocation(context);
+                _getLocation(context);
               },
               child: IgnorePointer(
                 child: PostItemTextFieldForm(
@@ -290,8 +293,9 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     _locationController.text = '';
   }
 
-  _getCurrentLocation(BuildContext context) async {
+  _getLocation(BuildContext context) async {
     try {
+      Geoflutterfire geoFlutterFire = Geoflutterfire();
       RemoteConfig remoteConfig = await RemoteConfig.instance;
       await remoteConfig.fetch();
       await remoteConfig.activateFetched();
@@ -309,9 +313,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       Position position = await Geolocator()
           .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
 
-      print('latitude ${position.latitude}');
-      print('longitude ${position.longitude}');
-
       LocationResult result = await showLocationPicker(
         context,
         apiKey,
@@ -319,9 +320,14 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
         myLocationButtonEnabled: true,
         hintText: 'Location',
       );
+
+      GeoFirePoint geoFirePoint = geoFlutterFire.point(
+          latitude: result.latLng.latitude, longitude: result.latLng.longitude);
+
       setState(() {
-        _locationController.text = "${result.address}";
-        _geoPoint = GeoPoint(result.latLng.latitude, result.latLng.longitude);
+        _locationController.text = result.address;
+        _geoLocation = GeoPoint(geoFirePoint.latitude, geoFirePoint.longitude);
+        _geoHash = geoFirePoint.hash;
       });
     } on PlatformException catch (platFormException) {
       if (platFormException.code == 'PERMISSION_DENIED') {

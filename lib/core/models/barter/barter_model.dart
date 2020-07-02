@@ -8,6 +8,7 @@ part 'barter_model.g.dart';
 @JsonSerializable()
 class BarterModel {
   bool active;
+  String address;
   bool publicAccess;
   String category;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
@@ -21,9 +22,8 @@ class BarterModel {
   String itemId;
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
-  GeoPoint geoPoint;
+  GeoPoint geoLocation;
   int likes;
-  String location;
   List<String> photosUrl;
   String preferredItem;
   String title;
@@ -31,6 +31,7 @@ class BarterModel {
 
   BarterModel({
     this.active,
+    this.address,
     this.publicAccess,
     this.category,
     this.dateCreated,
@@ -39,9 +40,8 @@ class BarterModel {
     this.description,
     this.itemId,
     this.geoHash,
-    this.geoPoint,
+    this.geoLocation,
     this.likes,
-    this.location,
     this.photosUrl,
     this.preferredItem,
     this.title,
