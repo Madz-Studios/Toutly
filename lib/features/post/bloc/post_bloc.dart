@@ -4,8 +4,6 @@ import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_cas
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
-import 'package:Toutly/core/usecases/user/barter_items/firestore_create_user_barter_item.dart';
-import 'package:Toutly/core/usecases/user/barter_items/firestore_update_user_barter_item.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -31,11 +29,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
   final FirestoreUpdateBarterItemUseCase firestoreUpdateBarterItemUseCase;
 
-  final FirestoreCreateUserBarterItemUseCase
-      firestoreCreateUserBarterItemUseCase;
-  final FirestoreUpdateUserBarterItemUseCase
-      firestoreUpdateUserBarterItemUseCase;
-
   PostBloc({
     @required this.firebaseStorage,
     @required this.uuid,
@@ -43,8 +36,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     @required this.firebaseGetUserUseCase,
     @required this.firestoreCreateBarterItemUseCase,
     @required this.firestoreUpdateBarterItemUseCase,
-    @required this.firestoreCreateUserBarterItemUseCase,
-    @required this.firestoreUpdateUserBarterItemUseCase,
   });
 
   @override
@@ -133,13 +124,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
         ///create a barter item in the barter market
         await firestoreCreateBarterItemUseCase.call(
-          UseCaseBarterModelParam.init(
-            barterModel: barterModel,
-          ),
-        );
-
-        ///create a barter item in users own barter item list.
-        await firestoreCreateUserBarterItemUseCase.call(
           UseCaseBarterModelParam.init(
             barterModel: barterModel,
           ),
