@@ -10,18 +10,16 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Toutly/core/repositories/user/barter_item/firestore_barter_item_repository.dart';
 import 'package:Toutly/core/repositories/barter/firestore_barter_repository.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/user/barter_items/firestore_create_user_barter_item.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/user/barter_items/firestore_update_user_barter_item.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_item_bloc.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
@@ -46,22 +44,14 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirebaseStorage>(
       () => injectableModule.firebaseStorage);
   g.registerLazySingleton<Firestore>(() => injectableModule.firestore);
-  g.registerFactory<FirestoreBarterItemRepository>(
-      () => FirestoreBarterItemRepositoryImpl(firestore: g<Firestore>()));
   g.registerFactory<FirestoreBarterRepository>(
       () => FirestoreBarterRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<FirestoreCreateBarterItemUseCase>(() =>
       FirestoreCreateBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
-  g.registerLazySingleton<FirestoreCreateUserBarterItemUseCase>(() =>
-      FirestoreCreateUserBarterItemUseCase(
-          firestoreBarterItemRepository: g<FirestoreBarterItemRepository>()));
   g.registerLazySingleton<FirestoreUpdateBarterItemUseCase>(() =>
       FirestoreUpdateBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
-  g.registerLazySingleton<FirestoreUpdateUserBarterItemUseCase>(() =>
-      FirestoreUpdateUserBarterItemUseCase(
-          firestoreBarterItemRepository: g<FirestoreBarterItemRepository>()));
   g.registerFactory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
@@ -70,6 +60,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
   g.registerLazySingleton<Validators>(() => injectableModule.validators);
+  g.registerLazySingleton<ViewItemBloc>(() => ViewItemBloc());
   g.registerFactory<FirebaseAuthUserRepository>(
       () => FirebaseAuthUserRepositoryImpl(
             firebaseAuth: g<FirebaseAuth>(),
@@ -111,10 +102,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
         firestoreCreateBarterItemUseCase: g<FirestoreCreateBarterItemUseCase>(),
         firestoreUpdateBarterItemUseCase: g<FirestoreUpdateBarterItemUseCase>(),
-        firestoreCreateUserBarterItemUseCase:
-            g<FirestoreCreateUserBarterItemUseCase>(),
-        firestoreUpdateUserBarterItemUseCase:
-            g<FirestoreUpdateUserBarterItemUseCase>(),
       ));
   g.registerLazySingleton<SignBloc>(() => SignBloc(
         firebaseSignUpUseCase: g<FirebaseSignUpUseCase>(),
