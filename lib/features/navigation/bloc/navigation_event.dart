@@ -12,4 +12,7 @@ abstract class NavigationEvent implements _$NavigationEvent {
       NavigationEventGoToFavouriteScreen;
   const factory NavigationEvent.goToInboxScreenEvent() =
       NavigationEventGoToInboxScreen;
+
+  const factory NavigationEvent.goToViewItemScreenEvent() =
+      NavigationEventGoToViewItemScreen;
 }

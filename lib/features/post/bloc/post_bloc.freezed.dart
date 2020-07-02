@@ -54,6 +54,10 @@ class _$PostEventTearOff {
     );
   }
 
+  PostEventClearPhotoList clearPhotoList() {
+    return const PostEventClearPhotoList();
+  }
+
   PostEventPostButtonPressed postButtonPressed(
       {@required String category,
       @required String title,
@@ -86,6 +90,7 @@ mixin _$PostEvent {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -104,6 +109,7 @@ mixin _$PostEvent {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -122,6 +128,7 @@ mixin _$PostEvent {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   });
   @optionalTypeArgs
@@ -132,6 +139,7 @@ mixin _$PostEvent {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   });
@@ -214,6 +222,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -230,6 +239,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return titleChanged(title);
   }
@@ -243,6 +253,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -269,6 +280,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -277,6 +289,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return titleChanged(this);
   }
@@ -290,6 +303,7 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -378,6 +392,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -394,6 +409,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return descriptionChanged(description);
   }
@@ -407,6 +423,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -433,6 +450,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -441,6 +459,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return descriptionChanged(this);
   }
@@ -454,6 +473,7 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -545,6 +565,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -561,6 +582,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return preferredItemChanged(preferredItem);
   }
@@ -574,6 +596,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -600,6 +623,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -608,6 +632,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return preferredItemChanged(this);
   }
@@ -621,6 +646,7 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -708,6 +734,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -724,6 +751,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return locationChanged(location);
   }
@@ -737,6 +765,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -763,6 +792,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -771,6 +801,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return locationChanged(this);
   }
@@ -784,6 +815,7 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -880,6 +912,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -896,6 +929,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return addPhotoToList(path, pickedFile);
   }
@@ -909,6 +943,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -935,6 +970,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -943,6 +979,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return addPhotoToList(this);
   }
@@ -956,6 +993,7 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -1057,6 +1095,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -1073,6 +1112,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return removePhotoFromList(path, pickedFile);
   }
@@ -1086,6 +1126,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -1112,6 +1153,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -1120,6 +1162,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return removePhotoFromList(this);
   }
@@ -1133,6 +1176,7 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {
@@ -1153,6 +1197,145 @@ abstract class PostEventRemovePhotoFromList implements PostEvent {
   PickedFile get pickedFile;
   $PostEventRemovePhotoFromListCopyWith<PostEventRemovePhotoFromList>
       get copyWith;
+}
+
+abstract class $PostEventClearPhotoListCopyWith<$Res> {
+  factory $PostEventClearPhotoListCopyWith(PostEventClearPhotoList value,
+          $Res Function(PostEventClearPhotoList) then) =
+      _$PostEventClearPhotoListCopyWithImpl<$Res>;
+}
+
+class _$PostEventClearPhotoListCopyWithImpl<$Res>
+    extends _$PostEventCopyWithImpl<$Res>
+    implements $PostEventClearPhotoListCopyWith<$Res> {
+  _$PostEventClearPhotoListCopyWithImpl(PostEventClearPhotoList _value,
+      $Res Function(PostEventClearPhotoList) _then)
+      : super(_value, (v) => _then(v as PostEventClearPhotoList));
+
+  @override
+  PostEventClearPhotoList get _value => super._value as PostEventClearPhotoList;
+}
+
+class _$PostEventClearPhotoList implements PostEventClearPhotoList {
+  const _$PostEventClearPhotoList();
+
+  @override
+  String toString() {
+    return 'PostEvent.clearPhotoList()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is PostEventClearPhotoList);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result titleChanged(String title),
+    @required Result descriptionChanged(String description),
+    @required Result preferredItemChanged(String preferredItem),
+    @required Result locationChanged(String location),
+    @required Result addPhotoToList(String path, PickedFile pickedFile),
+    @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
+    @required
+        Result postButtonPressed(
+            String category,
+            String title,
+            String description,
+            String preferredItem,
+            String address,
+            GeoPoint geoLocation,
+            String geoHash),
+  }) {
+    assert(titleChanged != null);
+    assert(descriptionChanged != null);
+    assert(preferredItemChanged != null);
+    assert(locationChanged != null);
+    assert(addPhotoToList != null);
+    assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
+    assert(postButtonPressed != null);
+    return clearPhotoList();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result titleChanged(String title),
+    Result descriptionChanged(String description),
+    Result preferredItemChanged(String preferredItem),
+    Result locationChanged(String location),
+    Result addPhotoToList(String path, PickedFile pickedFile),
+    Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
+    Result postButtonPressed(
+        String category,
+        String title,
+        String description,
+        String preferredItem,
+        String address,
+        GeoPoint geoLocation,
+        String geoHash),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (clearPhotoList != null) {
+      return clearPhotoList();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result titleChanged(PostEventTitleChanged value),
+    @required Result descriptionChanged(PostEventDescriptionChanged value),
+    @required Result preferredItemChanged(PostEventPreferredItemChanged value),
+    @required Result locationChanged(PostEventLocationChanged value),
+    @required Result addPhotoToList(PostEventAddPhotoToList value),
+    @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
+    @required Result postButtonPressed(PostEventPostButtonPressed value),
+  }) {
+    assert(titleChanged != null);
+    assert(descriptionChanged != null);
+    assert(preferredItemChanged != null);
+    assert(locationChanged != null);
+    assert(addPhotoToList != null);
+    assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
+    assert(postButtonPressed != null);
+    return clearPhotoList(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result titleChanged(PostEventTitleChanged value),
+    Result descriptionChanged(PostEventDescriptionChanged value),
+    Result preferredItemChanged(PostEventPreferredItemChanged value),
+    Result locationChanged(PostEventLocationChanged value),
+    Result addPhotoToList(PostEventAddPhotoToList value),
+    Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
+    Result postButtonPressed(PostEventPostButtonPressed value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (clearPhotoList != null) {
+      return clearPhotoList(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class PostEventClearPhotoList implements PostEvent {
+  const factory PostEventClearPhotoList() = _$PostEventClearPhotoList;
 }
 
 abstract class $PostEventPostButtonPressedCopyWith<$Res> {
@@ -1294,6 +1477,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     @required Result locationChanged(String location),
     @required Result addPhotoToList(String path, PickedFile pickedFile),
     @required Result removePhotoFromList(String path, PickedFile pickedFile),
+    @required Result clearPhotoList(),
     @required
         Result postButtonPressed(
             String category,
@@ -1310,6 +1494,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return postButtonPressed(category, title, description, preferredItem,
         address, geoLocation, geoHash);
@@ -1324,6 +1509,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     Result locationChanged(String location),
     Result addPhotoToList(String path, PickedFile pickedFile),
     Result removePhotoFromList(String path, PickedFile pickedFile),
+    Result clearPhotoList(),
     Result postButtonPressed(
         String category,
         String title,
@@ -1351,6 +1537,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     @required Result locationChanged(PostEventLocationChanged value),
     @required Result addPhotoToList(PostEventAddPhotoToList value),
     @required Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    @required Result clearPhotoList(PostEventClearPhotoList value),
     @required Result postButtonPressed(PostEventPostButtonPressed value),
   }) {
     assert(titleChanged != null);
@@ -1359,6 +1546,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     assert(locationChanged != null);
     assert(addPhotoToList != null);
     assert(removePhotoFromList != null);
+    assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return postButtonPressed(this);
   }
@@ -1372,6 +1560,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     Result locationChanged(PostEventLocationChanged value),
     Result addPhotoToList(PostEventAddPhotoToList value),
     Result removePhotoFromList(PostEventRemovePhotoFromList value),
+    Result clearPhotoList(PostEventClearPhotoList value),
     Result postButtonPressed(PostEventPostButtonPressed value),
     @required Result orElse(),
   }) {

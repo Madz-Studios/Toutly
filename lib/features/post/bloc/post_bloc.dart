@@ -141,6 +141,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       state.pickedFileList.putIfAbsent(e.pickedFile.path, () => e.pickedFile);
     }, removePhotoFromList: (e) async* {
       state.pickedFileList.remove(e.path);
+    }, clearPhotoList: (e) async* {
+      state.pickedFileList.clear();
     });
   }
 }

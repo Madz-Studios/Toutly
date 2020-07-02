@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -25,11 +26,12 @@ class ItemDescriptionForm extends StatefulWidget {
 
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
-  final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _descriptionController = TextEditingController();
-  final TextEditingController _preferredItemController =
-      TextEditingController();
-  final TextEditingController _locationController = TextEditingController();
+  final _navBloc = getIt<NavigationBloc>();
+
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _preferredItemController = TextEditingController();
+  final _locationController = TextEditingController();
 
   String _selectedCategory;
   GeoPoint _geoLocation;
@@ -156,7 +158,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                 ),
               ),
             );
-          clearFields();
+          _navBloc.add(NavigationEvent.goToViewItemScreenEvent());
         }
       },
       builder: (context, state) {
@@ -286,7 +288,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     });
   }
 
-  void clearFields() {
+  void _clearFields() {
     _titleController.text = '';
     _descriptionController.text = '';
     _preferredItemController.text = '';

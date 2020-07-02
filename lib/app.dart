@@ -13,6 +13,7 @@ import 'core/di/injector.dart';
 import 'features/authentication/bloc/authentication_bloc.dart';
 import 'features/authentication/screen/authentication_screen.dart';
 import 'features/navigation/bloc/navigation_bloc.dart';
+import 'features/view_barter_item/bloc/view_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 import 'shared/bloc/sign/sign_bloc.dart';
@@ -52,6 +53,11 @@ class App extends StatelessWidget {
         /// Post Bloc
         BlocProvider<PostBloc>(
           create: (BuildContext context) => getIt<PostBloc>(),
+        ),
+
+        /// View Barter Item Bloc
+        BlocProvider<ViewItemBloc>(
+          create: (BuildContext context) => getIt<ViewItemBloc>(),
         ),
       ],
       child: MaterialApp(

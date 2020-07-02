@@ -1,6 +1,7 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
+import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -88,19 +89,19 @@ class NavigationBar extends StatelessWidget {
   }
 
   void _onItemTapped(int index) {
-    if (index == 0) {
+    if (index == AppNavigationIndex.homeIndex) {
       _navigationBloc.add(NavigationEvent.goToHomeScreenEvent());
     }
-    if (index == 1) {
+    if (index == AppNavigationIndex.searchIndex) {
       _navigationBloc.add(NavigationEvent.goToSearchScreenEvent());
     }
-    if (index == 2) {
+    if (index == AppNavigationIndex.postIndex) {
       _navigationBloc.add(NavigationEvent.goToPostScreenEvent());
     }
-    if (index == 3) {
+    if (index == AppNavigationIndex.favouritesIndex) {
       _navigationBloc.add(NavigationEvent.goToFavouritesScreenEvent());
     }
-    if (index == 4) {
+    if (index == AppNavigationIndex.inboxIndex) {
       _navigationBloc.add(NavigationEvent.goToInboxScreenEvent());
     }
   }

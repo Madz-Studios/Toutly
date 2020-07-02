@@ -8,6 +8,7 @@ import 'package:Toutly/features/navigation/widgets/item_tab_view.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/search/screen/search_screen.dart';
+import 'package:Toutly/features/view_barter_item/screen/view_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,6 +64,12 @@ class NavigationScreen extends StatelessWidget {
             state.index,
           );
         },
+        viewItemScreen: (_) {
+          return _buildSingleViewNoBottomNavBarScreen(
+            null,
+            ViewItemScreen(),
+          );
+        },
       ),
     );
   }
@@ -76,6 +83,15 @@ class NavigationScreen extends StatelessWidget {
         bottomNavigationBar: NavigationBar(
           currentIndex,
         ),
+      ),
+    );
+  }
+
+  SafeArea _buildSingleViewNoBottomNavBarScreen(Widget appBar, Widget screen) {
+    return SafeArea(
+      child: Scaffold(
+        appBar: appBar,
+        body: screen,
       ),
     );
   }

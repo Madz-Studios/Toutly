@@ -31,6 +31,10 @@ class _$NavigationEventTearOff {
   NavigationEventGoToInboxScreen goToInboxScreenEvent() {
     return const NavigationEventGoToInboxScreen();
   }
+
+  NavigationEventGoToViewItemScreen goToViewItemScreenEvent() {
+    return const NavigationEventGoToViewItemScreen();
+  }
 }
 
 // ignore: unused_element
@@ -44,6 +48,7 @@ mixin _$NavigationEvent {
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -52,6 +57,7 @@ mixin _$NavigationEvent {
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -64,6 +70,8 @@ mixin _$NavigationEvent {
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
@@ -72,6 +80,7 @@ mixin _$NavigationEvent {
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   });
 }
@@ -135,12 +144,14 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToHomeScreenEvent();
   }
 
@@ -152,6 +163,7 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -172,12 +184,15 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToHomeScreenEvent(this);
   }
 
@@ -189,6 +204,7 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -249,12 +265,14 @@ class _$NavigationEventGoToSearchScreen
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToSearchScreenEvent();
   }
 
@@ -266,6 +284,7 @@ class _$NavigationEventGoToSearchScreen
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -286,12 +305,15 @@ class _$NavigationEventGoToSearchScreen
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToSearchScreenEvent(this);
   }
 
@@ -303,6 +325,7 @@ class _$NavigationEventGoToSearchScreen
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -362,12 +385,14 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToPostScreenEvent();
   }
 
@@ -379,6 +404,7 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -399,12 +425,15 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToPostScreenEvent(this);
   }
 
@@ -416,6 +445,7 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -477,12 +507,14 @@ class _$NavigationEventGoToFavouriteScreen
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToFavouritesScreenEvent();
   }
 
@@ -494,6 +526,7 @@ class _$NavigationEventGoToFavouriteScreen
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -514,12 +547,15 @@ class _$NavigationEventGoToFavouriteScreen
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToFavouritesScreenEvent(this);
   }
 
@@ -531,6 +567,7 @@ class _$NavigationEventGoToFavouriteScreen
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -591,12 +628,14 @@ class _$NavigationEventGoToInboxScreen
     @required Result goToPostScreenEvent(),
     @required Result goToFavouritesScreenEvent(),
     @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToInboxScreenEvent();
   }
 
@@ -608,6 +647,7 @@ class _$NavigationEventGoToInboxScreen
     Result goToPostScreenEvent(),
     Result goToFavouritesScreenEvent(),
     Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -628,12 +668,15 @@ class _$NavigationEventGoToInboxScreen
         Result goToFavouritesScreenEvent(
             NavigationEventGoToFavouriteScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
     assert(goToFavouritesScreenEvent != null);
     assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
     return goToInboxScreenEvent(this);
   }
 
@@ -645,6 +688,7 @@ class _$NavigationEventGoToInboxScreen
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -658,6 +702,128 @@ class _$NavigationEventGoToInboxScreen
 abstract class NavigationEventGoToInboxScreen implements NavigationEvent {
   const factory NavigationEventGoToInboxScreen() =
       _$NavigationEventGoToInboxScreen;
+}
+
+abstract class $NavigationEventGoToViewItemScreenCopyWith<$Res> {
+  factory $NavigationEventGoToViewItemScreenCopyWith(
+          NavigationEventGoToViewItemScreen value,
+          $Res Function(NavigationEventGoToViewItemScreen) then) =
+      _$NavigationEventGoToViewItemScreenCopyWithImpl<$Res>;
+}
+
+class _$NavigationEventGoToViewItemScreenCopyWithImpl<$Res>
+    extends _$NavigationEventCopyWithImpl<$Res>
+    implements $NavigationEventGoToViewItemScreenCopyWith<$Res> {
+  _$NavigationEventGoToViewItemScreenCopyWithImpl(
+      NavigationEventGoToViewItemScreen _value,
+      $Res Function(NavigationEventGoToViewItemScreen) _then)
+      : super(_value, (v) => _then(v as NavigationEventGoToViewItemScreen));
+
+  @override
+  NavigationEventGoToViewItemScreen get _value =>
+      super._value as NavigationEventGoToViewItemScreen;
+}
+
+class _$NavigationEventGoToViewItemScreen
+    implements NavigationEventGoToViewItemScreen {
+  const _$NavigationEventGoToViewItemScreen();
+
+  @override
+  String toString() {
+    return 'NavigationEvent.goToViewItemScreenEvent()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NavigationEventGoToViewItemScreen);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result goToHomeScreenEvent(),
+    @required Result goToSearchScreenEvent(),
+    @required Result goToPostScreenEvent(),
+    @required Result goToFavouritesScreenEvent(),
+    @required Result goToInboxScreenEvent(),
+    @required Result goToViewItemScreenEvent(),
+  }) {
+    assert(goToHomeScreenEvent != null);
+    assert(goToSearchScreenEvent != null);
+    assert(goToPostScreenEvent != null);
+    assert(goToFavouritesScreenEvent != null);
+    assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
+    return goToViewItemScreenEvent();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result goToHomeScreenEvent(),
+    Result goToSearchScreenEvent(),
+    Result goToPostScreenEvent(),
+    Result goToFavouritesScreenEvent(),
+    Result goToInboxScreenEvent(),
+    Result goToViewItemScreenEvent(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (goToViewItemScreenEvent != null) {
+      return goToViewItemScreenEvent();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
+    @required
+        Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
+    @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
+    @required
+        Result goToFavouritesScreenEvent(
+            NavigationEventGoToFavouriteScreen value),
+    @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+  }) {
+    assert(goToHomeScreenEvent != null);
+    assert(goToSearchScreenEvent != null);
+    assert(goToPostScreenEvent != null);
+    assert(goToFavouritesScreenEvent != null);
+    assert(goToInboxScreenEvent != null);
+    assert(goToViewItemScreenEvent != null);
+    return goToViewItemScreenEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
+    Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
+    Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
+    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (goToViewItemScreenEvent != null) {
+      return goToViewItemScreenEvent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NavigationEventGoToViewItemScreen implements NavigationEvent {
+  const factory NavigationEventGoToViewItemScreen() =
+      _$NavigationEventGoToViewItemScreen;
 }
 
 class _$NavigationStateTearOff {
@@ -692,6 +858,12 @@ class _$NavigationStateTearOff {
       index,
     );
   }
+
+  NavigationStateViewItemScreen viewItemScreen(int index) {
+    return NavigationStateViewItemScreen(
+      index,
+    );
+  }
 }
 
 // ignore: unused_element
@@ -707,6 +879,7 @@ mixin _$NavigationState {
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -715,6 +888,7 @@ mixin _$NavigationState {
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -724,6 +898,7 @@ mixin _$NavigationState {
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
@@ -732,6 +907,7 @@ mixin _$NavigationState {
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   });
 
@@ -829,12 +1005,14 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return homeScreen(index);
   }
 
@@ -846,6 +1024,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -863,12 +1042,14 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return homeScreen(this);
   }
 
@@ -880,6 +1061,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -967,12 +1149,14 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return searchScreen(index);
   }
 
@@ -984,6 +1168,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1001,12 +1186,14 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return searchScreen(this);
   }
 
@@ -1018,6 +1205,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1107,12 +1295,14 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return postScreen(index);
   }
 
@@ -1124,6 +1314,7 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1141,12 +1332,14 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return postScreen(this);
   }
 
@@ -1158,6 +1351,7 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1248,12 +1442,14 @@ class _$NavigationStateFavouritescreen
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return favouriteScreen(index);
   }
 
@@ -1265,6 +1461,7 @@ class _$NavigationStateFavouritescreen
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1282,12 +1479,14 @@ class _$NavigationStateFavouritescreen
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return favouriteScreen(this);
   }
 
@@ -1299,6 +1498,7 @@ class _$NavigationStateFavouritescreen
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1387,12 +1587,14 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result postScreen(int index),
     @required Result favouriteScreen(int index),
     @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return inboxScreen(index);
   }
 
@@ -1404,6 +1606,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result postScreen(int index),
     Result favouriteScreen(int index),
     Result inboxScreen(int index),
+    Result viewItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1421,12 +1624,14 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result postScreen(NavigationStatePostItemScreen value),
     @required Result favouriteScreen(NavigationStateFavouritescreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
     assert(favouriteScreen != null);
     assert(inboxScreen != null);
+    assert(viewItemScreen != null);
     return inboxScreen(this);
   }
 
@@ -1438,6 +1643,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result postScreen(NavigationStatePostItemScreen value),
     Result favouriteScreen(NavigationStateFavouritescreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1456,4 +1662,150 @@ abstract class NavigationStateInboxScreen implements NavigationState {
   int get index;
   @override
   $NavigationStateInboxScreenCopyWith<NavigationStateInboxScreen> get copyWith;
+}
+
+abstract class $NavigationStateViewItemScreenCopyWith<$Res>
+    implements $NavigationStateCopyWith<$Res> {
+  factory $NavigationStateViewItemScreenCopyWith(
+          NavigationStateViewItemScreen value,
+          $Res Function(NavigationStateViewItemScreen) then) =
+      _$NavigationStateViewItemScreenCopyWithImpl<$Res>;
+  @override
+  $Res call({int index});
+}
+
+class _$NavigationStateViewItemScreenCopyWithImpl<$Res>
+    extends _$NavigationStateCopyWithImpl<$Res>
+    implements $NavigationStateViewItemScreenCopyWith<$Res> {
+  _$NavigationStateViewItemScreenCopyWithImpl(
+      NavigationStateViewItemScreen _value,
+      $Res Function(NavigationStateViewItemScreen) _then)
+      : super(_value, (v) => _then(v as NavigationStateViewItemScreen));
+
+  @override
+  NavigationStateViewItemScreen get _value =>
+      super._value as NavigationStateViewItemScreen;
+
+  @override
+  $Res call({
+    Object index = freezed,
+  }) {
+    return _then(NavigationStateViewItemScreen(
+      index == freezed ? _value.index : index as int,
+    ));
+  }
+}
+
+class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
+  const _$NavigationStateViewItemScreen(this.index) : assert(index != null);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'NavigationState.viewItemScreen(index: $index)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NavigationStateViewItemScreen &&
+            (identical(other.index, index) ||
+                const DeepCollectionEquality().equals(other.index, index)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
+
+  @override
+  $NavigationStateViewItemScreenCopyWith<NavigationStateViewItemScreen>
+      get copyWith => _$NavigationStateViewItemScreenCopyWithImpl<
+          NavigationStateViewItemScreen>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result homeScreen(int index),
+    @required Result searchScreen(int index),
+    @required Result postScreen(int index),
+    @required Result favouriteScreen(int index),
+    @required Result inboxScreen(int index),
+    @required Result viewItemScreen(int index),
+  }) {
+    assert(homeScreen != null);
+    assert(searchScreen != null);
+    assert(postScreen != null);
+    assert(favouriteScreen != null);
+    assert(inboxScreen != null);
+    assert(viewItemScreen != null);
+    return viewItemScreen(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result homeScreen(int index),
+    Result searchScreen(int index),
+    Result postScreen(int index),
+    Result favouriteScreen(int index),
+    Result inboxScreen(int index),
+    Result viewItemScreen(int index),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (viewItemScreen != null) {
+      return viewItemScreen(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result homeScreen(NavigationStateHomeScreen value),
+    @required Result searchScreen(NavigationStateSearchScreen value),
+    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+  }) {
+    assert(homeScreen != null);
+    assert(searchScreen != null);
+    assert(postScreen != null);
+    assert(favouriteScreen != null);
+    assert(inboxScreen != null);
+    assert(viewItemScreen != null);
+    return viewItemScreen(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result homeScreen(NavigationStateHomeScreen value),
+    Result searchScreen(NavigationStateSearchScreen value),
+    Result postScreen(NavigationStatePostItemScreen value),
+    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (viewItemScreen != null) {
+      return viewItemScreen(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NavigationStateViewItemScreen implements NavigationState {
+  const factory NavigationStateViewItemScreen(int index) =
+      _$NavigationStateViewItemScreen;
+
+  @override
+  int get index;
+  @override
+  $NavigationStateViewItemScreenCopyWith<NavigationStateViewItemScreen>
+      get copyWith;
 }

@@ -181,6 +181,8 @@ class SignBloc extends Bloc<SignEvent, SignState> {
         userId: firebaseUser.uid,
         email: firebaseUser.email,
         name: firebaseUser.displayName,
+        dateCreated: DateTime.now(),
+        dateUpdated: DateTime.now(),
       );
       await firestoreCreateUserUseCase
           .call(UseCaseUserParamModel.init(userModel));

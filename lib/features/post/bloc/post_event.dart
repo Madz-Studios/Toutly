@@ -22,6 +22,8 @@ abstract class PostEvent with _$PostEvent {
       {@required String path,
       @required PickedFile pickedFile}) = PostEventRemovePhotoFromList;
 
+  const factory PostEvent.clearPhotoList() = PostEventClearPhotoList;
+
   const factory PostEvent.postButtonPressed({
     @required String category,
     @required String title,

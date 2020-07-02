@@ -12,4 +12,6 @@ abstract class NavigationState with _$NavigationState {
       NavigationStateFavouritescreen;
   const factory NavigationState.inboxScreen(int index) =
       NavigationStateInboxScreen;
+  const factory NavigationState.viewItemScreen(int index) =
+      NavigationStateViewItemScreen;
 }
