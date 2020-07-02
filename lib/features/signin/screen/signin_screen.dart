@@ -1,7 +1,5 @@
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/signin/widgets/signin_form.dart';
 import 'package:Toutly/features/signup/screen/signup_screen.dart';
-import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
