@@ -1,0 +1,126 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+def devKeyProperties = new Properties()
+def devKeyPropertiesFile = rootProject.file('app/src/dev/toutly_dev_key.properties')
+if (devKeyPropertiesFile.exists()) {
+    devKeyPropertiesFile.withReader('UTF-8') { reader ->
+        devKeyProperties.load(reader)
+    }
+}
+
+def prodKeyProperties = new Properties()
+def prodKeyPropertiesFile = rootProject.file('app/src/prod/toutly_prod_key.properties')
+if (prodKeyPropertiesFile.exists()) {
+    prodKeyPropertiesFile.withReader('UTF-8') { reader ->
+        prodKeyProperties.load(reader)
+    }
+}
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'io.fabric'
+
+android {
+
+    flavorDimensions "flavor-type"
+
+    productFlavors {
+        dev {
+            dimension "flavor-type"
+            applicationId "app.toutly.dev"
+            resValue "string", "app_name", "Toutly Dev"
+            resValue "string", "facebook_app_id", devKeyProperties.getProperty('fbAppId')
+            resValue "string", "fb_login_protocol_scheme", devKeyProperties.getProperty('fbAppIdProtocolScheme')
+            resValue "string", "gcp_api_key", devKeyProperties.getProperty('gcpApiKey')
+        }
+        prod {
+            dimension "flavor-type"
+            applicationId "app.toutly.prod"
+            resValue "string", "app_name", "Toutly"
+            resValue "string", "facebook_app_id", prodKeyProperties.getProperty('fbAppId')
+            resValue "string", "fb_login_protocol_scheme", prodKeyProperties.getProperty('fbAppIdProtocolScheme')
+            resValue "string", "gcp_api_key", prodKeyProperties.getProperty('gcpApiKey')
+        }
+    }
+
+    compileSdkVersion 29
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 29
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        dev {
+            keyAlias devKeyProperties.getProperty('keyAlias')
+            keyPassword devKeyProperties.getProperty('keyPassword')
+            storeFile rootProject.file("app/src/dev/toutly_dev_key.jks")
+            storePassword devKeyProperties.getProperty('storePassword')
+        }
+        prod {
+            keyAlias prodKeyProperties.getProperty('keyAlias')
+            keyPassword prodKeyProperties.getProperty('keyPassword')
+            storeFile rootProject.file("app/src/prod/toutly_prod_key.jks")
+            storePassword prodKeyProperties.getProperty('storePassword')
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig signingConfigs.prod
+
+            minifyEnabled true
+            useProguard true
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+        debug {
+            //change to signingConfig signingConfigs.prod if want to debug production
+            signingConfig signingConfigs.dev
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+

@@ -1,0 +1,30 @@
+import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'use_case_user_param.freezed.dart';
+
+@freezed
+abstract class UseCaseUserParamEmail with _$UseCaseUserParamEmail {
+  const factory UseCaseUserParamEmail.init(String email) =
+      UseCaseUserParamEmailInit;
+}
+
+@freezed
+abstract class UseCaseUserParamEmailPassword
+    with _$UseCaseUserParamEmailPassword {
+  const factory UseCaseUserParamEmailPassword.init(
+    String email,
+    String password,
+  ) = UseCaseUserParamEmailPasswordInit;
+}
+
+@freezed
+abstract class UseCaseUserParamUid with _$UseCaseUserParamUid {
+  const factory UseCaseUserParamUid.init(String uid) = UseCaseUserParamUidInit;
+}
+
+@freezed
+abstract class UseCaseUserParamModel with _$UseCaseUserParamModel {
+  const factory UseCaseUserParamModel.init(UserModel userModel) =
+      UseCaseUserParamModelInit;
+}
