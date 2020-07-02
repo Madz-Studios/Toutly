@@ -20,26 +20,7 @@ class _$UseCaseNoParamTearOff {
 // ignore: unused_element
 const $UseCaseNoParam = _$UseCaseNoParamTearOff();
 
-mixin _$UseCaseNoParam {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseNoParamInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseNoParamInit value),
-    @required Result orElse(),
-  });
-}
+mixin _$UseCaseNoParam {}
 
 abstract class $UseCaseNoParamCopyWith<$Res> {
   factory $UseCaseNoParamCopyWith(
@@ -88,50 +69,6 @@ class _$UseCaseNoParamInit implements UseCaseNoParamInit {
 
   @override
   int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(),
-  }) {
-    assert(init != null);
-    return init();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseNoParamInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseNoParamInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseNoParamInit implements UseCaseNoParam {

@@ -19,12 +19,13 @@ BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
         BarterModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     description: json['description'] as String,
     itemId: json['itemId'] as String,
-    meetPlace: json['meetPlace'] as String,
+    geoPoint: BarterModel._fromJsonGeoPoint(json['geoPoint'] as GeoPoint),
+    location: json['location'] as String,
     photosUrl: (json['photosUrl'] as List)?.map((e) => e as String)?.toList(),
     preferredItem: json['preferredItem'] as String,
     title: json['title'] as String,
     userId: json['userId'] as String,
-  )..location = BarterModel._fromJsonGeoPoint(json['location'] as GeoPoint);
+  );
 }
 
 Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
@@ -37,8 +38,8 @@ Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
       'dateUpdated': BarterModel._toJsonTimestamp(instance.dateUpdated),
       'description': instance.description,
       'itemId': instance.itemId,
-      'location': BarterModel._toJsonGeoPoint(instance.location),
-      'meetPlace': instance.meetPlace,
+      'geoPoint': BarterModel._toJsonGeoPoint(instance.geoPoint),
+      'location': instance.location,
       'photosUrl': instance.photosUrl,
       'preferredItem': instance.preferredItem,
       'title': instance.title,

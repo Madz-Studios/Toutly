@@ -6,11 +6,13 @@ class PostItemTextFieldForm extends StatelessWidget {
   final String title;
   final String description;
   final TextEditingController controller;
+  final bool readOnly;
 
   PostItemTextFieldForm({
     @required this.title,
     @required this.description,
     @required this.controller,
+    @required this.readOnly,
   });
   @override
   Widget build(BuildContext context) {
@@ -20,6 +22,7 @@ class PostItemTextFieldForm extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextFormField(
+          readOnly: readOnly,
           controller: controller,
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(

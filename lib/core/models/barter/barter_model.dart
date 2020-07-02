@@ -20,8 +20,8 @@ class BarterModel {
   String description;
   String itemId;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
-  GeoPoint location;
-  String meetPlace;
+  GeoPoint geoPoint;
+  String location;
   List<String> photosUrl;
   String preferredItem;
   String title;
@@ -36,7 +36,8 @@ class BarterModel {
     this.dateUpdated,
     this.description,
     this.itemId,
-    this.meetPlace,
+    this.geoPoint,
+    this.location,
     this.photosUrl,
     this.preferredItem,
     this.title,

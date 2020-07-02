@@ -25,5 +25,6 @@ abstract class PostEvent with _$PostEvent {
     String description,
     String preferredItem,
     String location,
+    GeoPoint geoPoint,
   ) = PostEventPostButtonPressed;
 }

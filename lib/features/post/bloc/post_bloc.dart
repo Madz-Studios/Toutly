@@ -7,6 +7,7 @@ import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/user/barter_items/firestore_create_user_barter_item.dart';
 import 'package:Toutly/core/usecases/user/barter_items/firestore_update_user_barter_item.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -122,7 +123,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           dateDoneDeal: null,
           description: e.description,
           itemId: itemId,
-          meetPlace: e.location,
+          geoPoint: e.geoPoint,
+          location: e.location,
           photosUrl: _photosUrl,
           preferredItem: e.preferredItem,
           publicAccess: true,
