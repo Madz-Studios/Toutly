@@ -128,9 +128,8 @@ class _SelectPhotosState extends State<SelectPhotos> {
 
   void _onAddPhotoPressed(ImageSource source, BuildContext context) async {
     try {
-      final pickedFile = await _picker.getImage(
-        source: source,
-      );
+      final pickedFile =
+          await _picker.getImage(source: source, imageQuality: 75);
       setState(() {
         _imageFile = pickedFile;
       });
