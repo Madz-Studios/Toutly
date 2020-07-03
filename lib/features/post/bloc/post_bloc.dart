@@ -80,12 +80,9 @@ class PostBloc extends Bloc<PostEvent, PostState> {
         final firebaseUser =
             await firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
-        ///get the images list in the state
-        ///before clearing the list in the loading state.
-
         Map<String, PickedFile> pickedFileList = state.pickedFileList;
 
-        yield PostState.loading();
+        yield PostState.loading(pickedFileList);
 
         ///Upload the images in cloud storage and get the download url list.
         List<String> _photosUrl = List();
@@ -130,10 +127,11 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           ),
         );
 
-        yield PostState.success(info: 'Successfully posted the item.');
-
-        ///clear the state for the next posting.
-        yield PostState.empty();
+        yield PostState.success(
+          info: 'Successfully posted the item.',
+          barterModel: barterModel,
+          pickedFileList: pickedFileList,
+        );
       } on PlatformException catch (platFormException) {
         yield PostState.failure(info: platFormException.message);
       }

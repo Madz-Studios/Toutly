@@ -4,6 +4,7 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -27,6 +28,7 @@ class ItemDescriptionForm extends StatefulWidget {
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
   final _navBloc = getIt<NavigationBloc>();
+  final _viewItemBloc = getIt<ViewItemBloc>();
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -158,6 +160,10 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                 ),
               ),
             );
+          _viewItemBloc.add(ViewItemEvent.editBarterItem(
+            barterModel: state.barterModel,
+            pickedFileList: state.pickedFileList,
+          ));
           _navBloc.add(NavigationEvent.goToViewItemScreenEvent());
         }
       },

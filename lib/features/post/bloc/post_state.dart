@@ -4,6 +4,7 @@ part of 'post_bloc.dart';
 abstract class PostState implements _$PostState {
   const PostState._();
   const factory PostState({
+    @required BarterModel barterModel,
     @required Map<String, PickedFile> pickedFileList,
     @required bool isTitleValid,
     @required bool isDescriptionValid,
@@ -16,6 +17,7 @@ abstract class PostState implements _$PostState {
   }) = _PostState;
 
   factory PostState.empty() => PostState(
+        barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
         isDescriptionValid: true,
@@ -27,8 +29,9 @@ abstract class PostState implements _$PostState {
         info: '',
       );
 
-  factory PostState.loading() => PostState(
-        pickedFileList: Map<String, PickedFile>(),
+  factory PostState.loading(Map<String, PickedFile> pickedFiles) => PostState(
+        barterModel: BarterModel(),
+        pickedFileList: pickedFiles,
         isTitleValid: true,
         isDescriptionValid: true,
         isPreferredItemValid: true,
@@ -40,6 +43,7 @@ abstract class PostState implements _$PostState {
       );
 
   factory PostState.failure({@required String info}) => PostState(
+        barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
         isDescriptionValid: true,
@@ -51,8 +55,14 @@ abstract class PostState implements _$PostState {
         info: info,
       );
 
-  factory PostState.success({@required String info}) => PostState(
-        pickedFileList: Map<String, PickedFile>(),
+  factory PostState.success({
+    @required String info,
+    @required BarterModel barterModel,
+    @required Map<String, PickedFile> pickedFileList,
+  }) =>
+      PostState(
+        barterModel: barterModel,
+        pickedFileList: pickedFileList,
         isTitleValid: true,
         isDescriptionValid: true,
         isPreferredItemValid: true,

@@ -1596,7 +1596,8 @@ class _$PostStateTearOff {
   const _$PostStateTearOff();
 
   _PostState call(
-      {@required Map<String, PickedFile> pickedFileList,
+      {@required BarterModel barterModel,
+      @required Map<String, PickedFile> pickedFileList,
       @required bool isTitleValid,
       @required bool isDescriptionValid,
       @required bool isPreferredItemValid,
@@ -1606,6 +1607,7 @@ class _$PostStateTearOff {
       @required bool isFailure,
       @required String info}) {
     return _PostState(
+      barterModel: barterModel,
       pickedFileList: pickedFileList,
       isTitleValid: isTitleValid,
       isDescriptionValid: isDescriptionValid,
@@ -1623,6 +1625,7 @@ class _$PostStateTearOff {
 const $PostState = _$PostStateTearOff();
 
 mixin _$PostState {
+  BarterModel get barterModel;
   Map<String, PickedFile> get pickedFileList;
   bool get isTitleValid;
   bool get isDescriptionValid;
@@ -1640,7 +1643,8 @@ abstract class $PostStateCopyWith<$Res> {
   factory $PostStateCopyWith(PostState value, $Res Function(PostState) then) =
       _$PostStateCopyWithImpl<$Res>;
   $Res call(
-      {Map<String, PickedFile> pickedFileList,
+      {BarterModel barterModel,
+      Map<String, PickedFile> pickedFileList,
       bool isTitleValid,
       bool isDescriptionValid,
       bool isPreferredItemValid,
@@ -1660,6 +1664,7 @@ class _$PostStateCopyWithImpl<$Res> implements $PostStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object barterModel = freezed,
     Object pickedFileList = freezed,
     Object isTitleValid = freezed,
     Object isDescriptionValid = freezed,
@@ -1671,6 +1676,9 @@ class _$PostStateCopyWithImpl<$Res> implements $PostStateCopyWith<$Res> {
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
       pickedFileList: pickedFileList == freezed
           ? _value.pickedFileList
           : pickedFileList as Map<String, PickedFile>,
@@ -1700,7 +1708,8 @@ abstract class _$PostStateCopyWith<$Res> implements $PostStateCopyWith<$Res> {
       __$PostStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Map<String, PickedFile> pickedFileList,
+      {BarterModel barterModel,
+      Map<String, PickedFile> pickedFileList,
       bool isTitleValid,
       bool isDescriptionValid,
       bool isPreferredItemValid,
@@ -1721,6 +1730,7 @@ class __$PostStateCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object barterModel = freezed,
     Object pickedFileList = freezed,
     Object isTitleValid = freezed,
     Object isDescriptionValid = freezed,
@@ -1732,6 +1742,9 @@ class __$PostStateCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_PostState(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
       pickedFileList: pickedFileList == freezed
           ? _value.pickedFileList
           : pickedFileList as Map<String, PickedFile>,
@@ -1757,7 +1770,8 @@ class __$PostStateCopyWithImpl<$Res> extends _$PostStateCopyWithImpl<$Res>
 
 class _$_PostState extends _PostState {
   const _$_PostState(
-      {@required this.pickedFileList,
+      {@required this.barterModel,
+      @required this.pickedFileList,
       @required this.isTitleValid,
       @required this.isDescriptionValid,
       @required this.isPreferredItemValid,
@@ -1766,7 +1780,8 @@ class _$_PostState extends _PostState {
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(pickedFileList != null),
+      : assert(barterModel != null),
+        assert(pickedFileList != null),
         assert(isTitleValid != null),
         assert(isDescriptionValid != null),
         assert(isPreferredItemValid != null),
@@ -1777,6 +1792,8 @@ class _$_PostState extends _PostState {
         assert(info != null),
         super._();
 
+  @override
+  final BarterModel barterModel;
   @override
   final Map<String, PickedFile> pickedFileList;
   @override
@@ -1798,13 +1815,16 @@ class _$_PostState extends _PostState {
 
   @override
   String toString() {
-    return 'PostState(pickedFileList: $pickedFileList, isTitleValid: $isTitleValid, isDescriptionValid: $isDescriptionValid, isPreferredItemValid: $isPreferredItemValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'PostState(barterModel: $barterModel, pickedFileList: $pickedFileList, isTitleValid: $isTitleValid, isDescriptionValid: $isDescriptionValid, isPreferredItemValid: $isPreferredItemValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _PostState &&
+            (identical(other.barterModel, barterModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.barterModel, barterModel)) &&
             (identical(other.pickedFileList, pickedFileList) ||
                 const DeepCollectionEquality()
                     .equals(other.pickedFileList, pickedFileList)) &&
@@ -1836,6 +1856,7 @@ class _$_PostState extends _PostState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(barterModel) ^
       const DeepCollectionEquality().hash(pickedFileList) ^
       const DeepCollectionEquality().hash(isTitleValid) ^
       const DeepCollectionEquality().hash(isDescriptionValid) ^
@@ -1854,7 +1875,8 @@ class _$_PostState extends _PostState {
 abstract class _PostState extends PostState {
   const _PostState._() : super._();
   const factory _PostState(
-      {@required Map<String, PickedFile> pickedFileList,
+      {@required BarterModel barterModel,
+      @required Map<String, PickedFile> pickedFileList,
       @required bool isTitleValid,
       @required bool isDescriptionValid,
       @required bool isPreferredItemValid,
@@ -1864,6 +1886,8 @@ abstract class _PostState extends PostState {
       @required bool isFailure,
       @required String info}) = _$_PostState;
 
+  @override
+  BarterModel get barterModel;
   @override
   Map<String, PickedFile> get pickedFileList;
   @override
