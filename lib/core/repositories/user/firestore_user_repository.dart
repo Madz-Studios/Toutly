@@ -41,6 +41,6 @@ class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
     await firestore
         .collection(FirestoreCollectionNames.userCollection)
         .document(user.userId)
-        .get();
+        .updateData(user.toJson());
   }
 }
