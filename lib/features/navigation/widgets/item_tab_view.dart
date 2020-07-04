@@ -18,60 +18,57 @@ class ItemTabView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return SafeArea(
-      child: DefaultTabController(
-        length: 2,
-        child: Scaffold(
-          appBar: PreferredSize(
-            preferredSize:
-                Size.fromHeight(appSizeConfig.blockSizeVertical * 12),
-            child: AppBar(
-              title: Text(
-                'Items',
-                style: TextStyle(
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 22,
-                ),
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(appSizeConfig.blockSizeVertical * 12),
+          child: AppBar(
+            title: Text(
+              'Items',
+              style: TextStyle(
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.bold,
+                fontSize: 22,
               ),
-              centerTitle: true,
-              backgroundColor: kPrimaryColor,
-              bottom: ColoredTabBar(
-                Colors.white,
-                TabBar(
-                  labelStyle: GoogleFonts.roboto(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                  ),
-                  labelColor: kPrimaryColor,
-                  unselectedLabelColor: Color(0XFF949494),
-                  unselectedLabelStyle: GoogleFonts.roboto(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.normal,
-                  ),
-                  tabs: [
-                    Container(
-                      child: Center(
-                        child: Text('Your list'),
-                      ),
-                      height: appSizeConfig.blockSizeVertical * 6,
-                    ),
-                    Container(
-                      child: Center(
-                        child: Text('Favourites'),
-                      ),
-                      height: appSizeConfig.blockSizeVertical * 6,
-                    ),
-                  ],
+            ),
+            centerTitle: true,
+            backgroundColor: kPrimaryColor,
+            bottom: ColoredTabBar(
+              Colors.white,
+              TabBar(
+                labelStyle: GoogleFonts.roboto(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w500,
                 ),
+                labelColor: kPrimaryColor,
+                unselectedLabelColor: Color(0XFF949494),
+                unselectedLabelStyle: GoogleFonts.roboto(
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.normal,
+                ),
+                tabs: [
+                  Container(
+                    child: Center(
+                      child: Text('Your list'),
+                    ),
+                    height: appSizeConfig.blockSizeVertical * 6,
+                  ),
+                  Container(
+                    child: Center(
+                      child: Text('Favourites'),
+                    ),
+                    height: appSizeConfig.blockSizeVertical * 6,
+                  ),
+                ],
               ),
             ),
           ),
-          body: TabBarView(
-            children: screens,
-          ),
-          bottomNavigationBar: NavigationBar(currentIndex),
         ),
+        body: TabBarView(
+          children: screens,
+        ),
+        bottomNavigationBar: NavigationBar(currentIndex),
       ),
     );
   }
