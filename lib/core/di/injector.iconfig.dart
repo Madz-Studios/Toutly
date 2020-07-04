@@ -16,6 +16,7 @@ import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -32,6 +33,7 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_facebook_usecase.
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
+import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
@@ -65,6 +67,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
+  g.registerLazySingleton<HomeBloc>(() => HomeBloc());
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
@@ -104,6 +107,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
           firestoreUserRepository: g<FirestoreUserRepository>()));
   g.registerLazySingleton<FirestoreGetUserUseCase>(() =>
       FirestoreGetUserUseCase(
+          firestoreUserRepository: g<FirestoreUserRepository>()));
+  g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
+      FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));

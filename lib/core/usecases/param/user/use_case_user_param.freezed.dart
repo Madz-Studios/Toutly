@@ -259,61 +259,61 @@ abstract class UseCaseUserParamEmailPasswordInit
       get copyWith;
 }
 
-class _$UseCaseUserParamUidTearOff {
-  const _$UseCaseUserParamUidTearOff();
+class _$UseCaseUserParamUserIdTearOff {
+  const _$UseCaseUserParamUserIdTearOff();
 
-  UseCaseUserParamUidInit init(String uid) {
+  UseCaseUserParamUidInit init(String userId) {
     return UseCaseUserParamUidInit(
-      uid,
+      userId,
     );
   }
 }
 
 // ignore: unused_element
-const $UseCaseUserParamUid = _$UseCaseUserParamUidTearOff();
+const $UseCaseUserParamUserId = _$UseCaseUserParamUserIdTearOff();
 
-mixin _$UseCaseUserParamUid {
-  String get uid;
+mixin _$UseCaseUserParamUserId {
+  String get userId;
 
-  $UseCaseUserParamUidCopyWith<UseCaseUserParamUid> get copyWith;
+  $UseCaseUserParamUserIdCopyWith<UseCaseUserParamUserId> get copyWith;
 }
 
-abstract class $UseCaseUserParamUidCopyWith<$Res> {
-  factory $UseCaseUserParamUidCopyWith(
-          UseCaseUserParamUid value, $Res Function(UseCaseUserParamUid) then) =
-      _$UseCaseUserParamUidCopyWithImpl<$Res>;
-  $Res call({String uid});
+abstract class $UseCaseUserParamUserIdCopyWith<$Res> {
+  factory $UseCaseUserParamUserIdCopyWith(UseCaseUserParamUserId value,
+          $Res Function(UseCaseUserParamUserId) then) =
+      _$UseCaseUserParamUserIdCopyWithImpl<$Res>;
+  $Res call({String userId});
 }
 
-class _$UseCaseUserParamUidCopyWithImpl<$Res>
-    implements $UseCaseUserParamUidCopyWith<$Res> {
-  _$UseCaseUserParamUidCopyWithImpl(this._value, this._then);
+class _$UseCaseUserParamUserIdCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserIdCopyWith<$Res> {
+  _$UseCaseUserParamUserIdCopyWithImpl(this._value, this._then);
 
-  final UseCaseUserParamUid _value;
+  final UseCaseUserParamUserId _value;
   // ignore: unused_field
-  final $Res Function(UseCaseUserParamUid) _then;
+  final $Res Function(UseCaseUserParamUserId) _then;
 
   @override
   $Res call({
-    Object uid = freezed,
+    Object userId = freezed,
   }) {
     return _then(_value.copyWith(
-      uid: uid == freezed ? _value.uid : uid as String,
+      userId: userId == freezed ? _value.userId : userId as String,
     ));
   }
 }
 
 abstract class $UseCaseUserParamUidInitCopyWith<$Res>
-    implements $UseCaseUserParamUidCopyWith<$Res> {
+    implements $UseCaseUserParamUserIdCopyWith<$Res> {
   factory $UseCaseUserParamUidInitCopyWith(UseCaseUserParamUidInit value,
           $Res Function(UseCaseUserParamUidInit) then) =
       _$UseCaseUserParamUidInitCopyWithImpl<$Res>;
   @override
-  $Res call({String uid});
+  $Res call({String userId});
 }
 
 class _$UseCaseUserParamUidInitCopyWithImpl<$Res>
-    extends _$UseCaseUserParamUidCopyWithImpl<$Res>
+    extends _$UseCaseUserParamUserIdCopyWithImpl<$Res>
     implements $UseCaseUserParamUidInitCopyWith<$Res> {
   _$UseCaseUserParamUidInitCopyWithImpl(UseCaseUserParamUidInit _value,
       $Res Function(UseCaseUserParamUidInit) _then)
@@ -324,36 +324,36 @@ class _$UseCaseUserParamUidInitCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object uid = freezed,
+    Object userId = freezed,
   }) {
     return _then(UseCaseUserParamUidInit(
-      uid == freezed ? _value.uid : uid as String,
+      userId == freezed ? _value.userId : userId as String,
     ));
   }
 }
 
 class _$UseCaseUserParamUidInit implements UseCaseUserParamUidInit {
-  const _$UseCaseUserParamUidInit(this.uid) : assert(uid != null);
+  const _$UseCaseUserParamUidInit(this.userId) : assert(userId != null);
 
   @override
-  final String uid;
+  final String userId;
 
   @override
   String toString() {
-    return 'UseCaseUserParamUid.init(uid: $uid)';
+    return 'UseCaseUserParamUserId.init(userId: $userId)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UseCaseUserParamUidInit &&
-            (identical(other.uid, uid) ||
-                const DeepCollectionEquality().equals(other.uid, uid)));
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(uid);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
 
   @override
   $UseCaseUserParamUidInitCopyWith<UseCaseUserParamUidInit> get copyWith =>
@@ -361,11 +361,12 @@ class _$UseCaseUserParamUidInit implements UseCaseUserParamUidInit {
           this, _$identity);
 }
 
-abstract class UseCaseUserParamUidInit implements UseCaseUserParamUid {
-  const factory UseCaseUserParamUidInit(String uid) = _$UseCaseUserParamUidInit;
+abstract class UseCaseUserParamUidInit implements UseCaseUserParamUserId {
+  const factory UseCaseUserParamUidInit(String userId) =
+      _$UseCaseUserParamUidInit;
 
   @override
-  String get uid;
+  String get userId;
   @override
   $UseCaseUserParamUidInitCopyWith<UseCaseUserParamUidInit> get copyWith;
 }

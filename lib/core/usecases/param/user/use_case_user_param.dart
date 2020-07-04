@@ -19,8 +19,9 @@ abstract class UseCaseUserParamEmailPassword
 }
 
 @freezed
-abstract class UseCaseUserParamUid with _$UseCaseUserParamUid {
-  const factory UseCaseUserParamUid.init(String uid) = UseCaseUserParamUidInit;
+abstract class UseCaseUserParamUserId with _$UseCaseUserParamUserId {
+  const factory UseCaseUserParamUserId.init(String userId) =
+      UseCaseUserParamUidInit;
 }
 
 @freezed

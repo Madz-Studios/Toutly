@@ -173,7 +173,7 @@ class SignBloc extends Bloc<SignEvent, SignState> {
     final firebaseUser =
         await firebaseGetUserUseCase.call(UseCaseNoParam.init());
     final userStore = await firestoreGetUserUseCase
-        .call(UseCaseUserParamUid.init(firebaseUser.uid));
+        .call(UseCaseUserParamUserId.init(firebaseUser.uid));
 
     if (userStore == null) {
       // if user is not existed in User Firestore create a User

@@ -67,12 +67,12 @@ class AuthenticationBloc
             await firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
         final userModel =
-            await firestoreGetUserUseCase.call(UseCaseUserParamUid.init(
+            await firestoreGetUserUseCase.call(UseCaseUserParamUserId.init(
           firebaseUser.uid,
         ));
 
         /// Saved user id, user email and user geolocation data on the local.
-        await localSharedPrefPersistUserId.call(UseCaseUserParamUid.init(
+        await localSharedPrefPersistUserId.call(UseCaseUserParamUserId.init(
           userModel.userId,
         ));
         await localSharedPrefPersistUserEmail.call(UseCaseUserParamEmail.init(
