@@ -323,7 +323,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       print('apiKey is null = ${apiKey == null ? 'true' : 'false'}');
 
       Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.low);
+          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
 
       LocationResult result = await showLocationPicker(
         context,
