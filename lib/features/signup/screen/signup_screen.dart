@@ -1,8 +1,6 @@
 import 'dart:io';
 
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/signup/widgets/signup_form.dart';
-import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
 import 'package:flutter/cupertino.dart';
@@ -10,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignUpScreen extends StatelessWidget {
-  final _signBloc = getIt<SignBloc>();
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
