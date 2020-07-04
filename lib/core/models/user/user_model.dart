@@ -10,18 +10,20 @@ class UserModel {
   DateTime dateCreated;
   DateTime dateUpdated;
   String email;
+  String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
-  GeoPoint location;
+  GeoPoint geoLocation;
   List<BarterModel> userBarterItems;
   String userId;
   UserModel({
-    this.userId,
-    this.email,
-    this.name,
     this.dateCreated,
     this.dateUpdated,
+    this.email,
+    this.geoHash,
+    this.geoLocation,
+    this.name,
     this.userBarterItems,
-    this.location,
+    this.userId,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

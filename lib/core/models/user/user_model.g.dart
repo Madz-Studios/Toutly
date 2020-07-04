@@ -8,20 +8,21 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
-    userId: json['userId'] as String,
-    email: json['email'] as String,
-    name: json['name'] as String,
     dateCreated: json['dateCreated'] == null
         ? null
         : DateTime.parse(json['dateCreated'] as String),
     dateUpdated: json['dateUpdated'] == null
         ? null
         : DateTime.parse(json['dateUpdated'] as String),
+    email: json['email'] as String,
+    geoHash: json['geoHash'] as String,
+    geoLocation: UserModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
+    name: json['name'] as String,
     userBarterItems: (json['userBarterItems'] as List)
         ?.map((e) =>
             e == null ? null : BarterModel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    location: UserModel._fromJsonGeoPoint(json['location'] as GeoPoint),
+    userId: json['userId'] as String,
   );
 }
 
@@ -30,7 +31,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'dateCreated': instance.dateCreated?.toIso8601String(),
       'dateUpdated': instance.dateUpdated?.toIso8601String(),
       'email': instance.email,
-      'location': UserModel._toJsonGeoPoint(instance.location),
+      'geoHash': instance.geoHash,
+      'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
       'userBarterItems': instance.userBarterItems,
       'userId': instance.userId,
     };
