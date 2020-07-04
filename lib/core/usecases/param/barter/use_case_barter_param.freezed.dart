@@ -128,3 +128,115 @@ abstract class UseCaseBarterModelParamInit implements UseCaseBarterModelParam {
   $UseCaseBarterModelParamInitCopyWith<UseCaseBarterModelParamInit>
       get copyWith;
 }
+
+class _$UseCaseUserIdParamTearOff {
+  const _$UseCaseUserIdParamTearOff();
+
+  UseCaseUserIdParamInit init({String userId}) {
+    return UseCaseUserIdParamInit(
+      userId: userId,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserIdParam = _$UseCaseUserIdParamTearOff();
+
+mixin _$UseCaseUserIdParam {
+  String get userId;
+
+  $UseCaseUserIdParamCopyWith<UseCaseUserIdParam> get copyWith;
+}
+
+abstract class $UseCaseUserIdParamCopyWith<$Res> {
+  factory $UseCaseUserIdParamCopyWith(
+          UseCaseUserIdParam value, $Res Function(UseCaseUserIdParam) then) =
+      _$UseCaseUserIdParamCopyWithImpl<$Res>;
+  $Res call({String userId});
+}
+
+class _$UseCaseUserIdParamCopyWithImpl<$Res>
+    implements $UseCaseUserIdParamCopyWith<$Res> {
+  _$UseCaseUserIdParamCopyWithImpl(this._value, this._then);
+
+  final UseCaseUserIdParam _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserIdParam) _then;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+abstract class $UseCaseUserIdParamInitCopyWith<$Res>
+    implements $UseCaseUserIdParamCopyWith<$Res> {
+  factory $UseCaseUserIdParamInitCopyWith(UseCaseUserIdParamInit value,
+          $Res Function(UseCaseUserIdParamInit) then) =
+      _$UseCaseUserIdParamInitCopyWithImpl<$Res>;
+  @override
+  $Res call({String userId});
+}
+
+class _$UseCaseUserIdParamInitCopyWithImpl<$Res>
+    extends _$UseCaseUserIdParamCopyWithImpl<$Res>
+    implements $UseCaseUserIdParamInitCopyWith<$Res> {
+  _$UseCaseUserIdParamInitCopyWithImpl(UseCaseUserIdParamInit _value,
+      $Res Function(UseCaseUserIdParamInit) _then)
+      : super(_value, (v) => _then(v as UseCaseUserIdParamInit));
+
+  @override
+  UseCaseUserIdParamInit get _value => super._value as UseCaseUserIdParamInit;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(UseCaseUserIdParamInit(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+class _$UseCaseUserIdParamInit implements UseCaseUserIdParamInit {
+  const _$UseCaseUserIdParamInit({this.userId});
+
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'UseCaseUserIdParam.init(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserIdParamInit &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
+
+  @override
+  $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith =>
+      _$UseCaseUserIdParamInitCopyWithImpl<UseCaseUserIdParamInit>(
+          this, _$identity);
+}
+
+abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
+  const factory UseCaseUserIdParamInit({String userId}) =
+      _$UseCaseUserIdParamInit;
+
+  @override
+  String get userId;
+  @override
+  $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith;
+}

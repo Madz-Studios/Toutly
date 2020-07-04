@@ -9,3 +9,10 @@ abstract class UseCaseBarterModelParam with _$UseCaseBarterModelParam {
     BarterModel barterModel,
   }) = UseCaseBarterModelParamInit;
 }
+
+@freezed
+abstract class UseCaseUserIdParam with _$UseCaseUserIdParam {
+  const factory UseCaseUserIdParam.init({
+    String userId,
+  }) = UseCaseUserIdParamInit;
+}

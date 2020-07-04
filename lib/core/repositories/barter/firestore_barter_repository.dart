@@ -7,6 +7,9 @@ import 'package:injectable/injectable.dart';
 abstract class FirestoreBarterRepository {
   Future<void> createBarterMarketItem({@required BarterModel barterModel});
 
+  Future<List<BarterModel>> getAllBarterItemsUsingUserId(
+      {@required String userId});
+
   Future<void> updateBarterItem({@required BarterModel barterModel});
 }
 
@@ -17,7 +20,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   final Firestore firestore;
 
-  /// Create a barter item in barter firestore collection.
+  /// Create a barter item in barter firestore collection using [itemId]
   @override
   Future<void> createBarterMarketItem({BarterModel barterModel}) async {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
@@ -28,7 +31,29 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .setData(barterModel.toJson());
   }
 
-  /// Update a barter item in barter firestore collection.
+  /// Get a barter item in barter firestore collection using [userId].
+  @override
+  Future<List<BarterModel>> getAllBarterItemsUsingUserId(
+      {String userId}) async {
+    final String barterCollection = FirestoreCollectionNames.barterCollection;
+
+    final snapshot = await firestore
+        .collection(barterCollection)
+        .where('userId', isEqualTo: userId)
+        .getDocuments();
+
+    List<BarterModel> userBarterItems = List<BarterModel>();
+
+    snapshot.documents.forEach((result) {
+      print(result.data);
+      final barterModel = BarterModel.fromJson(result.data);
+      userBarterItems.add(barterModel);
+    });
+
+    return userBarterItems;
+  }
+
+  /// Update a barter item in barter firestore collection using [itemId].
   @override
   Future<void> updateBarterItem({BarterModel barterModel}) async {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
