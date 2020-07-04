@@ -32,9 +32,14 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_facebook_usecase.
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
+import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -100,6 +105,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreGetUserUseCase>(() =>
       FirestoreGetUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
+  g.registerFactory<LocalSharedPrefRepository>(
+      () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
         firebaseStorage: g<FirebaseStorage>(),
         uuid: g<Uuid>(),
@@ -127,10 +134,28 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
       firestoreGetAllBarterItemsUsingUserIdUseCase:
           g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  g.registerLazySingleton<LocalSharedDeleteAllSaveData>(() =>
+      LocalSharedDeleteAllSaveData(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserEmail>(() =>
+      LocalSharedPrefPersistUserEmail(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserGeoLocation>(() =>
+      LocalSharedPrefPersistUserGeoLocation(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserId>(() =>
+      LocalSharedPrefPersistUserId(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
         firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
         firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
         firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
+        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
+        localSharedPrefPersistUserId: g<LocalSharedPrefPersistUserId>(),
+        localSharedPrefPersistUserEmail: g<LocalSharedPrefPersistUserEmail>(),
+        localSharedPrefPersistUserGeoLocation:
+            g<LocalSharedPrefPersistUserGeoLocation>(),
+        localSharedDeleteAllSaveData: g<LocalSharedDeleteAllSaveData>(),
       ));
 }
 
