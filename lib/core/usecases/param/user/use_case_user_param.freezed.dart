@@ -371,8 +371,8 @@ abstract class UseCaseUserParamUidInit implements UseCaseUserParamUserId {
   $UseCaseUserParamUidInitCopyWith<UseCaseUserParamUidInit> get copyWith;
 }
 
-class _$UseCaseUserParamModelTearOff {
-  const _$UseCaseUserParamModelTearOff();
+class _$UseCaseUserParamUserModelTearOff {
+  const _$UseCaseUserParamUserModelTearOff();
 
   UseCaseUserParamModelInit init(UserModel userModel) {
     return UseCaseUserParamModelInit(
@@ -382,28 +382,28 @@ class _$UseCaseUserParamModelTearOff {
 }
 
 // ignore: unused_element
-const $UseCaseUserParamModel = _$UseCaseUserParamModelTearOff();
+const $UseCaseUserParamUserModel = _$UseCaseUserParamUserModelTearOff();
 
-mixin _$UseCaseUserParamModel {
+mixin _$UseCaseUserParamUserModel {
   UserModel get userModel;
 
-  $UseCaseUserParamModelCopyWith<UseCaseUserParamModel> get copyWith;
+  $UseCaseUserParamUserModelCopyWith<UseCaseUserParamUserModel> get copyWith;
 }
 
-abstract class $UseCaseUserParamModelCopyWith<$Res> {
-  factory $UseCaseUserParamModelCopyWith(UseCaseUserParamModel value,
-          $Res Function(UseCaseUserParamModel) then) =
-      _$UseCaseUserParamModelCopyWithImpl<$Res>;
+abstract class $UseCaseUserParamUserModelCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelCopyWith(UseCaseUserParamUserModel value,
+          $Res Function(UseCaseUserParamUserModel) then) =
+      _$UseCaseUserParamUserModelCopyWithImpl<$Res>;
   $Res call({UserModel userModel});
 }
 
-class _$UseCaseUserParamModelCopyWithImpl<$Res>
-    implements $UseCaseUserParamModelCopyWith<$Res> {
-  _$UseCaseUserParamModelCopyWithImpl(this._value, this._then);
+class _$UseCaseUserParamUserModelCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelCopyWith<$Res> {
+  _$UseCaseUserParamUserModelCopyWithImpl(this._value, this._then);
 
-  final UseCaseUserParamModel _value;
+  final UseCaseUserParamUserModel _value;
   // ignore: unused_field
-  final $Res Function(UseCaseUserParamModel) _then;
+  final $Res Function(UseCaseUserParamUserModel) _then;
 
   @override
   $Res call({
@@ -417,7 +417,7 @@ class _$UseCaseUserParamModelCopyWithImpl<$Res>
 }
 
 abstract class $UseCaseUserParamModelInitCopyWith<$Res>
-    implements $UseCaseUserParamModelCopyWith<$Res> {
+    implements $UseCaseUserParamUserModelCopyWith<$Res> {
   factory $UseCaseUserParamModelInitCopyWith(UseCaseUserParamModelInit value,
           $Res Function(UseCaseUserParamModelInit) then) =
       _$UseCaseUserParamModelInitCopyWithImpl<$Res>;
@@ -426,7 +426,7 @@ abstract class $UseCaseUserParamModelInitCopyWith<$Res>
 }
 
 class _$UseCaseUserParamModelInitCopyWithImpl<$Res>
-    extends _$UseCaseUserParamModelCopyWithImpl<$Res>
+    extends _$UseCaseUserParamUserModelCopyWithImpl<$Res>
     implements $UseCaseUserParamModelInitCopyWith<$Res> {
   _$UseCaseUserParamModelInitCopyWithImpl(UseCaseUserParamModelInit _value,
       $Res Function(UseCaseUserParamModelInit) _then)
@@ -454,7 +454,7 @@ class _$UseCaseUserParamModelInit implements UseCaseUserParamModelInit {
 
   @override
   String toString() {
-    return 'UseCaseUserParamModel.init(userModel: $userModel)';
+    return 'UseCaseUserParamUserModel.init(userModel: $userModel)';
   }
 
   @override
@@ -476,7 +476,7 @@ class _$UseCaseUserParamModelInit implements UseCaseUserParamModelInit {
           this, _$identity);
 }
 
-abstract class UseCaseUserParamModelInit implements UseCaseUserParamModel {
+abstract class UseCaseUserParamModelInit implements UseCaseUserParamUserModel {
   const factory UseCaseUserParamModelInit(UserModel userModel) =
       _$UseCaseUserParamModelInit;
 

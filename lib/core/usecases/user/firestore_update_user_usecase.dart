@@ -5,13 +5,13 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class FirestoreUpdateUserUseCase
-    implements UseCaseFirestore<void, UseCaseUserParamUserId> {
+    implements UseCaseFirestore<void, UseCaseUserParamUserModel> {
   final FirestoreUserRepository firestoreUserRepository;
 
   FirestoreUpdateUserUseCase({this.firestoreUserRepository});
 
   @override
-  Future<void> call(UseCaseUserParamUserId params) async {
-    await firestoreUserRepository.updateUserUsingUserId(params.userId);
+  Future<void> call(UseCaseUserParamUserModel params) async {
+    await firestoreUserRepository.updateUserUsingUserModel(params.userModel);
   }
 }

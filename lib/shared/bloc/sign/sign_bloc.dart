@@ -108,7 +108,7 @@ class SignBloc extends Bloc<SignEvent, SignState> {
           );
 
           await firestoreCreateUserUseCase
-              .call(UseCaseUserParamModel.init(userModel));
+              .call(UseCaseUserParamUserModel.init(userModel));
 
           yield SignState.success(info: 'Successfully registered');
         } on PlatformException catch (platformException) {
@@ -185,7 +185,7 @@ class SignBloc extends Bloc<SignEvent, SignState> {
         dateUpdated: DateTime.now(),
       );
       await firestoreCreateUserUseCase
-          .call(UseCaseUserParamModel.init(userModel));
+          .call(UseCaseUserParamUserModel.init(userModel));
     }
   }
 }

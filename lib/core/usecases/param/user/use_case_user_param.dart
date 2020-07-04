@@ -25,8 +25,8 @@ abstract class UseCaseUserParamUserId with _$UseCaseUserParamUserId {
 }
 
 @freezed
-abstract class UseCaseUserParamModel with _$UseCaseUserParamModel {
-  const factory UseCaseUserParamModel.init(UserModel userModel) =
+abstract class UseCaseUserParamUserModel with _$UseCaseUserParamUserModel {
+  const factory UseCaseUserParamUserModel.init(UserModel userModel) =
       UseCaseUserParamModelInit;
 }
 
