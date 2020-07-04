@@ -11,19 +11,23 @@ class ViewItemScreen extends StatelessWidget {
     return BlocConsumer<ViewItemBloc, ViewItemState>(
         listener: (context, state) {},
         builder: (context, state) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Center(child: Text('Hello')),
-              RaisedButton(
-                child: Text('Home'),
-                onPressed: () {
-                  print('Log out!');
-                  _navBloc.add(NavigationEvent.goToHomeScreenEvent());
-                },
-              )
-            ],
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Center(
+                    child:
+                        Text('Barter item id = ${state.barterModel.itemId}')),
+                RaisedButton(
+                  child: Text('Home'),
+                  onPressed: () {
+                    print('Log out!');
+                    _navBloc.add(NavigationEvent.goToHomeScreenEvent());
+                  },
+                )
+              ],
+            ),
           );
         });
   }

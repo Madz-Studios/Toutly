@@ -16,10 +16,13 @@ class ViewItemBloc extends Bloc<ViewItemEvent, ViewItemState> {
   @override
   Stream<ViewItemState> mapEventToState(ViewItemEvent event) async* {
     yield* event.map(
-      viewBarterItem: (e) async* {
-        e.barterModel;
+      viewBarterItem: (e) async* {},
+      editBarterItem: (e) async* {
+        yield ViewItemState.loading(
+          e.barterModel,
+          e.pickedFileList,
+        );
       },
-      editBarterItem: (e) async* {},
     );
   }
 }

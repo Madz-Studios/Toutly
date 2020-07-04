@@ -12,15 +12,19 @@ T _$identity<T>(T value) => value;
 class _$ViewItemEventTearOff {
   const _$ViewItemEventTearOff();
 
-  ViewItemEventViewBarterItem viewBarterItem({BarterModel barterModel}) {
+  ViewItemEventViewBarterItem viewBarterItem(
+      {@required BarterModel barterModel}) {
     return ViewItemEventViewBarterItem(
       barterModel: barterModel,
     );
   }
 
-  ViewItemEventEditBarterItem editBarterItem({BarterModel barterModel}) {
+  ViewItemEventEditBarterItem editBarterItem(
+      {@required BarterModel barterModel,
+      @required Map<String, PickedFile> pickedFileList}) {
     return ViewItemEventEditBarterItem(
       barterModel: barterModel,
+      pickedFileList: pickedFileList,
     );
   }
 }
@@ -34,12 +38,15 @@ mixin _$ViewItemEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result viewBarterItem(BarterModel barterModel),
-    @required Result editBarterItem(BarterModel barterModel),
+    @required
+        Result editBarterItem(
+            BarterModel barterModel, Map<String, PickedFile> pickedFileList),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result viewBarterItem(BarterModel barterModel),
-    Result editBarterItem(BarterModel barterModel),
+    Result editBarterItem(
+        BarterModel barterModel, Map<String, PickedFile> pickedFileList),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -118,7 +125,8 @@ class _$ViewItemEventViewBarterItemCopyWithImpl<$Res>
 }
 
 class _$ViewItemEventViewBarterItem implements ViewItemEventViewBarterItem {
-  const _$ViewItemEventViewBarterItem({this.barterModel});
+  const _$ViewItemEventViewBarterItem({@required this.barterModel})
+      : assert(barterModel != null);
 
   @override
   final BarterModel barterModel;
@@ -150,7 +158,9 @@ class _$ViewItemEventViewBarterItem implements ViewItemEventViewBarterItem {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result viewBarterItem(BarterModel barterModel),
-    @required Result editBarterItem(BarterModel barterModel),
+    @required
+        Result editBarterItem(
+            BarterModel barterModel, Map<String, PickedFile> pickedFileList),
   }) {
     assert(viewBarterItem != null);
     assert(editBarterItem != null);
@@ -161,7 +171,8 @@ class _$ViewItemEventViewBarterItem implements ViewItemEventViewBarterItem {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result viewBarterItem(BarterModel barterModel),
-    Result editBarterItem(BarterModel barterModel),
+    Result editBarterItem(
+        BarterModel barterModel, Map<String, PickedFile> pickedFileList),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -198,8 +209,8 @@ class _$ViewItemEventViewBarterItem implements ViewItemEventViewBarterItem {
 }
 
 abstract class ViewItemEventViewBarterItem implements ViewItemEvent {
-  const factory ViewItemEventViewBarterItem({BarterModel barterModel}) =
-      _$ViewItemEventViewBarterItem;
+  const factory ViewItemEventViewBarterItem(
+      {@required BarterModel barterModel}) = _$ViewItemEventViewBarterItem;
 
   @override
   BarterModel get barterModel;
@@ -215,7 +226,7 @@ abstract class $ViewItemEventEditBarterItemCopyWith<$Res>
           $Res Function(ViewItemEventEditBarterItem) then) =
       _$ViewItemEventEditBarterItemCopyWithImpl<$Res>;
   @override
-  $Res call({BarterModel barterModel});
+  $Res call({BarterModel barterModel, Map<String, PickedFile> pickedFileList});
 }
 
 class _$ViewItemEventEditBarterItemCopyWithImpl<$Res>
@@ -232,24 +243,33 @@ class _$ViewItemEventEditBarterItemCopyWithImpl<$Res>
   @override
   $Res call({
     Object barterModel = freezed,
+    Object pickedFileList = freezed,
   }) {
     return _then(ViewItemEventEditBarterItem(
       barterModel: barterModel == freezed
           ? _value.barterModel
           : barterModel as BarterModel,
+      pickedFileList: pickedFileList == freezed
+          ? _value.pickedFileList
+          : pickedFileList as Map<String, PickedFile>,
     ));
   }
 }
 
 class _$ViewItemEventEditBarterItem implements ViewItemEventEditBarterItem {
-  const _$ViewItemEventEditBarterItem({this.barterModel});
+  const _$ViewItemEventEditBarterItem(
+      {@required this.barterModel, @required this.pickedFileList})
+      : assert(barterModel != null),
+        assert(pickedFileList != null);
 
   @override
   final BarterModel barterModel;
+  @override
+  final Map<String, PickedFile> pickedFileList;
 
   @override
   String toString() {
-    return 'ViewItemEvent.editBarterItem(barterModel: $barterModel)';
+    return 'ViewItemEvent.editBarterItem(barterModel: $barterModel, pickedFileList: $pickedFileList)';
   }
 
   @override
@@ -258,12 +278,17 @@ class _$ViewItemEventEditBarterItem implements ViewItemEventEditBarterItem {
         (other is ViewItemEventEditBarterItem &&
             (identical(other.barterModel, barterModel) ||
                 const DeepCollectionEquality()
-                    .equals(other.barterModel, barterModel)));
+                    .equals(other.barterModel, barterModel)) &&
+            (identical(other.pickedFileList, pickedFileList) ||
+                const DeepCollectionEquality()
+                    .equals(other.pickedFileList, pickedFileList)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(barterModel);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(barterModel) ^
+      const DeepCollectionEquality().hash(pickedFileList);
 
   @override
   $ViewItemEventEditBarterItemCopyWith<ViewItemEventEditBarterItem>
@@ -274,23 +299,26 @@ class _$ViewItemEventEditBarterItem implements ViewItemEventEditBarterItem {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result viewBarterItem(BarterModel barterModel),
-    @required Result editBarterItem(BarterModel barterModel),
+    @required
+        Result editBarterItem(
+            BarterModel barterModel, Map<String, PickedFile> pickedFileList),
   }) {
     assert(viewBarterItem != null);
     assert(editBarterItem != null);
-    return editBarterItem(barterModel);
+    return editBarterItem(barterModel, pickedFileList);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result viewBarterItem(BarterModel barterModel),
-    Result editBarterItem(BarterModel barterModel),
+    Result editBarterItem(
+        BarterModel barterModel, Map<String, PickedFile> pickedFileList),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (editBarterItem != null) {
-      return editBarterItem(barterModel);
+      return editBarterItem(barterModel, pickedFileList);
     }
     return orElse();
   }
@@ -322,11 +350,14 @@ class _$ViewItemEventEditBarterItem implements ViewItemEventEditBarterItem {
 }
 
 abstract class ViewItemEventEditBarterItem implements ViewItemEvent {
-  const factory ViewItemEventEditBarterItem({BarterModel barterModel}) =
+  const factory ViewItemEventEditBarterItem(
+          {@required BarterModel barterModel,
+          @required Map<String, PickedFile> pickedFileList}) =
       _$ViewItemEventEditBarterItem;
 
   @override
   BarterModel get barterModel;
+  Map<String, PickedFile> get pickedFileList;
   @override
   $ViewItemEventEditBarterItemCopyWith<ViewItemEventEditBarterItem>
       get copyWith;
@@ -336,7 +367,8 @@ class _$ViewItemStateTearOff {
   const _$ViewItemStateTearOff();
 
   _ViewItemState call(
-      {@required Map<String, PickedFile> pickedFileList,
+      {@required BarterModel barterModel,
+      @required Map<String, PickedFile> pickedFileList,
       @required bool isTitleValid,
       @required bool isDescriptionValid,
       @required bool isPreferredItemValid,
@@ -346,6 +378,7 @@ class _$ViewItemStateTearOff {
       @required bool isFailure,
       @required String info}) {
     return _ViewItemState(
+      barterModel: barterModel,
       pickedFileList: pickedFileList,
       isTitleValid: isTitleValid,
       isDescriptionValid: isDescriptionValid,
@@ -363,6 +396,7 @@ class _$ViewItemStateTearOff {
 const $ViewItemState = _$ViewItemStateTearOff();
 
 mixin _$ViewItemState {
+  BarterModel get barterModel;
   Map<String, PickedFile> get pickedFileList;
   bool get isTitleValid;
   bool get isDescriptionValid;
@@ -381,7 +415,8 @@ abstract class $ViewItemStateCopyWith<$Res> {
           ViewItemState value, $Res Function(ViewItemState) then) =
       _$ViewItemStateCopyWithImpl<$Res>;
   $Res call(
-      {Map<String, PickedFile> pickedFileList,
+      {BarterModel barterModel,
+      Map<String, PickedFile> pickedFileList,
       bool isTitleValid,
       bool isDescriptionValid,
       bool isPreferredItemValid,
@@ -402,6 +437,7 @@ class _$ViewItemStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object barterModel = freezed,
     Object pickedFileList = freezed,
     Object isTitleValid = freezed,
     Object isDescriptionValid = freezed,
@@ -413,6 +449,9 @@ class _$ViewItemStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
       pickedFileList: pickedFileList == freezed
           ? _value.pickedFileList
           : pickedFileList as Map<String, PickedFile>,
@@ -443,7 +482,8 @@ abstract class _$ViewItemStateCopyWith<$Res>
       __$ViewItemStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Map<String, PickedFile> pickedFileList,
+      {BarterModel barterModel,
+      Map<String, PickedFile> pickedFileList,
       bool isTitleValid,
       bool isDescriptionValid,
       bool isPreferredItemValid,
@@ -466,6 +506,7 @@ class __$ViewItemStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object barterModel = freezed,
     Object pickedFileList = freezed,
     Object isTitleValid = freezed,
     Object isDescriptionValid = freezed,
@@ -477,6 +518,9 @@ class __$ViewItemStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_ViewItemState(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
       pickedFileList: pickedFileList == freezed
           ? _value.pickedFileList
           : pickedFileList as Map<String, PickedFile>,
@@ -502,7 +546,8 @@ class __$ViewItemStateCopyWithImpl<$Res>
 
 class _$_ViewItemState extends _ViewItemState {
   const _$_ViewItemState(
-      {@required this.pickedFileList,
+      {@required this.barterModel,
+      @required this.pickedFileList,
       @required this.isTitleValid,
       @required this.isDescriptionValid,
       @required this.isPreferredItemValid,
@@ -511,7 +556,8 @@ class _$_ViewItemState extends _ViewItemState {
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(pickedFileList != null),
+      : assert(barterModel != null),
+        assert(pickedFileList != null),
         assert(isTitleValid != null),
         assert(isDescriptionValid != null),
         assert(isPreferredItemValid != null),
@@ -522,6 +568,8 @@ class _$_ViewItemState extends _ViewItemState {
         assert(info != null),
         super._();
 
+  @override
+  final BarterModel barterModel;
   @override
   final Map<String, PickedFile> pickedFileList;
   @override
@@ -543,13 +591,16 @@ class _$_ViewItemState extends _ViewItemState {
 
   @override
   String toString() {
-    return 'ViewItemState(pickedFileList: $pickedFileList, isTitleValid: $isTitleValid, isDescriptionValid: $isDescriptionValid, isPreferredItemValid: $isPreferredItemValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'ViewItemState(barterModel: $barterModel, pickedFileList: $pickedFileList, isTitleValid: $isTitleValid, isDescriptionValid: $isDescriptionValid, isPreferredItemValid: $isPreferredItemValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _ViewItemState &&
+            (identical(other.barterModel, barterModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.barterModel, barterModel)) &&
             (identical(other.pickedFileList, pickedFileList) ||
                 const DeepCollectionEquality()
                     .equals(other.pickedFileList, pickedFileList)) &&
@@ -581,6 +632,7 @@ class _$_ViewItemState extends _ViewItemState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(barterModel) ^
       const DeepCollectionEquality().hash(pickedFileList) ^
       const DeepCollectionEquality().hash(isTitleValid) ^
       const DeepCollectionEquality().hash(isDescriptionValid) ^
@@ -599,7 +651,8 @@ class _$_ViewItemState extends _ViewItemState {
 abstract class _ViewItemState extends ViewItemState {
   const _ViewItemState._() : super._();
   const factory _ViewItemState(
-      {@required Map<String, PickedFile> pickedFileList,
+      {@required BarterModel barterModel,
+      @required Map<String, PickedFile> pickedFileList,
       @required bool isTitleValid,
       @required bool isDescriptionValid,
       @required bool isPreferredItemValid,
@@ -609,6 +662,8 @@ abstract class _ViewItemState extends ViewItemState {
       @required bool isFailure,
       @required String info}) = _$_ViewItemState;
 
+  @override
+  BarterModel get barterModel;
   @override
   Map<String, PickedFile> get pickedFileList;
   @override

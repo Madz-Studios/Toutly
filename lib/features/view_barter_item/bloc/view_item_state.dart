@@ -4,6 +4,7 @@ part of 'view_item_bloc.dart';
 abstract class ViewItemState implements _$ViewItemState {
   const ViewItemState._();
   const factory ViewItemState({
+    @required BarterModel barterModel,
     @required Map<String, PickedFile> pickedFileList,
     @required bool isTitleValid,
     @required bool isDescriptionValid,
@@ -16,6 +17,7 @@ abstract class ViewItemState implements _$ViewItemState {
   }) = _ViewItemState;
 
   factory ViewItemState.empty() => ViewItemState(
+        barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
         isDescriptionValid: true,
@@ -27,8 +29,11 @@ abstract class ViewItemState implements _$ViewItemState {
         info: '',
       );
 
-  factory ViewItemState.loading() => ViewItemState(
-        pickedFileList: Map<String, PickedFile>(),
+  factory ViewItemState.loading(
+          BarterModel barterModel, Map<String, PickedFile> pickedFileList) =>
+      ViewItemState(
+        barterModel: barterModel,
+        pickedFileList: pickedFileList,
         isTitleValid: true,
         isDescriptionValid: true,
         isPreferredItemValid: true,
@@ -40,6 +45,7 @@ abstract class ViewItemState implements _$ViewItemState {
       );
 
   factory ViewItemState.failure({@required String info}) => ViewItemState(
+        barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
         isDescriptionValid: true,
@@ -52,6 +58,7 @@ abstract class ViewItemState implements _$ViewItemState {
       );
 
   factory ViewItemState.success({@required String info}) => ViewItemState(
+        barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
         isDescriptionValid: true,
