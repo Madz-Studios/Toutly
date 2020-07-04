@@ -298,13 +298,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     });
   }
 
-  void _clearFields() {
-    _titleController.text = '';
-    _descriptionController.text = '';
-    _preferredItemController.text = '';
-    _locationController.text = '';
-  }
-
   _getLocation(BuildContext context) async {
     try {
       Geoflutterfire geoFlutterFire = Geoflutterfire();
