@@ -4,14 +4,14 @@ import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class LocalSharedPrefPersistUserEmail
-    implements UseCaseFirestore<void, UseCaseUserParamEmail> {
+class LocalSharedPrefGetCurrentUserEmailUseCase
+    implements UseCaseFirestore<void, UseCaseUserParamUserId> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
-  LocalSharedPrefPersistUserEmail({this.localSharedPrefRepository});
+  LocalSharedPrefGetCurrentUserEmailUseCase({this.localSharedPrefRepository});
 
   @override
-  Future<void> call(UseCaseUserParamEmail params) async {
-    await localSharedPrefRepository.persistCurrentUserEmail(params.email);
+  Future<String> call(UseCaseUserParamUserId params) async {
+    return localSharedPrefRepository.getCurrentUserEmail();
   }
 }

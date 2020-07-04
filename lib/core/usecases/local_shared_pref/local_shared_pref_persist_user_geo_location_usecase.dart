@@ -4,11 +4,12 @@ import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class LocalSharedPrefPersistUserGeoLocation
+class LocalSharedPrefPersistUserGeoLocationUseCase
     implements UseCaseFirestore<void, UseCaseUserParamGeoLocation> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
-  LocalSharedPrefPersistUserGeoLocation({this.localSharedPrefRepository});
+  LocalSharedPrefPersistUserGeoLocationUseCase(
+      {this.localSharedPrefRepository});
 
   @override
   Future<void> call(UseCaseUserParamGeoLocation params) async {

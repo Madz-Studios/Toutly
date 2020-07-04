@@ -10,7 +10,15 @@ abstract class LocalSharedPrefRepository {
 
   Future<void> persistCurrentUserGeoLocation(double latitude, double longitude);
 
-  Future<void> deleteAllLocalSavedData();
+  String getCurrentUserId();
+
+  String getCurrentUserEmail();
+
+  double getCurrentUserGeoLocationLatitude();
+
+  double getCurrentUserGeoLocationLongitude();
+
+  void deleteAllLocalSavedData();
 }
 
 @Injectable(as: LocalSharedPrefRepository)
@@ -43,12 +51,34 @@ class LocalUserRepositoryImpl implements LocalSharedPrefRepository {
   }
 
   @override
-  Future<void> deleteAllLocalSavedData() async {
+  void deleteAllLocalSavedData() async {
     sharedPreferences.remove(AppSharedPrefUserKeys.USER_ID_KEY);
     sharedPreferences.remove(AppSharedPrefUserKeys.USER_EMAIL_KEY);
     sharedPreferences
         .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LATITUDE_KEY);
     sharedPreferences
         .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LONGITUDE_KEY);
+  }
+
+  @override
+  String getCurrentUserEmail() {
+    return sharedPreferences.getString(AppSharedPrefUserKeys.USER_EMAIL_KEY);
+  }
+
+  @override
+  double getCurrentUserGeoLocationLatitude() {
+    return sharedPreferences
+        .getDouble(AppSharedPrefUserKeys.USER_GEOLOCATION_LATITUDE_KEY);
+  }
+
+  @override
+  double getCurrentUserGeoLocationLongitude() {
+    return sharedPreferences
+        .getDouble(AppSharedPrefUserKeys.USER_GEOLOCATION_LONGITUDE_KEY);
+  }
+
+  @override
+  String getCurrentUserId() {
+    return sharedPreferences.getString(AppSharedPrefUserKeys.USER_ID_KEY);
   }
 }

@@ -33,16 +33,20 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_email_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_longitude_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_id_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id_usecase.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -110,6 +114,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
+  g.registerLazySingleton<HomeBloc>(() => HomeBloc(
+      firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
+      firestoreUpdateUserUseCase: g<FirestoreUpdateUserUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
@@ -139,34 +146,43 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
       firestoreGetAllBarterItemsUsingUserIdUseCase:
           g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
-  g.registerLazySingleton<LocalSharedDeleteAllSaveData>(() =>
-      LocalSharedDeleteAllSaveData(
+  g.registerLazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
+      LocalSharedDeleteAllSaveDataUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
-  g.registerLazySingleton<LocalSharedPrefPersistUserEmail>(() =>
-      LocalSharedPrefPersistUserEmail(
+  g.registerLazySingleton<LocalSharedPrefGetCurrentUserEmailUseCase>(() =>
+      LocalSharedPrefGetCurrentUserEmailUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
-  g.registerLazySingleton<LocalSharedPrefPersistUserGeoLocation>(() =>
-      LocalSharedPrefPersistUserGeoLocation(
+  g.registerLazySingleton<
+          LocalSharedPrefGetCurrentUserGeoLocationLatitudeUseCase>(
+      () => LocalSharedPrefGetCurrentUserGeoLocationLatitudeUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
-  g.registerLazySingleton<LocalSharedPrefPersistUserId>(() =>
-      LocalSharedPrefPersistUserId(
+  g.registerLazySingleton<
+          LocalSharedPrefGetCurrentUserGeoLocationLongitudeUseCase>(
+      () => LocalSharedPrefGetCurrentUserGeoLocationLongitudeUseCase(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefGetCurrentUserIdUseCase>(() =>
+      LocalSharedPrefGetCurrentUserIdUseCase(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserEmailUseCase>(() =>
+      LocalSharedPrefPersistUserEmailUseCase(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
+      LocalSharedPrefPersistUserGeoLocationUseCase(
+          localSharedPrefRepository: g<LocalSharedPrefRepository>()));
+  g.registerLazySingleton<LocalSharedPrefPersistUserIdUseCase>(() =>
+      LocalSharedPrefPersistUserIdUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
         firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
         firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
         firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
         firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
-        localSharedPrefPersistUserId: g<LocalSharedPrefPersistUserId>(),
-        localSharedPrefPersistUserEmail: g<LocalSharedPrefPersistUserEmail>(),
+        localSharedPrefPersistUserId: g<LocalSharedPrefPersistUserIdUseCase>(),
+        localSharedPrefPersistUserEmail:
+            g<LocalSharedPrefPersistUserEmailUseCase>(),
         localSharedPrefPersistUserGeoLocation:
-            g<LocalSharedPrefPersistUserGeoLocation>(),
-        localSharedDeleteAllSaveData: g<LocalSharedDeleteAllSaveData>(),
-      ));
-  g.registerLazySingleton<HomeBloc>(() => HomeBloc(
-        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
-        firestoreUpdateUserUseCase: g<FirestoreUpdateUserUseCase>(),
-        localSharedPrefPersistUserGeoLocation:
-            g<LocalSharedPrefPersistUserGeoLocation>(),
+            g<LocalSharedPrefPersistUserGeoLocationUseCase>(),
+        localSharedDeleteAllSaveData: g<LocalSharedDeleteAllSaveDataUseCase>(),
       ));
 }
 

@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signout_use_case.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location.dart';
-import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location_usecase.dart';
+import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id_usecase.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
@@ -28,11 +28,11 @@ class AuthenticationBloc
 
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
-  final LocalSharedPrefPersistUserId localSharedPrefPersistUserId;
-  final LocalSharedPrefPersistUserEmail localSharedPrefPersistUserEmail;
-  final LocalSharedPrefPersistUserGeoLocation
+  final LocalSharedPrefPersistUserIdUseCase localSharedPrefPersistUserId;
+  final LocalSharedPrefPersistUserEmailUseCase localSharedPrefPersistUserEmail;
+  final LocalSharedPrefPersistUserGeoLocationUseCase
       localSharedPrefPersistUserGeoLocation;
-  final LocalSharedDeleteAllSaveData localSharedDeleteAllSaveData;
+  final LocalSharedDeleteAllSaveDataUseCase localSharedDeleteAllSaveData;
 
   AuthenticationBloc({
     @required this.firebaseIsSignedInUserUseCase,

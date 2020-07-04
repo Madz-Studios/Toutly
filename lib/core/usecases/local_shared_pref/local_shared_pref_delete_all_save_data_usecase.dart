@@ -4,11 +4,11 @@ import 'package:Toutly/core/usecases/param/usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class LocalSharedDeleteAllSaveData
+class LocalSharedDeleteAllSaveDataUseCase
     implements UseCaseFirestore<void, UseCaseNoParam> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
-  LocalSharedDeleteAllSaveData({this.localSharedPrefRepository});
+  LocalSharedDeleteAllSaveDataUseCase({this.localSharedPrefRepository});
 
   @override
   Future<void> call(UseCaseNoParam params) async {
