@@ -40,6 +40,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final snapshot = await firestore
         .collection(barterCollection)
         .where('userId', isEqualTo: userId)
+        .orderBy('dateCreated', descending: true)
         .getDocuments();
 
     List<BarterModel> userBarterItems = List<BarterModel>();
