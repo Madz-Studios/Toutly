@@ -244,12 +244,41 @@ class _$HomeStateTearOff {
   HomeStateInitial initial() {
     return const HomeStateInitial();
   }
+
+  HomeStateFailure failure(String message) {
+    return HomeStateFailure(
+      message,
+    );
+  }
 }
 
 // ignore: unused_element
 const $HomeState = _$HomeStateTearOff();
 
-mixin _$HomeState {}
+mixin _$HomeState {
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result failure(String message),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result failure(String message),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(HomeStateInitial value),
+    @required Result failure(HomeStateFailure value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(HomeStateInitial value),
+    Result failure(HomeStateFailure value),
+    @required Result orElse(),
+  });
+}
 
 abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
@@ -295,8 +324,169 @@ class _$HomeStateInitial implements HomeStateInitial {
 
   @override
   int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(failure != null);
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(HomeStateInitial value),
+    @required Result failure(HomeStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(failure != null);
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(HomeStateInitial value),
+    Result failure(HomeStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class HomeStateInitial implements HomeState {
   const factory HomeStateInitial() = _$HomeStateInitial;
+}
+
+abstract class $HomeStateFailureCopyWith<$Res> {
+  factory $HomeStateFailureCopyWith(
+          HomeStateFailure value, $Res Function(HomeStateFailure) then) =
+      _$HomeStateFailureCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+class _$HomeStateFailureCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
+    implements $HomeStateFailureCopyWith<$Res> {
+  _$HomeStateFailureCopyWithImpl(
+      HomeStateFailure _value, $Res Function(HomeStateFailure) _then)
+      : super(_value, (v) => _then(v as HomeStateFailure));
+
+  @override
+  HomeStateFailure get _value => super._value as HomeStateFailure;
+
+  @override
+  $Res call({
+    Object message = freezed,
+  }) {
+    return _then(HomeStateFailure(
+      message == freezed ? _value.message : message as String,
+    ));
+  }
+}
+
+class _$HomeStateFailure implements HomeStateFailure {
+  const _$HomeStateFailure(this.message) : assert(message != null);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'HomeState.failure(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is HomeStateFailure &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+
+  @override
+  $HomeStateFailureCopyWith<HomeStateFailure> get copyWith =>
+      _$HomeStateFailureCopyWithImpl<HomeStateFailure>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(failure != null);
+    return failure(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(HomeStateInitial value),
+    @required Result failure(HomeStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(failure != null);
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(HomeStateInitial value),
+    Result failure(HomeStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class HomeStateFailure implements HomeState {
+  const factory HomeStateFailure(String message) = _$HomeStateFailure;
+
+  String get message;
+  $HomeStateFailureCopyWith<HomeStateFailure> get copyWith;
 }
