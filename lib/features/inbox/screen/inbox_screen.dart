@@ -27,20 +27,22 @@ class _InboxScreenState extends State<InboxScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Text('Inbox Screen'),
-              Text(_currentAddress != null ? _currentAddress : 'Unknown'),
-              Placeholder(),
-              RaisedButton(
-                child: Text('Open Location Map'),
-                onPressed: () async {
-                  print('Open Location Map');
-                  _getCurrentLocation(context);
-                },
-              ),
-            ],
+        body: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Text('Inbox Screen'),
+                Text(_currentAddress != null ? _currentAddress : 'Unknown'),
+                Placeholder(),
+                RaisedButton(
+                  child: Text('Open Location Map'),
+                  onPressed: () async {
+                    print('Open Location Map');
+                    _getCurrentLocation(context);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
