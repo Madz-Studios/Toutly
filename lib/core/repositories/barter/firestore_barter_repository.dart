@@ -31,7 +31,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .setData(barterModel.toJson());
   }
 
-  /// Get a barter item in barter firestore collection using [userId].
+  /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
   Future<List<BarterModel>> getAllBarterItemsUsingUserId(
       {String userId}) async {
