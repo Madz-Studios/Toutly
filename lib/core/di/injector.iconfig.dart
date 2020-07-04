@@ -12,6 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Toutly/core/repositories/barter/firestore_barter_repository.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
+import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -33,6 +34,7 @@ import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
+import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 
@@ -48,6 +50,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => FirestoreBarterRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<FirestoreCreateBarterItemUseCase>(() =>
       FirestoreCreateBarterItemUseCase(
+          firestoreBarterRepository: g<FirestoreBarterRepository>()));
+  g.registerLazySingleton<FirestoreGetAllBarterItemsUsingUserIdUseCase>(() =>
+      FirestoreGetAllBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerLazySingleton<FirestoreUpdateBarterItemUseCase>(() =>
       FirestoreUpdateBarterItemUseCase(
@@ -118,6 +123,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
         validators: g<Validators>(),
       ));
+  g.registerLazySingleton<UserItemsBloc>(() => UserItemsBloc(
+      firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
+      firestoreGetAllBarterItemsUsingUserIdUseCase:
+          g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
         firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
         firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
