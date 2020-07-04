@@ -1,7 +1,7 @@
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
 import 'package:Toutly/features/items/favourites/screen/favourites_screen.dart';
-import 'package:Toutly/features/items/user_item_list/screen/user_items_screen.dart';
+import 'package:Toutly/features/items/user_items_list/screen/user_items_screen.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
 import 'package:Toutly/features/navigation/widgets/item_tab_view.dart';
@@ -74,25 +74,21 @@ class NavigationScreen extends StatelessWidget {
     );
   }
 
-  SafeArea _buildSingleViewScreen(
+  Widget _buildSingleViewScreen(
       Widget appBar, Widget screen, int currentIndex) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar,
-        body: screen,
-        bottomNavigationBar: NavigationBar(
-          currentIndex,
-        ),
+    return Scaffold(
+      appBar: appBar,
+      body: screen,
+      bottomNavigationBar: NavigationBar(
+        currentIndex,
       ),
     );
   }
 
-  SafeArea _buildSingleViewNoBottomNavBarScreen(Widget appBar, Widget screen) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: appBar,
-        body: screen,
-      ),
+  Widget _buildSingleViewNoBottomNavBarScreen(Widget appBar, Widget screen) {
+    return Scaffold(
+      appBar: appBar,
+      body: screen,
     );
   }
 }
