@@ -2,14 +2,6 @@ part of 'authentication_bloc.dart';
 
 @freezed
 abstract class AuthenticationState implements _$AuthenticationState {
-//  const factory AuthenticationState.initial() = AuthenticationStateInitial;
-//  const factory AuthenticationState.authenticated() =
-//      AuthenticationStateAuthenticated;
-//  const factory AuthenticationState.unauthenticated() =
-//      AuthenticationStateUnauthenticated;
-//  const factory AuthenticationState.failure(
-//      {@nullable @required String message}) = AuthenticationStateFailure;
-
   const AuthenticationState._();
   const factory AuthenticationState({
     @required bool isAppJustStarted,
