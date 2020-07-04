@@ -60,10 +60,10 @@ class AuthenticationBloc
           if (isSignedIn) {
             yield AuthenticationState.authenticated();
           } else {
-            yield AuthenticationState.unauthenticated();
+            yield AuthenticationState.unAuthenticated();
           }
         } on PlatformException catch (platFormException) {
-          yield AuthenticationState.failure(platFormException.message);
+          yield AuthenticationState.error(info: platFormException.message);
         }
       },
       signedIn: (e) async* {
@@ -85,14 +85,14 @@ class AuthenticationBloc
           ));
           await localSharedPrefPersistUserGeoLocation
               .call(UseCaseUserParamGeoLocation.init(
-            userModel.geoLocation.latitude,
-            userModel.geoLocation.longitude,
+            userModel.geoLocation?.latitude ?? 0,
+            userModel.geoLocation?.longitude ?? 0,
           ));
 
           /// Authenticate the user
           yield AuthenticationState.authenticated();
         } on PlatformException catch (platFormException) {
-          yield AuthenticationState.failure(platFormException.message);
+          yield AuthenticationState.error(info: platFormException.message);
         }
       },
       signedOut: (e) async* {
@@ -102,9 +102,9 @@ class AuthenticationBloc
 
           ///sign out the user
           await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
-          yield AuthenticationState.unauthenticated();
+          yield AuthenticationState.unAuthenticated();
         } on PlatformException catch (platFormException) {
-          yield AuthenticationState.failure(platFormException.message);
+          yield AuthenticationState.error(info: platFormException.message);
         }
       },
     );

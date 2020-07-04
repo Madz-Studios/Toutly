@@ -373,21 +373,14 @@ abstract class AuthenticationEventSignedOut implements AuthenticationEvent {
 class _$AuthenticationStateTearOff {
   const _$AuthenticationStateTearOff();
 
-  AuthenticationStateInitial initial() {
-    return const AuthenticationStateInitial();
-  }
-
-  AuthenticationStateAuthenticated authenticated() {
-    return const AuthenticationStateAuthenticated();
-  }
-
-  AuthenticationStateUnauthenticated unauthenticated() {
-    return const AuthenticationStateUnauthenticated();
-  }
-
-  AuthenticationStateFailure failure(String message) {
-    return AuthenticationStateFailure(
-      message,
+  _AuthenticationState call(
+      {@required bool isAppJustStarted,
+      @required bool isAuthenticated,
+      @required String info}) {
+    return _AuthenticationState(
+      isAppJustStarted: isAppJustStarted,
+      isAuthenticated: isAuthenticated,
+      info: info,
     );
   }
 }
@@ -396,42 +389,18 @@ class _$AuthenticationStateTearOff {
 const $AuthenticationState = _$AuthenticationStateTearOff();
 
 mixin _$AuthenticationState {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result failure(String message),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result failure(String message),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(AuthenticationStateInitial value),
-    @required Result authenticated(AuthenticationStateAuthenticated value),
-    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
-    @required Result failure(AuthenticationStateFailure value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(AuthenticationStateInitial value),
-    Result authenticated(AuthenticationStateAuthenticated value),
-    Result unauthenticated(AuthenticationStateUnauthenticated value),
-    Result failure(AuthenticationStateFailure value),
-    @required Result orElse(),
-  });
+  bool get isAppJustStarted;
+  bool get isAuthenticated;
+  String get info;
+
+  $AuthenticationStateCopyWith<AuthenticationState> get copyWith;
 }
 
 abstract class $AuthenticationStateCopyWith<$Res> {
   factory $AuthenticationStateCopyWith(
           AuthenticationState value, $Res Function(AuthenticationState) then) =
       _$AuthenticationStateCopyWithImpl<$Res>;
+  $Res call({bool isAppJustStarted, bool isAuthenticated, String info});
 }
 
 class _$AuthenticationStateCopyWithImpl<$Res>
@@ -441,446 +410,124 @@ class _$AuthenticationStateCopyWithImpl<$Res>
   final AuthenticationState _value;
   // ignore: unused_field
   final $Res Function(AuthenticationState) _then;
-}
-
-abstract class $AuthenticationStateInitialCopyWith<$Res> {
-  factory $AuthenticationStateInitialCopyWith(AuthenticationStateInitial value,
-          $Res Function(AuthenticationStateInitial) then) =
-      _$AuthenticationStateInitialCopyWithImpl<$Res>;
-}
-
-class _$AuthenticationStateInitialCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res>
-    implements $AuthenticationStateInitialCopyWith<$Res> {
-  _$AuthenticationStateInitialCopyWithImpl(AuthenticationStateInitial _value,
-      $Res Function(AuthenticationStateInitial) _then)
-      : super(_value, (v) => _then(v as AuthenticationStateInitial));
-
-  @override
-  AuthenticationStateInitial get _value =>
-      super._value as AuthenticationStateInitial;
-}
-
-class _$AuthenticationStateInitial implements AuthenticationStateInitial {
-  const _$AuthenticationStateInitial();
-
-  @override
-  String toString() {
-    return 'AuthenticationState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is AuthenticationStateInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result failure(String message),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result failure(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(AuthenticationStateInitial value),
-    @required Result authenticated(AuthenticationStateAuthenticated value),
-    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
-    @required Result failure(AuthenticationStateFailure value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(AuthenticationStateInitial value),
-    Result authenticated(AuthenticationStateAuthenticated value),
-    Result unauthenticated(AuthenticationStateUnauthenticated value),
-    Result failure(AuthenticationStateFailure value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthenticationStateInitial implements AuthenticationState {
-  const factory AuthenticationStateInitial() = _$AuthenticationStateInitial;
-}
-
-abstract class $AuthenticationStateAuthenticatedCopyWith<$Res> {
-  factory $AuthenticationStateAuthenticatedCopyWith(
-          AuthenticationStateAuthenticated value,
-          $Res Function(AuthenticationStateAuthenticated) then) =
-      _$AuthenticationStateAuthenticatedCopyWithImpl<$Res>;
-}
-
-class _$AuthenticationStateAuthenticatedCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res>
-    implements $AuthenticationStateAuthenticatedCopyWith<$Res> {
-  _$AuthenticationStateAuthenticatedCopyWithImpl(
-      AuthenticationStateAuthenticated _value,
-      $Res Function(AuthenticationStateAuthenticated) _then)
-      : super(_value, (v) => _then(v as AuthenticationStateAuthenticated));
-
-  @override
-  AuthenticationStateAuthenticated get _value =>
-      super._value as AuthenticationStateAuthenticated;
-}
-
-class _$AuthenticationStateAuthenticated
-    implements AuthenticationStateAuthenticated {
-  const _$AuthenticationStateAuthenticated();
-
-  @override
-  String toString() {
-    return 'AuthenticationState.authenticated()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is AuthenticationStateAuthenticated);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result failure(String message),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return authenticated();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result failure(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (authenticated != null) {
-      return authenticated();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(AuthenticationStateInitial value),
-    @required Result authenticated(AuthenticationStateAuthenticated value),
-    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
-    @required Result failure(AuthenticationStateFailure value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return authenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(AuthenticationStateInitial value),
-    Result authenticated(AuthenticationStateAuthenticated value),
-    Result unauthenticated(AuthenticationStateUnauthenticated value),
-    Result failure(AuthenticationStateFailure value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (authenticated != null) {
-      return authenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthenticationStateAuthenticated implements AuthenticationState {
-  const factory AuthenticationStateAuthenticated() =
-      _$AuthenticationStateAuthenticated;
-}
-
-abstract class $AuthenticationStateUnauthenticatedCopyWith<$Res> {
-  factory $AuthenticationStateUnauthenticatedCopyWith(
-          AuthenticationStateUnauthenticated value,
-          $Res Function(AuthenticationStateUnauthenticated) then) =
-      _$AuthenticationStateUnauthenticatedCopyWithImpl<$Res>;
-}
-
-class _$AuthenticationStateUnauthenticatedCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res>
-    implements $AuthenticationStateUnauthenticatedCopyWith<$Res> {
-  _$AuthenticationStateUnauthenticatedCopyWithImpl(
-      AuthenticationStateUnauthenticated _value,
-      $Res Function(AuthenticationStateUnauthenticated) _then)
-      : super(_value, (v) => _then(v as AuthenticationStateUnauthenticated));
-
-  @override
-  AuthenticationStateUnauthenticated get _value =>
-      super._value as AuthenticationStateUnauthenticated;
-}
-
-class _$AuthenticationStateUnauthenticated
-    implements AuthenticationStateUnauthenticated {
-  const _$AuthenticationStateUnauthenticated();
-
-  @override
-  String toString() {
-    return 'AuthenticationState.unauthenticated()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is AuthenticationStateUnauthenticated);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result failure(String message),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return unauthenticated();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result failure(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (unauthenticated != null) {
-      return unauthenticated();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(AuthenticationStateInitial value),
-    @required Result authenticated(AuthenticationStateAuthenticated value),
-    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
-    @required Result failure(AuthenticationStateFailure value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return unauthenticated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(AuthenticationStateInitial value),
-    Result authenticated(AuthenticationStateAuthenticated value),
-    Result unauthenticated(AuthenticationStateUnauthenticated value),
-    Result failure(AuthenticationStateFailure value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (unauthenticated != null) {
-      return unauthenticated(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class AuthenticationStateUnauthenticated
-    implements AuthenticationState {
-  const factory AuthenticationStateUnauthenticated() =
-      _$AuthenticationStateUnauthenticated;
-}
-
-abstract class $AuthenticationStateFailureCopyWith<$Res> {
-  factory $AuthenticationStateFailureCopyWith(AuthenticationStateFailure value,
-          $Res Function(AuthenticationStateFailure) then) =
-      _$AuthenticationStateFailureCopyWithImpl<$Res>;
-  $Res call({String message});
-}
-
-class _$AuthenticationStateFailureCopyWithImpl<$Res>
-    extends _$AuthenticationStateCopyWithImpl<$Res>
-    implements $AuthenticationStateFailureCopyWith<$Res> {
-  _$AuthenticationStateFailureCopyWithImpl(AuthenticationStateFailure _value,
-      $Res Function(AuthenticationStateFailure) _then)
-      : super(_value, (v) => _then(v as AuthenticationStateFailure));
-
-  @override
-  AuthenticationStateFailure get _value =>
-      super._value as AuthenticationStateFailure;
 
   @override
   $Res call({
-    Object message = freezed,
+    Object isAppJustStarted = freezed,
+    Object isAuthenticated = freezed,
+    Object info = freezed,
   }) {
-    return _then(AuthenticationStateFailure(
-      message == freezed ? _value.message : message as String,
+    return _then(_value.copyWith(
+      isAppJustStarted: isAppJustStarted == freezed
+          ? _value.isAppJustStarted
+          : isAppJustStarted as bool,
+      isAuthenticated: isAuthenticated == freezed
+          ? _value.isAuthenticated
+          : isAuthenticated as bool,
+      info: info == freezed ? _value.info : info as String,
     ));
   }
 }
 
-class _$AuthenticationStateFailure implements AuthenticationStateFailure {
-  const _$AuthenticationStateFailure(this.message) : assert(message != null);
+abstract class _$AuthenticationStateCopyWith<$Res>
+    implements $AuthenticationStateCopyWith<$Res> {
+  factory _$AuthenticationStateCopyWith(_AuthenticationState value,
+          $Res Function(_AuthenticationState) then) =
+      __$AuthenticationStateCopyWithImpl<$Res>;
+  @override
+  $Res call({bool isAppJustStarted, bool isAuthenticated, String info});
+}
+
+class __$AuthenticationStateCopyWithImpl<$Res>
+    extends _$AuthenticationStateCopyWithImpl<$Res>
+    implements _$AuthenticationStateCopyWith<$Res> {
+  __$AuthenticationStateCopyWithImpl(
+      _AuthenticationState _value, $Res Function(_AuthenticationState) _then)
+      : super(_value, (v) => _then(v as _AuthenticationState));
 
   @override
-  final String message;
+  _AuthenticationState get _value => super._value as _AuthenticationState;
+
+  @override
+  $Res call({
+    Object isAppJustStarted = freezed,
+    Object isAuthenticated = freezed,
+    Object info = freezed,
+  }) {
+    return _then(_AuthenticationState(
+      isAppJustStarted: isAppJustStarted == freezed
+          ? _value.isAppJustStarted
+          : isAppJustStarted as bool,
+      isAuthenticated: isAuthenticated == freezed
+          ? _value.isAuthenticated
+          : isAuthenticated as bool,
+      info: info == freezed ? _value.info : info as String,
+    ));
+  }
+}
+
+class _$_AuthenticationState extends _AuthenticationState {
+  const _$_AuthenticationState(
+      {@required this.isAppJustStarted,
+      @required this.isAuthenticated,
+      @required this.info})
+      : assert(isAppJustStarted != null),
+        assert(isAuthenticated != null),
+        assert(info != null),
+        super._();
+
+  @override
+  final bool isAppJustStarted;
+  @override
+  final bool isAuthenticated;
+  @override
+  final String info;
 
   @override
   String toString() {
-    return 'AuthenticationState.failure(message: $message)';
+    return 'AuthenticationState(isAppJustStarted: $isAppJustStarted, isAuthenticated: $isAuthenticated, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is AuthenticationStateFailure &&
-            (identical(other.message, message) ||
-                const DeepCollectionEquality().equals(other.message, message)));
+        (other is _AuthenticationState &&
+            (identical(other.isAppJustStarted, isAppJustStarted) ||
+                const DeepCollectionEquality()
+                    .equals(other.isAppJustStarted, isAppJustStarted)) &&
+            (identical(other.isAuthenticated, isAuthenticated) ||
+                const DeepCollectionEquality()
+                    .equals(other.isAuthenticated, isAuthenticated)) &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isAppJustStarted) ^
+      const DeepCollectionEquality().hash(isAuthenticated) ^
+      const DeepCollectionEquality().hash(info);
 
   @override
-  $AuthenticationStateFailureCopyWith<AuthenticationStateFailure>
-      get copyWith =>
-          _$AuthenticationStateFailureCopyWithImpl<AuthenticationStateFailure>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result authenticated(),
-    @required Result unauthenticated(),
-    @required Result failure(String message),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return failure(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result authenticated(),
-    Result unauthenticated(),
-    Result failure(String message),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (failure != null) {
-      return failure(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(AuthenticationStateInitial value),
-    @required Result authenticated(AuthenticationStateAuthenticated value),
-    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
-    @required Result failure(AuthenticationStateFailure value),
-  }) {
-    assert(initial != null);
-    assert(authenticated != null);
-    assert(unauthenticated != null);
-    assert(failure != null);
-    return failure(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(AuthenticationStateInitial value),
-    Result authenticated(AuthenticationStateAuthenticated value),
-    Result unauthenticated(AuthenticationStateUnauthenticated value),
-    Result failure(AuthenticationStateFailure value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (failure != null) {
-      return failure(this);
-    }
-    return orElse();
-  }
+  _$AuthenticationStateCopyWith<_AuthenticationState> get copyWith =>
+      __$AuthenticationStateCopyWithImpl<_AuthenticationState>(
+          this, _$identity);
 }
 
-abstract class AuthenticationStateFailure implements AuthenticationState {
-  const factory AuthenticationStateFailure(String message) =
-      _$AuthenticationStateFailure;
+abstract class _AuthenticationState extends AuthenticationState {
+  const _AuthenticationState._() : super._();
+  const factory _AuthenticationState(
+      {@required bool isAppJustStarted,
+      @required bool isAuthenticated,
+      @required String info}) = _$_AuthenticationState;
 
-  String get message;
-  $AuthenticationStateFailureCopyWith<AuthenticationStateFailure> get copyWith;
+  @override
+  bool get isAppJustStarted;
+  @override
+  bool get isAuthenticated;
+  @override
+  String get info;
+  @override
+  _$AuthenticationStateCopyWith<_AuthenticationState> get copyWith;
 }
