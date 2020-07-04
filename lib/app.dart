@@ -1,3 +1,4 @@
+import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -58,6 +59,11 @@ class App extends StatelessWidget {
         /// View Barter Item Bloc
         BlocProvider<ViewItemBloc>(
           create: (BuildContext context) => getIt<ViewItemBloc>(),
+        ),
+
+        /// User Items Bloc
+        BlocProvider<UserItemsBloc>(
+          create: (BuildContext context) => getIt<UserItemsBloc>(),
         ),
       ],
       child: MaterialApp(
