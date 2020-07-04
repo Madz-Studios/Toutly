@@ -6,7 +6,8 @@ import 'package:injectable/injectable.dart';
 
 abstract class FirestoreUserRepository {
   Future<void> createUser(UserModel user);
-  Future<UserModel> getUserUsingUserId(String id);
+  Future<UserModel> getUserUsingUserId(String userId);
+  Future<void> updateUserUsingUserId(String userId);
 }
 
 @Injectable(as: FirestoreUserRepository)
@@ -33,5 +34,13 @@ class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
       return UserModel.fromJson(userData.data);
     }
     return null;
+  }
+
+  @override
+  Future<void> updateUserUsingUserId(String userId) async {
+    await firestore
+        .collection(FirestoreCollectionNames.userCollection)
+        .document(userId)
+        .get();
   }
 }
