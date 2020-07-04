@@ -16,7 +16,6 @@ import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -43,6 +42,7 @@ import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -67,7 +67,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
-  g.registerLazySingleton<HomeBloc>(() => HomeBloc());
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
@@ -162,6 +161,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         localSharedPrefPersistUserGeoLocation:
             g<LocalSharedPrefPersistUserGeoLocation>(),
         localSharedDeleteAllSaveData: g<LocalSharedDeleteAllSaveData>(),
+      ));
+  g.registerLazySingleton<HomeBloc>(() => HomeBloc(
+        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
+        firestoreUpdateUserUseCase: g<FirestoreUpdateUserUseCase>(),
+        localSharedPrefPersistUserGeoLocation:
+            g<LocalSharedPrefPersistUserGeoLocation>(),
       ));
 }
 
