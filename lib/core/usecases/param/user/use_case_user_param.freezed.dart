@@ -484,3 +484,141 @@ abstract class UseCaseUserParamModelInit implements UseCaseUserParamModel {
   @override
   $UseCaseUserParamModelInitCopyWith<UseCaseUserParamModelInit> get copyWith;
 }
+
+class _$UseCaseUserParamGeoLocationTearOff {
+  const _$UseCaseUserParamGeoLocationTearOff();
+
+  UseCaseUserParamGeoLocationInit init(double latitude, double longitude) {
+    return UseCaseUserParamGeoLocationInit(
+      latitude,
+      longitude,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserParamGeoLocation = _$UseCaseUserParamGeoLocationTearOff();
+
+mixin _$UseCaseUserParamGeoLocation {
+  double get latitude;
+  double get longitude;
+
+  $UseCaseUserParamGeoLocationCopyWith<UseCaseUserParamGeoLocation>
+      get copyWith;
+}
+
+abstract class $UseCaseUserParamGeoLocationCopyWith<$Res> {
+  factory $UseCaseUserParamGeoLocationCopyWith(
+          UseCaseUserParamGeoLocation value,
+          $Res Function(UseCaseUserParamGeoLocation) then) =
+      _$UseCaseUserParamGeoLocationCopyWithImpl<$Res>;
+  $Res call({double latitude, double longitude});
+}
+
+class _$UseCaseUserParamGeoLocationCopyWithImpl<$Res>
+    implements $UseCaseUserParamGeoLocationCopyWith<$Res> {
+  _$UseCaseUserParamGeoLocationCopyWithImpl(this._value, this._then);
+
+  final UseCaseUserParamGeoLocation _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserParamGeoLocation) _then;
+
+  @override
+  $Res call({
+    Object latitude = freezed,
+    Object longitude = freezed,
+  }) {
+    return _then(_value.copyWith(
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
+    ));
+  }
+}
+
+abstract class $UseCaseUserParamGeoLocationInitCopyWith<$Res>
+    implements $UseCaseUserParamGeoLocationCopyWith<$Res> {
+  factory $UseCaseUserParamGeoLocationInitCopyWith(
+          UseCaseUserParamGeoLocationInit value,
+          $Res Function(UseCaseUserParamGeoLocationInit) then) =
+      _$UseCaseUserParamGeoLocationInitCopyWithImpl<$Res>;
+  @override
+  $Res call({double latitude, double longitude});
+}
+
+class _$UseCaseUserParamGeoLocationInitCopyWithImpl<$Res>
+    extends _$UseCaseUserParamGeoLocationCopyWithImpl<$Res>
+    implements $UseCaseUserParamGeoLocationInitCopyWith<$Res> {
+  _$UseCaseUserParamGeoLocationInitCopyWithImpl(
+      UseCaseUserParamGeoLocationInit _value,
+      $Res Function(UseCaseUserParamGeoLocationInit) _then)
+      : super(_value, (v) => _then(v as UseCaseUserParamGeoLocationInit));
+
+  @override
+  UseCaseUserParamGeoLocationInit get _value =>
+      super._value as UseCaseUserParamGeoLocationInit;
+
+  @override
+  $Res call({
+    Object latitude = freezed,
+    Object longitude = freezed,
+  }) {
+    return _then(UseCaseUserParamGeoLocationInit(
+      latitude == freezed ? _value.latitude : latitude as double,
+      longitude == freezed ? _value.longitude : longitude as double,
+    ));
+  }
+}
+
+class _$UseCaseUserParamGeoLocationInit
+    implements UseCaseUserParamGeoLocationInit {
+  const _$UseCaseUserParamGeoLocationInit(this.latitude, this.longitude)
+      : assert(latitude != null),
+        assert(longitude != null);
+
+  @override
+  final double latitude;
+  @override
+  final double longitude;
+
+  @override
+  String toString() {
+    return 'UseCaseUserParamGeoLocation.init(latitude: $latitude, longitude: $longitude)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserParamGeoLocationInit &&
+            (identical(other.latitude, latitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.latitude, latitude)) &&
+            (identical(other.longitude, longitude) ||
+                const DeepCollectionEquality()
+                    .equals(other.longitude, longitude)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(latitude) ^
+      const DeepCollectionEquality().hash(longitude);
+
+  @override
+  $UseCaseUserParamGeoLocationInitCopyWith<UseCaseUserParamGeoLocationInit>
+      get copyWith => _$UseCaseUserParamGeoLocationInitCopyWithImpl<
+          UseCaseUserParamGeoLocationInit>(this, _$identity);
+}
+
+abstract class UseCaseUserParamGeoLocationInit
+    implements UseCaseUserParamGeoLocation {
+  const factory UseCaseUserParamGeoLocationInit(
+      double latitude, double longitude) = _$UseCaseUserParamGeoLocationInit;
+
+  @override
+  double get latitude;
+  @override
+  double get longitude;
+  @override
+  $UseCaseUserParamGeoLocationInitCopyWith<UseCaseUserParamGeoLocationInit>
+      get copyWith;
+}
