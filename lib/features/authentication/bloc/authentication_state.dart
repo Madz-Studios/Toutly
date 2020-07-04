@@ -7,4 +7,6 @@ abstract class AuthenticationState with _$AuthenticationState {
       AuthenticationStateAuthenticated;
   const factory AuthenticationState.unauthenticated() =
       AuthenticationStateUnauthenticated;
+  const factory AuthenticationState.failure(String message) =
+      AuthenticationStateFailure;
 }

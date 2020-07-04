@@ -384,6 +384,12 @@ class _$AuthenticationStateTearOff {
   AuthenticationStateUnauthenticated unauthenticated() {
     return const AuthenticationStateUnauthenticated();
   }
+
+  AuthenticationStateFailure failure(String message) {
+    return AuthenticationStateFailure(
+      message,
+    );
+  }
 }
 
 // ignore: unused_element
@@ -395,12 +401,14 @@ mixin _$AuthenticationState {
     @required Result initial(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result failure(String message),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result authenticated(),
     Result unauthenticated(),
+    Result failure(String message),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -408,12 +416,14 @@ mixin _$AuthenticationState {
     @required Result initial(AuthenticationStateInitial value),
     @required Result authenticated(AuthenticationStateAuthenticated value),
     @required Result unauthenticated(AuthenticationStateUnauthenticated value),
+    @required Result failure(AuthenticationStateFailure value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(AuthenticationStateInitial value),
     Result authenticated(AuthenticationStateAuthenticated value),
     Result unauthenticated(AuthenticationStateUnauthenticated value),
+    Result failure(AuthenticationStateFailure value),
     @required Result orElse(),
   });
 }
@@ -473,10 +483,12 @@ class _$AuthenticationStateInitial implements AuthenticationStateInitial {
     @required Result initial(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result failure(String message),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return initial();
   }
 
@@ -486,6 +498,7 @@ class _$AuthenticationStateInitial implements AuthenticationStateInitial {
     Result initial(),
     Result authenticated(),
     Result unauthenticated(),
+    Result failure(String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -501,10 +514,12 @@ class _$AuthenticationStateInitial implements AuthenticationStateInitial {
     @required Result initial(AuthenticationStateInitial value),
     @required Result authenticated(AuthenticationStateAuthenticated value),
     @required Result unauthenticated(AuthenticationStateUnauthenticated value),
+    @required Result failure(AuthenticationStateFailure value),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return initial(this);
   }
 
@@ -514,6 +529,7 @@ class _$AuthenticationStateInitial implements AuthenticationStateInitial {
     Result initial(AuthenticationStateInitial value),
     Result authenticated(AuthenticationStateAuthenticated value),
     Result unauthenticated(AuthenticationStateUnauthenticated value),
+    Result failure(AuthenticationStateFailure value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -572,10 +588,12 @@ class _$AuthenticationStateAuthenticated
     @required Result initial(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result failure(String message),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return authenticated();
   }
 
@@ -585,6 +603,7 @@ class _$AuthenticationStateAuthenticated
     Result initial(),
     Result authenticated(),
     Result unauthenticated(),
+    Result failure(String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -600,10 +619,12 @@ class _$AuthenticationStateAuthenticated
     @required Result initial(AuthenticationStateInitial value),
     @required Result authenticated(AuthenticationStateAuthenticated value),
     @required Result unauthenticated(AuthenticationStateUnauthenticated value),
+    @required Result failure(AuthenticationStateFailure value),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return authenticated(this);
   }
 
@@ -613,6 +634,7 @@ class _$AuthenticationStateAuthenticated
     Result initial(AuthenticationStateInitial value),
     Result authenticated(AuthenticationStateAuthenticated value),
     Result unauthenticated(AuthenticationStateUnauthenticated value),
+    Result failure(AuthenticationStateFailure value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -672,10 +694,12 @@ class _$AuthenticationStateUnauthenticated
     @required Result initial(),
     @required Result authenticated(),
     @required Result unauthenticated(),
+    @required Result failure(String message),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return unauthenticated();
   }
 
@@ -685,6 +709,7 @@ class _$AuthenticationStateUnauthenticated
     Result initial(),
     Result authenticated(),
     Result unauthenticated(),
+    Result failure(String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -700,10 +725,12 @@ class _$AuthenticationStateUnauthenticated
     @required Result initial(AuthenticationStateInitial value),
     @required Result authenticated(AuthenticationStateAuthenticated value),
     @required Result unauthenticated(AuthenticationStateUnauthenticated value),
+    @required Result failure(AuthenticationStateFailure value),
   }) {
     assert(initial != null);
     assert(authenticated != null);
     assert(unauthenticated != null);
+    assert(failure != null);
     return unauthenticated(this);
   }
 
@@ -713,6 +740,7 @@ class _$AuthenticationStateUnauthenticated
     Result initial(AuthenticationStateInitial value),
     Result authenticated(AuthenticationStateAuthenticated value),
     Result unauthenticated(AuthenticationStateUnauthenticated value),
+    Result failure(AuthenticationStateFailure value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -727,4 +755,132 @@ abstract class AuthenticationStateUnauthenticated
     implements AuthenticationState {
   const factory AuthenticationStateUnauthenticated() =
       _$AuthenticationStateUnauthenticated;
+}
+
+abstract class $AuthenticationStateFailureCopyWith<$Res> {
+  factory $AuthenticationStateFailureCopyWith(AuthenticationStateFailure value,
+          $Res Function(AuthenticationStateFailure) then) =
+      _$AuthenticationStateFailureCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+class _$AuthenticationStateFailureCopyWithImpl<$Res>
+    extends _$AuthenticationStateCopyWithImpl<$Res>
+    implements $AuthenticationStateFailureCopyWith<$Res> {
+  _$AuthenticationStateFailureCopyWithImpl(AuthenticationStateFailure _value,
+      $Res Function(AuthenticationStateFailure) _then)
+      : super(_value, (v) => _then(v as AuthenticationStateFailure));
+
+  @override
+  AuthenticationStateFailure get _value =>
+      super._value as AuthenticationStateFailure;
+
+  @override
+  $Res call({
+    Object message = freezed,
+  }) {
+    return _then(AuthenticationStateFailure(
+      message == freezed ? _value.message : message as String,
+    ));
+  }
+}
+
+class _$AuthenticationStateFailure implements AuthenticationStateFailure {
+  const _$AuthenticationStateFailure(this.message) : assert(message != null);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'AuthenticationState.failure(message: $message)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is AuthenticationStateFailure &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+
+  @override
+  $AuthenticationStateFailureCopyWith<AuthenticationStateFailure>
+      get copyWith =>
+          _$AuthenticationStateFailureCopyWithImpl<AuthenticationStateFailure>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result authenticated(),
+    @required Result unauthenticated(),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(authenticated != null);
+    assert(unauthenticated != null);
+    assert(failure != null);
+    return failure(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result authenticated(),
+    Result unauthenticated(),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(AuthenticationStateInitial value),
+    @required Result authenticated(AuthenticationStateAuthenticated value),
+    @required Result unauthenticated(AuthenticationStateUnauthenticated value),
+    @required Result failure(AuthenticationStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(authenticated != null);
+    assert(unauthenticated != null);
+    assert(failure != null);
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(AuthenticationStateInitial value),
+    Result authenticated(AuthenticationStateAuthenticated value),
+    Result unauthenticated(AuthenticationStateUnauthenticated value),
+    Result failure(AuthenticationStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class AuthenticationStateFailure implements AuthenticationState {
+  const factory AuthenticationStateFailure(String message) =
+      _$AuthenticationStateFailure;
+
+  String get message;
+  $AuthenticationStateFailureCopyWith<AuthenticationStateFailure> get copyWith;
 }
