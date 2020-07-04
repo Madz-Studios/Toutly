@@ -164,6 +164,10 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             barterModel: state.barterModel,
             pickedFileList: state.pickedFileList,
           ));
+
+          ///clear the photo list for the next post
+          _postBloc.add(PostEvent.clearPhotoList());
+
           _navBloc.add(NavigationEvent.goToViewItemScreenEvent());
         }
       },
