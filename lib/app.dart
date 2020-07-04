@@ -1,3 +1,4 @@
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -49,6 +50,11 @@ class App extends StatelessWidget {
         /// Navigation Bloc
         BlocProvider<NavigationBloc>(
           create: (BuildContext context) => getIt<NavigationBloc>(),
+        ),
+
+        /// Home Bloc
+        BlocProvider<HomeBloc>(
+          create: (BuildContext context) => getIt<HomeBloc>(),
         ),
 
         /// Post Bloc
