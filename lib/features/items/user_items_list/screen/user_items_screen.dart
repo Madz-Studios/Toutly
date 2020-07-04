@@ -25,7 +25,7 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    final double itemHeight = appSizeConfig.blockSizeVertical * 20;
+    final double itemHeight = appSizeConfig.blockSizeVertical * 15;
     final double itemWidth = appSizeConfig.blockSizeHorizontal * 10;
     return Scaffold(
       body: BlocConsumer<UserItemsBloc, UserItemsState>(
