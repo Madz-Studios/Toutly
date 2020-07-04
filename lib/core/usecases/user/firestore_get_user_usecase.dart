@@ -12,6 +12,6 @@ class FirestoreGetUserUseCase
   FirestoreGetUserUseCase({this.firestoreUserRepository});
   @override
   Future<UserModel> call(UseCaseUserParamUid params) async {
-    return await firestoreUserRepository.getUserUsingUid(params.uid);
+    return await firestoreUserRepository.getUserUsingUserId(params.uid);
   }
 }
