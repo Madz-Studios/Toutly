@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
@@ -27,6 +25,8 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+    final double itemHeight = appSizeConfig.blockSizeVertical * 20;
+    final double itemWidth = appSizeConfig.blockSizeHorizontal * 10;
     return Scaffold(
       body: BlocConsumer<UserItemsBloc, UserItemsState>(
         listener: (context, state) {
@@ -46,12 +46,11 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
                 crossAxisCount: 2,
                 crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
                 mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
-                childAspectRatio: Platform.isAndroid ? 3 / 2.5 : 1,
               ),
               itemBuilder: (context, position) {
                 return Column(
                   children: [
-                    DemoItem(data[position]),
+                    DemoItem(data[position], itemHeight, itemWidth),
                   ],
                 );
               },
@@ -65,7 +64,9 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
 
 class DemoItem extends StatelessWidget {
   final BarterModel data;
-  DemoItem(this.data);
+  final double itemHeight;
+  final double itemWidth;
+  DemoItem(this.data, this.itemHeight, this.itemWidth);
 
   @override
   Widget build(BuildContext context) {
@@ -75,26 +76,22 @@ class DemoItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
-            width: appSizeConfig.blockSizeHorizontal * 10,
-            height: appSizeConfig.blockSizeVertical * 15,
-            child: CachedNetworkImage(
-              fit: BoxFit.cover,
-              imageUrl: data.photosUrl[0],
-              imageBuilder: (context, imageProvider) => Container(
-                width: double.infinity,
-                height: double.infinity,
-                decoration: BoxDecoration(
-                  shape: BoxShape.rectangle,
-                  image: DecorationImage(
-                    image: imageProvider,
-                    fit: BoxFit.cover,
-                  ),
+          CachedNetworkImage(
+            fit: BoxFit.cover,
+            imageUrl: data.photosUrl[0],
+            imageBuilder: (context, imageProvider) => Container(
+              height: itemHeight,
+              width: itemWidth,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
                 ),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
+            placeholder: (context, url) => CircularProgressIndicator(),
+            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
           Padding(
             padding: EdgeInsets.symmetric(
