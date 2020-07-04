@@ -13,7 +13,6 @@ class UserModel {
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;
-  List<BarterModel> userBarterItems;
   String userId;
   UserModel({
     this.dateCreated,
@@ -22,7 +21,6 @@ class UserModel {
     this.geoHash,
     this.geoLocation,
     this.name,
-    this.userBarterItems,
     this.userId,
   });
 

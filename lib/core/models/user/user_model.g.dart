@@ -18,10 +18,6 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     geoHash: json['geoHash'] as String,
     geoLocation: UserModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
     name: json['name'] as String,
-    userBarterItems: (json['userBarterItems'] as List)
-        ?.map((e) =>
-            e == null ? null : BarterModel.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
     userId: json['userId'] as String,
   );
 }
@@ -33,6 +29,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'email': instance.email,
       'geoHash': instance.geoHash,
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
-      'userBarterItems': instance.userBarterItems,
       'userId': instance.userId,
     };
