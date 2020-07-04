@@ -19,7 +19,6 @@ part 'authentication_bloc.freezed.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
-/// bloc for Authentication
 @lazySingleton
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -35,7 +34,6 @@ class AuthenticationBloc
       localSharedPrefPersistUserGeoLocation;
   final LocalSharedDeleteAllSaveData localSharedDeleteAllSaveData;
 
-  /// create Authentication bloc
   AuthenticationBloc({
     @required this.firebaseIsSignedInUserUseCase,
     @required this.firebaseGetUserUseCase,
@@ -56,6 +54,7 @@ class AuthenticationBloc
     yield* event.map(
       authCheckRequested: (e) async* {
         try {
+          ///If there is already a User Signed In the local firebase cache, sign in the User
           final isSignedIn =
               await firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
           if (isSignedIn) {
@@ -90,6 +89,7 @@ class AuthenticationBloc
             userModel.geoLocation.longitude,
           ));
 
+          /// Authenticate the user
           yield AuthenticationState.authenticated();
         } on PlatformException catch (platFormException) {
           yield AuthenticationState.failure(platFormException.message);
@@ -97,7 +97,10 @@ class AuthenticationBloc
       },
       signedOut: (e) async* {
         try {
+          /// Delete all the saved user id, user email and user geolocation data on the local.
           await localSharedDeleteAllSaveData.call(UseCaseNoParam.init());
+
+          ///sign out the user
           await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
           yield AuthenticationState.unauthenticated();
         } on PlatformException catch (platFormException) {
