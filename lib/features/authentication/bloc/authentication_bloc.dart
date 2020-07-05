@@ -43,9 +43,7 @@ class AuthenticationBloc
     @required this.localSharedPrefPersistUserEmail,
     @required this.localSharedPrefPersistUserGeoLocation,
     @required this.localSharedDeleteAllSaveData,
-  });
-  @override
-  AuthenticationState get initialState => AuthenticationState.initial();
+  }) : super(AuthenticationState.initial());
 
   @override
   Stream<AuthenticationState> mapEventToState(

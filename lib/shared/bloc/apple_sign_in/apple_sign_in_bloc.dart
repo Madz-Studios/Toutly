@@ -10,8 +10,7 @@ part 'apple_sign_in_state.dart';
 
 @lazySingleton
 class AppleSignInBloc extends Bloc<AppleSignInEvent, AppleSignInState> {
-  @override
-  AppleSignInState get initialState => AppleSignInState.init();
+  AppleSignInBloc() : super(AppleSignInState.init());
 
   @override
   Stream<AppleSignInState> mapEventToState(AppleSignInEvent event) async* {

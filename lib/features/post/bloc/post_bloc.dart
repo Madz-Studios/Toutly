@@ -36,10 +36,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     @required this.firebaseGetUserUseCase,
     @required this.firestoreCreateBarterItemUseCase,
     @required this.firestoreUpdateBarterItemUseCase,
-  });
-
-  @override
-  PostState get initialState => PostState.empty();
+  }) : super(PostState.empty());
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {

@@ -10,8 +10,7 @@ part 'view_item_state.dart';
 
 @lazySingleton
 class ViewItemBloc extends Bloc<ViewItemEvent, ViewItemState> {
-  @override
-  ViewItemState get initialState => ViewItemState.empty();
+  ViewItemBloc() : super(ViewItemState.empty());
 
   @override
   Stream<ViewItemState> mapEventToState(ViewItemEvent event) async* {

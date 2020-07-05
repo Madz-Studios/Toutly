@@ -54,7 +54,10 @@ class SignBloc extends Bloc<SignEvent, SignState> {
         assert(firebaseGetUserUseCase != null),
         assert(firestoreCreateUserUseCase != null),
         assert(firestoreGetUserUseCase != null),
-        assert(validators != null);
+        assert(validators != null),
+        super(
+          (SignState.empty()),
+        );
 
   @override
   SignState get initialState => SignState.empty();

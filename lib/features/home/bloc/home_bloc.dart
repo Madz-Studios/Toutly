@@ -16,10 +16,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   HomeBloc({
     this.firestoreGetUserUseCase,
     this.firestoreUpdateUserUseCase,
-  });
-
-  @override
-  HomeState get initialState => HomeState.initial();
+  }) : super(HomeState.initial());
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {

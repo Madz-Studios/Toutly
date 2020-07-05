@@ -15,7 +15,7 @@ void commonMain(String env) async {
   /// Important!!!! use await keyword for configureDependencies();
   await configureDependencies();
 
-  BlocSupervisor.delegate = SimpleBlocDelegate();
+  Bloc.observer = SimpleBlocDelegate();
 
   print('Environment =  $env');
 

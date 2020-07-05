@@ -9,9 +9,8 @@ part 'navigation_state.dart';
 
 @lazySingleton
 class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
-  @override
-  NavigationState get initialState =>
-      NavigationState.homeScreen(AppNavigationIndex.homeIndex);
+  NavigationBloc()
+      : super(NavigationState.homeScreen(AppNavigationIndex.homeIndex));
 
   @override
   Stream<NavigationState> mapEventToState(NavigationEvent event) async* {

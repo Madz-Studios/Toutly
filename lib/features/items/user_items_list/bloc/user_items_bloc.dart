@@ -21,10 +21,7 @@ class UserItemsBloc extends Bloc<UserItemsEvent, UserItemsState> {
   UserItemsBloc({
     this.firebaseGetUserUseCase,
     this.firestoreGetAllBarterItemsUsingUserIdUseCase,
-  });
-
-  @override
-  UserItemsState get initialState => UserItemsState.empty();
+  }) : super(UserItemsState.empty());
 
   @override
   Stream<UserItemsState> mapEventToState(UserItemsEvent event) async* {
