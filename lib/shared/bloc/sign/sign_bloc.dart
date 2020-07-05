@@ -60,9 +60,6 @@ class SignBloc extends Bloc<SignEvent, SignState> {
         );
 
   @override
-  SignState get initialState => SignState.empty();
-
-  @override
   Stream<SignState> mapEventToState(SignEvent event) async* {
     yield* event.map(
       nameChanged: (e) async* {
