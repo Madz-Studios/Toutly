@@ -1,6 +1,7 @@
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
+import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        /// Remote Config Data Bloc
+        BlocProvider<RemoteConfigDataBloc>(
+          create: (BuildContext context) => getIt<RemoteConfigDataBloc>()
+            ..add(RemoteConfigDataEvent.loadConfigData()),
+        ),
+
         /// Authentication Bloc
         BlocProvider<AuthenticationBloc>(
           create: (BuildContext context) => getIt<AuthenticationBloc>(),
