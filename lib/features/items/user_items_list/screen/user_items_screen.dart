@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -14,12 +17,13 @@ class UserItemsScreen extends StatefulWidget {
 
 class _UserItemsScreenState extends State<UserItemsScreen> {
   final _userItemsBloc = getIt<UserItemsBloc>()
-    ..add(UserItemsEvent.loadUserBarterItems());
+    ..add(UserItemsEvent.loadUserBarterItems([]));
 
   List<BarterModel> data = [];
 
   _loadMore(UserItemsState state) {
-    _userItemsBloc.add(UserItemsEvent.loadUserBarterItems());
+    _userItemsBloc
+        .add(UserItemsEvent.loadUserBarterItems(state.userBarterItems));
   }
 
   @override
@@ -29,9 +33,18 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
       body: BlocConsumer<UserItemsBloc, UserItemsState>(
         listener: (context, state) {
           if (state.isSuccess) {
-            print('${state.userBarterItems.length}');
-            print('success');
+            print(
+                'current barter items length = ${state.userBarterItems.length}');
             data.addAll(state.userBarterItems);
+            Navigator.of(context).pop();
+          }
+
+          if (state.isSubmitting) {
+            if (Platform.isIOS) {
+              _showCupertinoDialog(context);
+            } else {
+              _showMaterialDialog(context);
+            }
           }
         },
         builder: (context, state) {
@@ -46,7 +59,7 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
                 mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
               ),
               itemBuilder: (context, position) {
-                return DemoItem(data[position]);
+                return UserBarterItem(data[position]);
               },
             ),
           );
@@ -54,17 +67,34 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
       ),
     );
   }
+
+  _showMaterialDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        content: CircularProgressIndicator(),
+      ),
+    );
+  }
+
+  _showCupertinoDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (_) => CupertinoAlertDialog(
+        content: CupertinoActivityIndicator(),
+      ),
+    );
+  }
 }
 
-class DemoItem extends StatelessWidget {
+class UserBarterItem extends StatelessWidget {
   final BarterModel data;
-  DemoItem(
+  UserBarterItem(
     this.data,
   );
 
   @override
   Widget build(BuildContext context) {
-    final appSizeConfig = AppSizeConfig(context);
     return Card(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
