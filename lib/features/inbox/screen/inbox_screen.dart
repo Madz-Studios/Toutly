@@ -1,9 +1,8 @@
-import 'dart:io';
-
+import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:app_settings/app_settings.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -34,11 +33,15 @@ class _InboxScreenState extends State<InboxScreen> {
                 Text('Inbox Screen'),
                 Text(_currentAddress != null ? _currentAddress : 'Unknown'),
                 Placeholder(),
-                RaisedButton(
-                  child: Text('Open Location Map'),
-                  onPressed: () async {
-                    print('Open Location Map');
-                    _getCurrentLocation(context);
+                BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+                  builder: (context, state) {
+                    return RaisedButton(
+                      child: Text('Open Location Map'),
+                      onPressed: () async {
+                        print('Open Location Map');
+                        _getCurrentLocation(context, state.firebaseApiKey);
+                      },
+                    );
                   },
                 ),
               ],
@@ -49,22 +52,8 @@ class _InboxScreenState extends State<InboxScreen> {
     );
   }
 
-  _getCurrentLocation(BuildContext context) async {
+  _getCurrentLocation(BuildContext context, String firebaseApiKey) async {
     try {
-      RemoteConfig remoteConfig = await RemoteConfig.instance;
-      await remoteConfig.fetch();
-      await remoteConfig.activateFetched();
-
-      String apiKey;
-
-      if (Platform.isIOS) {
-        apiKey = remoteConfig.getString('ios_gcp_api_key');
-      } else {
-        apiKey = remoteConfig.getString('android_gcp_api_key');
-      }
-
-      print('apiKey = $apiKey');
-
       Position position = await geolocator.getCurrentPosition(
           desiredAccuracy: LocationAccuracy.low);
 
@@ -73,7 +62,7 @@ class _InboxScreenState extends State<InboxScreen> {
 
       LocationResult result = await showLocationPicker(
         context,
-        apiKey,
+        firebaseApiKey,
         initialCenter: LatLng(position.latitude, position.longitude),
         myLocationButtonEnabled: true,
         hintText: 'Location',
@@ -82,7 +71,7 @@ class _InboxScreenState extends State<InboxScreen> {
       print('result $result');
 
       setState(() {
-        _currentAddress = "${result.address}";
+        _currentAddress = "${result?.address ?? ''}";
       });
     } on PlatformException catch (platFormException) {
       if (platFormException.code == 'PERMISSION_DENIED') {
