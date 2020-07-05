@@ -25,8 +25,6 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    final double itemHeight = appSizeConfig.blockSizeVertical * 15;
-    final double itemWidth = appSizeConfig.blockSizeHorizontal * 10;
     return Scaffold(
       body: BlocConsumer<UserItemsBloc, UserItemsState>(
         listener: (context, state) {
@@ -48,11 +46,7 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
                 mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
               ),
               itemBuilder: (context, position) {
-                return Column(
-                  children: [
-                    DemoItem(data[position], itemHeight, itemWidth),
-                  ],
-                );
+                return DemoItem(data[position]);
               },
             ),
           );
@@ -64,9 +58,9 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
 
 class DemoItem extends StatelessWidget {
   final BarterModel data;
-  final double itemHeight;
-  final double itemWidth;
-  DemoItem(this.data, this.itemHeight, this.itemWidth);
+  DemoItem(
+    this.data,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -76,27 +70,26 @@ class DemoItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          CachedNetworkImage(
-            fit: BoxFit.cover,
-            imageUrl: data.photosUrl[0],
-            imageBuilder: (context, imageProvider) => Container(
-              height: itemHeight,
-              width: itemWidth,
-              decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                  image: imageProvider,
-                  fit: BoxFit.cover,
+          Flexible(
+            flex: 3,
+            child: CachedNetworkImage(
+              fit: BoxFit.cover,
+              imageUrl: data.photosUrl[0],
+              imageBuilder: (context, imageProvider) => Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  image: DecorationImage(
+                    image: imageProvider,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-            placeholder: (context, url) => CircularProgressIndicator(),
-            errorWidget: (context, url, error) => Icon(Icons.error),
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: appSizeConfig.blockSizeHorizontal * 2.0,
-            ),
+          Flexible(
+            flex: 1,
             child: Center(
               child: Text(
                 "${data.title}",
