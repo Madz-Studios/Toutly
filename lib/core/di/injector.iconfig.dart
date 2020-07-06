@@ -47,7 +47,7 @@ import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_cur
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_email_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_id_usecase.dart';
-import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
+import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 

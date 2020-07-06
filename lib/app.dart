@@ -1,5 +1,4 @@
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
-import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -16,6 +15,7 @@ import 'core/di/injector.dart';
 import 'features/authentication/bloc/authentication_bloc.dart';
 import 'features/authentication/screen/authentication_screen.dart';
 import 'features/navigation/bloc/navigation_bloc.dart';
+import 'features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'features/view_barter_item/bloc/view_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
