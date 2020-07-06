@@ -28,7 +28,7 @@ class _UserItemsScreenState extends State<UserItemsScreen> {
     final appSizeConfig = AppSizeConfig(context);
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: _userItemBloc.getAllQueryMessages(null).snapshots().take(4),
+        stream: _userItemBloc.getAllQueryMessages(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             if (Platform.isIOS) {
@@ -97,7 +97,7 @@ class UserBarterItem extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => CircularProgressIndicator(),
+              placeholder: (context, url) => Placeholder(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
