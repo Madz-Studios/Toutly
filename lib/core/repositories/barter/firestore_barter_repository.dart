@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 abstract class FirestoreBarterRepository {
   Future<void> createBarterMarketItem({@required BarterModel barterModel});
 
-  Query getAllBarterItemsUsingUserId(
+  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(
       {@required String userId, @required DocumentSnapshot lastDoc});
 
   Future<void> updateBarterItem({@required BarterModel barterModel});
@@ -35,22 +35,15 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
-  Query getAllBarterItemsUsingUserId(
+  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(
       {String userId, @required DocumentSnapshot lastDoc}) {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
     final query = firestore
         .collection(barterCollection)
         .where('userId', isEqualTo: userId)
-        .orderBy('dateCreated', descending: true);
-
-//    List<BarterModel> userBarterItems = List<BarterModel>();
-//
-//    snapshot.documents.forEach((result) {
-//      print(result.data);
-//      final barterModel = BarterModel.fromJson(result.data);
-//      userBarterItems.add(barterModel);
-//    });
+        .orderBy('dateCreated', descending: true)
+        .snapshots();
 
     return query;
   }

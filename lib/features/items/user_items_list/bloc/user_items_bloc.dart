@@ -48,15 +48,13 @@ class UserItemsBloc extends Bloc<UserItemsEvent, UserItemsState> {
     );
   }
 
-  Query getAllQueryMessages(DocumentSnapshot lastDoc) {
+  Stream<QuerySnapshot> getAllQueryMessages() {
     final userId =
         localSharedPrefGetCurrentUserIdUseCase.call(UseCaseNoParam.init());
 
-    print('userId = $userId');
     return firestoreGetAllBarterItemsUsingUserIdUseCase.call(
       UseCaseUserIdWithListBarterParam.init(
         userId: userId,
-        lastDoc: lastDoc,
       ),
     );
   }
