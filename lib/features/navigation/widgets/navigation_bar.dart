@@ -98,8 +98,8 @@ class NavigationBar extends StatelessWidget {
     if (index == AppNavigationIndex.postIndex) {
       _navigationBloc.add(NavigationEvent.goToPostScreenEvent());
     }
-    if (index == AppNavigationIndex.favouritesIndex) {
-      _navigationBloc.add(NavigationEvent.goToFavouritesScreenEvent());
+    if (index == AppNavigationIndex.userBarterListingIndex) {
+      _navigationBloc.add(NavigationEvent.goToUserBarterListingScreenEvent());
     }
     if (index == AppNavigationIndex.inboxIndex) {
       _navigationBloc.add(NavigationEvent.goToInboxScreenEvent());

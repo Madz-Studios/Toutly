@@ -24,16 +24,21 @@ class _$NavigationEventTearOff {
     return const NavigationEventGoToPostScreen();
   }
 
-  NavigationEventGoToFavouriteScreen goToFavouritesScreenEvent() {
-    return const NavigationEventGoToFavouriteScreen();
+  NavigationEventGoToUserBarterListingScreen
+      goToUserBarterListingScreenEvent() {
+    return const NavigationEventGoToUserBarterListingScreen();
   }
 
   NavigationEventGoToInboxScreen goToInboxScreenEvent() {
     return const NavigationEventGoToInboxScreen();
   }
 
-  NavigationEventGoToViewItemScreen goToViewItemScreenEvent() {
-    return const NavigationEventGoToViewItemScreen();
+  NavigationEventGoToViewBarterItemScreen goToViewBarterItemScreenEvent() {
+    return const NavigationEventGoToViewBarterItemScreen();
+  }
+
+  NavigationEventGoToEditBarterItemScreen goToEditBarterItemScreenEvent() {
+    return const NavigationEventGoToEditBarterItemScreen();
   }
 }
 
@@ -46,18 +51,20 @@ mixin _$NavigationEvent {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -67,20 +74,28 @@ mixin _$NavigationEvent {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   });
 }
@@ -142,16 +157,18 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToHomeScreenEvent();
   }
 
@@ -161,9 +178,10 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -181,18 +199,23 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToHomeScreenEvent(this);
   }
 
@@ -202,9 +225,13 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -263,16 +290,18 @@ class _$NavigationEventGoToSearchScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToSearchScreenEvent();
   }
 
@@ -282,9 +311,10 @@ class _$NavigationEventGoToSearchScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -302,18 +332,23 @@ class _$NavigationEventGoToSearchScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToSearchScreenEvent(this);
   }
 
@@ -323,9 +358,13 @@ class _$NavigationEventGoToSearchScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -383,16 +422,18 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToPostScreenEvent();
   }
 
@@ -402,9 +443,10 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -422,18 +464,23 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToPostScreenEvent(this);
   }
 
@@ -443,9 +490,13 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -461,39 +512,40 @@ abstract class NavigationEventGoToPostScreen implements NavigationEvent {
       _$NavigationEventGoToPostScreen;
 }
 
-abstract class $NavigationEventGoToFavouriteScreenCopyWith<$Res> {
-  factory $NavigationEventGoToFavouriteScreenCopyWith(
-          NavigationEventGoToFavouriteScreen value,
-          $Res Function(NavigationEventGoToFavouriteScreen) then) =
-      _$NavigationEventGoToFavouriteScreenCopyWithImpl<$Res>;
+abstract class $NavigationEventGoToUserBarterListingScreenCopyWith<$Res> {
+  factory $NavigationEventGoToUserBarterListingScreenCopyWith(
+          NavigationEventGoToUserBarterListingScreen value,
+          $Res Function(NavigationEventGoToUserBarterListingScreen) then) =
+      _$NavigationEventGoToUserBarterListingScreenCopyWithImpl<$Res>;
 }
 
-class _$NavigationEventGoToFavouriteScreenCopyWithImpl<$Res>
+class _$NavigationEventGoToUserBarterListingScreenCopyWithImpl<$Res>
     extends _$NavigationEventCopyWithImpl<$Res>
-    implements $NavigationEventGoToFavouriteScreenCopyWith<$Res> {
-  _$NavigationEventGoToFavouriteScreenCopyWithImpl(
-      NavigationEventGoToFavouriteScreen _value,
-      $Res Function(NavigationEventGoToFavouriteScreen) _then)
-      : super(_value, (v) => _then(v as NavigationEventGoToFavouriteScreen));
+    implements $NavigationEventGoToUserBarterListingScreenCopyWith<$Res> {
+  _$NavigationEventGoToUserBarterListingScreenCopyWithImpl(
+      NavigationEventGoToUserBarterListingScreen _value,
+      $Res Function(NavigationEventGoToUserBarterListingScreen) _then)
+      : super(_value,
+            (v) => _then(v as NavigationEventGoToUserBarterListingScreen));
 
   @override
-  NavigationEventGoToFavouriteScreen get _value =>
-      super._value as NavigationEventGoToFavouriteScreen;
+  NavigationEventGoToUserBarterListingScreen get _value =>
+      super._value as NavigationEventGoToUserBarterListingScreen;
 }
 
-class _$NavigationEventGoToFavouriteScreen
-    implements NavigationEventGoToFavouriteScreen {
-  const _$NavigationEventGoToFavouriteScreen();
+class _$NavigationEventGoToUserBarterListingScreen
+    implements NavigationEventGoToUserBarterListingScreen {
+  const _$NavigationEventGoToUserBarterListingScreen();
 
   @override
   String toString() {
-    return 'NavigationEvent.goToFavouritesScreenEvent()';
+    return 'NavigationEvent.goToUserBarterListingScreenEvent()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationEventGoToFavouriteScreen);
+        (other is NavigationEventGoToUserBarterListingScreen);
   }
 
   @override
@@ -505,17 +557,19 @@ class _$NavigationEventGoToFavouriteScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
-    return goToFavouritesScreenEvent();
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToUserBarterListingScreenEvent();
   }
 
   @override
@@ -524,14 +578,15 @@ class _$NavigationEventGoToFavouriteScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToFavouritesScreenEvent != null) {
-      return goToFavouritesScreenEvent();
+    if (goToUserBarterListingScreenEvent != null) {
+      return goToUserBarterListingScreenEvent();
     }
     return orElse();
   }
@@ -544,19 +599,24 @@ class _$NavigationEventGoToFavouriteScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
-    return goToFavouritesScreenEvent(this);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToUserBarterListingScreenEvent(this);
   }
 
   @override
@@ -565,22 +625,27 @@ class _$NavigationEventGoToFavouriteScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToFavouritesScreenEvent != null) {
-      return goToFavouritesScreenEvent(this);
+    if (goToUserBarterListingScreenEvent != null) {
+      return goToUserBarterListingScreenEvent(this);
     }
     return orElse();
   }
 }
 
-abstract class NavigationEventGoToFavouriteScreen implements NavigationEvent {
-  const factory NavigationEventGoToFavouriteScreen() =
-      _$NavigationEventGoToFavouriteScreen;
+abstract class NavigationEventGoToUserBarterListingScreen
+    implements NavigationEvent {
+  const factory NavigationEventGoToUserBarterListingScreen() =
+      _$NavigationEventGoToUserBarterListingScreen;
 }
 
 abstract class $NavigationEventGoToInboxScreenCopyWith<$Res> {
@@ -626,16 +691,18 @@ class _$NavigationEventGoToInboxScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToInboxScreenEvent();
   }
 
@@ -645,9 +712,10 @@ class _$NavigationEventGoToInboxScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -665,18 +733,23 @@ class _$NavigationEventGoToInboxScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
     return goToInboxScreenEvent(this);
   }
 
@@ -686,9 +759,13 @@ class _$NavigationEventGoToInboxScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -704,39 +781,40 @@ abstract class NavigationEventGoToInboxScreen implements NavigationEvent {
       _$NavigationEventGoToInboxScreen;
 }
 
-abstract class $NavigationEventGoToViewItemScreenCopyWith<$Res> {
-  factory $NavigationEventGoToViewItemScreenCopyWith(
-          NavigationEventGoToViewItemScreen value,
-          $Res Function(NavigationEventGoToViewItemScreen) then) =
-      _$NavigationEventGoToViewItemScreenCopyWithImpl<$Res>;
+abstract class $NavigationEventGoToViewBarterItemScreenCopyWith<$Res> {
+  factory $NavigationEventGoToViewBarterItemScreenCopyWith(
+          NavigationEventGoToViewBarterItemScreen value,
+          $Res Function(NavigationEventGoToViewBarterItemScreen) then) =
+      _$NavigationEventGoToViewBarterItemScreenCopyWithImpl<$Res>;
 }
 
-class _$NavigationEventGoToViewItemScreenCopyWithImpl<$Res>
+class _$NavigationEventGoToViewBarterItemScreenCopyWithImpl<$Res>
     extends _$NavigationEventCopyWithImpl<$Res>
-    implements $NavigationEventGoToViewItemScreenCopyWith<$Res> {
-  _$NavigationEventGoToViewItemScreenCopyWithImpl(
-      NavigationEventGoToViewItemScreen _value,
-      $Res Function(NavigationEventGoToViewItemScreen) _then)
-      : super(_value, (v) => _then(v as NavigationEventGoToViewItemScreen));
+    implements $NavigationEventGoToViewBarterItemScreenCopyWith<$Res> {
+  _$NavigationEventGoToViewBarterItemScreenCopyWithImpl(
+      NavigationEventGoToViewBarterItemScreen _value,
+      $Res Function(NavigationEventGoToViewBarterItemScreen) _then)
+      : super(
+            _value, (v) => _then(v as NavigationEventGoToViewBarterItemScreen));
 
   @override
-  NavigationEventGoToViewItemScreen get _value =>
-      super._value as NavigationEventGoToViewItemScreen;
+  NavigationEventGoToViewBarterItemScreen get _value =>
+      super._value as NavigationEventGoToViewBarterItemScreen;
 }
 
-class _$NavigationEventGoToViewItemScreen
-    implements NavigationEventGoToViewItemScreen {
-  const _$NavigationEventGoToViewItemScreen();
+class _$NavigationEventGoToViewBarterItemScreen
+    implements NavigationEventGoToViewBarterItemScreen {
+  const _$NavigationEventGoToViewBarterItemScreen();
 
   @override
   String toString() {
-    return 'NavigationEvent.goToViewItemScreenEvent()';
+    return 'NavigationEvent.goToViewBarterItemScreenEvent()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationEventGoToViewItemScreen);
+        (other is NavigationEventGoToViewBarterItemScreen);
   }
 
   @override
@@ -748,17 +826,19 @@ class _$NavigationEventGoToViewItemScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToFavouritesScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
     @required Result goToInboxScreenEvent(),
-    @required Result goToViewItemScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
-    return goToViewItemScreenEvent();
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToViewBarterItemScreenEvent();
   }
 
   @override
@@ -767,14 +847,15 @@ class _$NavigationEventGoToViewItemScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToFavouritesScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
     Result goToInboxScreenEvent(),
-    Result goToViewItemScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToViewItemScreenEvent != null) {
-      return goToViewItemScreenEvent();
+    if (goToViewBarterItemScreenEvent != null) {
+      return goToViewBarterItemScreenEvent();
     }
     return orElse();
   }
@@ -787,19 +868,24 @@ class _$NavigationEventGoToViewItemScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToFavouritesScreenEvent(
-            NavigationEventGoToFavouriteScreen value),
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required
-        Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToFavouritesScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    assert(goToViewItemScreenEvent != null);
-    return goToViewItemScreenEvent(this);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToViewBarterItemScreenEvent(this);
   }
 
   @override
@@ -808,22 +894,163 @@ class _$NavigationEventGoToViewItemScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToFavouritesScreenEvent(NavigationEventGoToFavouriteScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
-    Result goToViewItemScreenEvent(NavigationEventGoToViewItemScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToViewItemScreenEvent != null) {
-      return goToViewItemScreenEvent(this);
+    if (goToViewBarterItemScreenEvent != null) {
+      return goToViewBarterItemScreenEvent(this);
     }
     return orElse();
   }
 }
 
-abstract class NavigationEventGoToViewItemScreen implements NavigationEvent {
-  const factory NavigationEventGoToViewItemScreen() =
-      _$NavigationEventGoToViewItemScreen;
+abstract class NavigationEventGoToViewBarterItemScreen
+    implements NavigationEvent {
+  const factory NavigationEventGoToViewBarterItemScreen() =
+      _$NavigationEventGoToViewBarterItemScreen;
+}
+
+abstract class $NavigationEventGoToEditBarterItemScreenCopyWith<$Res> {
+  factory $NavigationEventGoToEditBarterItemScreenCopyWith(
+          NavigationEventGoToEditBarterItemScreen value,
+          $Res Function(NavigationEventGoToEditBarterItemScreen) then) =
+      _$NavigationEventGoToEditBarterItemScreenCopyWithImpl<$Res>;
+}
+
+class _$NavigationEventGoToEditBarterItemScreenCopyWithImpl<$Res>
+    extends _$NavigationEventCopyWithImpl<$Res>
+    implements $NavigationEventGoToEditBarterItemScreenCopyWith<$Res> {
+  _$NavigationEventGoToEditBarterItemScreenCopyWithImpl(
+      NavigationEventGoToEditBarterItemScreen _value,
+      $Res Function(NavigationEventGoToEditBarterItemScreen) _then)
+      : super(
+            _value, (v) => _then(v as NavigationEventGoToEditBarterItemScreen));
+
+  @override
+  NavigationEventGoToEditBarterItemScreen get _value =>
+      super._value as NavigationEventGoToEditBarterItemScreen;
+}
+
+class _$NavigationEventGoToEditBarterItemScreen
+    implements NavigationEventGoToEditBarterItemScreen {
+  const _$NavigationEventGoToEditBarterItemScreen();
+
+  @override
+  String toString() {
+    return 'NavigationEvent.goToEditBarterItemScreenEvent()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NavigationEventGoToEditBarterItemScreen);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result goToHomeScreenEvent(),
+    @required Result goToSearchScreenEvent(),
+    @required Result goToPostScreenEvent(),
+    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToInboxScreenEvent(),
+    @required Result goToViewBarterItemScreenEvent(),
+    @required Result goToEditBarterItemScreenEvent(),
+  }) {
+    assert(goToHomeScreenEvent != null);
+    assert(goToSearchScreenEvent != null);
+    assert(goToPostScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToInboxScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToEditBarterItemScreenEvent();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result goToHomeScreenEvent(),
+    Result goToSearchScreenEvent(),
+    Result goToPostScreenEvent(),
+    Result goToUserBarterListingScreenEvent(),
+    Result goToInboxScreenEvent(),
+    Result goToViewBarterItemScreenEvent(),
+    Result goToEditBarterItemScreenEvent(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (goToEditBarterItemScreenEvent != null) {
+      return goToEditBarterItemScreenEvent();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
+    @required
+        Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
+    @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
+    @required
+        Result goToUserBarterListingScreenEvent(
+            NavigationEventGoToUserBarterListingScreen value),
+    @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    @required
+        Result goToViewBarterItemScreenEvent(
+            NavigationEventGoToViewBarterItemScreen value),
+    @required
+        Result goToEditBarterItemScreenEvent(
+            NavigationEventGoToEditBarterItemScreen value),
+  }) {
+    assert(goToHomeScreenEvent != null);
+    assert(goToSearchScreenEvent != null);
+    assert(goToPostScreenEvent != null);
+    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToInboxScreenEvent != null);
+    assert(goToViewBarterItemScreenEvent != null);
+    assert(goToEditBarterItemScreenEvent != null);
+    return goToEditBarterItemScreenEvent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
+    Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
+    Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
+    Result goToUserBarterListingScreenEvent(
+        NavigationEventGoToUserBarterListingScreen value),
+    Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
+    Result goToViewBarterItemScreenEvent(
+        NavigationEventGoToViewBarterItemScreen value),
+    Result goToEditBarterItemScreenEvent(
+        NavigationEventGoToEditBarterItemScreen value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (goToEditBarterItemScreenEvent != null) {
+      return goToEditBarterItemScreenEvent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NavigationEventGoToEditBarterItemScreen
+    implements NavigationEvent {
+  const factory NavigationEventGoToEditBarterItemScreen() =
+      _$NavigationEventGoToEditBarterItemScreen;
 }
 
 class _$NavigationStateTearOff {
@@ -847,8 +1074,8 @@ class _$NavigationStateTearOff {
     );
   }
 
-  NavigationStateFavouritescreen favouriteScreen(int index) {
-    return NavigationStateFavouritescreen(
+  NavigationStateUserBarterListingcreen userBarterListing(int index) {
+    return NavigationStateUserBarterListingcreen(
       index,
     );
   }
@@ -859,8 +1086,14 @@ class _$NavigationStateTearOff {
     );
   }
 
-  NavigationStateViewItemScreen viewItemScreen(int index) {
-    return NavigationStateViewItemScreen(
+  NavigationStateViewBarterItemScreen viewBarterItemScreen(int index) {
+    return NavigationStateViewBarterItemScreen(
+      index,
+    );
+  }
+
+  NavigationStateEdiBarterItemScreen editBarterItemScreen(int index) {
+    return NavigationStateEdiBarterItemScreen(
       index,
     );
   }
@@ -877,18 +1110,20 @@ mixin _$NavigationState {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -896,18 +1131,23 @@ mixin _$NavigationState {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   });
 
@@ -1003,16 +1243,18 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return homeScreen(index);
   }
 
@@ -1022,9 +1264,10 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1040,16 +1283,21 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return homeScreen(this);
   }
 
@@ -1059,9 +1307,10 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1147,16 +1396,18 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return searchScreen(index);
   }
 
@@ -1166,9 +1417,10 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1184,16 +1436,21 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return searchScreen(this);
   }
 
@@ -1203,9 +1460,10 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1293,16 +1551,18 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return postScreen(index);
   }
 
@@ -1312,9 +1572,10 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1330,16 +1591,21 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return postScreen(this);
   }
 
@@ -1349,9 +1615,10 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1373,54 +1640,55 @@ abstract class NavigationStatePostItemScreen implements NavigationState {
       get copyWith;
 }
 
-abstract class $NavigationStateFavouritescreenCopyWith<$Res>
+abstract class $NavigationStateUserBarterListingcreenCopyWith<$Res>
     implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateFavouritescreenCopyWith(
-          NavigationStateFavouritescreen value,
-          $Res Function(NavigationStateFavouritescreen) then) =
-      _$NavigationStateFavouritescreenCopyWithImpl<$Res>;
+  factory $NavigationStateUserBarterListingcreenCopyWith(
+          NavigationStateUserBarterListingcreen value,
+          $Res Function(NavigationStateUserBarterListingcreen) then) =
+      _$NavigationStateUserBarterListingcreenCopyWithImpl<$Res>;
   @override
   $Res call({int index});
 }
 
-class _$NavigationStateFavouritescreenCopyWithImpl<$Res>
+class _$NavigationStateUserBarterListingcreenCopyWithImpl<$Res>
     extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateFavouritescreenCopyWith<$Res> {
-  _$NavigationStateFavouritescreenCopyWithImpl(
-      NavigationStateFavouritescreen _value,
-      $Res Function(NavigationStateFavouritescreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateFavouritescreen));
+    implements $NavigationStateUserBarterListingcreenCopyWith<$Res> {
+  _$NavigationStateUserBarterListingcreenCopyWithImpl(
+      NavigationStateUserBarterListingcreen _value,
+      $Res Function(NavigationStateUserBarterListingcreen) _then)
+      : super(_value, (v) => _then(v as NavigationStateUserBarterListingcreen));
 
   @override
-  NavigationStateFavouritescreen get _value =>
-      super._value as NavigationStateFavouritescreen;
+  NavigationStateUserBarterListingcreen get _value =>
+      super._value as NavigationStateUserBarterListingcreen;
 
   @override
   $Res call({
     Object index = freezed,
   }) {
-    return _then(NavigationStateFavouritescreen(
+    return _then(NavigationStateUserBarterListingcreen(
       index == freezed ? _value.index : index as int,
     ));
   }
 }
 
-class _$NavigationStateFavouritescreen
-    implements NavigationStateFavouritescreen {
-  const _$NavigationStateFavouritescreen(this.index) : assert(index != null);
+class _$NavigationStateUserBarterListingcreen
+    implements NavigationStateUserBarterListingcreen {
+  const _$NavigationStateUserBarterListingcreen(this.index)
+      : assert(index != null);
 
   @override
   final int index;
 
   @override
   String toString() {
-    return 'NavigationState.favouriteScreen(index: $index)';
+    return 'NavigationState.userBarterListing(index: $index)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationStateFavouritescreen &&
+        (other is NavigationStateUserBarterListingcreen &&
             (identical(other.index, index) ||
                 const DeepCollectionEquality().equals(other.index, index)));
   }
@@ -1430,9 +1698,10 @@ class _$NavigationStateFavouritescreen
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
 
   @override
-  $NavigationStateFavouritescreenCopyWith<NavigationStateFavouritescreen>
-      get copyWith => _$NavigationStateFavouritescreenCopyWithImpl<
-          NavigationStateFavouritescreen>(this, _$identity);
+  $NavigationStateUserBarterListingcreenCopyWith<
+          NavigationStateUserBarterListingcreen>
+      get copyWith => _$NavigationStateUserBarterListingcreenCopyWithImpl<
+          NavigationStateUserBarterListingcreen>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1440,17 +1709,19 @@ class _$NavigationStateFavouritescreen
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
-    return favouriteScreen(index);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return userBarterListing(index);
   }
 
   @override
@@ -1459,14 +1730,15 @@ class _$NavigationStateFavouritescreen
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (favouriteScreen != null) {
-      return favouriteScreen(index);
+    if (userBarterListing != null) {
+      return userBarterListing(index);
     }
     return orElse();
   }
@@ -1477,17 +1749,22 @@ class _$NavigationStateFavouritescreen
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
-    return favouriteScreen(this);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return userBarterListing(this);
   }
 
   @override
@@ -1496,28 +1773,30 @@ class _$NavigationStateFavouritescreen
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (favouriteScreen != null) {
-      return favouriteScreen(this);
+    if (userBarterListing != null) {
+      return userBarterListing(this);
     }
     return orElse();
   }
 }
 
-abstract class NavigationStateFavouritescreen implements NavigationState {
-  const factory NavigationStateFavouritescreen(int index) =
-      _$NavigationStateFavouritescreen;
+abstract class NavigationStateUserBarterListingcreen
+    implements NavigationState {
+  const factory NavigationStateUserBarterListingcreen(int index) =
+      _$NavigationStateUserBarterListingcreen;
 
   @override
   int get index;
   @override
-  $NavigationStateFavouritescreenCopyWith<NavigationStateFavouritescreen>
-      get copyWith;
+  $NavigationStateUserBarterListingcreenCopyWith<
+      NavigationStateUserBarterListingcreen> get copyWith;
 }
 
 abstract class $NavigationStateInboxScreenCopyWith<$Res>
@@ -1585,16 +1864,18 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return inboxScreen(index);
   }
 
@@ -1604,9 +1885,10 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1622,16 +1904,21 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
     return inboxScreen(this);
   }
 
@@ -1641,9 +1928,10 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1664,53 +1952,55 @@ abstract class NavigationStateInboxScreen implements NavigationState {
   $NavigationStateInboxScreenCopyWith<NavigationStateInboxScreen> get copyWith;
 }
 
-abstract class $NavigationStateViewItemScreenCopyWith<$Res>
+abstract class $NavigationStateViewBarterItemScreenCopyWith<$Res>
     implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateViewItemScreenCopyWith(
-          NavigationStateViewItemScreen value,
-          $Res Function(NavigationStateViewItemScreen) then) =
-      _$NavigationStateViewItemScreenCopyWithImpl<$Res>;
+  factory $NavigationStateViewBarterItemScreenCopyWith(
+          NavigationStateViewBarterItemScreen value,
+          $Res Function(NavigationStateViewBarterItemScreen) then) =
+      _$NavigationStateViewBarterItemScreenCopyWithImpl<$Res>;
   @override
   $Res call({int index});
 }
 
-class _$NavigationStateViewItemScreenCopyWithImpl<$Res>
+class _$NavigationStateViewBarterItemScreenCopyWithImpl<$Res>
     extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateViewItemScreenCopyWith<$Res> {
-  _$NavigationStateViewItemScreenCopyWithImpl(
-      NavigationStateViewItemScreen _value,
-      $Res Function(NavigationStateViewItemScreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateViewItemScreen));
+    implements $NavigationStateViewBarterItemScreenCopyWith<$Res> {
+  _$NavigationStateViewBarterItemScreenCopyWithImpl(
+      NavigationStateViewBarterItemScreen _value,
+      $Res Function(NavigationStateViewBarterItemScreen) _then)
+      : super(_value, (v) => _then(v as NavigationStateViewBarterItemScreen));
 
   @override
-  NavigationStateViewItemScreen get _value =>
-      super._value as NavigationStateViewItemScreen;
+  NavigationStateViewBarterItemScreen get _value =>
+      super._value as NavigationStateViewBarterItemScreen;
 
   @override
   $Res call({
     Object index = freezed,
   }) {
-    return _then(NavigationStateViewItemScreen(
+    return _then(NavigationStateViewBarterItemScreen(
       index == freezed ? _value.index : index as int,
     ));
   }
 }
 
-class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
-  const _$NavigationStateViewItemScreen(this.index) : assert(index != null);
+class _$NavigationStateViewBarterItemScreen
+    implements NavigationStateViewBarterItemScreen {
+  const _$NavigationStateViewBarterItemScreen(this.index)
+      : assert(index != null);
 
   @override
   final int index;
 
   @override
   String toString() {
-    return 'NavigationState.viewItemScreen(index: $index)';
+    return 'NavigationState.viewBarterItemScreen(index: $index)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationStateViewItemScreen &&
+        (other is NavigationStateViewBarterItemScreen &&
             (identical(other.index, index) ||
                 const DeepCollectionEquality().equals(other.index, index)));
   }
@@ -1720,9 +2010,10 @@ class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
 
   @override
-  $NavigationStateViewItemScreenCopyWith<NavigationStateViewItemScreen>
-      get copyWith => _$NavigationStateViewItemScreenCopyWithImpl<
-          NavigationStateViewItemScreen>(this, _$identity);
+  $NavigationStateViewBarterItemScreenCopyWith<
+          NavigationStateViewBarterItemScreen>
+      get copyWith => _$NavigationStateViewBarterItemScreenCopyWithImpl<
+          NavigationStateViewBarterItemScreen>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -1730,17 +2021,19 @@ class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result favouriteScreen(int index),
+    @required Result userBarterListing(int index),
     @required Result inboxScreen(int index),
-    @required Result viewItemScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
-    return viewItemScreen(index);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return viewBarterItemScreen(index);
   }
 
   @override
@@ -1749,14 +2042,15 @@ class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result favouriteScreen(int index),
+    Result userBarterListing(int index),
     Result inboxScreen(int index),
-    Result viewItemScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (viewItemScreen != null) {
-      return viewItemScreen(index);
+    if (viewBarterItemScreen != null) {
+      return viewBarterItemScreen(index);
     }
     return orElse();
   }
@@ -1767,17 +2061,22 @@ class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required Result favouriteScreen(NavigationStateFavouritescreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result viewItemScreen(NavigationStateViewItemScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(favouriteScreen != null);
+    assert(userBarterListing != null);
     assert(inboxScreen != null);
-    assert(viewItemScreen != null);
-    return viewItemScreen(this);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return viewBarterItemScreen(this);
   }
 
   @override
@@ -1786,26 +2085,185 @@ class _$NavigationStateViewItemScreen implements NavigationStateViewItemScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result favouriteScreen(NavigationStateFavouritescreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
-    Result viewItemScreen(NavigationStateViewItemScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (viewItemScreen != null) {
-      return viewItemScreen(this);
+    if (viewBarterItemScreen != null) {
+      return viewBarterItemScreen(this);
     }
     return orElse();
   }
 }
 
-abstract class NavigationStateViewItemScreen implements NavigationState {
-  const factory NavigationStateViewItemScreen(int index) =
-      _$NavigationStateViewItemScreen;
+abstract class NavigationStateViewBarterItemScreen implements NavigationState {
+  const factory NavigationStateViewBarterItemScreen(int index) =
+      _$NavigationStateViewBarterItemScreen;
 
   @override
   int get index;
   @override
-  $NavigationStateViewItemScreenCopyWith<NavigationStateViewItemScreen>
-      get copyWith;
+  $NavigationStateViewBarterItemScreenCopyWith<
+      NavigationStateViewBarterItemScreen> get copyWith;
+}
+
+abstract class $NavigationStateEdiBarterItemScreenCopyWith<$Res>
+    implements $NavigationStateCopyWith<$Res> {
+  factory $NavigationStateEdiBarterItemScreenCopyWith(
+          NavigationStateEdiBarterItemScreen value,
+          $Res Function(NavigationStateEdiBarterItemScreen) then) =
+      _$NavigationStateEdiBarterItemScreenCopyWithImpl<$Res>;
+  @override
+  $Res call({int index});
+}
+
+class _$NavigationStateEdiBarterItemScreenCopyWithImpl<$Res>
+    extends _$NavigationStateCopyWithImpl<$Res>
+    implements $NavigationStateEdiBarterItemScreenCopyWith<$Res> {
+  _$NavigationStateEdiBarterItemScreenCopyWithImpl(
+      NavigationStateEdiBarterItemScreen _value,
+      $Res Function(NavigationStateEdiBarterItemScreen) _then)
+      : super(_value, (v) => _then(v as NavigationStateEdiBarterItemScreen));
+
+  @override
+  NavigationStateEdiBarterItemScreen get _value =>
+      super._value as NavigationStateEdiBarterItemScreen;
+
+  @override
+  $Res call({
+    Object index = freezed,
+  }) {
+    return _then(NavigationStateEdiBarterItemScreen(
+      index == freezed ? _value.index : index as int,
+    ));
+  }
+}
+
+class _$NavigationStateEdiBarterItemScreen
+    implements NavigationStateEdiBarterItemScreen {
+  const _$NavigationStateEdiBarterItemScreen(this.index)
+      : assert(index != null);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'NavigationState.editBarterItemScreen(index: $index)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is NavigationStateEdiBarterItemScreen &&
+            (identical(other.index, index) ||
+                const DeepCollectionEquality().equals(other.index, index)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
+
+  @override
+  $NavigationStateEdiBarterItemScreenCopyWith<
+          NavigationStateEdiBarterItemScreen>
+      get copyWith => _$NavigationStateEdiBarterItemScreenCopyWithImpl<
+          NavigationStateEdiBarterItemScreen>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result homeScreen(int index),
+    @required Result searchScreen(int index),
+    @required Result postScreen(int index),
+    @required Result userBarterListing(int index),
+    @required Result inboxScreen(int index),
+    @required Result viewBarterItemScreen(int index),
+    @required Result editBarterItemScreen(int index),
+  }) {
+    assert(homeScreen != null);
+    assert(searchScreen != null);
+    assert(postScreen != null);
+    assert(userBarterListing != null);
+    assert(inboxScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return editBarterItemScreen(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result homeScreen(int index),
+    Result searchScreen(int index),
+    Result postScreen(int index),
+    Result userBarterListing(int index),
+    Result inboxScreen(int index),
+    Result viewBarterItemScreen(int index),
+    Result editBarterItemScreen(int index),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (editBarterItemScreen != null) {
+      return editBarterItemScreen(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result homeScreen(NavigationStateHomeScreen value),
+    @required Result searchScreen(NavigationStateSearchScreen value),
+    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required
+        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result inboxScreen(NavigationStateInboxScreen value),
+    @required
+        Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    @required
+        Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
+  }) {
+    assert(homeScreen != null);
+    assert(searchScreen != null);
+    assert(postScreen != null);
+    assert(userBarterListing != null);
+    assert(inboxScreen != null);
+    assert(viewBarterItemScreen != null);
+    assert(editBarterItemScreen != null);
+    return editBarterItemScreen(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result homeScreen(NavigationStateHomeScreen value),
+    Result searchScreen(NavigationStateSearchScreen value),
+    Result postScreen(NavigationStatePostItemScreen value),
+    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result inboxScreen(NavigationStateInboxScreen value),
+    Result viewBarterItemScreen(NavigationStateViewBarterItemScreen value),
+    Result editBarterItemScreen(NavigationStateEdiBarterItemScreen value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (editBarterItemScreen != null) {
+      return editBarterItemScreen(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NavigationStateEdiBarterItemScreen implements NavigationState {
+  const factory NavigationStateEdiBarterItemScreen(int index) =
+      _$NavigationStateEdiBarterItemScreen;
+
+  @override
+  int get index;
+  @override
+  $NavigationStateEdiBarterItemScreenCopyWith<
+      NavigationStateEdiBarterItemScreen> get copyWith;
 }

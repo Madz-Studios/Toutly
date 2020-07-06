@@ -24,15 +24,20 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       goToPostScreenEvent: (_) async* {
         yield NavigationState.postScreen(AppNavigationIndex.postIndex);
       },
-      goToFavouritesScreenEvent: (_) async* {
-        yield NavigationState.favouriteScreen(
-            AppNavigationIndex.favouritesIndex);
+      goToUserBarterListingScreenEvent: (_) async* {
+        yield NavigationState.userBarterListing(
+            AppNavigationIndex.userBarterListingIndex);
       },
       goToInboxScreenEvent: (_) async* {
         yield NavigationState.inboxScreen(AppNavigationIndex.inboxIndex);
       },
-      goToViewItemScreenEvent: (_) async* {
-        yield NavigationState.viewItemScreen(AppNavigationIndex.viewItemIndex);
+      goToViewBarterItemScreenEvent: (_) async* {
+        yield NavigationState.viewBarterItemScreen(
+            AppNavigationIndex.viewBarterItemIndex);
+      },
+      goToEditBarterItemScreenEvent: (_) async* {
+        yield NavigationState.editBarterItemScreen(
+            AppNavigationIndex.editBarterItemIndex);
       },
     );
   }

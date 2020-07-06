@@ -8,10 +8,12 @@ abstract class NavigationState with _$NavigationState {
       NavigationStateSearchScreen;
   const factory NavigationState.postScreen(int index) =
       NavigationStatePostItemScreen;
-  const factory NavigationState.favouriteScreen(int index) =
-      NavigationStateFavouritescreen;
+  const factory NavigationState.userBarterListing(int index) =
+      NavigationStateUserBarterListingcreen;
   const factory NavigationState.inboxScreen(int index) =
       NavigationStateInboxScreen;
-  const factory NavigationState.viewItemScreen(int index) =
-      NavigationStateViewItemScreen;
+  const factory NavigationState.viewBarterItemScreen(int index) =
+      NavigationStateViewBarterItemScreen;
+  const factory NavigationState.editBarterItemScreen(int index) =
+      NavigationStateEdiBarterItemScreen;
 }

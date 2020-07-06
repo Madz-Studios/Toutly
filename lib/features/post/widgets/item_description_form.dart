@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_item_bloc.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
+import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -28,7 +30,7 @@ class ItemDescriptionForm extends StatefulWidget {
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
   final _navBloc = getIt<NavigationBloc>();
-  final _viewItemBloc = getIt<ViewItemBloc>();
+  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -107,6 +109,28 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     );
   }
 
+  void _gotToPreviewBarterItem(BarterModel barterModel) {
+    /// preview barter item posted
+    _viewBarterItemBloc.add(
+      ViewBarterItemEvent.viewBarterItem(barterModel),
+    );
+
+    Navigator.push<void>(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewBarterItemScreen(),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+
+  void _clearForm() {
+    _titleController.clear();
+    _descriptionController.clear();
+    _preferredItemController.clear();
+    _locationController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -160,15 +184,12 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                 ),
               ),
             );
-          _viewItemBloc.add(ViewItemEvent.editBarterItem(
-            barterModel: state.barterModel,
-            pickedFileList: state.pickedFileList,
-          ));
 
           ///clear the photo list for the next post
           _postBloc.add(PostEvent.clearPhotoList());
+          _clearForm();
 
-          _navBloc.add(NavigationEvent.goToViewItemScreenEvent());
+          _gotToPreviewBarterItem(state.barterModel);
         }
       },
       builder: (context, state) {

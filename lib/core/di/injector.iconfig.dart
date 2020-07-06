@@ -5,6 +5,7 @@
 // **************************************************************************
 
 import 'package:Toutly/shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
+import 'package:Toutly/features/edit_barter_item/bloc/edit_barter_item_bloc.dart';
 import 'package:Toutly/core/di/module_injector.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,7 +23,7 @@ import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.da
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_item_bloc.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
@@ -54,6 +55,7 @@ import 'package:get_it/get_it.dart';
 Future<void> $initGetIt(GetIt g, {String environment}) async {
   final injectableModule = _$InjectableModule();
   g.registerLazySingleton<AppleSignInBloc>(() => AppleSignInBloc());
+  g.registerLazySingleton<EditBarterItemBloc>(() => EditBarterItemBloc());
   g.registerLazySingleton<FacebookLogin>(() => injectableModule.facebookLogin);
   g.registerLazySingleton<FirebaseAuth>(() => injectableModule.firebaseAuth);
   g.registerLazySingleton<FirebaseStorage>(
@@ -82,7 +84,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
   g.registerLazySingleton<Validators>(() => injectableModule.validators);
-  g.registerLazySingleton<ViewItemBloc>(() => ViewItemBloc());
+  g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc());
   g.registerFactory<FirebaseAuthUserRepository>(
       () => FirebaseAuthUserRepositoryImpl(
             firebaseAuth: g<FirebaseAuth>(),
@@ -174,7 +176,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<LocalSharedPrefPersistUserIdUseCase>(() =>
       LocalSharedPrefPersistUserIdUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
-  g.registerLazySingleton<UserItemsBloc>(() => UserItemsBloc(
+  g.registerLazySingleton<UserBarterListingBloc>(() => UserBarterListingBloc(
       localSharedPrefGetCurrentUserIdUseCase:
           g<LocalSharedPrefGetCurrentUserIdUseCase>(),
       firestoreGetAllBarterItemsUsingUserIdUseCase:

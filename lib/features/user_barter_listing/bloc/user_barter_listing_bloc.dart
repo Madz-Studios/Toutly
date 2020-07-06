@@ -12,7 +12,7 @@ part 'user_barter_listing_event.dart';
 part 'user_barter_listing_state.dart';
 
 @lazySingleton
-class UserItemsBloc
+class UserBarterListingBloc
     extends Bloc<UserBarterListingEvent, UserBarterListingState> {
   final LocalSharedPrefGetCurrentUserIdUseCase
       localSharedPrefGetCurrentUserIdUseCase;
@@ -20,7 +20,7 @@ class UserItemsBloc
   final FirestoreGetAllBarterItemsUsingUserIdUseCase
       firestoreGetAllBarterItemsUsingUserIdUseCase;
 
-  UserItemsBloc({
+  UserBarterListingBloc({
     this.localSharedPrefGetCurrentUserIdUseCase,
     this.firestoreGetAllBarterItemsUsingUserIdUseCase,
   }) : super(UserBarterListingState.initial());
