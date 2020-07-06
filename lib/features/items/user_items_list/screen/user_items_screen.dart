@@ -5,10 +5,9 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/items/user_items_list/bloc/user_items_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class UserItemsScreen extends StatefulWidget {
   @override
@@ -16,72 +15,56 @@ class UserItemsScreen extends StatefulWidget {
 }
 
 class _UserItemsScreenState extends State<UserItemsScreen> {
-  final _userItemsBloc = getIt<UserItemsBloc>()
-    ..add(UserItemsEvent.loadUserBarterItems([]));
+  final _userItemBloc = getIt<UserItemsBloc>();
+  @override
+  void initState() {
+    super.initState();
 
-  List<BarterModel> data = [];
-
-  _loadMore(UserItemsState state) {
-    _userItemsBloc
-        .add(UserItemsEvent.loadUserBarterItems(state.userBarterItems));
+    _userItemBloc.add(UserItemsEvent.loadUserBarterItems(0));
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return Scaffold(
-      body: BlocConsumer<UserItemsBloc, UserItemsState>(
-        listener: (context, state) {
-          if (state.isSuccess) {
-            print(
-                'current barter items length = ${state.userBarterItems.length}');
-            data.addAll(state.userBarterItems);
-            Navigator.of(context).pop();
-          }
-
-          if (state.isSubmitting) {
+      body: StreamBuilder<QuerySnapshot>(
+        stream: _userItemBloc.getAllQueryMessages(null).snapshots().take(4),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
             if (Platform.isIOS) {
-              _showCupertinoDialog(context);
+              return Center(
+                child: CupertinoActivityIndicator(),
+              );
             } else {
-              _showMaterialDialog(context);
+              return Center(
+                child: CircularProgressIndicator(),
+              );
             }
-          }
-        },
-        builder: (context, state) {
-          return LazyLoadScrollView(
-            isLoading: state.isSubmitting,
-            onEndOfPage: () => _loadMore(state),
-            child: GridView.builder(
-              itemCount: data.length,
+          } else if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
+            );
+          } else {
+            return GridView.builder(
+              itemCount: snapshot.data.documents.length,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
                 mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
               ),
               itemBuilder: (context, position) {
-                return UserBarterItem(data[position]);
+                final barterModel = BarterModel.fromJson(
+                    snapshot.data.documents[position].data);
+                return UserBarterItem(barterModel);
               },
-            ),
-          );
+            );
+          }
         },
-      ),
-    );
-  }
-
-  _showMaterialDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-        content: CircularProgressIndicator(),
-      ),
-    );
-  }
-
-  _showCupertinoDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (_) => CupertinoAlertDialog(
-        content: CupertinoActivityIndicator(),
       ),
     );
   }

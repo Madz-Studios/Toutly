@@ -1,6 +1,7 @@
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -13,6 +14,9 @@ abstract class InjectableModule {
   @preResolve
   Future<SharedPreferences> get sharedPreferences =>
       SharedPreferences.getInstance();
+
+  @preResolve
+  Future<RemoteConfig> get remoteConfig => RemoteConfig.instance;
 
   @lazySingleton
   FirebaseAuth get firebaseAuth => FirebaseAuth.instance;

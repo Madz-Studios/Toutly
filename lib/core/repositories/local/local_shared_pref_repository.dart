@@ -4,11 +4,11 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class LocalSharedPrefRepository {
-  Future<void> persistCurrentUserId(String userId);
+  void persistCurrentUserId(String userId);
 
-  Future<void> persistCurrentUserEmail(String email);
+  void persistCurrentUserEmail(String email);
 
-  Future<void> persistCurrentUserGeoLocation(double latitude, double longitude);
+  void persistCurrentUserGeoLocation(double latitude, double longitude);
 
   String getCurrentUserId();
 
@@ -29,8 +29,7 @@ class LocalUserRepositoryImpl implements LocalSharedPrefRepository {
   final SharedPreferences sharedPreferences;
 
   @override
-  Future<void> persistCurrentUserGeoLocation(
-      double latitude, double longitude) async {
+  void persistCurrentUserGeoLocation(double latitude, double longitude) async {
     await sharedPreferences.setDouble(
         AppSharedPrefUserKeys.USER_GEOLOCATION_LATITUDE_KEY, latitude);
 
@@ -39,25 +38,15 @@ class LocalUserRepositoryImpl implements LocalSharedPrefRepository {
   }
 
   @override
-  Future<void> persistCurrentUserEmail(String email) async {
+  void persistCurrentUserEmail(String email) async {
     await sharedPreferences.setString(
         AppSharedPrefUserKeys.USER_EMAIL_KEY, email);
   }
 
   @override
-  Future<void> persistCurrentUserId(String userId) async {
+  void persistCurrentUserId(String userId) async {
     await sharedPreferences.setString(
         AppSharedPrefUserKeys.USER_ID_KEY, userId);
-  }
-
-  @override
-  void deleteAllLocalSavedData() async {
-    sharedPreferences.remove(AppSharedPrefUserKeys.USER_ID_KEY);
-    sharedPreferences.remove(AppSharedPrefUserKeys.USER_EMAIL_KEY);
-    sharedPreferences
-        .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LATITUDE_KEY);
-    sharedPreferences
-        .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LONGITUDE_KEY);
   }
 
   @override
@@ -79,6 +68,18 @@ class LocalUserRepositoryImpl implements LocalSharedPrefRepository {
 
   @override
   String getCurrentUserId() {
-    return sharedPreferences.getString(AppSharedPrefUserKeys.USER_ID_KEY);
+    final userId =
+        sharedPreferences.getString(AppSharedPrefUserKeys.USER_ID_KEY);
+    return userId;
+  }
+
+  @override
+  void deleteAllLocalSavedData() async {
+    sharedPreferences.remove(AppSharedPrefUserKeys.USER_ID_KEY);
+    sharedPreferences.remove(AppSharedPrefUserKeys.USER_EMAIL_KEY);
+    sharedPreferences
+        .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LATITUDE_KEY);
+    sharedPreferences
+        .remove(AppSharedPrefUserKeys.USER_GEOLOCATION_LONGITUDE_KEY);
   }
 }

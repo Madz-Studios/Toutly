@@ -10,7 +10,6 @@ import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -19,6 +18,7 @@ part 'authentication_bloc.freezed.dart';
 part 'authentication_event.dart';
 part 'authentication_state.dart';
 
+/// bloc for Authentication
 @lazySingleton
 class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
@@ -34,6 +34,7 @@ class AuthenticationBloc
       localSharedPrefPersistUserGeoLocation;
   final LocalSharedDeleteAllSaveDataUseCase localSharedDeleteAllSaveData;
 
+  /// create Authentication bloc
   AuthenticationBloc({
     @required this.firebaseIsSignedInUserUseCase,
     @required this.firebaseGetUserUseCase,
@@ -51,59 +52,42 @@ class AuthenticationBloc
   ) async* {
     yield* event.map(
       authCheckRequested: (e) async* {
-        try {
-          ///If there is already a User Signed In the local firebase cache, sign in the User
-          final isSignedIn =
-              await firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
-          if (isSignedIn) {
-            yield AuthenticationState.authenticated();
-          } else {
-            yield AuthenticationState.unAuthenticated();
-          }
-        } on PlatformException catch (platFormException) {
-          yield AuthenticationState.error(info: platFormException.message);
+        final isSignedIn =
+            await firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
+        if (isSignedIn) {
+          yield AuthenticationState.authenticated();
+        } else {
+          yield AuthenticationState.unauthenticated();
         }
       },
       signedIn: (e) async* {
-        try {
-          final firebaseUser =
-              await firebaseGetUserUseCase.call(UseCaseNoParam.init());
+        final firebaseUser =
+            await firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
-          final userModel =
-              await firestoreGetUserUseCase.call(UseCaseUserParamUserId.init(
-            firebaseUser.uid,
-          ));
+        final userModel =
+            await firestoreGetUserUseCase.call(UseCaseUserParamUserId.init(
+          firebaseUser.uid,
+        ));
 
-          /// Saved user id, user email and user geolocation data on the local.
-          await localSharedPrefPersistUserId.call(UseCaseUserParamUserId.init(
-            userModel.userId,
-          ));
-          await localSharedPrefPersistUserEmail.call(UseCaseUserParamEmail.init(
-            userModel.email,
-          ));
-          await localSharedPrefPersistUserGeoLocation
-              .call(UseCaseUserParamGeoLocation.init(
-            userModel.geoLocation?.latitude ?? 0,
-            userModel.geoLocation?.longitude ?? 0,
-          ));
+        /// Saved user id, user email and user geolocation data on the local.
+        localSharedPrefPersistUserId.call(UseCaseUserParamUserId.init(
+          userModel.userId,
+        ));
+        localSharedPrefPersistUserEmail.call(UseCaseUserParamEmail.init(
+          userModel.email,
+        ));
+        localSharedPrefPersistUserGeoLocation
+            .call(UseCaseUserParamGeoLocation.init(
+          userModel.geoLocation?.latitude ?? 0,
+          userModel.geoLocation?.longitude ?? 0,
+        ));
 
-          /// Authenticate the user
-          yield AuthenticationState.authenticated();
-        } on PlatformException catch (platFormException) {
-          yield AuthenticationState.error(info: platFormException.message);
-        }
+        yield AuthenticationState.authenticated();
       },
       signedOut: (e) async* {
-        try {
-          /// Delete all the saved user id, user email and user geolocation data on the local.
-          await localSharedDeleteAllSaveData.call(UseCaseNoParam.init());
-
-          ///sign out the user
-          await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
-          yield AuthenticationState.unAuthenticated();
-        } on PlatformException catch (platFormException) {
-          yield AuthenticationState.error(info: platFormException.message);
-        }
+        localSharedDeleteAllSaveData.call(UseCaseNoParam.init());
+        await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
+        yield AuthenticationState.unauthenticated();
       },
     );
   }

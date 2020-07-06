@@ -5,13 +5,13 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LocalSharedPrefPersistUserIdUseCase
-    implements UseCaseFirestore<void, UseCaseUserParamUserId> {
+    implements UseCaseLocal<void, UseCaseUserParamUserId> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
   LocalSharedPrefPersistUserIdUseCase({this.localSharedPrefRepository});
 
   @override
-  Future<void> call(UseCaseUserParamUserId params) async {
-    await localSharedPrefRepository.persistCurrentUserEmail(params.userId);
+  void call(UseCaseUserParamUserId params) async {
+    localSharedPrefRepository.persistCurrentUserId(params.userId);
   }
 }

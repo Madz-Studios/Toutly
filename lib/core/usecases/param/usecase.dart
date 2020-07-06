@@ -13,3 +13,7 @@ abstract class UseCaseFirebase<Type, Params> {
 abstract class UseCaseFirebaseUser<Type, Params> {
   Type call(Params params);
 }
+
+abstract class UseCaseLocal<Type, Params> {
+  Type call(Params params);
+}

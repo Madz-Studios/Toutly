@@ -5,13 +5,13 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LocalSharedDeleteAllSaveDataUseCase
-    implements UseCaseFirestore<void, UseCaseNoParam> {
+    implements UseCaseLocal<void, UseCaseNoParam> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
   LocalSharedDeleteAllSaveDataUseCase({this.localSharedPrefRepository});
 
   @override
-  Future<void> call(UseCaseNoParam params) async {
-    await localSharedPrefRepository.deleteAllLocalSavedData();
+  void call(UseCaseNoParam params) {
+    localSharedPrefRepository.deleteAllLocalSavedData();
   }
 }

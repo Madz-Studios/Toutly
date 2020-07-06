@@ -240,3 +240,143 @@ abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
   @override
   $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith;
 }
+
+class _$UseCaseUserIdWithListBarterParamTearOff {
+  const _$UseCaseUserIdWithListBarterParamTearOff();
+
+  UseCaseUserIdWithListBarterParamInit init(
+      {String userId, DocumentSnapshot lastDoc}) {
+    return UseCaseUserIdWithListBarterParamInit(
+      userId: userId,
+      lastDoc: lastDoc,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserIdWithListBarterParam =
+    _$UseCaseUserIdWithListBarterParamTearOff();
+
+mixin _$UseCaseUserIdWithListBarterParam {
+  String get userId;
+  DocumentSnapshot get lastDoc;
+
+  $UseCaseUserIdWithListBarterParamCopyWith<UseCaseUserIdWithListBarterParam>
+      get copyWith;
+}
+
+abstract class $UseCaseUserIdWithListBarterParamCopyWith<$Res> {
+  factory $UseCaseUserIdWithListBarterParamCopyWith(
+          UseCaseUserIdWithListBarterParam value,
+          $Res Function(UseCaseUserIdWithListBarterParam) then) =
+      _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>;
+  $Res call({String userId, DocumentSnapshot lastDoc});
+}
+
+class _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>
+    implements $UseCaseUserIdWithListBarterParamCopyWith<$Res> {
+  _$UseCaseUserIdWithListBarterParamCopyWithImpl(this._value, this._then);
+
+  final UseCaseUserIdWithListBarterParam _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserIdWithListBarterParam) _then;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+    Object lastDoc = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: userId == freezed ? _value.userId : userId as String,
+      lastDoc:
+          lastDoc == freezed ? _value.lastDoc : lastDoc as DocumentSnapshot,
+    ));
+  }
+}
+
+abstract class $UseCaseUserIdWithListBarterParamInitCopyWith<$Res>
+    implements $UseCaseUserIdWithListBarterParamCopyWith<$Res> {
+  factory $UseCaseUserIdWithListBarterParamInitCopyWith(
+          UseCaseUserIdWithListBarterParamInit value,
+          $Res Function(UseCaseUserIdWithListBarterParamInit) then) =
+      _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<$Res>;
+  @override
+  $Res call({String userId, DocumentSnapshot lastDoc});
+}
+
+class _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<$Res>
+    extends _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>
+    implements $UseCaseUserIdWithListBarterParamInitCopyWith<$Res> {
+  _$UseCaseUserIdWithListBarterParamInitCopyWithImpl(
+      UseCaseUserIdWithListBarterParamInit _value,
+      $Res Function(UseCaseUserIdWithListBarterParamInit) _then)
+      : super(_value, (v) => _then(v as UseCaseUserIdWithListBarterParamInit));
+
+  @override
+  UseCaseUserIdWithListBarterParamInit get _value =>
+      super._value as UseCaseUserIdWithListBarterParamInit;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+    Object lastDoc = freezed,
+  }) {
+    return _then(UseCaseUserIdWithListBarterParamInit(
+      userId: userId == freezed ? _value.userId : userId as String,
+      lastDoc:
+          lastDoc == freezed ? _value.lastDoc : lastDoc as DocumentSnapshot,
+    ));
+  }
+}
+
+class _$UseCaseUserIdWithListBarterParamInit
+    implements UseCaseUserIdWithListBarterParamInit {
+  const _$UseCaseUserIdWithListBarterParamInit({this.userId, this.lastDoc});
+
+  @override
+  final String userId;
+  @override
+  final DocumentSnapshot lastDoc;
+
+  @override
+  String toString() {
+    return 'UseCaseUserIdWithListBarterParam.init(userId: $userId, lastDoc: $lastDoc)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserIdWithListBarterParamInit &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)) &&
+            (identical(other.lastDoc, lastDoc) ||
+                const DeepCollectionEquality().equals(other.lastDoc, lastDoc)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(userId) ^
+      const DeepCollectionEquality().hash(lastDoc);
+
+  @override
+  $UseCaseUserIdWithListBarterParamInitCopyWith<
+          UseCaseUserIdWithListBarterParamInit>
+      get copyWith => _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<
+          UseCaseUserIdWithListBarterParamInit>(this, _$identity);
+}
+
+abstract class UseCaseUserIdWithListBarterParamInit
+    implements UseCaseUserIdWithListBarterParam {
+  const factory UseCaseUserIdWithListBarterParamInit(
+      {String userId,
+      DocumentSnapshot lastDoc}) = _$UseCaseUserIdWithListBarterParamInit;
+
+  @override
+  String get userId;
+  @override
+  DocumentSnapshot get lastDoc;
+  @override
+  $UseCaseUserIdWithListBarterParamInitCopyWith<
+      UseCaseUserIdWithListBarterParamInit> get copyWith;
+}

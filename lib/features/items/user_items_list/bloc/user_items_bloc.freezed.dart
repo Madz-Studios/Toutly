@@ -16,8 +16,10 @@ class _$UserItemsEventTearOff {
     return const UserItemsEventInit();
   }
 
-  UserItemsEventLoadUserBarterItems loadUserBarterItems() {
-    return const UserItemsEventLoadUserBarterItems();
+  UserItemsEventLoadUserBarterItems loadUserBarterItems(int length) {
+    return UserItemsEventLoadUserBarterItems(
+      length,
+    );
   }
 }
 
@@ -28,12 +30,12 @@ mixin _$UserItemsEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
-    @required Result loadUserBarterItems(),
+    @required Result loadUserBarterItems(int length),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result loadUserBarterItems(),
+    Result loadUserBarterItems(int length),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -102,7 +104,7 @@ class _$UserItemsEventInit implements UserItemsEventInit {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
-    @required Result loadUserBarterItems(),
+    @required Result loadUserBarterItems(int length),
   }) {
     assert(init != null);
     assert(loadUserBarterItems != null);
@@ -113,7 +115,7 @@ class _$UserItemsEventInit implements UserItemsEventInit {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result loadUserBarterItems(),
+    Result loadUserBarterItems(int length),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -159,6 +161,7 @@ abstract class $UserItemsEventLoadUserBarterItemsCopyWith<$Res> {
           UserItemsEventLoadUserBarterItems value,
           $Res Function(UserItemsEventLoadUserBarterItems) then) =
       _$UserItemsEventLoadUserBarterItemsCopyWithImpl<$Res>;
+  $Res call({int length});
 }
 
 class _$UserItemsEventLoadUserBarterItemsCopyWithImpl<$Res>
@@ -172,47 +175,68 @@ class _$UserItemsEventLoadUserBarterItemsCopyWithImpl<$Res>
   @override
   UserItemsEventLoadUserBarterItems get _value =>
       super._value as UserItemsEventLoadUserBarterItems;
+
+  @override
+  $Res call({
+    Object length = freezed,
+  }) {
+    return _then(UserItemsEventLoadUserBarterItems(
+      length == freezed ? _value.length : length as int,
+    ));
+  }
 }
 
 class _$UserItemsEventLoadUserBarterItems
     implements UserItemsEventLoadUserBarterItems {
-  const _$UserItemsEventLoadUserBarterItems();
+  const _$UserItemsEventLoadUserBarterItems(this.length)
+      : assert(length != null);
+
+  @override
+  final int length;
 
   @override
   String toString() {
-    return 'UserItemsEvent.loadUserBarterItems()';
+    return 'UserItemsEvent.loadUserBarterItems(length: $length)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UserItemsEventLoadUserBarterItems);
+        (other is UserItemsEventLoadUserBarterItems &&
+            (identical(other.length, length) ||
+                const DeepCollectionEquality().equals(other.length, length)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(length);
+
+  @override
+  $UserItemsEventLoadUserBarterItemsCopyWith<UserItemsEventLoadUserBarterItems>
+      get copyWith => _$UserItemsEventLoadUserBarterItemsCopyWithImpl<
+          UserItemsEventLoadUserBarterItems>(this, _$identity);
 
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
-    @required Result loadUserBarterItems(),
+    @required Result loadUserBarterItems(int length),
   }) {
     assert(init != null);
     assert(loadUserBarterItems != null);
-    return loadUserBarterItems();
+    return loadUserBarterItems(length);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result loadUserBarterItems(),
+    Result loadUserBarterItems(int length),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (loadUserBarterItems != null) {
-      return loadUserBarterItems();
+      return loadUserBarterItems(length);
     }
     return orElse();
   }
@@ -245,25 +269,34 @@ class _$UserItemsEventLoadUserBarterItems
 }
 
 abstract class UserItemsEventLoadUserBarterItems implements UserItemsEvent {
-  const factory UserItemsEventLoadUserBarterItems() =
+  const factory UserItemsEventLoadUserBarterItems(int length) =
       _$UserItemsEventLoadUserBarterItems;
+
+  int get length;
+  $UserItemsEventLoadUserBarterItemsCopyWith<UserItemsEventLoadUserBarterItems>
+      get copyWith;
 }
 
 class _$UserItemsStateTearOff {
   const _$UserItemsStateTearOff();
 
-  _UserItemsState call(
-      {@required List<BarterModel> userBarterItems,
-      @required bool isSubmitting,
-      @required bool isSuccess,
-      @required bool isFailure,
-      @required String info}) {
-    return _UserItemsState(
-      userBarterItems: userBarterItems,
-      isSubmitting: isSubmitting,
-      isSuccess: isSuccess,
-      isFailure: isFailure,
-      info: info,
+  UserItemsStateInitial initial() {
+    return const UserItemsStateInitial();
+  }
+
+  UserItemsStateInProgress inProgress() {
+    return const UserItemsStateInProgress();
+  }
+
+  UserItemsStateSuccess success(List<BarterModel> barterList) {
+    return UserItemsStateSuccess(
+      barterList,
+    );
+  }
+
+  UserItemsStateFailure failure(String message) {
+    return UserItemsStateFailure(
+      message,
     );
   }
 }
@@ -272,25 +305,42 @@ class _$UserItemsStateTearOff {
 const $UserItemsState = _$UserItemsStateTearOff();
 
 mixin _$UserItemsState {
-  List<BarterModel> get userBarterItems;
-  bool get isSubmitting;
-  bool get isSuccess;
-  bool get isFailure;
-  String get info;
-
-  $UserItemsStateCopyWith<UserItemsState> get copyWith;
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result inProgress(),
+    @required Result success(List<BarterModel> barterList),
+    @required Result failure(String message),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result inProgress(),
+    Result success(List<BarterModel> barterList),
+    Result failure(String message),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(UserItemsStateInitial value),
+    @required Result inProgress(UserItemsStateInProgress value),
+    @required Result success(UserItemsStateSuccess value),
+    @required Result failure(UserItemsStateFailure value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(UserItemsStateInitial value),
+    Result inProgress(UserItemsStateInProgress value),
+    Result success(UserItemsStateSuccess value),
+    Result failure(UserItemsStateFailure value),
+    @required Result orElse(),
+  });
 }
 
 abstract class $UserItemsStateCopyWith<$Res> {
   factory $UserItemsStateCopyWith(
           UserItemsState value, $Res Function(UserItemsState) then) =
       _$UserItemsStateCopyWithImpl<$Res>;
-  $Res call(
-      {List<BarterModel> userBarterItems,
-      bool isSubmitting,
-      bool isSuccess,
-      bool isFailure,
-      String info});
 }
 
 class _$UserItemsStateCopyWithImpl<$Res>
@@ -300,154 +350,459 @@ class _$UserItemsStateCopyWithImpl<$Res>
   final UserItemsState _value;
   // ignore: unused_field
   final $Res Function(UserItemsState) _then;
-
-  @override
-  $Res call({
-    Object userBarterItems = freezed,
-    Object isSubmitting = freezed,
-    Object isSuccess = freezed,
-    Object isFailure = freezed,
-    Object info = freezed,
-  }) {
-    return _then(_value.copyWith(
-      userBarterItems: userBarterItems == freezed
-          ? _value.userBarterItems
-          : userBarterItems as List<BarterModel>,
-      isSubmitting:
-          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
-      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
-      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
-      info: info == freezed ? _value.info : info as String,
-    ));
-  }
 }
 
-abstract class _$UserItemsStateCopyWith<$Res>
-    implements $UserItemsStateCopyWith<$Res> {
-  factory _$UserItemsStateCopyWith(
-          _UserItemsState value, $Res Function(_UserItemsState) then) =
-      __$UserItemsStateCopyWithImpl<$Res>;
-  @override
-  $Res call(
-      {List<BarterModel> userBarterItems,
-      bool isSubmitting,
-      bool isSuccess,
-      bool isFailure,
-      String info});
+abstract class $UserItemsStateInitialCopyWith<$Res> {
+  factory $UserItemsStateInitialCopyWith(UserItemsStateInitial value,
+          $Res Function(UserItemsStateInitial) then) =
+      _$UserItemsStateInitialCopyWithImpl<$Res>;
 }
 
-class __$UserItemsStateCopyWithImpl<$Res>
+class _$UserItemsStateInitialCopyWithImpl<$Res>
     extends _$UserItemsStateCopyWithImpl<$Res>
-    implements _$UserItemsStateCopyWith<$Res> {
-  __$UserItemsStateCopyWithImpl(
-      _UserItemsState _value, $Res Function(_UserItemsState) _then)
-      : super(_value, (v) => _then(v as _UserItemsState));
+    implements $UserItemsStateInitialCopyWith<$Res> {
+  _$UserItemsStateInitialCopyWithImpl(
+      UserItemsStateInitial _value, $Res Function(UserItemsStateInitial) _then)
+      : super(_value, (v) => _then(v as UserItemsStateInitial));
 
   @override
-  _UserItemsState get _value => super._value as _UserItemsState;
-
-  @override
-  $Res call({
-    Object userBarterItems = freezed,
-    Object isSubmitting = freezed,
-    Object isSuccess = freezed,
-    Object isFailure = freezed,
-    Object info = freezed,
-  }) {
-    return _then(_UserItemsState(
-      userBarterItems: userBarterItems == freezed
-          ? _value.userBarterItems
-          : userBarterItems as List<BarterModel>,
-      isSubmitting:
-          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
-      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
-      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
-      info: info == freezed ? _value.info : info as String,
-    ));
-  }
+  UserItemsStateInitial get _value => super._value as UserItemsStateInitial;
 }
 
-class _$_UserItemsState implements _UserItemsState {
-  const _$_UserItemsState(
-      {@required this.userBarterItems,
-      @required this.isSubmitting,
-      @required this.isSuccess,
-      @required this.isFailure,
-      @required this.info})
-      : assert(userBarterItems != null),
-        assert(isSubmitting != null),
-        assert(isSuccess != null),
-        assert(isFailure != null),
-        assert(info != null);
-
-  @override
-  final List<BarterModel> userBarterItems;
-  @override
-  final bool isSubmitting;
-  @override
-  final bool isSuccess;
-  @override
-  final bool isFailure;
-  @override
-  final String info;
+class _$UserItemsStateInitial implements UserItemsStateInitial {
+  const _$UserItemsStateInitial();
 
   @override
   String toString() {
-    return 'UserItemsState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'UserItemsState.initial()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is UserItemsStateInitial);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result inProgress(),
+    @required Result success(List<BarterModel> barterList),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result inProgress(),
+    Result success(List<BarterModel> barterList),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(UserItemsStateInitial value),
+    @required Result inProgress(UserItemsStateInProgress value),
+    @required Result success(UserItemsStateSuccess value),
+    @required Result failure(UserItemsStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(UserItemsStateInitial value),
+    Result inProgress(UserItemsStateInProgress value),
+    Result success(UserItemsStateSuccess value),
+    Result failure(UserItemsStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UserItemsStateInitial implements UserItemsState {
+  const factory UserItemsStateInitial() = _$UserItemsStateInitial;
+}
+
+abstract class $UserItemsStateInProgressCopyWith<$Res> {
+  factory $UserItemsStateInProgressCopyWith(UserItemsStateInProgress value,
+          $Res Function(UserItemsStateInProgress) then) =
+      _$UserItemsStateInProgressCopyWithImpl<$Res>;
+}
+
+class _$UserItemsStateInProgressCopyWithImpl<$Res>
+    extends _$UserItemsStateCopyWithImpl<$Res>
+    implements $UserItemsStateInProgressCopyWith<$Res> {
+  _$UserItemsStateInProgressCopyWithImpl(UserItemsStateInProgress _value,
+      $Res Function(UserItemsStateInProgress) _then)
+      : super(_value, (v) => _then(v as UserItemsStateInProgress));
+
+  @override
+  UserItemsStateInProgress get _value =>
+      super._value as UserItemsStateInProgress;
+}
+
+class _$UserItemsStateInProgress implements UserItemsStateInProgress {
+  const _$UserItemsStateInProgress();
+
+  @override
+  String toString() {
+    return 'UserItemsState.inProgress()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) || (other is UserItemsStateInProgress);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result inProgress(),
+    @required Result success(List<BarterModel> barterList),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return inProgress();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result inProgress(),
+    Result success(List<BarterModel> barterList),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (inProgress != null) {
+      return inProgress();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(UserItemsStateInitial value),
+    @required Result inProgress(UserItemsStateInProgress value),
+    @required Result success(UserItemsStateSuccess value),
+    @required Result failure(UserItemsStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return inProgress(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(UserItemsStateInitial value),
+    Result inProgress(UserItemsStateInProgress value),
+    Result success(UserItemsStateSuccess value),
+    Result failure(UserItemsStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (inProgress != null) {
+      return inProgress(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UserItemsStateInProgress implements UserItemsState {
+  const factory UserItemsStateInProgress() = _$UserItemsStateInProgress;
+}
+
+abstract class $UserItemsStateSuccessCopyWith<$Res> {
+  factory $UserItemsStateSuccessCopyWith(UserItemsStateSuccess value,
+          $Res Function(UserItemsStateSuccess) then) =
+      _$UserItemsStateSuccessCopyWithImpl<$Res>;
+  $Res call({List<BarterModel> barterList});
+}
+
+class _$UserItemsStateSuccessCopyWithImpl<$Res>
+    extends _$UserItemsStateCopyWithImpl<$Res>
+    implements $UserItemsStateSuccessCopyWith<$Res> {
+  _$UserItemsStateSuccessCopyWithImpl(
+      UserItemsStateSuccess _value, $Res Function(UserItemsStateSuccess) _then)
+      : super(_value, (v) => _then(v as UserItemsStateSuccess));
+
+  @override
+  UserItemsStateSuccess get _value => super._value as UserItemsStateSuccess;
+
+  @override
+  $Res call({
+    Object barterList = freezed,
+  }) {
+    return _then(UserItemsStateSuccess(
+      barterList == freezed
+          ? _value.barterList
+          : barterList as List<BarterModel>,
+    ));
+  }
+}
+
+class _$UserItemsStateSuccess implements UserItemsStateSuccess {
+  const _$UserItemsStateSuccess(this.barterList) : assert(barterList != null);
+
+  @override
+  final List<BarterModel> barterList;
+
+  @override
+  String toString() {
+    return 'UserItemsState.success(barterList: $barterList)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _UserItemsState &&
-            (identical(other.userBarterItems, userBarterItems) ||
+        (other is UserItemsStateSuccess &&
+            (identical(other.barterList, barterList) ||
                 const DeepCollectionEquality()
-                    .equals(other.userBarterItems, userBarterItems)) &&
-            (identical(other.isSubmitting, isSubmitting) ||
-                const DeepCollectionEquality()
-                    .equals(other.isSubmitting, isSubmitting)) &&
-            (identical(other.isSuccess, isSuccess) ||
-                const DeepCollectionEquality()
-                    .equals(other.isSuccess, isSuccess)) &&
-            (identical(other.isFailure, isFailure) ||
-                const DeepCollectionEquality()
-                    .equals(other.isFailure, isFailure)) &&
-            (identical(other.info, info) ||
-                const DeepCollectionEquality().equals(other.info, info)));
+                    .equals(other.barterList, barterList)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userBarterItems) ^
-      const DeepCollectionEquality().hash(isSubmitting) ^
-      const DeepCollectionEquality().hash(isSuccess) ^
-      const DeepCollectionEquality().hash(isFailure) ^
-      const DeepCollectionEquality().hash(info);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(barterList);
 
   @override
-  _$UserItemsStateCopyWith<_UserItemsState> get copyWith =>
-      __$UserItemsStateCopyWithImpl<_UserItemsState>(this, _$identity);
+  $UserItemsStateSuccessCopyWith<UserItemsStateSuccess> get copyWith =>
+      _$UserItemsStateSuccessCopyWithImpl<UserItemsStateSuccess>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result inProgress(),
+    @required Result success(List<BarterModel> barterList),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return success(barterList);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result inProgress(),
+    Result success(List<BarterModel> barterList),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (success != null) {
+      return success(barterList);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(UserItemsStateInitial value),
+    @required Result inProgress(UserItemsStateInProgress value),
+    @required Result success(UserItemsStateSuccess value),
+    @required Result failure(UserItemsStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return success(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(UserItemsStateInitial value),
+    Result inProgress(UserItemsStateInProgress value),
+    Result success(UserItemsStateSuccess value),
+    Result failure(UserItemsStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (success != null) {
+      return success(this);
+    }
+    return orElse();
+  }
 }
 
-abstract class _UserItemsState implements UserItemsState {
-  const factory _UserItemsState(
-      {@required List<BarterModel> userBarterItems,
-      @required bool isSubmitting,
-      @required bool isSuccess,
-      @required bool isFailure,
-      @required String info}) = _$_UserItemsState;
+abstract class UserItemsStateSuccess implements UserItemsState {
+  const factory UserItemsStateSuccess(List<BarterModel> barterList) =
+      _$UserItemsStateSuccess;
+
+  List<BarterModel> get barterList;
+  $UserItemsStateSuccessCopyWith<UserItemsStateSuccess> get copyWith;
+}
+
+abstract class $UserItemsStateFailureCopyWith<$Res> {
+  factory $UserItemsStateFailureCopyWith(UserItemsStateFailure value,
+          $Res Function(UserItemsStateFailure) then) =
+      _$UserItemsStateFailureCopyWithImpl<$Res>;
+  $Res call({String message});
+}
+
+class _$UserItemsStateFailureCopyWithImpl<$Res>
+    extends _$UserItemsStateCopyWithImpl<$Res>
+    implements $UserItemsStateFailureCopyWith<$Res> {
+  _$UserItemsStateFailureCopyWithImpl(
+      UserItemsStateFailure _value, $Res Function(UserItemsStateFailure) _then)
+      : super(_value, (v) => _then(v as UserItemsStateFailure));
 
   @override
-  List<BarterModel> get userBarterItems;
+  UserItemsStateFailure get _value => super._value as UserItemsStateFailure;
+
   @override
-  bool get isSubmitting;
+  $Res call({
+    Object message = freezed,
+  }) {
+    return _then(UserItemsStateFailure(
+      message == freezed ? _value.message : message as String,
+    ));
+  }
+}
+
+class _$UserItemsStateFailure implements UserItemsStateFailure {
+  const _$UserItemsStateFailure(this.message) : assert(message != null);
+
   @override
-  bool get isSuccess;
+  final String message;
+
   @override
-  bool get isFailure;
+  String toString() {
+    return 'UserItemsState.failure(message: $message)';
+  }
+
   @override
-  String get info;
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UserItemsStateFailure &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
+  }
+
   @override
-  _$UserItemsStateCopyWith<_UserItemsState> get copyWith;
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(message);
+
+  @override
+  $UserItemsStateFailureCopyWith<UserItemsStateFailure> get copyWith =>
+      _$UserItemsStateFailureCopyWithImpl<UserItemsStateFailure>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result inProgress(),
+    @required Result success(List<BarterModel> barterList),
+    @required Result failure(String message),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return failure(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result inProgress(),
+    Result success(List<BarterModel> barterList),
+    Result failure(String message),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(UserItemsStateInitial value),
+    @required Result inProgress(UserItemsStateInProgress value),
+    @required Result success(UserItemsStateSuccess value),
+    @required Result failure(UserItemsStateFailure value),
+  }) {
+    assert(initial != null);
+    assert(inProgress != null);
+    assert(success != null);
+    assert(failure != null);
+    return failure(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(UserItemsStateInitial value),
+    Result inProgress(UserItemsStateInProgress value),
+    Result success(UserItemsStateSuccess value),
+    Result failure(UserItemsStateFailure value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (failure != null) {
+      return failure(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UserItemsStateFailure implements UserItemsState {
+  const factory UserItemsStateFailure(String message) = _$UserItemsStateFailure;
+
+  String get message;
+  $UserItemsStateFailureCopyWith<UserItemsStateFailure> get copyWith;
 }

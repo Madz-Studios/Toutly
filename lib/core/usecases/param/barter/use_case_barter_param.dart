@@ -1,4 +1,5 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'use_case_barter_param.freezed.dart';
@@ -15,4 +16,13 @@ abstract class UseCaseUserIdParam with _$UseCaseUserIdParam {
   const factory UseCaseUserIdParam.init({
     String userId,
   }) = UseCaseUserIdParamInit;
+}
+
+@freezed
+abstract class UseCaseUserIdWithListBarterParam
+    with _$UseCaseUserIdWithListBarterParam {
+  const factory UseCaseUserIdWithListBarterParam.init({
+    String userId,
+    DocumentSnapshot lastDoc,
+  }) = UseCaseUserIdWithListBarterParamInit;
 }

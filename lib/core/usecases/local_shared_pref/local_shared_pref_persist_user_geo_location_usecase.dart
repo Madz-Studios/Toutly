@@ -5,15 +5,15 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class LocalSharedPrefPersistUserGeoLocationUseCase
-    implements UseCaseFirestore<void, UseCaseUserParamGeoLocation> {
+    implements UseCaseLocal<void, UseCaseUserParamGeoLocation> {
   final LocalSharedPrefRepository localSharedPrefRepository;
 
   LocalSharedPrefPersistUserGeoLocationUseCase(
       {this.localSharedPrefRepository});
 
   @override
-  Future<void> call(UseCaseUserParamGeoLocation params) async {
-    await localSharedPrefRepository.persistCurrentUserGeoLocation(
+  void call(UseCaseUserParamGeoLocation params) async {
+    localSharedPrefRepository.persistCurrentUserGeoLocation(
         params.longitude, params.latitude);
   }
 }

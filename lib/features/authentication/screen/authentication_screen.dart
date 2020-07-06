@@ -10,15 +10,11 @@ class AuthenticationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) {
-        if (state.isAppJustStarted) {
-          return SplashScreen();
-        } else if (state.isAuthenticated) {
-          return NavigationScreen();
-        } else {
-          return SignInScreen();
-        }
-      },
+      builder: (context, state) => state.map(
+        initial: (value) => SplashScreen(),
+        unauthenticated: (value) => SignInScreen(),
+        authenticated: (value) => NavigationScreen(),
+      ),
     );
   }
 }

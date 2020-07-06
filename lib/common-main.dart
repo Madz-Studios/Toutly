@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -40,8 +39,8 @@ void commonMain(String env) async {
   /// Crashlytics Configuration END
 
   /// Local Firestore Emulator setup START
-  await Firestore.instance
-      .settings(host: "49.145.100.233:8080", sslEnabled: false);
+//  await Firestore.instance
+//      .settings(host: "49.145.100.233:8080", sslEnabled: false);
 
   /// Local Firestore Emulator setup END
 

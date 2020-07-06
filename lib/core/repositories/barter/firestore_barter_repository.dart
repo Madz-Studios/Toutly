@@ -7,8 +7,8 @@ import 'package:injectable/injectable.dart';
 abstract class FirestoreBarterRepository {
   Future<void> createBarterMarketItem({@required BarterModel barterModel});
 
-  Future<List<BarterModel>> getAllBarterItemsUsingUserId(
-      {@required String userId});
+  Query getAllBarterItemsUsingUserId(
+      {@required String userId, @required DocumentSnapshot lastDoc});
 
   Future<void> updateBarterItem({@required BarterModel barterModel});
 }
@@ -17,6 +17,8 @@ abstract class FirestoreBarterRepository {
 @lazySingleton
 class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   FirestoreBarterRepositoryImpl({@required this.firestore});
+
+  static const limit = 10;
 
   final Firestore firestore;
 
@@ -33,25 +35,24 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
-  Future<List<BarterModel>> getAllBarterItemsUsingUserId(
-      {String userId}) async {
+  Query getAllBarterItemsUsingUserId(
+      {String userId, @required DocumentSnapshot lastDoc}) {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
-    final snapshot = await firestore
+    final query = firestore
         .collection(barterCollection)
         .where('userId', isEqualTo: userId)
-        .orderBy('dateCreated', descending: true)
-        .getDocuments();
+        .orderBy('dateCreated', descending: true);
 
-    List<BarterModel> userBarterItems = List<BarterModel>();
+//    List<BarterModel> userBarterItems = List<BarterModel>();
+//
+//    snapshot.documents.forEach((result) {
+//      print(result.data);
+//      final barterModel = BarterModel.fromJson(result.data);
+//      userBarterItems.add(barterModel);
+//    });
 
-    snapshot.documents.forEach((result) {
-      print(result.data);
-      final barterModel = BarterModel.fromJson(result.data);
-      userBarterItems.add(barterModel);
-    });
-
-    return userBarterItems;
+    return query;
   }
 
   /// Update a barter item in barter firestore collection using [itemId].
