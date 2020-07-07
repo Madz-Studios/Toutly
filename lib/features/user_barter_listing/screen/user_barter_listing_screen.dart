@@ -119,7 +119,7 @@ class UserBarterItem extends StatelessWidget {
                   ),
                 ),
               ),
-              placeholder: (context, url) => Placeholder(),
+              placeholder: (context, url) => Container(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
           ),
