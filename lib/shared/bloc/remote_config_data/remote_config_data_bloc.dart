@@ -35,8 +35,6 @@ class RemoteConfigDataBloc
         }
 
         yield RemoteConfigDataState.setConfigData(apiKey);
-
-        print('apiKey = $apiKey');
       },
     );
   }
