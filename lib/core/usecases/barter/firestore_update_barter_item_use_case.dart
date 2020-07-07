@@ -12,7 +12,6 @@ class FirestoreUpdateBarterItemUseCase
 
   @override
   Future<void> call(UseCaseBarterModelParam params) async {
-    await firestoreBarterRepository.updateBarterItem(
-        barterModel: params.barterModel);
+    await firestoreBarterRepository.updateBarterItem(params.barterModel);
   }
 }

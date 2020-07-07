@@ -5,12 +5,11 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreBarterRepository {
-  Future<void> createBarterMarketItem({@required BarterModel barterModel});
+  Future<void> createBarterMarketItem(BarterModel barterModel);
 
-  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(
-      {@required String userId, @required DocumentSnapshot lastDoc});
+  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
-  Future<void> updateBarterItem({@required BarterModel barterModel});
+  Future<void> updateBarterItem(BarterModel barterModel);
 }
 
 @Injectable(as: FirestoreBarterRepository)
@@ -24,7 +23,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   /// Create a barter item in barter firestore collection using [itemId]
   @override
-  Future<void> createBarterMarketItem({BarterModel barterModel}) async {
+  Future<void> createBarterMarketItem(BarterModel barterModel) async {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
     await firestore
@@ -36,7 +35,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(
-      {String userId, @required DocumentSnapshot lastDoc}) {
+      String userId) {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
     final query = firestore
@@ -50,7 +49,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   /// Update a barter item in barter firestore collection using [itemId].
   @override
-  Future<void> updateBarterItem({BarterModel barterModel}) async {
+  Future<void> updateBarterItem(BarterModel barterModel) async {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
     await firestore

@@ -14,7 +14,7 @@ class FirestoreGetAllBarterItemsUsingUserIdUseCase
 
   @override
   Stream<QuerySnapshot> call(UseCaseUserIdWithListBarterParam params) {
-    return firestoreBarterRepository.getAllBarterItemsUsingUserId(
-        userId: params.userId, lastDoc: params.lastDoc);
+    return firestoreBarterRepository
+        .getAllBarterItemsUsingUserId(params.userId);
   }
 }

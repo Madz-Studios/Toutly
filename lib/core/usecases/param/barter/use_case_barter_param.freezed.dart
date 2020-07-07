@@ -244,11 +244,9 @@ abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
 class _$UseCaseUserIdWithListBarterParamTearOff {
   const _$UseCaseUserIdWithListBarterParamTearOff();
 
-  UseCaseUserIdWithListBarterParamInit init(
-      {String userId, DocumentSnapshot lastDoc}) {
+  UseCaseUserIdWithListBarterParamInit init(String userId) {
     return UseCaseUserIdWithListBarterParamInit(
-      userId: userId,
-      lastDoc: lastDoc,
+      userId,
     );
   }
 }
@@ -259,7 +257,6 @@ const $UseCaseUserIdWithListBarterParam =
 
 mixin _$UseCaseUserIdWithListBarterParam {
   String get userId;
-  DocumentSnapshot get lastDoc;
 
   $UseCaseUserIdWithListBarterParamCopyWith<UseCaseUserIdWithListBarterParam>
       get copyWith;
@@ -270,7 +267,7 @@ abstract class $UseCaseUserIdWithListBarterParamCopyWith<$Res> {
           UseCaseUserIdWithListBarterParam value,
           $Res Function(UseCaseUserIdWithListBarterParam) then) =
       _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>;
-  $Res call({String userId, DocumentSnapshot lastDoc});
+  $Res call({String userId});
 }
 
 class _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>
@@ -284,12 +281,9 @@ class _$UseCaseUserIdWithListBarterParamCopyWithImpl<$Res>
   @override
   $Res call({
     Object userId = freezed,
-    Object lastDoc = freezed,
   }) {
     return _then(_value.copyWith(
       userId: userId == freezed ? _value.userId : userId as String,
-      lastDoc:
-          lastDoc == freezed ? _value.lastDoc : lastDoc as DocumentSnapshot,
     ));
   }
 }
@@ -301,7 +295,7 @@ abstract class $UseCaseUserIdWithListBarterParamInitCopyWith<$Res>
           $Res Function(UseCaseUserIdWithListBarterParamInit) then) =
       _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<$Res>;
   @override
-  $Res call({String userId, DocumentSnapshot lastDoc});
+  $Res call({String userId});
 }
 
 class _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<$Res>
@@ -319,28 +313,24 @@ class _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<$Res>
   @override
   $Res call({
     Object userId = freezed,
-    Object lastDoc = freezed,
   }) {
     return _then(UseCaseUserIdWithListBarterParamInit(
-      userId: userId == freezed ? _value.userId : userId as String,
-      lastDoc:
-          lastDoc == freezed ? _value.lastDoc : lastDoc as DocumentSnapshot,
+      userId == freezed ? _value.userId : userId as String,
     ));
   }
 }
 
 class _$UseCaseUserIdWithListBarterParamInit
     implements UseCaseUserIdWithListBarterParamInit {
-  const _$UseCaseUserIdWithListBarterParamInit({this.userId, this.lastDoc});
+  const _$UseCaseUserIdWithListBarterParamInit(this.userId)
+      : assert(userId != null);
 
   @override
   final String userId;
-  @override
-  final DocumentSnapshot lastDoc;
 
   @override
   String toString() {
-    return 'UseCaseUserIdWithListBarterParam.init(userId: $userId, lastDoc: $lastDoc)';
+    return 'UseCaseUserIdWithListBarterParam.init(userId: $userId)';
   }
 
   @override
@@ -348,16 +338,12 @@ class _$UseCaseUserIdWithListBarterParamInit
     return identical(this, other) ||
         (other is UseCaseUserIdWithListBarterParamInit &&
             (identical(other.userId, userId) ||
-                const DeepCollectionEquality().equals(other.userId, userId)) &&
-            (identical(other.lastDoc, lastDoc) ||
-                const DeepCollectionEquality().equals(other.lastDoc, lastDoc)));
+                const DeepCollectionEquality().equals(other.userId, userId)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userId) ^
-      const DeepCollectionEquality().hash(lastDoc);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
 
   @override
   $UseCaseUserIdWithListBarterParamInitCopyWith<
@@ -368,14 +354,11 @@ class _$UseCaseUserIdWithListBarterParamInit
 
 abstract class UseCaseUserIdWithListBarterParamInit
     implements UseCaseUserIdWithListBarterParam {
-  const factory UseCaseUserIdWithListBarterParamInit(
-      {String userId,
-      DocumentSnapshot lastDoc}) = _$UseCaseUserIdWithListBarterParamInit;
+  const factory UseCaseUserIdWithListBarterParamInit(String userId) =
+      _$UseCaseUserIdWithListBarterParamInit;
 
   @override
   String get userId;
-  @override
-  DocumentSnapshot get lastDoc;
   @override
   $UseCaseUserIdWithListBarterParamInitCopyWith<
       UseCaseUserIdWithListBarterParamInit> get copyWith;

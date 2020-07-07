@@ -12,8 +12,6 @@ class FirestoreCreateBarterItemUseCase
 
   @override
   Future<void> call(UseCaseBarterModelParam params) async {
-    await firestoreBarterRepository.createBarterMarketItem(
-      barterModel: params.barterModel,
-    );
+    await firestoreBarterRepository.createBarterMarketItem(params.barterModel);
   }
 }

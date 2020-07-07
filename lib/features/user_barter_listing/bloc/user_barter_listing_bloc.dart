@@ -34,9 +34,7 @@ class UserBarterListingBloc
             await firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
         final listings = firestoreGetAllBarterItemsUsingUserIdUseCase.call(
-          UseCaseUserIdWithListBarterParam.init(
-            userId: firebaseUser.uid,
-          ),
+          UseCaseUserIdWithListBarterParam.init(firebaseUser.uid),
         );
 
         yield UserBarterListingState.loadUserListing(listings);
