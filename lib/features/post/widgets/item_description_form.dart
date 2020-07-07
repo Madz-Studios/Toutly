@@ -299,6 +299,9 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                 return BlocBuilder<LocationBloc, LocationState>(
                   builder: (context, locationState) {
                     _locationController.text = _getAddress(locationState);
+                    _geoLocation =
+                        locationState?.geoFirePoint?.geoPoint ?? GeoPoint(0, 0);
+                    _geoHash = locationState?.geoFirePoint?.hash ?? '';
                     return InkWell(
                       onTap: () {
                         _getLocation(
@@ -353,7 +356,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   }
 
   String _getAddress(LocationState locationState) {
-    return locationState.placeMark.locality != null
+    return locationState.placeMark?.locality != null
         ? '${locationState?.placeMark?.name ?? ''}, '
             '${locationState?.placeMark?.subLocality ?? ''}, '
             '${locationState?.placeMark?.locality ?? ''} '

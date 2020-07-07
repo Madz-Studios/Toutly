@@ -21,6 +21,13 @@ class _$ViewBarterItemEventTearOff {
       barterModel,
     );
   }
+
+  ViewBarterItemEventDeleteBarterItem deleteBarterItem(
+      BarterModel barterModel) {
+    return ViewBarterItemEventDeleteBarterItem(
+      barterModel,
+    );
+  }
 }
 
 // ignore: unused_element
@@ -31,22 +38,27 @@ mixin _$ViewBarterItemEvent {
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result viewBarterItem(BarterModel barterModel),
+    @required Result deleteBarterItem(BarterModel barterModel),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result viewBarterItem(BarterModel barterModel),
+    Result deleteBarterItem(BarterModel barterModel),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(ViewBarterItemEventInitial value),
     @required Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    @required
+        Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(ViewBarterItemEventInitial value),
     Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
     @required Result orElse(),
   });
 }
@@ -105,9 +117,11 @@ class _$ViewBarterItemEventInitial implements ViewBarterItemEventInitial {
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result viewBarterItem(BarterModel barterModel),
+    @required Result deleteBarterItem(BarterModel barterModel),
   }) {
     assert(initial != null);
     assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
     return initial();
   }
 
@@ -116,6 +130,7 @@ class _$ViewBarterItemEventInitial implements ViewBarterItemEventInitial {
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result viewBarterItem(BarterModel barterModel),
+    Result deleteBarterItem(BarterModel barterModel),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -130,9 +145,12 @@ class _$ViewBarterItemEventInitial implements ViewBarterItemEventInitial {
   Result map<Result extends Object>({
     @required Result initial(ViewBarterItemEventInitial value),
     @required Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    @required
+        Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
   }) {
     assert(initial != null);
     assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
     return initial(this);
   }
 
@@ -141,6 +159,7 @@ class _$ViewBarterItemEventInitial implements ViewBarterItemEventInitial {
   Result maybeMap<Result extends Object>({
     Result initial(ViewBarterItemEventInitial value),
     Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -221,9 +240,11 @@ class _$ViewBarterItemEventViewBarterItem
   Result when<Result extends Object>({
     @required Result initial(),
     @required Result viewBarterItem(BarterModel barterModel),
+    @required Result deleteBarterItem(BarterModel barterModel),
   }) {
     assert(initial != null);
     assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
     return viewBarterItem(barterModel);
   }
 
@@ -232,6 +253,7 @@ class _$ViewBarterItemEventViewBarterItem
   Result maybeWhen<Result extends Object>({
     Result initial(),
     Result viewBarterItem(BarterModel barterModel),
+    Result deleteBarterItem(BarterModel barterModel),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -246,9 +268,12 @@ class _$ViewBarterItemEventViewBarterItem
   Result map<Result extends Object>({
     @required Result initial(ViewBarterItemEventInitial value),
     @required Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    @required
+        Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
   }) {
     assert(initial != null);
     assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
     return viewBarterItem(this);
   }
 
@@ -257,6 +282,7 @@ class _$ViewBarterItemEventViewBarterItem
   Result maybeMap<Result extends Object>({
     Result initial(ViewBarterItemEventInitial value),
     Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -277,11 +303,143 @@ abstract class ViewBarterItemEventViewBarterItem
       get copyWith;
 }
 
+abstract class $ViewBarterItemEventDeleteBarterItemCopyWith<$Res> {
+  factory $ViewBarterItemEventDeleteBarterItemCopyWith(
+          ViewBarterItemEventDeleteBarterItem value,
+          $Res Function(ViewBarterItemEventDeleteBarterItem) then) =
+      _$ViewBarterItemEventDeleteBarterItemCopyWithImpl<$Res>;
+  $Res call({BarterModel barterModel});
+}
+
+class _$ViewBarterItemEventDeleteBarterItemCopyWithImpl<$Res>
+    extends _$ViewBarterItemEventCopyWithImpl<$Res>
+    implements $ViewBarterItemEventDeleteBarterItemCopyWith<$Res> {
+  _$ViewBarterItemEventDeleteBarterItemCopyWithImpl(
+      ViewBarterItemEventDeleteBarterItem _value,
+      $Res Function(ViewBarterItemEventDeleteBarterItem) _then)
+      : super(_value, (v) => _then(v as ViewBarterItemEventDeleteBarterItem));
+
+  @override
+  ViewBarterItemEventDeleteBarterItem get _value =>
+      super._value as ViewBarterItemEventDeleteBarterItem;
+
+  @override
+  $Res call({
+    Object barterModel = freezed,
+  }) {
+    return _then(ViewBarterItemEventDeleteBarterItem(
+      barterModel == freezed ? _value.barterModel : barterModel as BarterModel,
+    ));
+  }
+}
+
+class _$ViewBarterItemEventDeleteBarterItem
+    implements ViewBarterItemEventDeleteBarterItem {
+  const _$ViewBarterItemEventDeleteBarterItem(this.barterModel)
+      : assert(barterModel != null);
+
+  @override
+  final BarterModel barterModel;
+
+  @override
+  String toString() {
+    return 'ViewBarterItemEvent.deleteBarterItem(barterModel: $barterModel)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is ViewBarterItemEventDeleteBarterItem &&
+            (identical(other.barterModel, barterModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.barterModel, barterModel)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(barterModel);
+
+  @override
+  $ViewBarterItemEventDeleteBarterItemCopyWith<
+          ViewBarterItemEventDeleteBarterItem>
+      get copyWith => _$ViewBarterItemEventDeleteBarterItemCopyWithImpl<
+          ViewBarterItemEventDeleteBarterItem>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result viewBarterItem(BarterModel barterModel),
+    @required Result deleteBarterItem(BarterModel barterModel),
+  }) {
+    assert(initial != null);
+    assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
+    return deleteBarterItem(barterModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result viewBarterItem(BarterModel barterModel),
+    Result deleteBarterItem(BarterModel barterModel),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (deleteBarterItem != null) {
+      return deleteBarterItem(barterModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(ViewBarterItemEventInitial value),
+    @required Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    @required
+        Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
+  }) {
+    assert(initial != null);
+    assert(viewBarterItem != null);
+    assert(deleteBarterItem != null);
+    return deleteBarterItem(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(ViewBarterItemEventInitial value),
+    Result viewBarterItem(ViewBarterItemEventViewBarterItem value),
+    Result deleteBarterItem(ViewBarterItemEventDeleteBarterItem value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (deleteBarterItem != null) {
+      return deleteBarterItem(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class ViewBarterItemEventDeleteBarterItem
+    implements ViewBarterItemEvent {
+  const factory ViewBarterItemEventDeleteBarterItem(BarterModel barterModel) =
+      _$ViewBarterItemEventDeleteBarterItem;
+
+  BarterModel get barterModel;
+  $ViewBarterItemEventDeleteBarterItemCopyWith<
+      ViewBarterItemEventDeleteBarterItem> get copyWith;
+}
+
 class _$ViewBarterItemStateTearOff {
   const _$ViewBarterItemStateTearOff();
 
-  _ViewBarterItemState call({BarterModel barterModel}) {
+  _ViewBarterItemState call(
+      {FirebaseUser currentUser, BarterModel barterModel}) {
     return _ViewBarterItemState(
+      currentUser: currentUser,
       barterModel: barterModel,
     );
   }
@@ -291,6 +449,7 @@ class _$ViewBarterItemStateTearOff {
 const $ViewBarterItemState = _$ViewBarterItemStateTearOff();
 
 mixin _$ViewBarterItemState {
+  FirebaseUser get currentUser;
   BarterModel get barterModel;
 
   $ViewBarterItemStateCopyWith<ViewBarterItemState> get copyWith;
@@ -300,7 +459,7 @@ abstract class $ViewBarterItemStateCopyWith<$Res> {
   factory $ViewBarterItemStateCopyWith(
           ViewBarterItemState value, $Res Function(ViewBarterItemState) then) =
       _$ViewBarterItemStateCopyWithImpl<$Res>;
-  $Res call({BarterModel barterModel});
+  $Res call({FirebaseUser currentUser, BarterModel barterModel});
 }
 
 class _$ViewBarterItemStateCopyWithImpl<$Res>
@@ -313,9 +472,13 @@ class _$ViewBarterItemStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object currentUser = freezed,
     Object barterModel = freezed,
   }) {
     return _then(_value.copyWith(
+      currentUser: currentUser == freezed
+          ? _value.currentUser
+          : currentUser as FirebaseUser,
       barterModel: barterModel == freezed
           ? _value.barterModel
           : barterModel as BarterModel,
@@ -329,7 +492,7 @@ abstract class _$ViewBarterItemStateCopyWith<$Res>
           $Res Function(_ViewBarterItemState) then) =
       __$ViewBarterItemStateCopyWithImpl<$Res>;
   @override
-  $Res call({BarterModel barterModel});
+  $Res call({FirebaseUser currentUser, BarterModel barterModel});
 }
 
 class __$ViewBarterItemStateCopyWithImpl<$Res>
@@ -344,9 +507,13 @@ class __$ViewBarterItemStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object currentUser = freezed,
     Object barterModel = freezed,
   }) {
     return _then(_ViewBarterItemState(
+      currentUser: currentUser == freezed
+          ? _value.currentUser
+          : currentUser as FirebaseUser,
       barterModel: barterModel == freezed
           ? _value.barterModel
           : barterModel as BarterModel,
@@ -355,20 +522,25 @@ class __$ViewBarterItemStateCopyWithImpl<$Res>
 }
 
 class _$_ViewBarterItemState implements _ViewBarterItemState {
-  const _$_ViewBarterItemState({this.barterModel});
+  const _$_ViewBarterItemState({this.currentUser, this.barterModel});
 
+  @override
+  final FirebaseUser currentUser;
   @override
   final BarterModel barterModel;
 
   @override
   String toString() {
-    return 'ViewBarterItemState(barterModel: $barterModel)';
+    return 'ViewBarterItemState(currentUser: $currentUser, barterModel: $barterModel)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _ViewBarterItemState &&
+            (identical(other.currentUser, currentUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.currentUser, currentUser)) &&
             (identical(other.barterModel, barterModel) ||
                 const DeepCollectionEquality()
                     .equals(other.barterModel, barterModel)));
@@ -376,7 +548,9 @@ class _$_ViewBarterItemState implements _ViewBarterItemState {
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(barterModel);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(currentUser) ^
+      const DeepCollectionEquality().hash(barterModel);
 
   @override
   _$ViewBarterItemStateCopyWith<_ViewBarterItemState> get copyWith =>
@@ -385,9 +559,12 @@ class _$_ViewBarterItemState implements _ViewBarterItemState {
 }
 
 abstract class _ViewBarterItemState implements ViewBarterItemState {
-  const factory _ViewBarterItemState({BarterModel barterModel}) =
-      _$_ViewBarterItemState;
+  const factory _ViewBarterItemState(
+      {FirebaseUser currentUser,
+      BarterModel barterModel}) = _$_ViewBarterItemState;
 
+  @override
+  FirebaseUser get currentUser;
   @override
   BarterModel get barterModel;
   @override

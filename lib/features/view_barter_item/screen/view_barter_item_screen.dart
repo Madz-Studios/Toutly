@@ -1,11 +1,18 @@
+import 'dart:io';
+
+import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
-import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewBarterItemScreen extends StatelessWidget {
+  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+  final _navBloc = getIt<NavigationBloc>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -23,7 +30,9 @@ class ViewBarterItemScreen extends StatelessWidget {
                   children: [
                     CachedNetworkImage(
                       fit: BoxFit.cover,
-                      imageUrl: state.barterModel.photosUrl[0],
+                      imageUrl: state.barterModel?.photosUrl == null
+                          ? ''
+                          : state.barterModel?.photosUrl[0],
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.rectangle,
@@ -33,34 +42,11 @@ class ViewBarterItemScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => Placeholder(),
+                      placeholder: (context, url) => Container(),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.close,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          print('Close');
-                          Navigator.pop(context);
-                        },
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topRight,
-                      child: IconButton(
-                        icon: Icon(
-                          Icons.delete,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          print('Delete');
-                        },
-                      ),
-                    ),
+                    _getTopLeftWidget(context, state),
+                    _getTopRightWidget(context, state),
                   ],
                 ),
               ),
@@ -85,15 +71,15 @@ class ViewBarterItemScreen extends StatelessWidget {
                               fontSize: 18.0,
                             ),
                           ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: kPrimaryColor,
-                            ),
-                            onPressed: () {
-                              print('Edit');
-                            },
-                          ),
+//                          IconButton(
+//                            icon: Icon(
+//                              Icons.edit,
+//                              color: kPrimaryColor,
+//                            ),
+//                            onPressed: () {
+//                              print('Edit');
+//                            },
+//                          ),
                         ],
                       ),
                       SizedBox(
@@ -142,6 +128,124 @@ class ViewBarterItemScreen extends StatelessWidget {
           ),
         ));
       },
+    );
+  }
+
+  Widget _getTopLeftWidget(BuildContext context, ViewBarterItemState state) {
+    final currentUser = state.currentUser;
+    final barterModel = state.barterModel;
+
+    if (currentUser?.uid == barterModel?.userId) {
+      return Align(
+        alignment: Alignment.topLeft,
+        child: IconButton(
+          icon: Icon(
+            Icons.close,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            print('Close');
+            Navigator.pop(context);
+          },
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  Widget _getTopRightWidget(BuildContext context, ViewBarterItemState state) {
+    final currentUser = state.currentUser;
+    final barterModel = state.barterModel;
+
+    if (currentUser.uid == barterModel.userId) {
+      return Align(
+        alignment: Alignment.topRight,
+        child: IconButton(
+          icon: Icon(
+            Icons.delete,
+            color: Colors.white,
+          ),
+          onPressed: () {
+            if (Platform.isIOS) {
+              _showCupertinoDialog(context, barterModel);
+            } else {
+              _showMaterialDialog(context, barterModel);
+            }
+          },
+        ),
+      );
+    } else {
+      return Container();
+    }
+  }
+
+  void _showMaterialDialog(BuildContext mainContext, BarterModel barterModel) {
+    showDialog(
+      barrierDismissible: false,
+      context: mainContext,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Are you sure you want to delete this item?"),
+          actions: [
+            FlatButton(
+              child: Text(
+                "Yes",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+                _deleteItemAndGoToUserListings(barterModel, mainContext);
+              },
+            ),
+            FlatButton(
+              child: Text("No"),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCupertinoDialog(BuildContext mainContext, BarterModel barterModel) {
+    showDialog(
+      barrierDismissible: true,
+      context: mainContext,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text("Are you sure you want to delete this item?"),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              textStyle: TextStyle(color: Colors.red),
+              child: Text("Yes"),
+              onPressed: () {
+                _deleteItemAndGoToUserListings(barterModel, mainContext);
+              },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text("No"),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _deleteItemAndGoToUserListings(
+      BarterModel barterModel, BuildContext context) {
+    print('Deleted barter item id = ${barterModel.itemId}');
+
+    Navigator.pop(context);
+    Navigator.of(context, rootNavigator: true).pop();
+    _viewBarterItemBloc.add(
+      ViewBarterItemEvent.deleteBarterItem(barterModel),
     );
   }
 }

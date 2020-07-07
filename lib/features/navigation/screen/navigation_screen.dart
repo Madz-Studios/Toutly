@@ -18,7 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Main screen, loads after authentication screen
 class NavigationScreen extends StatelessWidget {
-  final _userBarterListing = getIt<UserBarterListingBloc>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);

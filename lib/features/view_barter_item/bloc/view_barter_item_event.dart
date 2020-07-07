@@ -5,4 +5,6 @@ abstract class ViewBarterItemEvent with _$ViewBarterItemEvent {
   const factory ViewBarterItemEvent.initial() = ViewBarterItemEventInitial;
   const factory ViewBarterItemEvent.viewBarterItem(BarterModel barterModel) =
       ViewBarterItemEventViewBarterItem;
+  const factory ViewBarterItemEvent.deleteBarterItem(BarterModel barterModel) =
+      ViewBarterItemEventDeleteBarterItem;
 }

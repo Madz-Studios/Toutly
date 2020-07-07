@@ -64,16 +64,16 @@ class UserBarterListingScreen extends StatelessWidget {
                       );
                       return GestureDetector(
                         onTap: () {
-                          Navigator.push<void>(
+                          _viewBarterItemBloc.add(
+                            ViewBarterItemEvent.viewBarterItem(barterModel),
+                          );
+
+                          Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (context) => ViewBarterItemScreen(),
                               fullscreenDialog: true,
                             ),
-                          );
-
-                          _viewBarterItemBloc.add(
-                            ViewBarterItemEvent.viewBarterItem(barterModel),
                           );
                         },
                         child: GridTile(

@@ -50,7 +50,10 @@ class App extends StatelessWidget {
 
         /// Navigation Bloc
         BlocProvider<NavigationBloc>(
-          create: (BuildContext context) => getIt<NavigationBloc>(),
+          create: (BuildContext context) => getIt<NavigationBloc>()
+            ..add(
+              NavigationEvent.goToHomeScreenEvent(),
+            ),
         ),
 
         /// Home Bloc
