@@ -52,7 +52,6 @@ class NavigationScreen extends StatelessWidget {
           );
         },
         userBarterListing: (_) {
-          _userBarterListing.add(UserBarterListingEvent.viewBarterItems());
           List<Widget> screens = [
             UserBarterListingScreen(),
             FavouritesScreen(),

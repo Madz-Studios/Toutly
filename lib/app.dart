@@ -75,7 +75,10 @@ class App extends StatelessWidget {
 
         /// User Items Bloc
         BlocProvider<UserBarterListingBloc>(
-          create: (BuildContext context) => getIt<UserBarterListingBloc>(),
+          create: (BuildContext context) => getIt<UserBarterListingBloc>()
+            ..add(
+              UserBarterListingEvent.viewBarterItems(),
+            ),
         ),
 
         ///
