@@ -16,7 +16,11 @@ import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_cas
 import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
+import 'package:geoflutterfire/src/geoflutterfire.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
+import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
@@ -36,16 +40,15 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
+import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_longitude_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_persist_user_geo_location_usecase.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 Future<void> $initGetIt(GetIt g, {String environment}) async {
@@ -70,7 +73,13 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerFactory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(firestore: g<Firestore>()));
+  g.registerLazySingleton<Geoflutterfire>(
+      () => injectableModule.geoFlutterFire);
+  g.registerLazySingleton<Geolocator>(() => injectableModule.geoLocator);
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
+  g.registerLazySingleton<HomeBloc>(() => HomeBloc());
+  g.registerLazySingleton<LocationBloc>(() => LocationBloc(
+      geoLocator: g<Geolocator>(), geoFlutterFire: g<Geoflutterfire>()));
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
   final remoteConfig = await injectableModule.remoteConfig;
   g.registerFactory<RemoteConfig>(() => remoteConfig);
@@ -118,9 +127,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
-  g.registerLazySingleton<HomeBloc>(() => HomeBloc(
-      firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
-      firestoreUpdateUserUseCase: g<FirestoreUpdateUserUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
@@ -150,6 +156,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
       firestoreGetAllBarterItemsUsingUserIdUseCase:
           g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
+        firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
+        firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
+        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
+      ));
   g.registerLazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
       LocalSharedDeleteAllSaveDataUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
@@ -164,15 +175,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
       LocalSharedPrefPersistUserGeoLocationUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));
-  g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
-        firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
-        firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
-        firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
-        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
-        localSharedPrefPersistUserGeoLocation:
-            g<LocalSharedPrefPersistUserGeoLocationUseCase>(),
-        localSharedDeleteAllSaveData: g<LocalSharedDeleteAllSaveDataUseCase>(),
-      ));
 }
 
 class _$InjectableModule extends InjectableModule {}

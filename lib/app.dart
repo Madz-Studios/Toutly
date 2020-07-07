@@ -1,6 +1,7 @@
 import 'package:Toutly/features/edit_barter_item/bloc/edit_barter_item_bloc.dart';
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
+import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -33,11 +34,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        /// Remote Config Data Bloc
-        BlocProvider<RemoteConfigDataBloc>(
-          create: (BuildContext context) => getIt<RemoteConfigDataBloc>()
-            ..add(RemoteConfigDataEvent.loadConfigData()),
-        ),
+        ///
+        ///SCREENS BLOC
+        ///
 
         /// Authentication Bloc
         BlocProvider<AuthenticationBloc>(
@@ -47,12 +46,6 @@ class App extends StatelessWidget {
         /// Sign Bloc
         BlocProvider<SignBloc>(
           create: (BuildContext context) => getIt<SignBloc>(),
-        ),
-
-        /// Apple Sign In Bloc
-        BlocProvider<AppleSignInBloc>(
-          create: (BuildContext context) => getIt<AppleSignInBloc>()
-            ..add(AppleSignInEvent.checkIfAppleIsAvailable()),
         ),
 
         /// Navigation Bloc
@@ -83,6 +76,28 @@ class App extends StatelessWidget {
         /// User Items Bloc
         BlocProvider<UserBarterListingBloc>(
           create: (BuildContext context) => getIt<UserBarterListingBloc>(),
+        ),
+
+        ///
+        /// UTILS BLOC
+        ///
+
+        /// Apple Sign In Bloc
+        BlocProvider<AppleSignInBloc>(
+          create: (BuildContext context) => getIt<AppleSignInBloc>()
+            ..add(AppleSignInEvent.checkIfAppleIsAvailable()),
+        ),
+
+        /// Remote Config Data Bloc
+        BlocProvider<RemoteConfigDataBloc>(
+          create: (BuildContext context) => getIt<RemoteConfigDataBloc>()
+            ..add(RemoteConfigDataEvent.loadConfigData()),
+        ),
+
+        /// Location Bloc
+        BlocProvider<LocationBloc>(
+          create: (BuildContext context) => getIt<LocationBloc>()
+            ..add(LocationEvent.getInitialUserLocation()),
         ),
       ],
       child: MaterialApp(

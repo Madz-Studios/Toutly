@@ -1,22 +1,17 @@
-import 'dart:io';
-
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
+import 'package:Toutly/shared/bloc/location/location_bloc.dart';
+import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
-import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -29,6 +24,7 @@ class ItemDescriptionForm extends StatefulWidget {
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+  final _locationBloc = getIt<LocationBloc>();
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -129,6 +125,46 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     _locationController.clear();
   }
 
+  List<DropdownMenuItem<String>> _buildDropdownMenuItems() {
+    List<DropdownMenuItem<String>> items = List();
+    for (String category in AppConstants.categoryList) {
+      items.add(
+        DropdownMenuItem(
+          value: category,
+          child: Text(category),
+        ),
+      );
+    }
+    return items;
+  }
+
+  _onChangeDropdownItem(String selectedCategory) {
+    setState(() {
+      _selectedCategory = selectedCategory;
+    });
+  }
+
+  _getLocation(BuildContext context, LocationState locationState,
+      RemoteConfigDataState remoteConfigDataState) async {
+    LocationResult result = await showLocationPicker(
+      context,
+      remoteConfigDataState.firebaseApiKey,
+      initialCenter: LatLng(
+        locationState.geoFirePoint.latitude,
+        locationState.geoFirePoint.longitude,
+      ),
+      myLocationButtonEnabled: true,
+      hintText: 'Location',
+    );
+
+    _locationBloc.add(
+      LocationEvent.updateUserLocation(
+        result.latLng.latitude,
+        result.latLng.longitude,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -202,7 +238,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
               isExpanded: true,
               value: _selectedCategory,
               items: _buildDropdownMenuItems(),
-              onChanged: onChangeDropdownItem,
+              onChanged: _onChangeDropdownItem,
               style: GoogleFonts.roboto(
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -258,18 +294,36 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1.5,
             ),
-            InkWell(
-              onTap: () {
-                _getLocation(context);
+            BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+              builder: (context, remoteConfigDataState) {
+                return BlocBuilder<LocationBloc, LocationState>(
+                  builder: (context, locationState) {
+                    _locationController.text = _getAddress(locationState);
+                    return InkWell(
+                      onTap: () {
+                        _getLocation(
+                          context,
+                          locationState,
+                          remoteConfigDataState,
+                        );
+                        setState(() {
+                          _locationController.text = _getAddress(locationState);
+                          _geoLocation = locationState.geoFirePoint.geoPoint;
+                          _geoHash = locationState.geoFirePoint.hash;
+                        });
+                      },
+                      child: IgnorePointer(
+                        child: PostItemTextFieldForm(
+                          title: 'Location',
+                          description: 'Describe your meeting place',
+                          controller: _locationController,
+                          readOnly: true,
+                        ),
+                      ),
+                    );
+                  },
+                );
               },
-              child: IgnorePointer(
-                child: PostItemTextFieldForm(
-                  title: 'Location',
-                  description: 'Describe your meeting place',
-                  controller: _locationController,
-                  readOnly: true,
-                ),
-              ),
             ),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1.5,
@@ -298,68 +352,11 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     );
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuItems() {
-    List<DropdownMenuItem<String>> items = List();
-    for (String category in AppConstants.categoryList) {
-      items.add(
-        DropdownMenuItem(
-          value: category,
-          child: Text(category),
-        ),
-      );
-    }
-    return items;
-  }
-
-  onChangeDropdownItem(String selectedCategory) {
-    setState(() {
-      _selectedCategory = selectedCategory;
-    });
-  }
-
-  _getLocation(BuildContext context) async {
-    try {
-      Geoflutterfire geoFlutterFire = Geoflutterfire();
-      RemoteConfig remoteConfig = await RemoteConfig.instance;
-      await remoteConfig.fetch();
-      await remoteConfig.activateFetched();
-
-      String apiKey;
-
-      if (Platform.isIOS) {
-        apiKey = remoteConfig.getString('ios_gcp_api_key');
-      } else {
-        apiKey = remoteConfig.getString('android_gcp_api_key');
-      }
-
-      print('apiKey is null = ${apiKey == null ? 'true' : 'false'}');
-
-      Position position = await Geolocator()
-          .getCurrentPosition(desiredAccuracy: LocationAccuracy.lowest);
-
-      LocationResult result = await showLocationPicker(
-        context,
-        apiKey,
-        initialCenter: LatLng(position.latitude, position.longitude),
-        myLocationButtonEnabled: true,
-        hintText: 'Location',
-      );
-
-      GeoFirePoint geoFirePoint = geoFlutterFire.point(
-          latitude: result.latLng.latitude, longitude: result.latLng.longitude);
-
-      setState(() {
-        _locationController.text = result.address;
-        _geoLocation = GeoPoint(geoFirePoint.latitude, geoFirePoint.longitude);
-        _geoHash = geoFirePoint.hash;
-      });
-    } on PlatformException catch (platFormException) {
-      if (platFormException.code == 'PERMISSION_DENIED') {
-        AppSettings.openLocationSettings();
-      } else {
-        print('platFormException code ${platFormException.code}');
-        print('platFormException message ${platFormException.message}');
-      }
-    }
+  String _getAddress(LocationState locationState) {
+    return locationState.placeMark.locality != null
+        ? '${locationState?.placeMark?.name ?? ''}, '
+            '${locationState?.placeMark?.subLocality ?? ''}, '
+            '${locationState?.placeMark?.locality ?? ''} '
+        : 'Getting Location...';
   }
 }
