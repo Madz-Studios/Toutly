@@ -13,6 +13,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:Toutly/core/repositories/barter/firestore_barter_repository.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
+import 'package:Toutly/core/usecases/barter/firestore_delete_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
@@ -64,6 +65,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => FirestoreBarterRepositoryImpl(firestore: g<Firestore>()));
   g.registerLazySingleton<FirestoreCreateBarterItemUseCase>(() =>
       FirestoreCreateBarterItemUseCase(
+          firestoreBarterRepository: g<FirestoreBarterRepository>()));
+  g.registerLazySingleton<FirestoreDeleteBarterItemUseCase>(() =>
+      FirestoreDeleteBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerLazySingleton<FirestoreGetAllBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllBarterItemsUsingUserIdUseCase(

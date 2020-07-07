@@ -280,13 +280,9 @@ abstract class ViewBarterItemEventViewBarterItem
 class _$ViewBarterItemStateTearOff {
   const _$ViewBarterItemStateTearOff();
 
-  ViewBarterItemStateInitial initial() {
-    return const ViewBarterItemStateInitial();
-  }
-
-  ViewBarterItemStateLoadBarterItem loadBarterItem(BarterModel barterModel) {
-    return ViewBarterItemStateLoadBarterItem(
-      barterModel,
+  _ViewBarterItemState call({BarterModel barterModel}) {
+    return _ViewBarterItemState(
+      barterModel: barterModel,
     );
   }
 }
@@ -295,34 +291,16 @@ class _$ViewBarterItemStateTearOff {
 const $ViewBarterItemState = _$ViewBarterItemStateTearOff();
 
 mixin _$ViewBarterItemState {
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loadBarterItem(BarterModel barterModel),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loadBarterItem(BarterModel barterModel),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(ViewBarterItemStateInitial value),
-    @required Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(ViewBarterItemStateInitial value),
-    Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-    @required Result orElse(),
-  });
+  BarterModel get barterModel;
+
+  $ViewBarterItemStateCopyWith<ViewBarterItemState> get copyWith;
 }
 
 abstract class $ViewBarterItemStateCopyWith<$Res> {
   factory $ViewBarterItemStateCopyWith(
           ViewBarterItemState value, $Res Function(ViewBarterItemState) then) =
       _$ViewBarterItemStateCopyWithImpl<$Res>;
+  $Res call({BarterModel barterModel});
 }
 
 class _$ViewBarterItemStateCopyWithImpl<$Res>
@@ -332,144 +310,65 @@ class _$ViewBarterItemStateCopyWithImpl<$Res>
   final ViewBarterItemState _value;
   // ignore: unused_field
   final $Res Function(ViewBarterItemState) _then;
-}
-
-abstract class $ViewBarterItemStateInitialCopyWith<$Res> {
-  factory $ViewBarterItemStateInitialCopyWith(ViewBarterItemStateInitial value,
-          $Res Function(ViewBarterItemStateInitial) then) =
-      _$ViewBarterItemStateInitialCopyWithImpl<$Res>;
-}
-
-class _$ViewBarterItemStateInitialCopyWithImpl<$Res>
-    extends _$ViewBarterItemStateCopyWithImpl<$Res>
-    implements $ViewBarterItemStateInitialCopyWith<$Res> {
-  _$ViewBarterItemStateInitialCopyWithImpl(ViewBarterItemStateInitial _value,
-      $Res Function(ViewBarterItemStateInitial) _then)
-      : super(_value, (v) => _then(v as ViewBarterItemStateInitial));
-
-  @override
-  ViewBarterItemStateInitial get _value =>
-      super._value as ViewBarterItemStateInitial;
-}
-
-class _$ViewBarterItemStateInitial implements ViewBarterItemStateInitial {
-  const _$ViewBarterItemStateInitial();
-
-  @override
-  String toString() {
-    return 'ViewBarterItemState.initial()';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) || (other is ViewBarterItemStateInitial);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loadBarterItem(BarterModel barterModel),
-  }) {
-    assert(initial != null);
-    assert(loadBarterItem != null);
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loadBarterItem(BarterModel barterModel),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(ViewBarterItemStateInitial value),
-    @required Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-  }) {
-    assert(initial != null);
-    assert(loadBarterItem != null);
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(ViewBarterItemStateInitial value),
-    Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class ViewBarterItemStateInitial implements ViewBarterItemState {
-  const factory ViewBarterItemStateInitial() = _$ViewBarterItemStateInitial;
-}
-
-abstract class $ViewBarterItemStateLoadBarterItemCopyWith<$Res> {
-  factory $ViewBarterItemStateLoadBarterItemCopyWith(
-          ViewBarterItemStateLoadBarterItem value,
-          $Res Function(ViewBarterItemStateLoadBarterItem) then) =
-      _$ViewBarterItemStateLoadBarterItemCopyWithImpl<$Res>;
-  $Res call({BarterModel barterModel});
-}
-
-class _$ViewBarterItemStateLoadBarterItemCopyWithImpl<$Res>
-    extends _$ViewBarterItemStateCopyWithImpl<$Res>
-    implements $ViewBarterItemStateLoadBarterItemCopyWith<$Res> {
-  _$ViewBarterItemStateLoadBarterItemCopyWithImpl(
-      ViewBarterItemStateLoadBarterItem _value,
-      $Res Function(ViewBarterItemStateLoadBarterItem) _then)
-      : super(_value, (v) => _then(v as ViewBarterItemStateLoadBarterItem));
-
-  @override
-  ViewBarterItemStateLoadBarterItem get _value =>
-      super._value as ViewBarterItemStateLoadBarterItem;
 
   @override
   $Res call({
     Object barterModel = freezed,
   }) {
-    return _then(ViewBarterItemStateLoadBarterItem(
-      barterModel == freezed ? _value.barterModel : barterModel as BarterModel,
+    return _then(_value.copyWith(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
     ));
   }
 }
 
-class _$ViewBarterItemStateLoadBarterItem
-    implements ViewBarterItemStateLoadBarterItem {
-  const _$ViewBarterItemStateLoadBarterItem(this.barterModel)
-      : assert(barterModel != null);
+abstract class _$ViewBarterItemStateCopyWith<$Res>
+    implements $ViewBarterItemStateCopyWith<$Res> {
+  factory _$ViewBarterItemStateCopyWith(_ViewBarterItemState value,
+          $Res Function(_ViewBarterItemState) then) =
+      __$ViewBarterItemStateCopyWithImpl<$Res>;
+  @override
+  $Res call({BarterModel barterModel});
+}
+
+class __$ViewBarterItemStateCopyWithImpl<$Res>
+    extends _$ViewBarterItemStateCopyWithImpl<$Res>
+    implements _$ViewBarterItemStateCopyWith<$Res> {
+  __$ViewBarterItemStateCopyWithImpl(
+      _ViewBarterItemState _value, $Res Function(_ViewBarterItemState) _then)
+      : super(_value, (v) => _then(v as _ViewBarterItemState));
+
+  @override
+  _ViewBarterItemState get _value => super._value as _ViewBarterItemState;
+
+  @override
+  $Res call({
+    Object barterModel = freezed,
+  }) {
+    return _then(_ViewBarterItemState(
+      barterModel: barterModel == freezed
+          ? _value.barterModel
+          : barterModel as BarterModel,
+    ));
+  }
+}
+
+class _$_ViewBarterItemState implements _ViewBarterItemState {
+  const _$_ViewBarterItemState({this.barterModel});
 
   @override
   final BarterModel barterModel;
 
   @override
   String toString() {
-    return 'ViewBarterItemState.loadBarterItem(barterModel: $barterModel)';
+    return 'ViewBarterItemState(barterModel: $barterModel)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is ViewBarterItemStateLoadBarterItem &&
+        (other is _ViewBarterItemState &&
             (identical(other.barterModel, barterModel) ||
                 const DeepCollectionEquality()
                     .equals(other.barterModel, barterModel)));
@@ -480,67 +379,17 @@ class _$ViewBarterItemStateLoadBarterItem
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(barterModel);
 
   @override
-  $ViewBarterItemStateLoadBarterItemCopyWith<ViewBarterItemStateLoadBarterItem>
-      get copyWith => _$ViewBarterItemStateLoadBarterItemCopyWithImpl<
-          ViewBarterItemStateLoadBarterItem>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result initial(),
-    @required Result loadBarterItem(BarterModel barterModel),
-  }) {
-    assert(initial != null);
-    assert(loadBarterItem != null);
-    return loadBarterItem(barterModel);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result initial(),
-    Result loadBarterItem(BarterModel barterModel),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loadBarterItem != null) {
-      return loadBarterItem(barterModel);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result initial(ViewBarterItemStateInitial value),
-    @required Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-  }) {
-    assert(initial != null);
-    assert(loadBarterItem != null);
-    return loadBarterItem(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result initial(ViewBarterItemStateInitial value),
-    Result loadBarterItem(ViewBarterItemStateLoadBarterItem value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (loadBarterItem != null) {
-      return loadBarterItem(this);
-    }
-    return orElse();
-  }
+  _$ViewBarterItemStateCopyWith<_ViewBarterItemState> get copyWith =>
+      __$ViewBarterItemStateCopyWithImpl<_ViewBarterItemState>(
+          this, _$identity);
 }
 
-abstract class ViewBarterItemStateLoadBarterItem
-    implements ViewBarterItemState {
-  const factory ViewBarterItemStateLoadBarterItem(BarterModel barterModel) =
-      _$ViewBarterItemStateLoadBarterItem;
+abstract class _ViewBarterItemState implements ViewBarterItemState {
+  const factory _ViewBarterItemState({BarterModel barterModel}) =
+      _$_ViewBarterItemState;
 
+  @override
   BarterModel get barterModel;
-  $ViewBarterItemStateLoadBarterItemCopyWith<ViewBarterItemStateLoadBarterItem>
-      get copyWith;
+  @override
+  _$ViewBarterItemStateCopyWith<_ViewBarterItemState> get copyWith;
 }

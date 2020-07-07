@@ -10,6 +10,8 @@ abstract class FirestoreBarterRepository {
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
   Future<void> updateBarterItem(BarterModel barterModel);
+
+  Future<void> deleteBarterItem(BarterModel barterModel);
 }
 
 @Injectable(as: FirestoreBarterRepository)
@@ -34,8 +36,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
-  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(
-      String userId) {
+  Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId) {
     final String barterCollection = FirestoreCollectionNames.barterCollection;
 
     final query = firestore
@@ -56,5 +57,16 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .collection(barterCollection)
         .document(barterModel.itemId)
         .updateData(barterModel.toJson());
+  }
+
+  /// Delete a barter item in barter firestore collection using [itemId].
+  @override
+  Future<void> deleteBarterItem(BarterModel barterModel) async {
+    final String barterCollection = FirestoreCollectionNames.barterCollection;
+
+    await firestore
+        .collection(barterCollection)
+        .document(barterModel.itemId)
+        .delete();
   }
 }

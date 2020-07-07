@@ -10,7 +10,7 @@ part 'view_barter_item_state.dart';
 @lazySingleton
 class ViewBarterItemBloc
     extends Bloc<ViewBarterItemEvent, ViewBarterItemState> {
-  ViewBarterItemBloc() : super(ViewBarterItemState.initial());
+  ViewBarterItemBloc() : super(ViewBarterItemState.init());
 
   @override
   Stream<ViewBarterItemState> mapEventToState(
@@ -18,7 +18,9 @@ class ViewBarterItemBloc
     yield* event.map(
       initial: (_) async* {},
       viewBarterItem: (e) async* {
-        yield (ViewBarterItemState.loadBarterItem(e.barterModel));
+        yield ViewBarterItemState.loadBarterItem(
+          barterModel: e.barterModel,
+        );
       },
     );
   }
