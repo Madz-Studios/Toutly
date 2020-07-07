@@ -28,7 +28,6 @@ import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.da
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
@@ -45,6 +44,7 @@ import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
@@ -93,7 +93,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
   g.registerLazySingleton<Validators>(() => injectableModule.validators);
-  g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc());
   g.registerFactory<FirebaseAuthUserRepository>(
       () => FirebaseAuthUserRepositoryImpl(
             firebaseAuth: g<FirebaseAuth>(),
@@ -160,6 +159,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
       firestoreGetAllBarterItemsUsingUserIdUseCase:
           g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
+      g<FirebaseGetUserUseCase>(), g<FirestoreDeleteBarterItemUseCase>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
         firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
         firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
