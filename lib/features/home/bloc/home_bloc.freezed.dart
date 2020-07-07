@@ -12,12 +12,12 @@ T _$identity<T>(T value) => value;
 class _$HomeEventTearOff {
   const _$HomeEventTearOff();
 
-  HomeCheckUserLocation checkUserLocation() {
-    return const HomeCheckUserLocation();
+  HomeEventGetUserLocation getUserLocation() {
+    return const HomeEventGetUserLocation();
   }
 
-  HomeGetUserLocation loadBarterFeeds() {
-    return const HomeGetUserLocation();
+  HomeEventLoadBarterFeeds loadBarterFeeds() {
+    return const HomeEventLoadBarterFeeds();
   }
 }
 
@@ -27,24 +27,24 @@ const $HomeEvent = _$HomeEventTearOff();
 mixin _$HomeEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result checkUserLocation(),
+    @required Result getUserLocation(),
     @required Result loadBarterFeeds(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result checkUserLocation(),
+    Result getUserLocation(),
     Result loadBarterFeeds(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result checkUserLocation(HomeCheckUserLocation value),
-    @required Result loadBarterFeeds(HomeGetUserLocation value),
+    @required Result getUserLocation(HomeEventGetUserLocation value),
+    @required Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result checkUserLocation(HomeCheckUserLocation value),
-    Result loadBarterFeeds(HomeGetUserLocation value),
+    Result getUserLocation(HomeEventGetUserLocation value),
+    Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
     @required Result orElse(),
   });
 }
@@ -62,34 +62,35 @@ class _$HomeEventCopyWithImpl<$Res> implements $HomeEventCopyWith<$Res> {
   final $Res Function(HomeEvent) _then;
 }
 
-abstract class $HomeCheckUserLocationCopyWith<$Res> {
-  factory $HomeCheckUserLocationCopyWith(HomeCheckUserLocation value,
-          $Res Function(HomeCheckUserLocation) then) =
-      _$HomeCheckUserLocationCopyWithImpl<$Res>;
+abstract class $HomeEventGetUserLocationCopyWith<$Res> {
+  factory $HomeEventGetUserLocationCopyWith(HomeEventGetUserLocation value,
+          $Res Function(HomeEventGetUserLocation) then) =
+      _$HomeEventGetUserLocationCopyWithImpl<$Res>;
 }
 
-class _$HomeCheckUserLocationCopyWithImpl<$Res>
+class _$HomeEventGetUserLocationCopyWithImpl<$Res>
     extends _$HomeEventCopyWithImpl<$Res>
-    implements $HomeCheckUserLocationCopyWith<$Res> {
-  _$HomeCheckUserLocationCopyWithImpl(
-      HomeCheckUserLocation _value, $Res Function(HomeCheckUserLocation) _then)
-      : super(_value, (v) => _then(v as HomeCheckUserLocation));
+    implements $HomeEventGetUserLocationCopyWith<$Res> {
+  _$HomeEventGetUserLocationCopyWithImpl(HomeEventGetUserLocation _value,
+      $Res Function(HomeEventGetUserLocation) _then)
+      : super(_value, (v) => _then(v as HomeEventGetUserLocation));
 
   @override
-  HomeCheckUserLocation get _value => super._value as HomeCheckUserLocation;
+  HomeEventGetUserLocation get _value =>
+      super._value as HomeEventGetUserLocation;
 }
 
-class _$HomeCheckUserLocation implements HomeCheckUserLocation {
-  const _$HomeCheckUserLocation();
+class _$HomeEventGetUserLocation implements HomeEventGetUserLocation {
+  const _$HomeEventGetUserLocation();
 
   @override
   String toString() {
-    return 'HomeEvent.checkUserLocation()';
+    return 'HomeEvent.getUserLocation()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HomeCheckUserLocation);
+    return identical(this, other) || (other is HomeEventGetUserLocation);
   }
 
   @override
@@ -98,24 +99,24 @@ class _$HomeCheckUserLocation implements HomeCheckUserLocation {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result checkUserLocation(),
+    @required Result getUserLocation(),
     @required Result loadBarterFeeds(),
   }) {
-    assert(checkUserLocation != null);
+    assert(getUserLocation != null);
     assert(loadBarterFeeds != null);
-    return checkUserLocation();
+    return getUserLocation();
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result checkUserLocation(),
+    Result getUserLocation(),
     Result loadBarterFeeds(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (checkUserLocation != null) {
-      return checkUserLocation();
+    if (getUserLocation != null) {
+      return getUserLocation();
     }
     return orElse();
   }
@@ -123,52 +124,53 @@ class _$HomeCheckUserLocation implements HomeCheckUserLocation {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result checkUserLocation(HomeCheckUserLocation value),
-    @required Result loadBarterFeeds(HomeGetUserLocation value),
+    @required Result getUserLocation(HomeEventGetUserLocation value),
+    @required Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
   }) {
-    assert(checkUserLocation != null);
+    assert(getUserLocation != null);
     assert(loadBarterFeeds != null);
-    return checkUserLocation(this);
+    return getUserLocation(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result checkUserLocation(HomeCheckUserLocation value),
-    Result loadBarterFeeds(HomeGetUserLocation value),
+    Result getUserLocation(HomeEventGetUserLocation value),
+    Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (checkUserLocation != null) {
-      return checkUserLocation(this);
+    if (getUserLocation != null) {
+      return getUserLocation(this);
     }
     return orElse();
   }
 }
 
-abstract class HomeCheckUserLocation implements HomeEvent {
-  const factory HomeCheckUserLocation() = _$HomeCheckUserLocation;
+abstract class HomeEventGetUserLocation implements HomeEvent {
+  const factory HomeEventGetUserLocation() = _$HomeEventGetUserLocation;
 }
 
-abstract class $HomeGetUserLocationCopyWith<$Res> {
-  factory $HomeGetUserLocationCopyWith(
-          HomeGetUserLocation value, $Res Function(HomeGetUserLocation) then) =
-      _$HomeGetUserLocationCopyWithImpl<$Res>;
+abstract class $HomeEventLoadBarterFeedsCopyWith<$Res> {
+  factory $HomeEventLoadBarterFeedsCopyWith(HomeEventLoadBarterFeeds value,
+          $Res Function(HomeEventLoadBarterFeeds) then) =
+      _$HomeEventLoadBarterFeedsCopyWithImpl<$Res>;
 }
 
-class _$HomeGetUserLocationCopyWithImpl<$Res>
+class _$HomeEventLoadBarterFeedsCopyWithImpl<$Res>
     extends _$HomeEventCopyWithImpl<$Res>
-    implements $HomeGetUserLocationCopyWith<$Res> {
-  _$HomeGetUserLocationCopyWithImpl(
-      HomeGetUserLocation _value, $Res Function(HomeGetUserLocation) _then)
-      : super(_value, (v) => _then(v as HomeGetUserLocation));
+    implements $HomeEventLoadBarterFeedsCopyWith<$Res> {
+  _$HomeEventLoadBarterFeedsCopyWithImpl(HomeEventLoadBarterFeeds _value,
+      $Res Function(HomeEventLoadBarterFeeds) _then)
+      : super(_value, (v) => _then(v as HomeEventLoadBarterFeeds));
 
   @override
-  HomeGetUserLocation get _value => super._value as HomeGetUserLocation;
+  HomeEventLoadBarterFeeds get _value =>
+      super._value as HomeEventLoadBarterFeeds;
 }
 
-class _$HomeGetUserLocation implements HomeGetUserLocation {
-  const _$HomeGetUserLocation();
+class _$HomeEventLoadBarterFeeds implements HomeEventLoadBarterFeeds {
+  const _$HomeEventLoadBarterFeeds();
 
   @override
   String toString() {
@@ -177,7 +179,7 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is HomeGetUserLocation);
+    return identical(this, other) || (other is HomeEventLoadBarterFeeds);
   }
 
   @override
@@ -186,10 +188,10 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
   @override
   @optionalTypeArgs
   Result when<Result extends Object>({
-    @required Result checkUserLocation(),
+    @required Result getUserLocation(),
     @required Result loadBarterFeeds(),
   }) {
-    assert(checkUserLocation != null);
+    assert(getUserLocation != null);
     assert(loadBarterFeeds != null);
     return loadBarterFeeds();
   }
@@ -197,7 +199,7 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
-    Result checkUserLocation(),
+    Result getUserLocation(),
     Result loadBarterFeeds(),
     @required Result orElse(),
   }) {
@@ -211,10 +213,10 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
   @override
   @optionalTypeArgs
   Result map<Result extends Object>({
-    @required Result checkUserLocation(HomeCheckUserLocation value),
-    @required Result loadBarterFeeds(HomeGetUserLocation value),
+    @required Result getUserLocation(HomeEventGetUserLocation value),
+    @required Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
   }) {
-    assert(checkUserLocation != null);
+    assert(getUserLocation != null);
     assert(loadBarterFeeds != null);
     return loadBarterFeeds(this);
   }
@@ -222,8 +224,8 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
-    Result checkUserLocation(HomeCheckUserLocation value),
-    Result loadBarterFeeds(HomeGetUserLocation value),
+    Result getUserLocation(HomeEventGetUserLocation value),
+    Result loadBarterFeeds(HomeEventLoadBarterFeeds value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -234,8 +236,8 @@ class _$HomeGetUserLocation implements HomeGetUserLocation {
   }
 }
 
-abstract class HomeGetUserLocation implements HomeEvent {
-  const factory HomeGetUserLocation() = _$HomeGetUserLocation;
+abstract class HomeEventLoadBarterFeeds implements HomeEvent {
+  const factory HomeEventLoadBarterFeeds() = _$HomeEventLoadBarterFeeds;
 }
 
 class _$HomeStateTearOff {
