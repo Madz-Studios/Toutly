@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class UserBarterListingScreen extends StatelessWidget {
-  final _navBloc = getIt<NavigationBloc>();
   final _userItemBloc = getIt<UserBarterListingBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
 
