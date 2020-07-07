@@ -1,5 +1,3 @@
-import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -8,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewBarterItemScreen extends StatelessWidget {
-  final _navBloc = getIt<NavigationBloc>();
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);

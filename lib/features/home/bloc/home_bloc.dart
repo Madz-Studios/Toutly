@@ -21,9 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     yield* event.map(
-      checkUserLocation: (e) async* {
-        /// TODO: Need to get the current user's location in the DB or set it to the current location.
-      },
+      checkUserLocation: (e) async* {},
       loadBarterFeeds: (e) async* {},
     );
   }

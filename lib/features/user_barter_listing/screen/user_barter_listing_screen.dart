@@ -10,78 +10,84 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserBarterListingScreen extends StatelessWidget {
-  final _userItemBloc = getIt<UserBarterListingBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return Scaffold(
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          vertical: appSizeConfig.blockSizeVertical * 1.5,
-          horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
-        ),
-        child: StreamBuilder<QuerySnapshot>(
-          stream: _userItemBloc.getAllQueryMessages(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              if (Platform.isIOS) {
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            } else {
-              return GridView.builder(
-                itemCount: snapshot.data.documents.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
-                  mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
-                ),
-                itemBuilder: (context, index) {
-                  final barterModel = BarterModel.fromJson(
-                    snapshot.data.documents[index].data,
-                  );
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push<void>(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewBarterItemScreen(),
-                          fullscreenDialog: true,
-                        ),
-                      );
-
-                      _viewBarterItemBloc.add(
-                        ViewBarterItemEvent.viewBarterItem(barterModel),
-                      );
-                    },
-                    child: GridTile(
-                      child: UserBarterItem(barterModel),
+    return BlocBuilder<UserBarterListingBloc, UserBarterListingState>(
+      builder: (context, state) => state.map(initial: (_) {
+        return Container();
+      }, loadUserListing: (state) {
+        return Scaffold(
+          body: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: appSizeConfig.blockSizeVertical * 1.5,
+              horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
+            ),
+            child: StreamBuilder<QuerySnapshot>(
+              stream: state.listings,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  if (Platform.isIOS) {
+                    return Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
                     ),
                   );
-                },
-              );
-            }
-          },
-        ),
-      ),
+                } else {
+                  return GridView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
+                      mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
+                    ),
+                    itemBuilder: (context, index) {
+                      final barterModel = BarterModel.fromJson(
+                        snapshot.data.documents[index].data,
+                      );
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewBarterItemScreen(),
+                              fullscreenDialog: true,
+                            ),
+                          );
+
+                          _viewBarterItemBloc.add(
+                            ViewBarterItemEvent.viewBarterItem(barterModel),
+                          );
+                        },
+                        child: GridTile(
+                          child: UserBarterItem(barterModel),
+                        ),
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+          ),
+        );
+      }),
     );
   }
 }

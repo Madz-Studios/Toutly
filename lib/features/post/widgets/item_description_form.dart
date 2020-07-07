@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
@@ -29,7 +28,6 @@ class ItemDescriptionForm extends StatefulWidget {
 
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
-  final _navBloc = getIt<NavigationBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
 
   final _titleController = TextEditingController();

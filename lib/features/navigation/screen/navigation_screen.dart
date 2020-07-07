@@ -1,3 +1,4 @@
+import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/edit_barter_item/screen/edit_barter_item_screen.dart';
 import 'package:Toutly/features/favourites/screen/favourites_screen.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
@@ -8,6 +9,7 @@ import 'package:Toutly/features/navigation/widgets/item_tab_view.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/search/screen/search_screen.dart';
+import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'package:Toutly/features/user_barter_listing/screen/user_barter_listing_screen.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -16,6 +18,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Main screen, loads after authentication screen
 class NavigationScreen extends StatelessWidget {
+  final _userBarterListing = getIt<UserBarterListingBloc>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -49,6 +52,7 @@ class NavigationScreen extends StatelessWidget {
           );
         },
         userBarterListing: (_) {
+          _userBarterListing.add(UserBarterListingEvent.viewBarterItems());
           List<Widget> screens = [
             UserBarterListingScreen(),
             FavouritesScreen(),
