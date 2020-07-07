@@ -7,10 +7,7 @@ abstract class LocationState with _$LocationState {
     Placemark placeMark,
   }) = _LocationState;
 
-  factory LocationState.init() => LocationState(
-        placeMark: Placemark(),
-        geoFirePoint: GeoFirePoint(0, 0),
-      );
+  factory LocationState.init() => LocationState();
 
   factory LocationState.setInitialLocationData({
     @required geoFirePoint,
