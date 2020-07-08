@@ -1,5 +1,6 @@
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/widgets/indicator_carousel.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +28,16 @@ class _PhotosCarouselState extends State<PhotosCarousel> {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-//        Placeholder(),
         CarouselSlider(
           items: widget.items,
           options: CarouselOptions(
-              viewportFraction: 1.0,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _current = index;
-                });
-              }),
+            viewportFraction: 1.0,
+            onPageChanged: (index, reason) {
+              setState(() {
+                _current = index;
+              });
+            },
+          ),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -67,8 +68,7 @@ class _PhotosCarouselState extends State<PhotosCarousel> {
                 ),
               ),
               IndicatorCarousel(
-                widget: widget,
-                appSizeConfig: appSizeConfig,
+                items: widget.items,
                 current: _current,
               ),
               IconButton(
@@ -134,43 +134,6 @@ class _PhotosCarouselState extends State<PhotosCarousel> {
           ),
         )
       ],
-    );
-  }
-}
-
-class IndicatorCarousel extends StatelessWidget {
-  const IndicatorCarousel({
-    Key key,
-    @required this.widget,
-    @required this.appSizeConfig,
-    @required int current,
-  })  : _current = current,
-        super(key: key);
-
-  final PhotosCarousel widget;
-  final AppSizeConfig appSizeConfig;
-  final int _current;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: widget.items.map((url) {
-        int index = widget.items.indexOf(url);
-        return Container(
-          width: appSizeConfig.blockSizeHorizontal * 2,
-          height: appSizeConfig.blockSizeVertical * 2,
-          margin: EdgeInsets.symmetric(
-              vertical: appSizeConfig.blockSizeVertical * 1,
-              horizontal: appSizeConfig.blockSizeHorizontal * 1),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: _current == index
-                ? kPrimaryColor
-                : Color.fromRGBO(0, 0, 0, 0.4),
-          ),
-        );
-      }).toList(),
     );
   }
 }

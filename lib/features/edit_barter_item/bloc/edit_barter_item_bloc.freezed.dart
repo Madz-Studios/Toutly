@@ -288,7 +288,26 @@ class _$EditBarterItemStateTearOff {
 // ignore: unused_element
 const $EditBarterItemState = _$EditBarterItemStateTearOff();
 
-mixin _$EditBarterItemState {}
+mixin _$EditBarterItemState {
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(EditBarterItemStateInitial value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(EditBarterItemStateInitial value),
+    @required Result orElse(),
+  });
+}
 
 abstract class $EditBarterItemStateCopyWith<$Res> {
   factory $EditBarterItemStateCopyWith(
@@ -338,6 +357,50 @@ class _$EditBarterItemStateInitial implements EditBarterItemStateInitial {
 
   @override
   int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+  }) {
+    assert(initial != null);
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(EditBarterItemStateInitial value),
+  }) {
+    assert(initial != null);
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(EditBarterItemStateInitial value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class EditBarterItemStateInitial implements EditBarterItemState {

@@ -1,5 +1,4 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'use_case_barter_param.freezed.dart';
