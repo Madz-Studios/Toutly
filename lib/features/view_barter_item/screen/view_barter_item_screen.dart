@@ -4,7 +4,7 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,23 +26,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                 flex: 1,
                 child: Stack(
                   children: [
-                    CachedNetworkImage(
-                      fit: BoxFit.cover,
-                      imageUrl: state.barterModel?.photosUrl == null
-                          ? ''
-                          : state.barterModel?.photosUrl[0],
-                      imageBuilder: (context, imageProvider) => Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.rectangle,
-                          image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      placeholder: (context, url) => Container(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
+                    CarouselSliderCustom(state.barterModel),
                     _getTopLeftWidget(context, state),
                     _getTopRightWidget(context, state),
                   ],
