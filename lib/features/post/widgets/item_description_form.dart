@@ -256,8 +256,14 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                   color: Color(0XFFB5B5B5),
                 ),
                 labelText: 'Category',
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
                   borderRadius: BorderRadius.all(
                     Radius.circular(8.0),
                   ),
@@ -265,34 +271,37 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
               ),
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 3,
             ),
             PostItemTextFieldForm(
               title: 'Title',
               description: 'Describe what you are bartering in a few words',
               controller: _titleController,
               readOnly: false,
+              maxLength: 100,
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 1,
             ),
             PostItemTextFieldForm(
               title: 'Description',
               description: 'Describe what you are bartering in detail',
               controller: _descriptionController,
               readOnly: false,
+              maxLength: 200,
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 1,
             ),
             PostItemTextFieldForm(
               title: 'Preferred Item',
               description: 'Describe what you want in return',
               controller: _preferredItemController,
               readOnly: false,
+              maxLength: 100,
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 1,
             ),
             BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
               builder: (context, remoteConfigDataState) {
@@ -321,6 +330,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                           description: 'Describe your meeting place',
                           controller: _locationController,
                           readOnly: true,
+                          maxLength: 100,
                         ),
                       ),
                     );
@@ -329,13 +339,13 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
               },
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 1,
             ),
             Divider(
               thickness: 2,
             ),
             SizedBox(
-              height: appSizeConfig.blockSizeVertical * 1.5,
+              height: appSizeConfig.blockSizeVertical * 1,
             ),
             Padding(
               padding: EdgeInsets.symmetric(

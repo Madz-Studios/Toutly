@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,22 +47,28 @@ class ViewBarterItemScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            state.barterModel.title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
+                          Flexible(
+                            flex: 5,
+                            child: Text(
+                              state.barterModel.title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 18.0,
+                              ),
                             ),
                           ),
-//                          IconButton(
-//                            icon: Icon(
-//                              Icons.edit,
-//                              color: kPrimaryColor,
-//                            ),
-//                            onPressed: () {
-//                              print('Edit');
-//                            },
-//                          ),
+                          Flexible(
+                            flex: 1,
+                            child: IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: kPrimaryColor,
+                              ),
+                              onPressed: () {
+                                print('Edit');
+                              },
+                            ),
+                          ),
                         ],
                       ),
                       SizedBox(
