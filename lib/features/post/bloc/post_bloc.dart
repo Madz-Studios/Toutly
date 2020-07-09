@@ -107,6 +107,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
           dateUpdated: DateTime.now(),
           dateDoneDeal: null,
           description: e.description,
+          likes: 0,
           itemId: itemId,
           geoHash: e.geoHash,
           geoLocation: e.geoLocation,
