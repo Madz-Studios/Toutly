@@ -21,7 +21,11 @@ class BarterModel {
   String description;
   String itemId;
   String geoHash;
-  @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
+  @JsonKey(
+      fromJson: _fromJsonGeoPoint,
+      toJson: _toJsonGeoPoint,
+      name:
+          '_geoloc') //name  '_geoloc' is for geo location searching of algolia
   GeoPoint geoLocation;
   int likes;
   List<String> photosUrl;
@@ -58,11 +62,11 @@ class BarterModel {
   static Timestamp _toJsonTimestamp(DateTime time) =>
       time == null ? null : Timestamp.fromDate(time);
 
-  static GeoPoint _fromJsonGeoPoint(GeoPoint geoPoint) {
-    return geoPoint;
+  static GeoPoint _fromJsonGeoPoint(GeoPoint _geoPoint) {
+    return _geoPoint;
   }
 
-  static GeoPoint _toJsonGeoPoint(GeoPoint geoPoint) {
-    return geoPoint;
+  static GeoPoint _toJsonGeoPoint(GeoPoint _geoPoint) {
+    return _geoPoint;
   }
 }

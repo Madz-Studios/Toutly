@@ -147,7 +147,7 @@ class ViewBarterItemScreen extends StatelessWidget {
     final currentUser = state.currentUser;
     final barterModel = state.barterModel;
 
-    if (currentUser.uid == barterModel.userId) {
+    if (currentUser?.uid == barterModel?.userId) {
       return Align(
         alignment: Alignment.topRight,
         child: IconButton(
