@@ -34,6 +34,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   String _selectedCategory;
   GeoPoint _geoLocation;
   String _geoHash;
+  String _locationPlaceHolderText = 'Getting Location...';
 
   @override
   void initState() {
@@ -83,7 +84,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       _titleController.text.isNotEmpty &&
       _descriptionController.text.isNotEmpty &&
       _preferredItemController.text.isNotEmpty &&
-      _locationController.text.isNotEmpty;
+      _locationController.text.isNotEmpty &&
+      _locationController.text != _locationPlaceHolderText;
 
   bool isPostButtonEnabled(PostState state) {
     return state.isPostFormValid && isPopulated && !state.isSubmitting;
