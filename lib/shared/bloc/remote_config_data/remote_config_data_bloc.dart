@@ -37,6 +37,10 @@ class RemoteConfigDataBloc
           firebaseApiKey = remoteConfig.getString('android_gcp_api_key');
         }
 
+        print('algoliaAppId = $algoliaAppId');
+        print('algoliaSearchApiKey = $algoliaSearchApiKey');
+        print('firebaseApiKey = $firebaseApiKey');
+
         yield RemoteConfigDataState.setConfigData(
           firebaseApiKey: firebaseApiKey,
           algoliaSearchApiKey: algoliaSearchApiKey,

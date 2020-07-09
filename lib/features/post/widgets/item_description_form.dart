@@ -1,9 +1,7 @@
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
-import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -105,21 +103,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     );
   }
 
-  void _gotToPreviewBarterItem(BarterModel barterModel) {
-    /// preview barter item posted
-    _viewBarterItemBloc.add(
-      ViewBarterItemEvent.viewBarterItem(barterModel),
-    );
-
-    Navigator.push<void>(
-      context,
-      MaterialPageRoute(
-        builder: (context) => ViewBarterItemScreen(),
-        fullscreenDialog: true,
-      ),
-    );
-  }
-
   void _clearForm() {
     _titleController.clear();
     _descriptionController.clear();
@@ -172,60 +155,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     final appSizeConfig = AppSizeConfig(context);
     return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
-        if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text('${state.info}'),
-                    ),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: Colors.red,
-              ),
-            );
-        }
-        if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Posting...'),
-                    CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-        }
         if (state.isSuccess) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Successfully Posted'),
-                  ],
-                ),
-              ),
-            );
-
-          ///clear the photo list for the next post
-          _postBloc.add(PostEvent.clearPhotoList());
           _clearForm();
-
-          _gotToPreviewBarterItem(state.barterModel);
         }
       },
       builder: (context, state) {
