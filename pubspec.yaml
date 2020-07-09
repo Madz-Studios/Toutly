@@ -61,10 +61,12 @@ dependencies:
   image_picker: ^0.6.7+2
   cached_network_image: ^2.2.0+1
   shared_preferences: ^0.5.7+1
+  uuid: ^2.1.0
   http: ^0.12.1
 
-  #generate random uuid
-  uuid: ^2.1.0
+  #fulltext search
+  algolia: ^0.1.6+1
+
 
 
 dev_dependencies:
