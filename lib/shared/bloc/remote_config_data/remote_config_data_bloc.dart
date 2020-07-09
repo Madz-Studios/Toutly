@@ -26,15 +26,22 @@ class RemoteConfigDataBloc
         await remoteConfig.fetch();
         await remoteConfig.activateFetched();
 
-        String apiKey;
+        String algoliaAppId = remoteConfig.getString('algolia_app_id');
+        String algoliaSearchApiKey =
+            remoteConfig.getString('algolia_search_api_key');
 
+        String firebaseApiKey;
         if (Platform.isIOS) {
-          apiKey = remoteConfig.getString('ios_gcp_api_key');
+          firebaseApiKey = remoteConfig.getString('ios_gcp_api_key');
         } else {
-          apiKey = remoteConfig.getString('android_gcp_api_key');
+          firebaseApiKey = remoteConfig.getString('android_gcp_api_key');
         }
 
-        yield RemoteConfigDataState.setConfigData(apiKey);
+        yield RemoteConfigDataState.setConfigData(
+          firebaseApiKey: firebaseApiKey,
+          algoliaSearchApiKey: algoliaSearchApiKey,
+          algoliaAppId: algoliaAppId,
+        );
       },
     );
   }

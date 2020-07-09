@@ -251,9 +251,14 @@ abstract class RemoteConfigDataEventLoadConfigData
 class _$RemoteConfigDataStateTearOff {
   const _$RemoteConfigDataStateTearOff();
 
-  _RemoteConfigDataState call({@required String firebaseApiKey}) {
+  _RemoteConfigDataState call(
+      {@required String firebaseApiKey,
+      @required String algoliaAppId,
+      @required String algoliaSearchApiKey}) {
     return _RemoteConfigDataState(
       firebaseApiKey: firebaseApiKey,
+      algoliaAppId: algoliaAppId,
+      algoliaSearchApiKey: algoliaSearchApiKey,
     );
   }
 }
@@ -263,6 +268,8 @@ const $RemoteConfigDataState = _$RemoteConfigDataStateTearOff();
 
 mixin _$RemoteConfigDataState {
   String get firebaseApiKey;
+  String get algoliaAppId;
+  String get algoliaSearchApiKey;
 
   $RemoteConfigDataStateCopyWith<RemoteConfigDataState> get copyWith;
 }
@@ -271,7 +278,8 @@ abstract class $RemoteConfigDataStateCopyWith<$Res> {
   factory $RemoteConfigDataStateCopyWith(RemoteConfigDataState value,
           $Res Function(RemoteConfigDataState) then) =
       _$RemoteConfigDataStateCopyWithImpl<$Res>;
-  $Res call({String firebaseApiKey});
+  $Res call(
+      {String firebaseApiKey, String algoliaAppId, String algoliaSearchApiKey});
 }
 
 class _$RemoteConfigDataStateCopyWithImpl<$Res>
@@ -285,11 +293,19 @@ class _$RemoteConfigDataStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object firebaseApiKey = freezed,
+    Object algoliaAppId = freezed,
+    Object algoliaSearchApiKey = freezed,
   }) {
     return _then(_value.copyWith(
       firebaseApiKey: firebaseApiKey == freezed
           ? _value.firebaseApiKey
           : firebaseApiKey as String,
+      algoliaAppId: algoliaAppId == freezed
+          ? _value.algoliaAppId
+          : algoliaAppId as String,
+      algoliaSearchApiKey: algoliaSearchApiKey == freezed
+          ? _value.algoliaSearchApiKey
+          : algoliaSearchApiKey as String,
     ));
   }
 }
@@ -300,7 +316,8 @@ abstract class _$RemoteConfigDataStateCopyWith<$Res>
           $Res Function(_RemoteConfigDataState) then) =
       __$RemoteConfigDataStateCopyWithImpl<$Res>;
   @override
-  $Res call({String firebaseApiKey});
+  $Res call(
+      {String firebaseApiKey, String algoliaAppId, String algoliaSearchApiKey});
 }
 
 class __$RemoteConfigDataStateCopyWithImpl<$Res>
@@ -316,25 +333,42 @@ class __$RemoteConfigDataStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object firebaseApiKey = freezed,
+    Object algoliaAppId = freezed,
+    Object algoliaSearchApiKey = freezed,
   }) {
     return _then(_RemoteConfigDataState(
       firebaseApiKey: firebaseApiKey == freezed
           ? _value.firebaseApiKey
           : firebaseApiKey as String,
+      algoliaAppId: algoliaAppId == freezed
+          ? _value.algoliaAppId
+          : algoliaAppId as String,
+      algoliaSearchApiKey: algoliaSearchApiKey == freezed
+          ? _value.algoliaSearchApiKey
+          : algoliaSearchApiKey as String,
     ));
   }
 }
 
 class _$_RemoteConfigDataState implements _RemoteConfigDataState {
-  const _$_RemoteConfigDataState({@required this.firebaseApiKey})
-      : assert(firebaseApiKey != null);
+  const _$_RemoteConfigDataState(
+      {@required this.firebaseApiKey,
+      @required this.algoliaAppId,
+      @required this.algoliaSearchApiKey})
+      : assert(firebaseApiKey != null),
+        assert(algoliaAppId != null),
+        assert(algoliaSearchApiKey != null);
 
   @override
   final String firebaseApiKey;
+  @override
+  final String algoliaAppId;
+  @override
+  final String algoliaSearchApiKey;
 
   @override
   String toString() {
-    return 'RemoteConfigDataState(firebaseApiKey: $firebaseApiKey)';
+    return 'RemoteConfigDataState(firebaseApiKey: $firebaseApiKey, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey)';
   }
 
   @override
@@ -343,13 +377,21 @@ class _$_RemoteConfigDataState implements _RemoteConfigDataState {
         (other is _RemoteConfigDataState &&
             (identical(other.firebaseApiKey, firebaseApiKey) ||
                 const DeepCollectionEquality()
-                    .equals(other.firebaseApiKey, firebaseApiKey)));
+                    .equals(other.firebaseApiKey, firebaseApiKey)) &&
+            (identical(other.algoliaAppId, algoliaAppId) ||
+                const DeepCollectionEquality()
+                    .equals(other.algoliaAppId, algoliaAppId)) &&
+            (identical(other.algoliaSearchApiKey, algoliaSearchApiKey) ||
+                const DeepCollectionEquality()
+                    .equals(other.algoliaSearchApiKey, algoliaSearchApiKey)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(firebaseApiKey);
+      const DeepCollectionEquality().hash(firebaseApiKey) ^
+      const DeepCollectionEquality().hash(algoliaAppId) ^
+      const DeepCollectionEquality().hash(algoliaSearchApiKey);
 
   @override
   _$RemoteConfigDataStateCopyWith<_RemoteConfigDataState> get copyWith =>
@@ -358,11 +400,17 @@ class _$_RemoteConfigDataState implements _RemoteConfigDataState {
 }
 
 abstract class _RemoteConfigDataState implements RemoteConfigDataState {
-  const factory _RemoteConfigDataState({@required String firebaseApiKey}) =
-      _$_RemoteConfigDataState;
+  const factory _RemoteConfigDataState(
+      {@required String firebaseApiKey,
+      @required String algoliaAppId,
+      @required String algoliaSearchApiKey}) = _$_RemoteConfigDataState;
 
   @override
   String get firebaseApiKey;
+  @override
+  String get algoliaAppId;
+  @override
+  String get algoliaSearchApiKey;
   @override
   _$RemoteConfigDataStateCopyWith<_RemoteConfigDataState> get copyWith;
 }

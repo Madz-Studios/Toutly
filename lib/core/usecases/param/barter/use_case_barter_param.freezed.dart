@@ -25,25 +25,6 @@ const $UseCaseBarterModelParam = _$UseCaseBarterModelParamTearOff();
 mixin _$UseCaseBarterModelParam {
   BarterModel get barterModel;
 
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(BarterModel barterModel),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(BarterModel barterModel),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseBarterModelParamInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseBarterModelParamInit value),
-    @required Result orElse(),
-  });
-
   $UseCaseBarterModelParamCopyWith<UseCaseBarterModelParam> get copyWith;
 }
 
@@ -135,50 +116,6 @@ class _$UseCaseBarterModelParamInit implements UseCaseBarterModelParamInit {
   $UseCaseBarterModelParamInitCopyWith<UseCaseBarterModelParamInit>
       get copyWith => _$UseCaseBarterModelParamInitCopyWithImpl<
           UseCaseBarterModelParamInit>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(BarterModel barterModel),
-  }) {
-    assert(init != null);
-    return init(barterModel);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(BarterModel barterModel),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(barterModel);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseBarterModelParamInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseBarterModelParamInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseBarterModelParamInit implements UseCaseBarterModelParam {
@@ -207,25 +144,6 @@ const $UseCaseUserIdParam = _$UseCaseUserIdParamTearOff();
 
 mixin _$UseCaseUserIdParam {
   String get userId;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserIdParamInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserIdParamInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserIdParamCopyWith<UseCaseUserIdParam> get copyWith;
 }
@@ -311,50 +229,6 @@ class _$UseCaseUserIdParamInit implements UseCaseUserIdParamInit {
   $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith =>
       _$UseCaseUserIdParamInitCopyWithImpl<UseCaseUserIdParamInit>(
           this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  }) {
-    assert(init != null);
-    return init(userId);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(userId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserIdParamInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserIdParamInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
@@ -383,25 +257,6 @@ const $UseCaseUserIdWithListBarterParam =
 
 mixin _$UseCaseUserIdWithListBarterParam {
   String get userId;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserIdWithListBarterParamInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserIdWithListBarterParamInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserIdWithListBarterParamCopyWith<UseCaseUserIdWithListBarterParam>
       get copyWith;
@@ -495,50 +350,6 @@ class _$UseCaseUserIdWithListBarterParamInit
           UseCaseUserIdWithListBarterParamInit>
       get copyWith => _$UseCaseUserIdWithListBarterParamInitCopyWithImpl<
           UseCaseUserIdWithListBarterParamInit>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  }) {
-    assert(init != null);
-    return init(userId);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(userId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserIdWithListBarterParamInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserIdWithListBarterParamInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserIdWithListBarterParamInit

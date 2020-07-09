@@ -25,25 +25,6 @@ const $UseCaseUserParamEmail = _$UseCaseUserParamEmailTearOff();
 mixin _$UseCaseUserParamEmail {
   String get email;
 
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String email),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String email),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamEmailInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamEmailInit value),
-    @required Result orElse(),
-  });
-
   $UseCaseUserParamEmailCopyWith<UseCaseUserParamEmail> get copyWith;
 }
 
@@ -129,50 +110,6 @@ class _$UseCaseUserParamEmailInit implements UseCaseUserParamEmailInit {
   $UseCaseUserParamEmailInitCopyWith<UseCaseUserParamEmailInit> get copyWith =>
       _$UseCaseUserParamEmailInitCopyWithImpl<UseCaseUserParamEmailInit>(
           this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String email),
-  }) {
-    assert(init != null);
-    return init(email);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String email),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(email);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamEmailInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamEmailInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserParamEmailInit implements UseCaseUserParamEmail {
@@ -202,25 +139,6 @@ const $UseCaseUserParamEmailPassword = _$UseCaseUserParamEmailPasswordTearOff();
 mixin _$UseCaseUserParamEmailPassword {
   String get email;
   String get password;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String email, String password),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String email, String password),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamEmailPasswordInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamEmailPasswordInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserParamEmailPasswordCopyWith<UseCaseUserParamEmailPassword>
       get copyWith;
@@ -325,50 +243,6 @@ class _$UseCaseUserParamEmailPasswordInit
   $UseCaseUserParamEmailPasswordInitCopyWith<UseCaseUserParamEmailPasswordInit>
       get copyWith => _$UseCaseUserParamEmailPasswordInitCopyWithImpl<
           UseCaseUserParamEmailPasswordInit>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String email, String password),
-  }) {
-    assert(init != null);
-    return init(email, password);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String email, String password),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(email, password);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamEmailPasswordInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamEmailPasswordInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserParamEmailPasswordInit
@@ -400,25 +274,6 @@ const $UseCaseUserParamUserId = _$UseCaseUserParamUserIdTearOff();
 
 mixin _$UseCaseUserParamUserId {
   String get userId;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamUidInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamUidInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserParamUserIdCopyWith<UseCaseUserParamUserId> get copyWith;
 }
@@ -504,50 +359,6 @@ class _$UseCaseUserParamUidInit implements UseCaseUserParamUidInit {
   $UseCaseUserParamUidInitCopyWith<UseCaseUserParamUidInit> get copyWith =>
       _$UseCaseUserParamUidInitCopyWithImpl<UseCaseUserParamUidInit>(
           this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(String userId),
-  }) {
-    assert(init != null);
-    return init(userId);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(String userId),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(userId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamUidInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamUidInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserParamUidInit implements UseCaseUserParamUserId {
@@ -575,25 +386,6 @@ const $UseCaseUserParamUserModel = _$UseCaseUserParamUserModelTearOff();
 
 mixin _$UseCaseUserParamUserModel {
   UserModel get userModel;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(UserModel userModel),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(UserModel userModel),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamModelInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamModelInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserParamUserModelCopyWith<UseCaseUserParamUserModel> get copyWith;
 }
@@ -682,50 +474,6 @@ class _$UseCaseUserParamModelInit implements UseCaseUserParamModelInit {
   $UseCaseUserParamModelInitCopyWith<UseCaseUserParamModelInit> get copyWith =>
       _$UseCaseUserParamModelInitCopyWithImpl<UseCaseUserParamModelInit>(
           this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(UserModel userModel),
-  }) {
-    assert(init != null);
-    return init(userModel);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(UserModel userModel),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(userModel);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamModelInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamModelInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserParamModelInit implements UseCaseUserParamUserModel {
@@ -755,25 +503,6 @@ const $UseCaseUserParamGeoLocation = _$UseCaseUserParamGeoLocationTearOff();
 mixin _$UseCaseUserParamGeoLocation {
   double get latitude;
   double get longitude;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(double latitude, double longitude),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(double latitude, double longitude),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamGeoLocationInit value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamGeoLocationInit value),
-    @required Result orElse(),
-  });
 
   $UseCaseUserParamGeoLocationCopyWith<UseCaseUserParamGeoLocation>
       get copyWith;
@@ -879,50 +608,6 @@ class _$UseCaseUserParamGeoLocationInit
   $UseCaseUserParamGeoLocationInitCopyWith<UseCaseUserParamGeoLocationInit>
       get copyWith => _$UseCaseUserParamGeoLocationInitCopyWithImpl<
           UseCaseUserParamGeoLocationInit>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result init(double latitude, double longitude),
-  }) {
-    assert(init != null);
-    return init(latitude, longitude);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result init(double latitude, double longitude),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(latitude, longitude);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result init(UseCaseUserParamGeoLocationInit value),
-  }) {
-    assert(init != null);
-    return init(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result init(UseCaseUserParamGeoLocationInit value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (init != null) {
-      return init(this);
-    }
-    return orElse();
-  }
 }
 
 abstract class UseCaseUserParamGeoLocationInit
