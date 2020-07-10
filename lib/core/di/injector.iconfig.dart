@@ -130,7 +130,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
   g.registerLazySingleton<HomeBloc>(
-      () => HomeBloc(g<RemoteConfig>(), g<FirestoreGetUserUseCase>()));
+      () => HomeBloc(g<FirestoreGetUserUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(

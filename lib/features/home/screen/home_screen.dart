@@ -4,17 +4,21 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/home/widgets/feed_item.dart';
+import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:algolia/algolia.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
+  final algoliaSearchApiKey =
+      getIt<RemoteConfigDataBloc>().state.algoliaSearchApiKey;
+  final algoliaAppId = getIt<RemoteConfigDataBloc>().state.algoliaAppId;
   final _homeBloc = getIt<HomeBloc>();
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _homeBloc.getBarterFeeds(),
+      future: _homeBloc.getBarterFeeds(algoliaAppId, algoliaSearchApiKey),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           if (Platform.isIOS) {
