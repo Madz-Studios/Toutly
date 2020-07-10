@@ -44,11 +44,6 @@ class ViewBarterItemBloc
         firestoreDeleteBarterItemUseCase.call(
           UseCaseBarterModelParam.init(barterModel: e.barterModel),
         );
-
-        yield ViewBarterItemState.loadBarterItem(
-          currentUser: currentUser,
-          barterModel: e.barterModel,
-        );
       },
     );
   }
