@@ -20,6 +20,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {}
 
+  ///TODO: Put the in a separate Bloc, Search Bloc???
   Future<AlgoliaQuerySnapshot> getBarterFeeds(
       String algoliaAppId, String algoliaSearchApiKey) async {
     Algolia algolia = Algolia.init(
