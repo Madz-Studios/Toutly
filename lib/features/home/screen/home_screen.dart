@@ -8,43 +8,45 @@ import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.da
 import 'package:algolia/algolia.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeScreen extends StatelessWidget {
-  final algoliaSearchApiKey =
-      getIt<RemoteConfigDataBloc>().state.algoliaSearchApiKey;
-  final algoliaAppId = getIt<RemoteConfigDataBloc>().state.algoliaAppId;
   final _homeBloc = getIt<HomeBloc>();
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _homeBloc.getBarterFeeds(algoliaAppId, algoliaSearchApiKey),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          if (Platform.isIOS) {
+    return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+        builder: (context, state) {
+      return FutureBuilder(
+        future: _homeBloc.getBarterFeeds(
+            state.algoliaAppId, state.algoliaSearchApiKey),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            if (Platform.isIOS) {
+              return Center(
+                child: CupertinoActivityIndicator(),
+              );
+            } else {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          } else if (snapshot.hasError) {
             return Center(
-              child: CupertinoActivityIndicator(),
+              child: Text(
+                'Error: ${snapshot.error}',
+                style: TextStyle(
+                  color: Colors.red,
+                ),
+              ),
             );
           } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
+            AlgoliaQuerySnapshot algoliaQuerySnapshot = snapshot.data;
+            return UserFeed(algoliaQuerySnapshot: algoliaQuerySnapshot);
           }
-        } else if (snapshot.hasError) {
-          return Center(
-            child: Text(
-              'Error: ${snapshot.error}',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
-          );
-        } else {
-          AlgoliaQuerySnapshot algoliaQuerySnapshot = snapshot.data;
-          return UserFeed(algoliaQuerySnapshot: algoliaQuerySnapshot);
-        }
-      },
-    );
+        },
+      );
+    });
   }
 }
 
