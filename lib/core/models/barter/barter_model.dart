@@ -3,10 +3,16 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+import 'algolia_geo_location.dart';
+
 part 'barter_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class BarterModel {
+  @JsonKey(
+    name: '_geoloc', //algolia naming for geopoint
+  )
+  AlgoliaGeolocation algoliaGeolocation;
   bool active;
   String address;
   bool publicAccess;
@@ -22,11 +28,10 @@ class BarterModel {
   String itemId;
   String geoHash;
   @JsonKey(
-      fromJson: _fromJsonGeoPoint,
-      toJson: _toJsonGeoPoint,
-      name:
-          '_geoloc') //name  '_geoloc' is for geo location searching of algolia
-  GeoPoint geoLocation;
+    fromJson: _fromJsonGeoPoint,
+    toJson: _toJsonGeoPoint,
+  )
+  GeoPoint geoPoint;
   int likes;
   List<String> photosUrl;
   String preferredItem;
@@ -34,6 +39,7 @@ class BarterModel {
   String userId;
 
   BarterModel({
+    this.algoliaGeolocation,
     this.active,
     this.address,
     this.publicAccess,
@@ -44,7 +50,7 @@ class BarterModel {
     this.description,
     this.itemId,
     this.geoHash,
-    this.geoLocation,
+    this.geoPoint,
     this.likes,
     this.photosUrl,
     this.preferredItem,

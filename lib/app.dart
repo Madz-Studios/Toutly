@@ -58,7 +58,7 @@ class App extends StatelessWidget {
 
         /// Home Bloc
         BlocProvider<HomeBloc>(
-          create: (BuildContext context) => getIt<HomeBloc>(),
+          create: (BuildContext context) => getIt<HomeBloc>()
         ),
 
         /// Post Bloc

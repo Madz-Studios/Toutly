@@ -1,18 +1,17 @@
-import 'package:Toutly/shared/constants/app_constants.dart';
-import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/shared/widgets/carousel/indicator_carousel.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class PhotosCarousel extends StatefulWidget {
   const PhotosCarousel({
     Key key,
-    @required this.items,
+    @required this.algoliaBarter,
   }) : super(key: key);
 
-  final List<Widget> items;
+  final AlgoliaBarterModel algoliaBarter;
 
   @override
   _PhotosCarouselState createState() => _PhotosCarouselState();
@@ -20,16 +19,12 @@ class PhotosCarousel extends StatefulWidget {
 
 class _PhotosCarouselState extends State<PhotosCarousel> {
   int _current = 0;
-  bool _isLiked = false;
   @override
   Widget build(BuildContext context) {
-    final appSizeConfig = AppSizeConfig(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
+    return Stack(
+      children: [
         CarouselSlider(
-          items: widget.items,
+          items: _getCachedImages(widget.algoliaBarter.photosUrl),
           options: CarouselOptions(
             viewportFraction: 1.0,
             onPageChanged: (index, reason) {
@@ -39,101 +34,39 @@ class _PhotosCarouselState extends State<PhotosCarousel> {
             },
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              RichText(
-                text: TextSpan(
-                  style: DefaultTextStyle.of(context).style,
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: '100',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
-                      ),
-                    ),
-                    TextSpan(
-                      text: ' likes!',
-                      style: TextStyle(
-                        fontWeight: FontWeight.normal,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              IndicatorCarousel(
-                items: widget.items,
-                current: _current,
-              ),
-              IconButton(
-                icon: _isLiked
-                    ? SvgPicture.asset(
-                        'assets/icons/favourites.svg',
-                        height: appSizeConfig.blockSizeVertical * 3,
-                        color: Colors.red,
-                      )
-                    : SvgPicture.asset(
-                        'assets/icons/unpressed-favourites.svg',
-                        height: appSizeConfig.blockSizeVertical * 3,
-                      ),
-                onPressed: () {
-                  setState(() {
-                    _isLiked = !_isLiked;
-                  });
-                },
-              ),
-            ],
+        Align(
+          alignment: Alignment.topLeft,
+          child: IndicatorCarousel(
+            items: _getCachedImages(widget.algoliaBarter.photosUrl),
+            current: _current,
           ),
         ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Text(
-                'MacBook Pro',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              Text(
-                '''Lorem ipsum is placeholder text commonly used in the graphic, print...''',
-                style: TextStyle(
-                  fontWeight: FontWeight.w200,
-                  fontSize: 12,
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-                ),
-                child: Row(
-                  children: <Widget>[
-                    Spacer(),
-                    Text(
-                      'See more',
-                      style: TextStyle(
-                        fontWeight: FontWeight.w200,
-                        fontSize: 12,
-                        color: kPrimaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        )
       ],
     );
+  }
+
+  List<Widget> _getCachedImages(List<String> photosUrl) {
+    List<Widget> listPhoto = [];
+    for (final image in photosUrl) {
+      listPhoto.add(
+        CachedNetworkImage(
+          fit: BoxFit.cover,
+          imageUrl: image == null ? '' : image,
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          placeholder: (context, url) => Container(),
+          errorWidget: (context, url, error) => Icon(Icons.error),
+        ),
+      );
+    }
+
+    return listPhoto;
   }
 }

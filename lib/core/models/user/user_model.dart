@@ -6,7 +6,9 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel {
   String name;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateCreated;
+  @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateUpdated;
   String email;
   String geoHash;
@@ -27,6 +29,12 @@ class UserModel {
       _$UserModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$UserModelToJson(this);
+
+  static DateTime _fromJsonTimestamp(Timestamp timestamp) => timestamp == null
+      ? null
+      : DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
+  static Timestamp _toJsonTimestamp(DateTime time) =>
+      time == null ? null : Timestamp.fromDate(time);
 
   static GeoPoint _fromJsonGeoPoint(GeoPoint geoPoint) {
     return geoPoint;

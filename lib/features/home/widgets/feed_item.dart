@@ -1,17 +1,22 @@
+import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'feed_item_description.dart';
+import 'likes_panel.dart';
 import 'photos_carousel.dart';
 import 'profile_with_rating.dart';
 
 class FeedItem extends StatelessWidget {
   FeedItem({
-    @required this.items,
-    @required this.name,
+    @required this.algoliaBarter,
+    @required this.user,
   });
 
-  final List<Widget> items;
-  final String name;
+  final AlgoliaBarterModel algoliaBarter;
+  final UserModel user;
 
   @override
   Widget build(BuildContext context) {
@@ -31,13 +36,25 @@ class FeedItem extends StatelessWidget {
                 top: appSizeConfig.blockSizeVertical * 2.5,
               ),
               child: ProfileWithRating(
-                name: name,
+                user: user,
               ),
             ),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            PhotosCarousel(items: items),
+            PhotosCarousel(algoliaBarter: algoliaBarter),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+              ),
+              child: LikesPanel(),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+              ),
+              child: FeedItemDescription(),
+            )
           ],
         ),
       ),

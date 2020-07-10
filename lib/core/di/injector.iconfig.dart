@@ -20,7 +20,6 @@ import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:geoflutterfire/src/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
@@ -40,6 +39,7 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
+import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
@@ -81,7 +81,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => injectableModule.geoFlutterFire);
   g.registerLazySingleton<Geolocator>(() => injectableModule.geoLocator);
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
-  g.registerLazySingleton<HomeBloc>(() => HomeBloc());
   g.registerLazySingleton<LocationBloc>(() => LocationBloc(
       geoLocator: g<Geolocator>(), geoFlutterFire: g<Geoflutterfire>()));
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
@@ -130,15 +129,17 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
+  g.registerLazySingleton<HomeBloc>(
+      () => HomeBloc(g<RemoteConfig>(), g<FirestoreGetUserUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
-        firebaseStorage: g<FirebaseStorage>(),
-        uuid: g<Uuid>(),
-        validators: g<Validators>(),
-        firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
-        firestoreCreateBarterItemUseCase: g<FirestoreCreateBarterItemUseCase>(),
-        firestoreUpdateBarterItemUseCase: g<FirestoreUpdateBarterItemUseCase>(),
+        g<FirebaseStorage>(),
+        g<Uuid>(),
+        g<Validators>(),
+        g<FirebaseGetUserUseCase>(),
+        g<FirestoreCreateBarterItemUseCase>(),
+        g<FirestoreUpdateBarterItemUseCase>(),
       ));
   g.registerLazySingleton<SignBloc>(() => SignBloc(
         firebaseSignUpUseCase: g<FirebaseSignUpUseCase>(),

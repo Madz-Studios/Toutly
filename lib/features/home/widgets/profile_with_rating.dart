@@ -1,13 +1,14 @@
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class ProfileWithRating extends StatelessWidget {
-  final String name;
+  final UserModel user;
 
   const ProfileWithRating({
     Key key,
-    this.name,
+    this.user,
   }) : super(key: key);
 
   @override
@@ -26,7 +27,7 @@ class ProfileWithRating extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '$name',
+              '${user.name}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,

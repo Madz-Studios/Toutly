@@ -1,3 +1,4 @@
+import 'package:Toutly/core/models/barter/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
@@ -29,116 +30,130 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
   final FirestoreUpdateBarterItemUseCase firestoreUpdateBarterItemUseCase;
 
-  PostBloc({
-    @required this.firebaseStorage,
-    @required this.uuid,
-    @required this.validators,
-    @required this.firebaseGetUserUseCase,
-    @required this.firestoreCreateBarterItemUseCase,
-    @required this.firestoreUpdateBarterItemUseCase,
-  }) : super(PostState.empty());
+  PostBloc(
+    this.firebaseStorage,
+    this.uuid,
+    this.validators,
+    this.firebaseGetUserUseCase,
+    this.firestoreCreateBarterItemUseCase,
+    this.firestoreUpdateBarterItemUseCase,
+  ) : super(PostState.empty());
 
   @override
   Stream<PostState> mapEventToState(PostEvent event) async* {
-    yield* event.map(titleChanged: (e) async* {
-      yield state.copyWith(
-        isTitleValid:
-            validators.isValidTextLengthMoreThanOrEqualToFourChars(e.title),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-      );
-    }, descriptionChanged: (e) async* {
-      yield state.copyWith(
-        isDescriptionValid: validators
-            .isValidTextLengthMoreThanOrEqualToFourChars(e.description),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-      );
-    }, preferredItemChanged: (e) async* {
-      yield state.copyWith(
-        isPreferredItemValid: validators
-            .isValidTextLengthMoreThanOrEqualToFourChars(e.preferredItem),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-      );
-    }, locationChanged: (e) async* {
-      yield state.copyWith(
-        isLocationValid:
-            validators.isValidTextLengthMoreThanOrEqualToFourChars(e.location),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-      );
-    }, postButtonPressed: (e) async* {
-      try {
-        final firebaseUser =
-            await firebaseGetUserUseCase.call(UseCaseNoParam.init());
-
-        Map<String, PickedFile> pickedFileList = state.pickedFileList;
-
-        yield PostState.loading(pickedFileList);
-
-        ///Upload the images in cloud storage and get the download url list.
-        List<String> _photosUrl = List();
-        for (final entry in pickedFileList.entries) {
-          final pickedFile = entry.value;
-
-          final StorageReference storageReference =
-              firebaseStorage.ref().child(uuid.v1());
-          final fileData = await pickedFile.readAsBytes();
-
-          final storageTaskSnapshot = await storageReference
-              .putData(fileData, StorageMetadata(contentType: 'image/jpeg'))
-              .onComplete;
-
-          final url = await storageTaskSnapshot.ref.getDownloadURL();
-          _photosUrl.add(url);
-        }
-
-        String itemId = uuid.v4();
-        BarterModel barterModel = BarterModel(
-          userId: firebaseUser.uid,
-          active: true,
-          category: e.category,
-          dateCreated: DateTime.now(),
-          dateUpdated: DateTime.now(),
-          dateDoneDeal: null,
-          description: e.description,
-          likes: 0,
-          itemId: itemId,
-          geoHash: e.geoHash,
-          geoLocation: e.geoLocation,
-          address: e.address,
-          photosUrl: _photosUrl,
-          preferredItem: e.preferredItem,
-          publicAccess: true,
-          title: e.title,
+    yield* event.map(
+      titleChanged: (e) async* {
+        yield state.copyWith(
+          isTitleValid:
+              validators.isValidTextLengthMoreThanOrEqualToFourChars(e.title),
+          isSubmitting: false,
+          isSuccess: false,
+          isFailure: false,
         );
+      },
+      descriptionChanged: (e) async* {
+        yield state.copyWith(
+          isDescriptionValid: validators
+              .isValidTextLengthMoreThanOrEqualToFourChars(e.description),
+          isSubmitting: false,
+          isSuccess: false,
+          isFailure: false,
+        );
+      },
+      preferredItemChanged: (e) async* {
+        yield state.copyWith(
+          isPreferredItemValid: validators
+              .isValidTextLengthMoreThanOrEqualToFourChars(e.preferredItem),
+          isSubmitting: false,
+          isSuccess: false,
+          isFailure: false,
+        );
+      },
+      locationChanged: (e) async* {
+        yield state.copyWith(
+          isLocationValid: validators
+              .isValidTextLengthMoreThanOrEqualToFourChars(e.location),
+          isSubmitting: false,
+          isSuccess: false,
+          isFailure: false,
+        );
+      },
+      postButtonPressed: (e) async* {
+        try {
+          final firebaseUser = await firebaseGetUserUseCase.call(
+            UseCaseNoParam.init(),
+          );
 
-        ///create a barter item in the barter market
-        await firestoreCreateBarterItemUseCase.call(
-          UseCaseBarterModelParam.init(
+          Map<String, PickedFile> pickedFileList = state.pickedFileList;
+
+          yield PostState.loading(pickedFileList);
+
+          ///Upload the images in cloud storage and get the download url list.
+          List<String> _photosUrl = List();
+          for (final entry in pickedFileList.entries) {
+            final pickedFile = entry.value;
+
+            final StorageReference storageReference =
+                firebaseStorage.ref().child(uuid.v1());
+            final fileData = await pickedFile.readAsBytes();
+
+            final storageTaskSnapshot = await storageReference
+                .putData(fileData, StorageMetadata(contentType: 'image/jpeg'))
+                .onComplete;
+
+            final url = await storageTaskSnapshot.ref.getDownloadURL();
+            _photosUrl.add(url);
+          }
+
+          String itemId = uuid.v4();
+          BarterModel barterModel = BarterModel(
+            userId: firebaseUser.uid,
+            active: true,
+            category: e.category,
+            dateCreated: DateTime.now(),
+            dateUpdated: DateTime.now(),
+            dateDoneDeal: null,
+            description: e.description,
+            likes: 0,
+            itemId: itemId,
+            geoHash: e.geoHash,
+            geoPoint: e.geoLocation,
+            algoliaGeolocation: AlgoliaGeolocation(
+              lat: e.geoLocation.latitude,
+              lng: e.geoLocation.longitude,
+            ),
+            address: e.address,
+            photosUrl: _photosUrl,
+            preferredItem: e.preferredItem,
+            publicAccess: true,
+            title: e.title,
+          );
+
+          ///create a barter item in the barter market
+          await firestoreCreateBarterItemUseCase.call(
+            UseCaseBarterModelParam.init(
+              barterModel: barterModel,
+            ),
+          );
+
+          yield PostState.success(
+            info: 'Successfully posted the item.',
             barterModel: barterModel,
-          ),
-        );
-
-        yield PostState.success(
-          info: 'Successfully posted the item.',
-          barterModel: barterModel,
-          pickedFileList: pickedFileList,
-        );
-      } on PlatformException catch (platFormException) {
-        yield PostState.failure(info: platFormException.message);
-      }
-    }, addPhotoToList: (e) async* {
-      state.pickedFileList.putIfAbsent(e.pickedFile.path, () => e.pickedFile);
-    }, removePhotoFromList: (e) async* {
-      state.pickedFileList.remove(e.path);
-    }, clearPhotoList: (e) async* {
-      state.pickedFileList.clear();
-    });
+            pickedFileList: pickedFileList,
+          );
+        } on PlatformException catch (platFormException) {
+          yield PostState.failure(info: platFormException.message);
+        }
+      },
+      addPhotoToList: (e) async* {
+        state.pickedFileList.putIfAbsent(e.pickedFile.path, () => e.pickedFile);
+      },
+      removePhotoFromList: (e) async* {
+        state.pickedFileList.remove(e.path);
+      },
+      clearPhotoList: (e) async* {
+        state.pickedFileList.clear();
+      },
+    );
   }
 }
