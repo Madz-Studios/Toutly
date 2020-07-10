@@ -81,8 +81,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => injectableModule.geoFlutterFire);
   g.registerLazySingleton<Geolocator>(() => injectableModule.geoLocator);
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
-  g.registerLazySingleton<LocationBloc>(() => LocationBloc(
-      geoLocator: g<Geolocator>(), geoFlutterFire: g<Geoflutterfire>()));
+  g.registerLazySingleton<LocationBloc>(
+      () => LocationBloc(g<Geolocator>(), g<Geoflutterfire>()));
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
   final remoteConfig = await injectableModule.remoteConfig;
   g.registerFactory<RemoteConfig>(() => remoteConfig);
@@ -142,30 +142,25 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirestoreUpdateBarterItemUseCase>(),
       ));
   g.registerLazySingleton<SignBloc>(() => SignBloc(
-        firebaseSignUpUseCase: g<FirebaseSignUpUseCase>(),
-        firebaseSignedInWithGoogleUserUseCase:
-            g<FirebaseSignedInWithGoogleUserUseCase>(),
-        firebaseSignedInWithFacebookUserUseCase:
-            g<FirebaseSignedInWithFacebookUserUseCase>(),
-        firebaseSignedInWithAppleUserUseCase:
-            g<FirebaseSignedInWithAppleUserUseCase>(),
-        firebaseSignedInWithCredentialsUserUseCase:
-            g<FirebaseSignedInWithCredentialsUserUseCase>(),
-        firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
-        firestoreCreateUserUseCase: g<FirestoreCreateUserUseCase>(),
-        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
-        validators: g<Validators>(),
+        g<FirebaseSignUpUseCase>(),
+        g<FirebaseSignedInWithGoogleUserUseCase>(),
+        g<FirebaseSignedInWithFacebookUserUseCase>(),
+        g<FirebaseSignedInWithAppleUserUseCase>(),
+        g<FirebaseSignedInWithCredentialsUserUseCase>(),
+        g<FirebaseGetUserUseCase>(),
+        g<FirestoreCreateUserUseCase>(),
+        g<FirestoreGetUserUseCase>(),
+        g<Validators>(),
       ));
   g.registerLazySingleton<UserBarterListingBloc>(() => UserBarterListingBloc(
-      firebaseGetUserUseCase: g<FirebaseGetUserUseCase>(),
-      firestoreGetAllBarterItemsUsingUserIdUseCase:
-          g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+      g<FirebaseGetUserUseCase>(),
+      g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
   g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
       g<FirebaseGetUserUseCase>(), g<FirestoreDeleteBarterItemUseCase>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(
-        firebaseIsSignedInUserUseCase: g<FirebaseIsSignedInUserUseCase>(),
-        firebaseSignOutUserUseCase: g<FirebaseSignOutUserUseCase>(),
-        firestoreGetUserUseCase: g<FirestoreGetUserUseCase>(),
+        g<FirebaseIsSignedInUserUseCase>(),
+        g<FirebaseSignOutUserUseCase>(),
+        g<FirestoreGetUserUseCase>(),
       ));
   g.registerLazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
       LocalSharedDeleteAllSaveDataUseCase(

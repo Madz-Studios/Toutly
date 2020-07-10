@@ -19,10 +19,10 @@ class UserBarterListingBloc
   final FirestoreGetAllBarterItemsUsingUserIdUseCase
       firestoreGetAllBarterItemsUsingUserIdUseCase;
 
-  UserBarterListingBloc({
+  UserBarterListingBloc(
     this.firebaseGetUserUseCase,
     this.firestoreGetAllBarterItemsUsingUserIdUseCase,
-  }) : super(UserBarterListingState.initial());
+  ) : super(UserBarterListingState.initial());
 
   @override
   Stream<UserBarterListingState> mapEventToState(

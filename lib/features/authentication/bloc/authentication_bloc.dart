@@ -19,11 +19,11 @@ class AuthenticationBloc
   final FirebaseSignOutUserUseCase firebaseSignOutUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
-  AuthenticationBloc({
-    @required this.firebaseIsSignedInUserUseCase,
-    @required this.firebaseSignOutUserUseCase,
-    @required this.firestoreGetUserUseCase,
-  }) : super(AuthenticationState.initial());
+  AuthenticationBloc(
+    this.firebaseIsSignedInUserUseCase,
+    this.firebaseSignOutUserUseCase,
+    this.firestoreGetUserUseCase,
+  ) : super(AuthenticationState.initial());
 
   @override
   Stream<AuthenticationState> mapEventToState(

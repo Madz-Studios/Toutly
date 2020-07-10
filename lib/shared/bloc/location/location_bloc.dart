@@ -15,10 +15,10 @@ part 'location_state.dart';
 class LocationBloc extends Bloc<LocationEvent, LocationState> {
   final Geolocator geoLocator;
   final Geoflutterfire geoFlutterFire;
-  LocationBloc({
+  LocationBloc(
     this.geoLocator,
     this.geoFlutterFire,
-  }) : super(LocationState.init());
+  ) : super(LocationState.init());
 
   @override
   Stream<LocationState> mapEventToState(LocationEvent event) async* {

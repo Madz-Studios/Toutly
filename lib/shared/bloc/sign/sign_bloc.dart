@@ -37,27 +37,17 @@ class SignBloc extends Bloc<SignEvent, SignState> {
 
   final Validators validators;
 
-  SignBloc({
-    @required this.firebaseSignUpUseCase,
-    @required this.firebaseSignedInWithGoogleUserUseCase,
-    @required this.firebaseSignedInWithFacebookUserUseCase,
-    @required this.firebaseSignedInWithAppleUserUseCase,
-    @required this.firebaseSignedInWithCredentialsUserUseCase,
-    @required this.firebaseGetUserUseCase,
-    @required this.firestoreCreateUserUseCase,
-    @required this.firestoreGetUserUseCase,
-    @required this.validators,
-  })  : assert(firebaseSignUpUseCase != null),
-        assert(firebaseSignedInWithGoogleUserUseCase != null),
-        assert(firebaseSignedInWithFacebookUserUseCase != null),
-        assert(firebaseSignedInWithCredentialsUserUseCase != null),
-        assert(firebaseGetUserUseCase != null),
-        assert(firestoreCreateUserUseCase != null),
-        assert(firestoreGetUserUseCase != null),
-        assert(validators != null),
-        super(
-          (SignState.empty()),
-        );
+  SignBloc(
+    this.firebaseSignUpUseCase,
+    this.firebaseSignedInWithGoogleUserUseCase,
+    this.firebaseSignedInWithFacebookUserUseCase,
+    this.firebaseSignedInWithAppleUserUseCase,
+    this.firebaseSignedInWithCredentialsUserUseCase,
+    this.firebaseGetUserUseCase,
+    this.firestoreCreateUserUseCase,
+    this.firestoreGetUserUseCase,
+    this.validators,
+  ) : super((SignState.empty()));
 
   @override
   Stream<SignState> mapEventToState(SignEvent event) async* {
