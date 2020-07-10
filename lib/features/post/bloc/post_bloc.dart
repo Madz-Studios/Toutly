@@ -1,4 +1,4 @@
-import 'package:Toutly/core/models/barter/algolia_geo_location.dart';
+import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';

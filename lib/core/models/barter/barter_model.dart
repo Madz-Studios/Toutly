@@ -3,7 +3,7 @@ import 'dart:core';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import 'algolia_geo_location.dart';
+import '../algolia/algolia_geo_location.dart';
 
 part 'barter_model.g.dart';
 

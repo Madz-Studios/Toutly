@@ -1,6 +1,6 @@
 import 'dart:core';
 
-import 'package:Toutly/core/models/barter/algolia_geo_location.dart';
+import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'algolia_barter_model.g.dart';
