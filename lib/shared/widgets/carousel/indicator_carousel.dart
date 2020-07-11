@@ -29,7 +29,7 @@ class IndicatorCarousel extends StatelessWidget {
                 horizontal: appSizeConfig.blockSizeHorizontal * 1),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: _current == index ? kPrimaryColor : Colors.white,
+              color: _current == index ? kPrimaryColor : Colors.grey,
             ),
           );
         },
