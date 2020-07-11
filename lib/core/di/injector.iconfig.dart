@@ -138,6 +138,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Uuid>(),
         g<Validators>(),
         g<FirebaseGetUserUseCase>(),
+        g<FirestoreGetUserUseCase>(),
         g<FirestoreCreateBarterItemUseCase>(),
         g<FirestoreUpdateBarterItemUseCase>(),
       ));

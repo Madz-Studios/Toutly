@@ -58,8 +58,7 @@ class App extends StatelessWidget {
 
         /// Home Bloc
         BlocProvider<HomeBloc>(
-          create: (BuildContext context) => getIt<HomeBloc>()
-        ),
+            create: (BuildContext context) => getIt<HomeBloc>()),
 
         /// Post Bloc
         BlocProvider<PostBloc>(
@@ -78,10 +77,7 @@ class App extends StatelessWidget {
 
         /// User Items Bloc
         BlocProvider<UserBarterListingBloc>(
-          create: (BuildContext context) => getIt<UserBarterListingBloc>()
-            ..add(
-              UserBarterListingEvent.viewBarterItems(),
-            ),
+          create: (BuildContext context) => getIt<UserBarterListingBloc>(),
         ),
 
         ///

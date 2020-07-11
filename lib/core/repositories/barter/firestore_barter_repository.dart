@@ -9,6 +9,8 @@ abstract class FirestoreBarterRepository {
 
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
+  Future<List<BarterModel>> getFutureAllBarterItemsUsingUserId(String userId);
+
   Future<void> updateBarterItem(BarterModel barterModel);
 
   Future<void> deleteBarterItem(BarterModel barterModel);
@@ -46,6 +48,28 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .snapshots();
 
     return query;
+  }
+
+  @override
+  Future<List<BarterModel>> getFutureAllBarterItemsUsingUserId(
+      String userId) async {
+    final String barterCollection = FirestoreCollectionNames.barterCollection;
+
+    final barterItems = await firestore
+        .collection(barterCollection)
+        .where('userId', isEqualTo: userId)
+        .orderBy('dateCreated', descending: true)
+        .getDocuments();
+
+    List<BarterModel> listBarterItems = [];
+    if (barterItems.documents.isNotEmpty) {
+      for (final item in barterItems.documents) {
+        final barterModel = BarterModel.fromJson(item.data);
+
+        listBarterItems.add(barterModel);
+      }
+    }
+    return listBarterItems;
   }
 
   /// Update a barter item in barter firestore collection using [itemId].

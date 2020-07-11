@@ -59,7 +59,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                           ),
                           Visibility(
                             visible: state.currentUser?.uid ==
-                                state.barterModel?.userId,
+                                state.barterModel?.user?.userId,
                             child: Flexible(
                               flex: 1,
                               child: IconButton(
@@ -144,7 +144,7 @@ class ViewBarterItemScreen extends StatelessWidget {
     final currentUser = state.currentUser;
     final barterModel = state.barterModel;
 
-    if (currentUser?.uid == barterModel?.userId) {
+    if (currentUser?.uid == barterModel?.user?.userId) {
       return Align(
         alignment: Alignment.topRight,
         child: IconButton(
