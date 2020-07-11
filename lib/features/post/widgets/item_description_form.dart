@@ -1,7 +1,6 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -21,7 +20,6 @@ class ItemDescriptionForm extends StatefulWidget {
 
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
-  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final _locationBloc = getIt<LocationBloc>();
 
   final _titleController = TextEditingController();
@@ -37,6 +35,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   @override
   void initState() {
     super.initState();
+
     _titleController.addListener(_onTitleChanged);
     _descriptionController.addListener(_onDescriptionChanged);
     _preferredItemController.addListener(_onPreferredItemChanged);
@@ -135,8 +134,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       context,
       remoteConfigDataState.firebaseApiKey,
       initialCenter: LatLng(
-        locationState.geoFirePoint.latitude,
-        locationState.geoFirePoint.longitude,
+        locationState?.geoFirePoint?.latitude ?? 37.4219983,
+        locationState?.geoFirePoint?.longitude ?? -122.084,
       ),
       myLocationButtonEnabled: true,
       hintText: 'Location',
