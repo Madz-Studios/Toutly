@@ -10,18 +10,20 @@ class SearchScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Center(
-          child: Column(
-            children: <Widget>[
-              Text('Search Screen'),
-              Placeholder(),
-              RaisedButton(
-                child: Text('Logout'),
-                onPressed: () {
-                  print('Log out!');
-                  _authBloc.add(AuthenticationEvent.signedOut());
-                },
-              )
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                Text('Search Screen'),
+                Placeholder(),
+                RaisedButton(
+                  child: Text('Logout'),
+                  onPressed: () {
+                    print('Log out!');
+                    _authBloc.add(AuthenticationEvent.signedOut());
+                  },
+                )
+              ],
+            ),
           ),
         ),
       ),
