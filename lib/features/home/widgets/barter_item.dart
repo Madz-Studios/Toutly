@@ -4,12 +4,12 @@ import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'feed_item_description.dart';
+import 'barter_item_description.dart';
 import 'photos_carousel.dart';
 import 'profile_with_rating.dart';
 
-class FeedItem extends StatelessWidget {
-  FeedItem({
+class BarterItem extends StatelessWidget {
+  BarterItem({
     @required this.algoliaBarter,
     @required this.user,
   });
@@ -46,7 +46,7 @@ class FeedItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
               ),
-              child: FeedItemDescription(algoliaBarter),
+              child: BarterItemDescription(algoliaBarter),
             )
           ],
         ),

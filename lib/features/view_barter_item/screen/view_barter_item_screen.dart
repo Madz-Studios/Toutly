@@ -28,7 +28,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                 child: Stack(
                   children: [
                     CarouselSliderCustom(state.barterModel),
-                    _getTopLeftWidget(context, state),
+                    _getTopLeftWidget(context),
                     _getTopRightWidget(context, state),
                   ],
                 ),
@@ -57,16 +57,20 @@ class ViewBarterItemScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          Flexible(
-                            flex: 1,
-                            child: IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: kPrimaryColor,
+                          Visibility(
+                            visible: state.currentUser?.uid ==
+                                state.barterModel?.userId,
+                            child: Flexible(
+                              flex: 1,
+                              child: IconButton(
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: kPrimaryColor,
+                                ),
+                                onPressed: () {
+                                  print('Edit');
+                                },
                               ),
-                              onPressed: () {
-                                print('Edit');
-                              },
                             ),
                           ),
                         ],
@@ -120,27 +124,20 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  Widget _getTopLeftWidget(BuildContext context, ViewBarterItemState state) {
-    final currentUser = state.currentUser;
-    final barterModel = state.barterModel;
-
-    if (currentUser?.uid == barterModel?.userId) {
-      return Align(
-        alignment: Alignment.topLeft,
-        child: IconButton(
-          icon: Icon(
-            Icons.close,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            print('Close');
-            Navigator.pop(context);
-          },
+  Widget _getTopLeftWidget(BuildContext context) {
+    return Align(
+      alignment: Alignment.topLeft,
+      child: IconButton(
+        icon: Icon(
+          Icons.close,
+          color: Colors.white,
         ),
-      );
-    } else {
-      return Container();
-    }
+        onPressed: () {
+          print('Close');
+          Navigator.pop(context);
+        },
+      ),
+    );
   }
 
   Widget _getTopRightWidget(BuildContext context, ViewBarterItemState state) {

@@ -2,10 +2,10 @@ import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 
-class FeedItemDescription extends StatelessWidget {
+class BarterItemDescription extends StatelessWidget {
   final AlgoliaBarterModel algoliaBarterModel;
 
-  FeedItemDescription(this.algoliaBarterModel);
+  BarterItemDescription(this.algoliaBarterModel);
 
   @override
   Widget build(BuildContext context) {
