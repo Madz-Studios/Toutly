@@ -1,4 +1,8 @@
 
+# Start local hosting
+
+firebase serve --only hosting
+
 # Start Emulator
 
 firebase emulators:start
