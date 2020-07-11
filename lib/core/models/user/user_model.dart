@@ -14,6 +14,7 @@ class UserModel {
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;
+  String photoUrl;
   String userId;
   UserModel({
     this.dateCreated,
@@ -22,6 +23,7 @@ class UserModel {
     this.geoHash,
     this.geoLocation,
     this.name,
+    this.photoUrl,
     this.userId,
   });
 
