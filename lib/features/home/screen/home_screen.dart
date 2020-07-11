@@ -68,15 +68,7 @@ class UserFeed extends StatelessWidget {
           future: _homeBloc.getUser(algoliaBarterModel.userId),
           builder: (context, snapshot) {
             if (!snapshot.hasData) {
-              if (Platform.isIOS) {
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+              return Container();
             } else if (snapshot.hasError) {
               return Center(
                 child: Text(
