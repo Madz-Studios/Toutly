@@ -1,11 +1,12 @@
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'barter_item_description.dart';
-import 'photos_carousel.dart';
+import 'likes_panel.dart';
 import 'profile_with_rating.dart';
 
 class BarterItem extends StatelessWidget {
@@ -41,7 +42,15 @@ class BarterItem extends StatelessWidget {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            PhotosCarousel(algoliaBarter: algoliaBarter),
+            Image(
+              image: CachedNetworkImageProvider(algoliaBarter.photosUrl[0]),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+              ),
+              child: LikesPanel(algoliaBarter),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
