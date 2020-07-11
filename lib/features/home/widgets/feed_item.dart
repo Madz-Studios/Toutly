@@ -5,7 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'feed_item_description.dart';
-import 'likes_panel.dart';
 import 'photos_carousel.dart';
 import 'profile_with_rating.dart';
 
@@ -47,13 +46,7 @@ class FeedItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
               ),
-              child: LikesPanel(),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-              ),
-              child: FeedItemDescription(),
+              child: FeedItemDescription(algoliaBarter),
             )
           ],
         ),

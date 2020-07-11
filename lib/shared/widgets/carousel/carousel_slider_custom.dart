@@ -24,6 +24,7 @@ class _CarouselSliderCustomState extends State<CarouselSliderCustom> {
           options: CarouselOptions(
             height: double.maxFinite,
             viewportFraction: 1.0,
+            enableInfiniteScroll: false,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
