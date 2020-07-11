@@ -1,5 +1,5 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:Toutly/shared/util/cached_images.dart';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +20,7 @@ class _CarouselSliderCustomState extends State<CarouselSliderCustom> {
     return Stack(
       children: [
         CarouselSlider(
-          items: _getCachedImages(widget.barterModel.photosUrl),
+          items: getCachedImages(widget.barterModel.photosUrl),
           options: CarouselOptions(
             height: double.maxFinite,
             viewportFraction: 1.0,
@@ -34,36 +34,11 @@ class _CarouselSliderCustomState extends State<CarouselSliderCustom> {
         Align(
           alignment: Alignment.bottomCenter,
           child: IndicatorCarousel(
-            items: _getCachedImages(widget.barterModel.photosUrl),
+            items: getCachedImages(widget.barterModel.photosUrl),
             current: _current,
           ),
         ),
       ],
     );
-  }
-
-  List<Widget> _getCachedImages(List<String> photosUrl) {
-    List<Widget> listPhoto = [];
-    for (final image in photosUrl) {
-      listPhoto.add(
-        CachedNetworkImage(
-          fit: BoxFit.cover,
-          imageUrl: image == null ? '' : image,
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          placeholder: (context, url) => Container(),
-          errorWidget: (context, url, error) => Icon(Icons.error),
-        ),
-      );
-    }
-
-    return listPhoto;
   }
 }
