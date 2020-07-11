@@ -16,6 +16,7 @@ class UserModel {
   GeoPoint geoLocation;
   String photoUrl;
   String userId;
+  double userRating;
   UserModel({
     this.dateCreated,
     this.dateUpdated,
@@ -25,6 +26,7 @@ class UserModel {
     this.name,
     this.photoUrl,
     this.userId,
+    this.userRating,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) =>

@@ -16,6 +16,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     photoUrl: json['photoUrl'] as String,
     userId: json['userId'] as String,
+    userRating: (json['userRating'] as num)?.toDouble(),
   );
 }
 
@@ -28,4 +29,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
       'photoUrl': instance.photoUrl,
       'userId': instance.userId,
+      'userRating': instance.userRating,
     };
