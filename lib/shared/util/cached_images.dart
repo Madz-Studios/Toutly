@@ -25,3 +25,12 @@ List<Widget> getCachedImages(List<String> photosUrl) {
 
   return listPhoto;
 }
+
+List<Widget> getListImages(List<String> photosUrl) {
+  List<Widget> listPhoto = [];
+  for (final image in photosUrl) {
+    listPhoto.add(Image.network(image));
+  }
+
+  return listPhoto;
+}

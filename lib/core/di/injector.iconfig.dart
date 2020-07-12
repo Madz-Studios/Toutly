@@ -44,6 +44,7 @@ import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
+import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
@@ -138,7 +139,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Uuid>(),
         g<Validators>(),
         g<FirebaseGetUserUseCase>(),
-        g<FirestoreGetUserUseCase>(),
         g<FirestoreCreateBarterItemUseCase>(),
         g<FirestoreUpdateBarterItemUseCase>(),
       ));
@@ -156,6 +156,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<UserBarterListingBloc>(() => UserBarterListingBloc(
       g<FirebaseGetUserUseCase>(),
       g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  g.registerLazySingleton<UserBloc>(
+      () => UserBloc(g<FirebaseGetUserUseCase>()));
   g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
       g<FirebaseGetUserUseCase>(), g<FirestoreDeleteBarterItemUseCase>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(

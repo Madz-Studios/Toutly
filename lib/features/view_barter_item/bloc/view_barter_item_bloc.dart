@@ -1,4 +1,3 @@
-import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter/firestore_delete_barter_item_use_case.dart';
@@ -39,9 +38,6 @@ class ViewBarterItemBloc
         );
       },
       deleteBarterItem: (e) async* {
-        final currentUser =
-            await firebaseGetUserUseCase.call(UseCaseNoParam.init());
-
         firestoreDeleteBarterItemUseCase.call(
           UseCaseBarterModelParam.init(barterModel: e.barterModel),
         );

@@ -22,6 +22,7 @@ import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 import 'shared/bloc/sign/sign_bloc.dart';
+import 'shared/bloc/user/user_bloc.dart';
 
 class App extends StatelessWidget {
   final analytics = FirebaseAnalytics();
@@ -100,6 +101,14 @@ class App extends StatelessWidget {
         BlocProvider<LocationBloc>(
           create: (BuildContext context) => getIt<LocationBloc>()
             ..add(LocationEvent.getInitialUserLocation()),
+        ),
+
+        /// User Bloc
+        BlocProvider<UserBloc>(
+          create: (BuildContext context) => getIt<UserBloc>()
+            ..add(
+              UserEvent.loadCurrentFirebaseUser(),
+            ),
         ),
       ],
       child: MaterialApp(

@@ -5,14 +5,32 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
+import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserBarterListingScreen extends StatelessWidget {
+class UserBarterListingScreen extends StatefulWidget {
+  @override
+  _UserBarterListingScreenState createState() =>
+      _UserBarterListingScreenState();
+}
+
+class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+
   final _userBarterBloc = getIt<UserBarterListingBloc>();
+
+  final _userBloc = getIt<UserBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _userBloc.add(UserEvent.loadCurrentFirebaseUser());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,60 +41,66 @@ class UserBarterListingScreen extends StatelessWidget {
           vertical: appSizeConfig.blockSizeVertical * 1.5,
           horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
         ),
-        child: FutureBuilder(
-          future: _userBarterBloc.getUserBarterItems(),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              if (Platform.isIOS) {
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            } else {
-              List<BarterModel> list = snapshot.data;
-              return GridView.builder(
-                itemCount: list.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
-                  mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
-                ),
-                itemBuilder: (context, index) {
-                  final barterModel = list[index];
-                  return GestureDetector(
-                    onTap: () {
-                      _viewBarterItemBloc.add(
-                        ViewBarterItemEvent.viewBarterItem(barterModel),
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (context, state) {
+            return StreamBuilder(
+              stream: _userBarterBloc
+                  .getUserBarterItems(state.currentFirebaseUser?.uid ?? ''),
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  if (Platform.isIOS) {
+                    return Center(
+                      child: CupertinoActivityIndicator(),
+                    );
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text(
+                      'Error: ${snapshot.error}',
+                      style: TextStyle(
+                        color: Colors.red,
+                      ),
+                    ),
+                  );
+                } else {
+                  return GridView.builder(
+                    itemCount: snapshot.data.documents.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
+                      mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
+                    ),
+                    itemBuilder: (context, index) {
+                      final barterModel = BarterModel.fromJson(
+                        snapshot.data.documents[index].data,
                       );
+                      return GestureDetector(
+                        onTap: () {
+                          _viewBarterItemBloc.add(
+                            ViewBarterItemEvent.viewBarterItem(barterModel),
+                          );
 
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ViewBarterItemScreen(),
-                          fullscreenDialog: true,
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ViewBarterItemScreen(),
+                              fullscreenDialog: true,
+                            ),
+                          );
+                        },
+                        child: GridTile(
+                          child: UserBarterItem(barterModel),
                         ),
                       );
                     },
-                    child: GridTile(
-                      child: UserBarterItem(barterModel),
-                    ),
                   );
-                },
-              );
-            }
+                }
+              },
+            );
           },
         ),
       ),

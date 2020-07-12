@@ -30,9 +30,6 @@ BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
     preferredItem: json['preferredItem'] as String,
     title: json['title'] as String,
     userId: json['userId'] as String,
-    user: json['user'] == null
-        ? null
-        : UserModel.fromJson(json['user'] as Map<String, dynamic>),
   );
 }
 
@@ -55,5 +52,4 @@ Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
       'preferredItem': instance.preferredItem,
       'title': instance.title,
       'userId': instance.userId,
-      'user': instance.user?.toJson(),
     };

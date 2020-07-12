@@ -5,8 +5,6 @@ import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_cas
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -29,8 +27,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
 
   final FirebaseGetUserUseCase firebaseGetUserUseCase;
 
-  final FirestoreGetUserUseCase firestoreGetUserUseCase;
-
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
   final FirestoreUpdateBarterItemUseCase firestoreUpdateBarterItemUseCase;
 
@@ -39,7 +35,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     this.uuid,
     this.validators,
     this.firebaseGetUserUseCase,
-    this.firestoreGetUserUseCase,
     this.firestoreCreateBarterItemUseCase,
     this.firestoreUpdateBarterItemUseCase,
   ) : super(PostState.empty());
@@ -89,9 +84,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             UseCaseNoParam.init(),
           );
 
-          final user = await firestoreGetUserUseCase
-              .call(UseCaseUserParamUserId.init(firebaseUser.uid));
-
           Map<String, PickedFile> pickedFileList = state.pickedFileList;
 
           yield PostState.loading(pickedFileList);
@@ -134,8 +126,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             preferredItem: e.preferredItem,
             publicAccess: true,
             title: e.title,
-            userId: user.userId,
-            user: user,
+            userId: firebaseUser.uid,
           );
 
           ///create a barter item in the barter market

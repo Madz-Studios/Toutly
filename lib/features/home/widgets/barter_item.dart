@@ -42,9 +42,12 @@ class BarterItem extends StatelessWidget {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            Image(
-              image: CachedNetworkImageProvider(algoliaBarter.photosUrl[0]),
+            CachedNetworkImage(
+              imageUrl: algoliaBarter.photosUrl[0],
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
             ),
+//            PhotoCarousel(algoliaBarter.photosUrl),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,

@@ -19,39 +19,42 @@ class BarterItemFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: algoliaQuerySnapshot.hits.length,
-      itemBuilder: (context, index) {
-        final algoliaBarterModel =
-            AlgoliaBarterModel.fromJson(algoliaQuerySnapshot.hits[index].data);
-        return FutureBuilder(
-          future: _homeBloc.getUser(algoliaBarterModel.userId),
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return Container();
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            } else {
-              final user = snapshot.data;
-              return GestureDetector(
-                onTap: () {
-                  _gotoViewBarterItem(context, algoliaBarterModel);
-                },
-                child: BarterItem(
-                  algoliaBarter: algoliaBarterModel,
-                  user: user,
-                ),
-              );
-            }
-          },
-        );
+    return SingleChildScrollView(
+      child: Column(
+        children: algoliaQuerySnapshot.hits.map((e) => _itemTitle(e)).toList(),
+      ),
+    );
+  }
+
+  Widget _itemTitle(AlgoliaObjectSnapshot snap) {
+    final algoliaBarterModel = AlgoliaBarterModel.fromJson(snap.data);
+
+    return FutureBuilder(
+      future: _homeBloc.getUser(algoliaBarterModel.userId),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Container();
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(
+              'Error: ${snapshot.error}',
+              style: TextStyle(
+                color: Colors.red,
+              ),
+            ),
+          );
+        } else {
+          final user = snapshot.data;
+          return GestureDetector(
+            onTap: () {
+              _gotoViewBarterItem(context, algoliaBarterModel);
+            },
+            child: BarterItem(
+              algoliaBarter: algoliaBarterModel,
+              user: user,
+            ),
+          );
+        }
       },
     );
   }

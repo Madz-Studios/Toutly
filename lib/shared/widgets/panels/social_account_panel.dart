@@ -1,4 +1,3 @@
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';

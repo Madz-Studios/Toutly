@@ -27,7 +27,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                 flex: 1,
                 child: Stack(
                   children: [
-                    CarouselSliderCustom(state.barterModel),
+                    CarouselSliderCustom(state.barterModel.photosUrl),
                     _getTopLeftWidget(context),
                     _getTopRightWidget(context, state),
                   ],
@@ -59,7 +59,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                           ),
                           Visibility(
                             visible: state.currentUser?.uid ==
-                                state.barterModel?.user?.userId,
+                                state.barterModel?.userId,
                             child: Flexible(
                               flex: 1,
                               child: IconButton(
@@ -144,7 +144,7 @@ class ViewBarterItemScreen extends StatelessWidget {
     final currentUser = state.currentUser;
     final barterModel = state.barterModel;
 
-    if (currentUser?.uid == barterModel?.user?.userId) {
+    if (currentUser?.uid == barterModel?.userId) {
       return Align(
         alignment: Alignment.topRight,
         child: IconButton(

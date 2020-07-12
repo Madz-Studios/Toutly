@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -38,7 +37,6 @@ class BarterModel {
   String preferredItem;
   String title;
   String userId;
-  UserModel user;
 
   BarterModel({
     this.algoliaGeolocation,
@@ -58,7 +56,6 @@ class BarterModel {
     this.preferredItem,
     this.title,
     this.userId,
-    this.user,
   });
 
   factory BarterModel.fromJson(Map<String, dynamic> json) =>
