@@ -34,10 +34,10 @@ class ProfileWithRating extends StatelessWidget {
               ),
             ),
             SmoothStarRating(
-              allowHalfRating: false,
+              allowHalfRating: true,
               onRated: (v) {},
               starCount: 5,
-              rating: 3.5,
+              rating: user.userRating == null ? 1 : user.userRating.round(),
               size: 14.0,
               isReadOnly: true,
               color: Color(0XFFEFBC38),
