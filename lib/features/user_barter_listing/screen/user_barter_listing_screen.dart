@@ -87,7 +87,9 @@ class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => ViewBarterItemScreen(),
+                              builder: (context) => ViewBarterItemScreen(
+                                isDialog: true,
+                              ),
                               fullscreenDialog: true,
                             ),
                           );
