@@ -47,7 +47,6 @@ class BarterItem extends StatelessWidget {
               placeholder: (context, url) => CircularProgressIndicator(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
-//            PhotoCarousel(algoliaBarter.photosUrl),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
