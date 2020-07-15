@@ -5,6 +5,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewBarterItemScreen extends StatelessWidget {
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+
+  ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
+  final bool isDialog;
+  ViewBarterItemScreen({
+    @required this.isDialog,
+  });
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -19,19 +26,20 @@ class ViewBarterItemScreen extends StatelessWidget {
       builder: (context, state) {
         return SafeArea(
             child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: kPrimaryColor,
+            leading: _getCloseWidget(context),
+            actions: [
+              _getDeleteWidget(context, state),
+            ],
+          ),
           body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Flexible(
                 flex: 1,
-                child: Stack(
-                  children: [
-                    CarouselSliderCustom(state.barterModel.photosUrl),
-                    _getTopLeftWidget(context),
-                    _getTopRightWidget(context, state),
-                  ],
-                ),
+                child: CarouselSliderCustom(state.barterModel.photosUrl),
               ),
               Flexible(
                 flex: 1,
@@ -40,80 +48,91 @@ class ViewBarterItemScreen extends StatelessWidget {
                     vertical: appSizeConfig.blockSizeVertical * 1.5,
                     horizontal: appSizeConfig.blockSizeHorizontal * 5,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Flexible(
-                            flex: 5,
-                            child: Text(
-                              state.barterModel.title,
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                          ),
-                          Visibility(
-                            visible: state.currentUser?.uid ==
-                                state.barterModel?.userId,
-                            child: Flexible(
-                              flex: 1,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.edit,
-                                  color: kPrimaryColor,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Flexible(
+                              flex: 5,
+                              child: Text(
+                                state.barterModel.title,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18.0,
                                 ),
-                                onPressed: () {
-                                  print('Edit');
-                                },
                               ),
                             ),
+                            Visibility(
+                              visible: state.currentUser?.uid ==
+                                  state.barterModel?.userId,
+                              child: Flexible(
+                                flex: 1,
+                                child: IconButton(
+                                  icon: Icon(
+                                    Icons.edit,
+                                    color: kPrimaryColor,
+                                  ),
+                                  onPressed: () {
+                                    print('Edit');
+                                  },
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(
+                          state.barterModel.description,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 14.0,
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: appSizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Text(
-                        state.barterModel.description,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w300,
-                          fontSize: 14.0,
                         ),
-                      ),
-                      SizedBox(
-                        height: appSizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Text(
-                        'Preferred Item',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 1.5,
                         ),
-                      ),
-                      SizedBox(
-                        height: appSizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Text(state.barterModel.preferredItem),
-                      SizedBox(
-                        height: appSizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Text(
-                        'Location',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16.0,
+                        Text(
+                          'Preferred Item',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
                         ),
-                      ),
-                      SizedBox(
-                        height: appSizeConfig.blockSizeVertical * 1.5,
-                      ),
-                      Text(state.barterModel.address),
-                    ],
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(state.barterModel.preferredItem),
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(
+                          'Location',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 1.5,
+                        ),
+                        Text(state.barterModel.address),
+                        SizedBox(
+                          height: appSizeConfig.blockSizeVertical * 3,
+                        ),
+                        ActionButton(
+                          title: 'Make an offer',
+                          onPressed: () {
+                            _tradeItem();
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -124,12 +143,22 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  Widget _getTopLeftWidget(BuildContext context) {
+  Widget _getCloseWidget(BuildContext context) {
+    IconData iconData;
+    if (isDialog) {
+      iconData = Icons.close;
+    } else {
+      if (Platform.isIOS) {
+        iconData = Icons.arrow_back_ios;
+      } else {
+        iconData = Icons.arrow_back;
+      }
+    }
     return Align(
       alignment: Alignment.topLeft,
       child: IconButton(
         icon: Icon(
-          Icons.close,
+          iconData,
           color: Colors.white,
         ),
         onPressed: () {
@@ -140,11 +169,11 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  Widget _getTopRightWidget(BuildContext context, ViewBarterItemState state) {
+  Widget _getDeleteWidget(BuildContext context, ViewBarterItemState state) {
     final currentUser = state.currentUser;
     final barterModel = state.barterModel;
 
-    if (currentUser?.uid == barterModel?.userId) {
+    if (currentUser?.uid == barterModel?.userId && isDialog) {
       return Align(
         alignment: Alignment.topRight,
         child: IconButton(
@@ -233,5 +262,9 @@ class ViewBarterItemScreen extends StatelessWidget {
     _viewBarterItemBloc.add(
       ViewBarterItemEvent.deleteBarterItem(barterModel),
     );
+  }
+
+  void _tradeItem() {
+    print('Trade action was pressed');
   }
 }
