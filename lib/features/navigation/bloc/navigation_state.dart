@@ -12,8 +12,4 @@ abstract class NavigationState with _$NavigationState {
       NavigationStateUserBarterListingcreen;
   const factory NavigationState.inboxScreen(int index) =
       NavigationStateInboxScreen;
-  const factory NavigationState.viewBarterItemScreen(int index) =
-      NavigationStateViewBarterItemScreen;
-  const factory NavigationState.editBarterItemScreen(int index) =
-      NavigationStateEdiBarterItemScreen;
 }

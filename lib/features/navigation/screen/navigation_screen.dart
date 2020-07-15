@@ -1,4 +1,3 @@
-import 'package:Toutly/features/edit_barter_item/screen/edit_barter_item_screen.dart';
 import 'package:Toutly/features/favourites/screen/favourites_screen.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
@@ -9,7 +8,6 @@ import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/search/screen/search_screen.dart';
 import 'package:Toutly/features/user_barter_listing/screen/user_barter_listing_screen.dart';
-import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,18 +61,6 @@ class NavigationScreen extends StatelessWidget {
             null,
             InboxScreen(),
             state.index,
-          );
-        },
-        viewBarterItemScreen: (_) {
-          return _buildSingleViewNoBottomNavBarScreen(
-            null,
-            ViewBarterItemScreen(),
-          );
-        },
-        editBarterItemScreen: (_) {
-          return _buildSingleViewNoBottomNavBarScreen(
-            null,
-            EditBarterItemScreen(),
           );
         },
       ),

@@ -12,8 +12,4 @@ abstract class NavigationEvent implements _$NavigationEvent {
       NavigationEventGoToUserBarterListingScreen;
   const factory NavigationEvent.goToInboxScreenEvent() =
       NavigationEventGoToInboxScreen;
-  const factory NavigationEvent.goToViewBarterItemScreenEvent() =
-      NavigationEventGoToViewBarterItemScreen;
-  const factory NavigationEvent.goToEditBarterItemScreenEvent() =
-      NavigationEventGoToEditBarterItemScreen;
 }
