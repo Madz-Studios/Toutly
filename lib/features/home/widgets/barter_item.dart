@@ -44,7 +44,7 @@ class BarterItem extends StatelessWidget {
             ),
             CachedNetworkImage(
               imageUrl: algoliaBarter.photosUrl[0],
-              placeholder: (context, url) => CircularProgressIndicator(),
+              placeholder: (context, url) => Container(),
               errorWidget: (context, url, error) => Icon(Icons.error),
             ),
             Padding(
