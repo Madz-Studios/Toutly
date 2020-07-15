@@ -143,8 +143,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
 
     _locationBloc.add(
       LocationEvent.updateUserLocation(
-        result.latLng.latitude,
-        result.latLng.longitude,
+        result?.latLng?.latitude ?? 0,
+        result?.latLng?.longitude ?? 0,
       ),
     );
   }
@@ -240,8 +240,9 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                 return BlocBuilder<LocationBloc, LocationState>(
                   builder: (context, locationState) {
                     _locationController.text = _getAddress(locationState);
-                    _geoLocation =
-                        locationState?.geoFirePoint?.geoPoint ?? GeoPoint(0, 0);
+                    _geoLocation = locationState?.geoFirePoint?.geoPoint ??
+                        GeoPoint(37.4219983, -122.084);
+
                     _geoHash = locationState?.geoFirePoint?.hash ?? '';
                     return InkWell(
                       onTap: () {
@@ -252,8 +253,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                         );
                         setState(() {
                           _locationController.text = _getAddress(locationState);
-                          _geoLocation = locationState.geoFirePoint.geoPoint;
-                          _geoHash = locationState.geoFirePoint.hash;
+                          _geoLocation = locationState?.geoFirePoint?.geoPoint;
+                          _geoHash = locationState?.geoFirePoint?.hash;
                         });
                       },
                       child: IgnorePointer(
