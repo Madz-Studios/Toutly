@@ -62,6 +62,7 @@ class BarterItemFeed extends StatelessWidget {
   _gotoViewBarterItem(
       BuildContext context, AlgoliaBarterModel algoliaBarterModel) {
     final barter = BarterModel.fromJson(algoliaBarterModel.toJson());
+
     _viewBarterItemBloc.add(
       ViewBarterItemEvent.viewBarterItem(barter),
     );
