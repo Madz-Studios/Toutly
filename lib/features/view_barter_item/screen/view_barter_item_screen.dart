@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/features/trade_offer/screen/trade_offer_screen.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
+import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +29,10 @@ class ViewBarterItemScreen extends StatelessWidget {
         return SafeArea(
             child: Scaffold(
           appBar: AppBar(
-            backgroundColor: kPrimaryColor,
-            leading: _getCloseWidget(context),
+            backgroundColor: Colors.white,
+            leading: BackOrCloseButton(
+              isDialog: isDialog,
+            ),
             actions: [
               _getDeleteWidget(context, state),
             ],
@@ -125,12 +129,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                         SizedBox(
                           height: appSizeConfig.blockSizeVertical * 3,
                         ),
-                        ActionButton(
-                          title: 'Make an offer',
-                          onPressed: () {
-                            _tradeItem();
-                          },
-                        ),
+                        _getActionButton(context, state),
                       ],
                     ),
                   ),
@@ -143,43 +142,32 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  Widget _getCloseWidget(BuildContext context) {
-    IconData iconData;
-    if (isDialog) {
-      iconData = Icons.close;
+  Widget _getActionButton(BuildContext context, ViewBarterItemState state) {
+    final currentUser = state.currentUser;
+    final barterModel = state.barterModel;
+    if (currentUser?.uid == barterModel?.userId) {
+      return Container();
     } else {
-      if (Platform.isIOS) {
-        iconData = Icons.arrow_back_ios;
-      } else {
-        iconData = Icons.arrow_back;
-      }
-    }
-    return Align(
-      alignment: Alignment.topLeft,
-      child: IconButton(
-        icon: Icon(
-          iconData,
-          color: Colors.white,
-        ),
+      return ActionButton(
+        title: 'Make an offer',
         onPressed: () {
-          print('Close');
-          Navigator.pop(context);
+          _tradeItemPressed(context, state.barterModel);
         },
-      ),
-    );
+      );
+    }
   }
 
   Widget _getDeleteWidget(BuildContext context, ViewBarterItemState state) {
     final currentUser = state.currentUser;
     final barterModel = state.barterModel;
 
-    if (currentUser?.uid == barterModel?.userId && isDialog) {
+    if (currentUser?.uid == barterModel?.userId) {
       return Align(
         alignment: Alignment.topRight,
         child: IconButton(
           icon: Icon(
             Icons.delete,
-            color: Colors.white,
+            color: kPrimaryColor,
           ),
           onPressed: () {
             if (Platform.isIOS) {
@@ -264,7 +252,14 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  void _tradeItem() {
+  void _tradeItemPressed(BuildContext context, BarterModel barterModel) {
     print('Trade action was pressed');
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TradeOfferScreen(barterModel),
+      ),
+    );
   }
 }
