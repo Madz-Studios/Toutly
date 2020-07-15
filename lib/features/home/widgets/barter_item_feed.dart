@@ -69,8 +69,9 @@ class BarterItemFeed extends StatelessWidget {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewBarterItemScreen(),
-        fullscreenDialog: true,
+        builder: (context) => ViewBarterItemScreen(
+          isDialog: false,
+        ),
       ),
     );
   }
