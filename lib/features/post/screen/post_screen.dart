@@ -159,7 +159,9 @@ class PostScreen extends StatelessWidget {
     Navigator.push<void>(
       context,
       MaterialPageRoute(
-        builder: (context) => ViewBarterItemScreen(),
+        builder: (context) => ViewBarterItemScreen(
+          isDialog: true,
+        ),
         fullscreenDialog: true,
       ),
     );
