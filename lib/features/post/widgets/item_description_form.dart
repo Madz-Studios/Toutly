@@ -36,6 +36,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   void initState() {
     super.initState();
 
+    _locationBloc.add(LocationEvent.getInitialUserLocation());
+
     _titleController.addListener(_onTitleChanged);
     _descriptionController.addListener(_onDescriptionChanged);
     _preferredItemController.addListener(_onPreferredItemChanged);
