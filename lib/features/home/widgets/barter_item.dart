@@ -5,9 +5,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/profile_with_rating.dart';
 import 'barter_item_description.dart';
 import 'likes_panel.dart';
-import 'profile_with_rating.dart';
 
 class BarterItem extends StatelessWidget {
   BarterItem({

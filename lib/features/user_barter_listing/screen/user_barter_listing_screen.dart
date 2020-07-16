@@ -29,7 +29,7 @@ class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
   void initState() {
     super.initState();
 
-    _userBloc.add(UserEvent.loadCurrentFirebaseUser());
+    _userBloc.add(UserEvent.getCurrentLoggedInUser());
   }
 
   @override
@@ -45,7 +45,7 @@ class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
           builder: (context, state) {
             return StreamBuilder(
               stream: _userBarterBloc
-                  .getUserBarterItems(state.currentFirebaseUser?.uid ?? ''),
+                  .getUserBarterItems(state.userModel?.userId ?? ''),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   if (Platform.isIOS) {
@@ -89,6 +89,7 @@ class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
                             MaterialPageRoute(
                               builder: (context) => ViewBarterItemScreen(
                                 isDialog: true,
+                                barterUser: state.userModel,
                               ),
                               fullscreenDialog: true,
                             ),

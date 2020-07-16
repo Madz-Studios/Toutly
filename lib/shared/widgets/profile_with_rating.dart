@@ -1,14 +1,14 @@
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:smooth_star_rating/smooth_star_rating.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProfileWithRating extends StatelessWidget {
   final UserModel user;
 
   const ProfileWithRating({
     Key key,
-    this.user,
+    @required this.user,
   }) : super(key: key);
 
   @override
@@ -17,7 +17,7 @@ class ProfileWithRating extends StatelessWidget {
     return Row(
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: AssetImage('assets/images/profile_pic.png'),
+          backgroundImage: AssetImage('assets/images/profile_placeholder.png'),
         ),
         SizedBox(
           width: appSizeConfig.safeBlockHorizontal * 2.5,
@@ -33,16 +33,18 @@ class ProfileWithRating extends StatelessWidget {
                 fontSize: 16.0,
               ),
             ),
-            SmoothStarRating(
+            RatingBar(
+              ignoreGestures: true,
+              initialRating: user?.userRating == null ? 0 : user.userRating,
+              minRating: 0,
+              direction: Axis.horizontal,
               allowHalfRating: true,
-              onRated: (v) {},
-              starCount: 5,
-              rating: user.userRating == null ? 1 : user.userRating.round(),
-              size: 14.0,
-              isReadOnly: true,
-              color: Color(0XFFEFBC38),
-              borderColor: Color(0XFFDDDDDD),
-              spacing: 0.0,
+              itemCount: 5,
+              itemSize: appSizeConfig.blockSizeVertical * 2,
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: Colors.amber,
+              ),
             ),
           ],
         ),

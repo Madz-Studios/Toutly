@@ -106,7 +106,7 @@ class App extends StatelessWidget {
         BlocProvider<UserBloc>(
           create: (BuildContext context) => getIt<UserBloc>()
             ..add(
-              UserEvent.loadCurrentFirebaseUser(),
+              UserEvent.getCurrentLoggedInUser(),
             ),
         ),
       ],

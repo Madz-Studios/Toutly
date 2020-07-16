@@ -16,8 +16,8 @@ class _$UserEventTearOff {
     return const UserEventInitial();
   }
 
-  UserEventLoadCurrentFirebaseUser loadCurrentFirebaseUser() {
-    return const UserEventLoadCurrentFirebaseUser();
+  UserEventGetCurrentLoggedInUser getCurrentLoggedInUser() {
+    return const UserEventGetCurrentLoggedInUser();
   }
 }
 
@@ -28,24 +28,24 @@ mixin _$UserEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result loadCurrentFirebaseUser(),
+    @required Result getCurrentLoggedInUser(),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result loadCurrentFirebaseUser(),
+    Result getCurrentLoggedInUser(),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(UserEventInitial value),
     @required
-        Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+        Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(UserEventInitial value),
-    Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+    Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
     @required Result orElse(),
   });
 }
@@ -99,10 +99,10 @@ class _$UserEventInitial implements UserEventInitial {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result loadCurrentFirebaseUser(),
+    @required Result getCurrentLoggedInUser(),
   }) {
     assert(initial != null);
-    assert(loadCurrentFirebaseUser != null);
+    assert(getCurrentLoggedInUser != null);
     return initial();
   }
 
@@ -110,7 +110,7 @@ class _$UserEventInitial implements UserEventInitial {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result loadCurrentFirebaseUser(),
+    Result getCurrentLoggedInUser(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -125,10 +125,10 @@ class _$UserEventInitial implements UserEventInitial {
   Result map<Result extends Object>({
     @required Result initial(UserEventInitial value),
     @required
-        Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+        Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
   }) {
     assert(initial != null);
-    assert(loadCurrentFirebaseUser != null);
+    assert(getCurrentLoggedInUser != null);
     return initial(this);
   }
 
@@ -136,7 +136,7 @@ class _$UserEventInitial implements UserEventInitial {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(UserEventInitial value),
-    Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+    Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -151,39 +151,38 @@ abstract class UserEventInitial implements UserEvent {
   const factory UserEventInitial() = _$UserEventInitial;
 }
 
-abstract class $UserEventLoadCurrentFirebaseUserCopyWith<$Res> {
-  factory $UserEventLoadCurrentFirebaseUserCopyWith(
-          UserEventLoadCurrentFirebaseUser value,
-          $Res Function(UserEventLoadCurrentFirebaseUser) then) =
-      _$UserEventLoadCurrentFirebaseUserCopyWithImpl<$Res>;
+abstract class $UserEventGetCurrentLoggedInUserCopyWith<$Res> {
+  factory $UserEventGetCurrentLoggedInUserCopyWith(
+          UserEventGetCurrentLoggedInUser value,
+          $Res Function(UserEventGetCurrentLoggedInUser) then) =
+      _$UserEventGetCurrentLoggedInUserCopyWithImpl<$Res>;
 }
 
-class _$UserEventLoadCurrentFirebaseUserCopyWithImpl<$Res>
+class _$UserEventGetCurrentLoggedInUserCopyWithImpl<$Res>
     extends _$UserEventCopyWithImpl<$Res>
-    implements $UserEventLoadCurrentFirebaseUserCopyWith<$Res> {
-  _$UserEventLoadCurrentFirebaseUserCopyWithImpl(
-      UserEventLoadCurrentFirebaseUser _value,
-      $Res Function(UserEventLoadCurrentFirebaseUser) _then)
-      : super(_value, (v) => _then(v as UserEventLoadCurrentFirebaseUser));
+    implements $UserEventGetCurrentLoggedInUserCopyWith<$Res> {
+  _$UserEventGetCurrentLoggedInUserCopyWithImpl(
+      UserEventGetCurrentLoggedInUser _value,
+      $Res Function(UserEventGetCurrentLoggedInUser) _then)
+      : super(_value, (v) => _then(v as UserEventGetCurrentLoggedInUser));
 
   @override
-  UserEventLoadCurrentFirebaseUser get _value =>
-      super._value as UserEventLoadCurrentFirebaseUser;
+  UserEventGetCurrentLoggedInUser get _value =>
+      super._value as UserEventGetCurrentLoggedInUser;
 }
 
-class _$UserEventLoadCurrentFirebaseUser
-    implements UserEventLoadCurrentFirebaseUser {
-  const _$UserEventLoadCurrentFirebaseUser();
+class _$UserEventGetCurrentLoggedInUser
+    implements UserEventGetCurrentLoggedInUser {
+  const _$UserEventGetCurrentLoggedInUser();
 
   @override
   String toString() {
-    return 'UserEvent.loadCurrentFirebaseUser()';
+    return 'UserEvent.getCurrentLoggedInUser()';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is UserEventLoadCurrentFirebaseUser);
+    return identical(this, other) || (other is UserEventGetCurrentLoggedInUser);
   }
 
   @override
@@ -193,23 +192,23 @@ class _$UserEventLoadCurrentFirebaseUser
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result loadCurrentFirebaseUser(),
+    @required Result getCurrentLoggedInUser(),
   }) {
     assert(initial != null);
-    assert(loadCurrentFirebaseUser != null);
-    return loadCurrentFirebaseUser();
+    assert(getCurrentLoggedInUser != null);
+    return getCurrentLoggedInUser();
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result loadCurrentFirebaseUser(),
+    Result getCurrentLoggedInUser(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (loadCurrentFirebaseUser != null) {
-      return loadCurrentFirebaseUser();
+    if (getCurrentLoggedInUser != null) {
+      return getCurrentLoggedInUser();
     }
     return orElse();
   }
@@ -219,39 +218,39 @@ class _$UserEventLoadCurrentFirebaseUser
   Result map<Result extends Object>({
     @required Result initial(UserEventInitial value),
     @required
-        Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+        Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
   }) {
     assert(initial != null);
-    assert(loadCurrentFirebaseUser != null);
-    return loadCurrentFirebaseUser(this);
+    assert(getCurrentLoggedInUser != null);
+    return getCurrentLoggedInUser(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(UserEventInitial value),
-    Result loadCurrentFirebaseUser(UserEventLoadCurrentFirebaseUser value),
+    Result getCurrentLoggedInUser(UserEventGetCurrentLoggedInUser value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (loadCurrentFirebaseUser != null) {
-      return loadCurrentFirebaseUser(this);
+    if (getCurrentLoggedInUser != null) {
+      return getCurrentLoggedInUser(this);
     }
     return orElse();
   }
 }
 
-abstract class UserEventLoadCurrentFirebaseUser implements UserEvent {
-  const factory UserEventLoadCurrentFirebaseUser() =
-      _$UserEventLoadCurrentFirebaseUser;
+abstract class UserEventGetCurrentLoggedInUser implements UserEvent {
+  const factory UserEventGetCurrentLoggedInUser() =
+      _$UserEventGetCurrentLoggedInUser;
 }
 
 class _$UserStateTearOff {
   const _$UserStateTearOff();
 
-  _UserState call({FirebaseUser currentFirebaseUser}) {
+  _UserState call({UserModel userModel}) {
     return _UserState(
-      currentFirebaseUser: currentFirebaseUser,
+      userModel: userModel,
     );
   }
 }
@@ -260,7 +259,7 @@ class _$UserStateTearOff {
 const $UserState = _$UserStateTearOff();
 
 mixin _$UserState {
-  FirebaseUser get currentFirebaseUser;
+  UserModel get userModel;
 
   $UserStateCopyWith<UserState> get copyWith;
 }
@@ -268,7 +267,7 @@ mixin _$UserState {
 abstract class $UserStateCopyWith<$Res> {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
       _$UserStateCopyWithImpl<$Res>;
-  $Res call({FirebaseUser currentFirebaseUser});
+  $Res call({UserModel userModel});
 }
 
 class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
@@ -280,12 +279,11 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
 
   @override
   $Res call({
-    Object currentFirebaseUser = freezed,
+    Object userModel = freezed,
   }) {
     return _then(_value.copyWith(
-      currentFirebaseUser: currentFirebaseUser == freezed
-          ? _value.currentFirebaseUser
-          : currentFirebaseUser as FirebaseUser,
+      userModel:
+          userModel == freezed ? _value.userModel : userModel as UserModel,
     ));
   }
 }
@@ -295,7 +293,7 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
           _UserState value, $Res Function(_UserState) then) =
       __$UserStateCopyWithImpl<$Res>;
   @override
-  $Res call({FirebaseUser currentFirebaseUser});
+  $Res call({UserModel userModel});
 }
 
 class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
@@ -308,40 +306,38 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object currentFirebaseUser = freezed,
+    Object userModel = freezed,
   }) {
     return _then(_UserState(
-      currentFirebaseUser: currentFirebaseUser == freezed
-          ? _value.currentFirebaseUser
-          : currentFirebaseUser as FirebaseUser,
+      userModel:
+          userModel == freezed ? _value.userModel : userModel as UserModel,
     ));
   }
 }
 
 class _$_UserState implements _UserState {
-  const _$_UserState({this.currentFirebaseUser});
+  const _$_UserState({this.userModel});
 
   @override
-  final FirebaseUser currentFirebaseUser;
+  final UserModel userModel;
 
   @override
   String toString() {
-    return 'UserState(currentFirebaseUser: $currentFirebaseUser)';
+    return 'UserState(userModel: $userModel)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _UserState &&
-            (identical(other.currentFirebaseUser, currentFirebaseUser) ||
+            (identical(other.userModel, userModel) ||
                 const DeepCollectionEquality()
-                    .equals(other.currentFirebaseUser, currentFirebaseUser)));
+                    .equals(other.userModel, userModel)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(currentFirebaseUser);
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userModel);
 
   @override
   _$UserStateCopyWith<_UserState> get copyWith =>
@@ -349,10 +345,10 @@ class _$_UserState implements _UserState {
 }
 
 abstract class _UserState implements UserState {
-  const factory _UserState({FirebaseUser currentFirebaseUser}) = _$_UserState;
+  const factory _UserState({UserModel userModel}) = _$_UserState;
 
   @override
-  FirebaseUser get currentFirebaseUser;
+  UserModel get userModel;
   @override
   _$UserStateCopyWith<_UserState> get copyWith;
 }

@@ -1,16 +1,17 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
+import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:algolia/algolia.dart';
 import 'package:flutter/material.dart';
 
 import 'barter_item.dart';
 
 class BarterItemFeed extends StatelessWidget {
-  final _homeBloc = getIt<HomeBloc>();
+  final _userBloc = getIt<UserBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final AlgoliaQuerySnapshot algoliaQuerySnapshot;
   BarterItemFeed({
@@ -30,7 +31,7 @@ class BarterItemFeed extends StatelessWidget {
     final algoliaBarterModel = AlgoliaBarterModel.fromJson(snap.data);
 
     return FutureBuilder(
-      future: _homeBloc.getUser(algoliaBarterModel.userId),
+      future: _userBloc.getUser(algoliaBarterModel.userId),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Container();
@@ -47,7 +48,7 @@ class BarterItemFeed extends StatelessWidget {
           final user = snapshot.data;
           return GestureDetector(
             onTap: () {
-              _gotoViewBarterItem(context, algoliaBarterModel);
+              _gotoViewBarterItem(context, algoliaBarterModel, user);
             },
             child: BarterItem(
               algoliaBarter: algoliaBarterModel,
@@ -59,8 +60,8 @@ class BarterItemFeed extends StatelessWidget {
     );
   }
 
-  _gotoViewBarterItem(
-      BuildContext context, AlgoliaBarterModel algoliaBarterModel) {
+  _gotoViewBarterItem(BuildContext context,
+      AlgoliaBarterModel algoliaBarterModel, UserModel barterUser) {
     final barter = BarterModel.fromJson(algoliaBarterModel.toJson());
 
     _viewBarterItemBloc.add(
@@ -72,6 +73,7 @@ class BarterItemFeed extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) => ViewBarterItemScreen(
           isDialog: false,
+          barterUser: barterUser,
         ),
       ),
     );

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/trade_offer/screen/trade_offer_screen.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -18,8 +19,10 @@ class ViewBarterItemScreen extends StatelessWidget {
 
   ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
   final bool isDialog;
+  final UserModel barterUser;
   ViewBarterItemScreen({
     @required this.isDialog,
+    this.barterUser,
   });
   @override
   Widget build(BuildContext context) {
@@ -252,13 +255,16 @@ class ViewBarterItemScreen extends StatelessWidget {
     );
   }
 
-  void _tradeItemPressed(BuildContext context, BarterModel barterModel) {
+  void _tradeItemPressed(BuildContext context, BarterModel barterModel) async {
     print('Trade action was pressed');
 
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TradeOfferScreen(barterModel),
+        builder: (context) => TradeOfferScreen(
+          barterModel: barterModel,
+          barterUser: barterUser,
+        ),
       ),
     );
   }
