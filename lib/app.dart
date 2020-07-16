@@ -99,8 +99,7 @@ class App extends StatelessWidget {
 
         /// Location Bloc
         BlocProvider<LocationBloc>(
-          create: (BuildContext context) => getIt<LocationBloc>()
-            ..add(LocationEvent.getInitialUserLocation()),
+          create: (BuildContext context) => getIt<LocationBloc>(),
         ),
 
         /// User Bloc
