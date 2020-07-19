@@ -14,3 +14,10 @@ firebase deploy --only functions
 # Deploy only hosting
 
 firebase deploy --only hosting
+
+# Firebase change project
+
+## Production
+firebase use toutly
+## Development
+firebase use toutly-dev-282014

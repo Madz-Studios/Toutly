@@ -19,7 +19,7 @@ const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 
 //ADD BARTER ITEM
 exports.onBarterCreated = functions.firestore
-  .document("barter/{barterId}")
+  .document("barter_items/{barterId}")
   .onCreate((snap, context) => {
     // Get the note document
     const barter = snap.data();
@@ -34,7 +34,7 @@ exports.onBarterCreated = functions.firestore
 
 //REMOVE BARTER ITEM
 exports.onBarterDeleted = functions.firestore
-  .document("barter/{barterId}")
+  .document("barter_items/{barterId}")
   .onDelete((snap, context) => {
     // Delete an apartment from the algolia index
     const index = client.initIndex(ALGOLIA_INDEX_NAME);
@@ -42,7 +42,7 @@ exports.onBarterDeleted = functions.firestore
   });
 //EDIT BARTER ITEM
 exports.onBarterEdited = functions.firestore
-  .document("barter/{barterId}")
+  .document("barter_items/{barterId}")
   .onUpdate((change, context) => {
     const newValue = change.after.data();
     const previousValue = change.before.data();
