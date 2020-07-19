@@ -25,6 +25,7 @@ import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
@@ -43,10 +44,10 @@ import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
-import 'package:Toutly/features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
+import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_longitude_usecase.dart';
@@ -91,6 +92,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => RemoteConfigDataBloc(g<RemoteConfig>()));
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
+  g.registerLazySingleton<TradeOfferBloc>(() => TradeOfferBloc());
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
   g.registerLazySingleton<Validators>(() => injectableModule.validators);
   g.registerFactory<FirebaseAuthUserRepository>(
@@ -153,9 +155,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirestoreGetUserUseCase>(),
         g<Validators>(),
       ));
-  g.registerLazySingleton<UserBarterListingBloc>(() => UserBarterListingBloc(
-      g<FirebaseGetUserUseCase>(),
-      g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
   g.registerLazySingleton<UserBloc>(() =>
       UserBloc(g<FirebaseGetUserUseCase>(), g<FirestoreGetUserUseCase>()));
   g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
@@ -165,6 +164,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirebaseSignOutUserUseCase>(),
         g<FirestoreGetUserUseCase>(),
       ));
+  g.registerLazySingleton<BarterBloc>(() => BarterBloc(
+      g<FirebaseGetUserUseCase>(),
+      g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
   g.registerLazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
       LocalSharedDeleteAllSaveDataUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));

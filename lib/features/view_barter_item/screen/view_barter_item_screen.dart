@@ -35,6 +35,9 @@ class ViewBarterItemScreen extends StatelessWidget {
             backgroundColor: Colors.white,
             leading: BackOrCloseButton(
               isDialog: isDialog,
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
             actions: [
               _getDeleteWidget(context, state),

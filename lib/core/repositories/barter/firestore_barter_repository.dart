@@ -28,7 +28,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Create a barter item in barter firestore collection using [itemId]
   @override
   Future<void> createBarterMarketItem(BarterModel barterModel) async {
-    final String barterCollection = FirestoreCollectionNames.barterCollection;
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
 
     await firestore
         .collection(barterCollection)
@@ -39,7 +40,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Get "ALL" barter item in barter firestore collection using [userId].
   @override
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId) {
-    final String barterCollection = FirestoreCollectionNames.barterCollection;
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
 
     final query = firestore
         .collection(barterCollection)
@@ -53,7 +55,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   @override
   Future<List<BarterModel>> getFutureAllBarterItemsUsingUserId(
       String userId) async {
-    final String barterCollection = FirestoreCollectionNames.barterCollection;
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
 
     final barterItems = await firestore
         .collection(barterCollection)
@@ -75,7 +78,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Update a barter item in barter firestore collection using [itemId].
   @override
   Future<void> updateBarterItem(BarterModel barterModel) async {
-    final String barterCollection = FirestoreCollectionNames.barterCollection;
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
 
     await firestore
         .collection(barterCollection)
@@ -86,7 +90,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Delete a barter item in barter firestore collection using [itemId].
   @override
   Future<void> deleteBarterItem(BarterModel barterModel) async {
-    final String barterCollection = FirestoreCollectionNames.barterCollection;
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
 
     await firestore
         .collection(barterCollection)

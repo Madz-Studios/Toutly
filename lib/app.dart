@@ -1,6 +1,8 @@
 import 'package:Toutly/features/edit_barter_item/bloc/edit_barter_item_bloc.dart';
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
+import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
+import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -17,7 +19,6 @@ import 'core/di/injector.dart';
 import 'features/authentication/bloc/authentication_bloc.dart';
 import 'features/authentication/screen/authentication_screen.dart';
 import 'features/navigation/bloc/navigation_bloc.dart';
-import 'features/user_barter_listing/bloc/user_barter_listing_bloc.dart';
 import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
@@ -76,9 +77,14 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<EditBarterItemBloc>(),
         ),
 
-        /// User Items Bloc
-        BlocProvider<UserBarterListingBloc>(
-          create: (BuildContext context) => getIt<UserBarterListingBloc>(),
+        /// Barter Items Bloc
+        BlocProvider<BarterBloc>(
+          create: (BuildContext context) => getIt<BarterBloc>(),
+        ),
+
+        /// TradeOffer Bloc
+        BlocProvider<TradeOfferBloc>(
+          create: (BuildContext context) => getIt<TradeOfferBloc>(),
         ),
 
         ///

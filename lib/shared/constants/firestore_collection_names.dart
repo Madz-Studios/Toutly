@@ -3,9 +3,10 @@ class FirestoreCollectionNames {
   ///Firebase collection names
   ///
 
-  static String auctionCollection = 'auction';
-  static String barterCollection = 'barter';
-  static String messagesCollection = 'messages';
+  static String auctionItemsCollection = 'auction_items';
+  static String barterItemsCollection = 'barter_items';
+  static String offerBarterCollection = 'offer_barter';
+  static String barterMessagesCollection = 'barter_messages';
   static String userCollection = 'user';
 
   static String userBarterInboxCollection = 'userBarterInbox';

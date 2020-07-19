@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 class BackOrCloseButton extends StatelessWidget {
   final bool isDialog;
   final Color buttonColor;
+  final Function onPressed;
   BackOrCloseButton({
     @required this.isDialog,
     this.buttonColor = Colors.black,
+    @required this.onPressed,
   });
 
   @override
@@ -27,10 +29,7 @@ class BackOrCloseButton extends StatelessWidget {
         iconData,
         color: buttonColor,
       ),
-      onPressed: () {
-        print('Close');
-        Navigator.pop(context);
-      },
+      onPressed: onPressed,
     );
   }
 }

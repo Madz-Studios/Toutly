@@ -2,9 +2,9 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 
-class BarterItemCard extends StatelessWidget {
+class TradeBarterItemCard extends StatelessWidget {
   final BarterModel barterModel;
-  BarterItemCard(this.barterModel);
+  TradeBarterItemCard(this.barterModel);
 
   @override
   Widget build(BuildContext context) {

@@ -45,6 +45,7 @@ class ProfileWithRating extends StatelessWidget {
                 Icons.star,
                 color: Colors.amber,
               ),
+              onRatingUpdate: (value) {},
             ),
           ],
         ),
