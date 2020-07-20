@@ -5,6 +5,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/trade_offer/screen/trade_offer_screen.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
+import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewBarterItemScreen extends StatelessWidget {
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+  final _barterBloc = getIt<BarterBloc>();
 
   ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
   final bool isDialog;
@@ -256,6 +258,7 @@ class ViewBarterItemScreen extends StatelessWidget {
     _viewBarterItemBloc.add(
       ViewBarterItemEvent.deleteBarterItem(barterModel),
     );
+    _barterBloc.add(BarterEvent.getUserBarterItems(barterModel.userId));
   }
 
   void _tradeItemPressed(BuildContext context, BarterModel barterModel) async {

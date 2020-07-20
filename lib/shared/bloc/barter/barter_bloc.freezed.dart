@@ -15,12 +15,41 @@ class _$BarterEventTearOff {
   BarterEventInitial initial() {
     return const BarterEventInitial();
   }
+
+  BarterEventGetUserBarterItems getUserBarterItems(String userId) {
+    return BarterEventGetUserBarterItems(
+      userId,
+    );
+  }
 }
 
 // ignore: unused_element
 const $BarterEvent = _$BarterEventTearOff();
 
-mixin _$BarterEvent {}
+mixin _$BarterEvent {
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result getUserBarterItems(String userId),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result getUserBarterItems(String userId),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(BarterEventInitial value),
+    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(BarterEventInitial value),
+    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result orElse(),
+  });
+}
 
 abstract class $BarterEventCopyWith<$Res> {
   factory $BarterEventCopyWith(
@@ -68,29 +97,222 @@ class _$BarterEventInitial implements BarterEventInitial {
 
   @override
   int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result getUserBarterItems(String userId),
+  }) {
+    assert(initial != null);
+    assert(getUserBarterItems != null);
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result getUserBarterItems(String userId),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(BarterEventInitial value),
+    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+  }) {
+    assert(initial != null);
+    assert(getUserBarterItems != null);
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(BarterEventInitial value),
+    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class BarterEventInitial implements BarterEvent {
   const factory BarterEventInitial() = _$BarterEventInitial;
 }
 
+abstract class $BarterEventGetUserBarterItemsCopyWith<$Res> {
+  factory $BarterEventGetUserBarterItemsCopyWith(
+          BarterEventGetUserBarterItems value,
+          $Res Function(BarterEventGetUserBarterItems) then) =
+      _$BarterEventGetUserBarterItemsCopyWithImpl<$Res>;
+  $Res call({String userId});
+}
+
+class _$BarterEventGetUserBarterItemsCopyWithImpl<$Res>
+    extends _$BarterEventCopyWithImpl<$Res>
+    implements $BarterEventGetUserBarterItemsCopyWith<$Res> {
+  _$BarterEventGetUserBarterItemsCopyWithImpl(
+      BarterEventGetUserBarterItems _value,
+      $Res Function(BarterEventGetUserBarterItems) _then)
+      : super(_value, (v) => _then(v as BarterEventGetUserBarterItems));
+
+  @override
+  BarterEventGetUserBarterItems get _value =>
+      super._value as BarterEventGetUserBarterItems;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(BarterEventGetUserBarterItems(
+      userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+class _$BarterEventGetUserBarterItems implements BarterEventGetUserBarterItems {
+  const _$BarterEventGetUserBarterItems(this.userId) : assert(userId != null);
+
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'BarterEvent.getUserBarterItems(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is BarterEventGetUserBarterItems &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
+
+  @override
+  $BarterEventGetUserBarterItemsCopyWith<BarterEventGetUserBarterItems>
+      get copyWith => _$BarterEventGetUserBarterItemsCopyWithImpl<
+          BarterEventGetUserBarterItems>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result initial(),
+    @required Result getUserBarterItems(String userId),
+  }) {
+    assert(initial != null);
+    assert(getUserBarterItems != null);
+    return getUserBarterItems(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result initial(),
+    Result getUserBarterItems(String userId),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (getUserBarterItems != null) {
+      return getUserBarterItems(userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result initial(BarterEventInitial value),
+    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+  }) {
+    assert(initial != null);
+    assert(getUserBarterItems != null);
+    return getUserBarterItems(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result initial(BarterEventInitial value),
+    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (getUserBarterItems != null) {
+      return getUserBarterItems(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class BarterEventGetUserBarterItems implements BarterEvent {
+  const factory BarterEventGetUserBarterItems(String userId) =
+      _$BarterEventGetUserBarterItems;
+
+  String get userId;
+  $BarterEventGetUserBarterItemsCopyWith<BarterEventGetUserBarterItems>
+      get copyWith;
+}
+
 class _$BarterStateTearOff {
   const _$BarterStateTearOff();
 
-  BarterStateInitial initial() {
-    return const BarterStateInitial();
+  _BarterState call(
+      {@required Future<List<BarterModel>> userBarterItems,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      @required String info}) {
+    return _BarterState(
+      userBarterItems: userBarterItems,
+      isSubmitting: isSubmitting,
+      isSuccess: isSuccess,
+      isFailure: isFailure,
+      info: info,
+    );
   }
 }
 
 // ignore: unused_element
 const $BarterState = _$BarterStateTearOff();
 
-mixin _$BarterState {}
+mixin _$BarterState {
+  Future<List<BarterModel>> get userBarterItems;
+  bool get isSubmitting;
+  bool get isSuccess;
+  bool get isFailure;
+  String get info;
+
+  $BarterStateCopyWith<BarterState> get copyWith;
+}
 
 abstract class $BarterStateCopyWith<$Res> {
   factory $BarterStateCopyWith(
           BarterState value, $Res Function(BarterState) then) =
       _$BarterStateCopyWithImpl<$Res>;
+  $Res call(
+      {Future<List<BarterModel>> userBarterItems,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
 }
 
 class _$BarterStateCopyWithImpl<$Res> implements $BarterStateCopyWith<$Res> {
@@ -99,42 +321,153 @@ class _$BarterStateCopyWithImpl<$Res> implements $BarterStateCopyWith<$Res> {
   final BarterState _value;
   // ignore: unused_field
   final $Res Function(BarterState) _then;
-}
-
-abstract class $BarterStateInitialCopyWith<$Res> {
-  factory $BarterStateInitialCopyWith(
-          BarterStateInitial value, $Res Function(BarterStateInitial) then) =
-      _$BarterStateInitialCopyWithImpl<$Res>;
-}
-
-class _$BarterStateInitialCopyWithImpl<$Res>
-    extends _$BarterStateCopyWithImpl<$Res>
-    implements $BarterStateInitialCopyWith<$Res> {
-  _$BarterStateInitialCopyWithImpl(
-      BarterStateInitial _value, $Res Function(BarterStateInitial) _then)
-      : super(_value, (v) => _then(v as BarterStateInitial));
 
   @override
-  BarterStateInitial get _value => super._value as BarterStateInitial;
+  $Res call({
+    Object userBarterItems = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userBarterItems: userBarterItems == freezed
+          ? _value.userBarterItems
+          : userBarterItems as Future<List<BarterModel>>,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
+    ));
+  }
 }
 
-class _$BarterStateInitial implements BarterStateInitial {
-  const _$BarterStateInitial();
+abstract class _$BarterStateCopyWith<$Res>
+    implements $BarterStateCopyWith<$Res> {
+  factory _$BarterStateCopyWith(
+          _BarterState value, $Res Function(_BarterState) then) =
+      __$BarterStateCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {Future<List<BarterModel>> userBarterItems,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
+}
+
+class __$BarterStateCopyWithImpl<$Res> extends _$BarterStateCopyWithImpl<$Res>
+    implements _$BarterStateCopyWith<$Res> {
+  __$BarterStateCopyWithImpl(
+      _BarterState _value, $Res Function(_BarterState) _then)
+      : super(_value, (v) => _then(v as _BarterState));
+
+  @override
+  _BarterState get _value => super._value as _BarterState;
+
+  @override
+  $Res call({
+    Object userBarterItems = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
+  }) {
+    return _then(_BarterState(
+      userBarterItems: userBarterItems == freezed
+          ? _value.userBarterItems
+          : userBarterItems as Future<List<BarterModel>>,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
+    ));
+  }
+}
+
+class _$_BarterState implements _BarterState {
+  const _$_BarterState(
+      {@required this.userBarterItems,
+      @required this.isSubmitting,
+      @required this.isSuccess,
+      @required this.isFailure,
+      @required this.info})
+      : assert(userBarterItems != null),
+        assert(isSubmitting != null),
+        assert(isSuccess != null),
+        assert(isFailure != null),
+        assert(info != null);
+
+  @override
+  final Future<List<BarterModel>> userBarterItems;
+  @override
+  final bool isSubmitting;
+  @override
+  final bool isSuccess;
+  @override
+  final bool isFailure;
+  @override
+  final String info;
 
   @override
   String toString() {
-    return 'BarterState.initial()';
+    return 'BarterState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
-    return identical(this, other) || (other is BarterStateInitial);
+    return identical(this, other) ||
+        (other is _BarterState &&
+            (identical(other.userBarterItems, userBarterItems) ||
+                const DeepCollectionEquality()
+                    .equals(other.userBarterItems, userBarterItems)) &&
+            (identical(other.isSubmitting, isSubmitting) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubmitting, isSubmitting)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.isFailure, isFailure) ||
+                const DeepCollectionEquality()
+                    .equals(other.isFailure, isFailure)) &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(userBarterItems) ^
+      const DeepCollectionEquality().hash(isSubmitting) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(isFailure) ^
+      const DeepCollectionEquality().hash(info);
+
+  @override
+  _$BarterStateCopyWith<_BarterState> get copyWith =>
+      __$BarterStateCopyWithImpl<_BarterState>(this, _$identity);
 }
 
-abstract class BarterStateInitial implements BarterState {
-  const factory BarterStateInitial() = _$BarterStateInitial;
+abstract class _BarterState implements BarterState {
+  const factory _BarterState(
+      {@required Future<List<BarterModel>> userBarterItems,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      @required String info}) = _$_BarterState;
+
+  @override
+  Future<List<BarterModel>> get userBarterItems;
+  @override
+  bool get isSubmitting;
+  @override
+  bool get isSuccess;
+  @override
+  bool get isFailure;
+  @override
+  String get info;
+  @override
+  _$BarterStateCopyWith<_BarterState> get copyWith;
 }
