@@ -43,19 +43,25 @@ class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
         ),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            return StreamBuilder(
-              stream:
+            return FutureBuilder(
+              future:
                   _barterBloc.getUserBarterItems(state.userModel?.userId ?? ''),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  if (Platform.isIOS) {
+                  if (snapshot.connectionState == ConnectionState.done) {
                     return Center(
-                      child: CupertinoActivityIndicator(),
+                      child: Text('Empty'),
                     );
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    if (Platform.isIOS) {
+                      return Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   }
                 } else if (snapshot.hasError) {
                   return Center(

@@ -37,19 +37,42 @@ class _TradeBarterItemListState extends State<TradeBarterItemList> {
       child: Container(
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            return StreamBuilder(
-              stream:
+            return FutureBuilder(
+              future:
                   _barterBloc.getUserBarterItems(state.userModel?.userId ?? ''),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  if (Platform.isIOS) {
-                    return Center(
-                      child: CupertinoActivityIndicator(),
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    return Padding(
+                      padding: EdgeInsets.all(
+                        appSizeConfig.blockSizeHorizontal * 4,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Center(
+                            child: Text('Empty'),
+                          ),
+                          ActionButton(
+                            title: 'Continue',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    if (Platform.isIOS) {
+                      return Center(
+                        child: CupertinoActivityIndicator(),
+                      );
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
                   }
                 } else if (snapshot.hasError) {
                   return Center(

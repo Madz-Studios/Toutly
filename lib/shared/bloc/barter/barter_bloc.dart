@@ -1,7 +1,7 @@
+import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -25,7 +25,7 @@ class BarterBloc extends Bloc<BarterEvent, BarterState> {
   @override
   Stream<BarterState> mapEventToState(BarterEvent event) async* {}
 
-  Stream<QuerySnapshot> getUserBarterItems(String userId) {
+  Future<List<BarterModel>> getUserBarterItems(String userId) {
     final listings = firestoreGetAllBarterItemsUsingUserIdUseCase.call(
       UseCaseUserIdWithListBarterParam.init(userId),
     );
