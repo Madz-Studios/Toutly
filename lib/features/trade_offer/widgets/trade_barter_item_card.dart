@@ -82,7 +82,9 @@ class _BarterItemDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: EdgeInsets.all(
+        appSizeConfig.blockSizeHorizontal * 2,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[

@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-class TradeTextArea extends StatelessWidget {
-  TradeTextArea(this.controller);
+class TradeMessageArea extends StatelessWidget {
+  TradeMessageArea({
+    this.controller,
+    this.validator,
+  });
 
   final TextEditingController controller;
+  final FormFieldValidator<String> validator;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +22,8 @@ class TradeTextArea extends StatelessWidget {
         fontWeight: FontWeight.w300,
         fontSize: 12.0,
       ),
+      autovalidate: true,
+      validator: validator,
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0XFFF7F5F5),
