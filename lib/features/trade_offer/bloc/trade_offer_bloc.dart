@@ -22,20 +22,20 @@ class TradeOfferBloc extends Bloc<TradeOfferEvent, TradeOfferState> {
       addItemToTrade: (e) async* {
         Map<String, BarterModel> items = state.pickedBarterItem;
         items.putIfAbsent(e.barterModel.itemId, () => e.barterModel);
-        yield TradeOfferState.addItem(items, 'info');
-        yield TradeOfferState.updateDone(items, 'info');
+        yield TradeOfferState.addItem(items, state.isMessageValid);
+        yield TradeOfferState.updateDone(items, state.isMessageValid);
       },
       removeItemToTrade: (e) async* {
         Map<String, BarterModel> items = state.pickedBarterItem;
         items.remove(e.barterModel.itemId);
-        yield TradeOfferState.removeItem(items, 'info');
-        yield TradeOfferState.updateDone(items, 'info');
+        yield TradeOfferState.removeItem(items, state.isMessageValid);
+        yield TradeOfferState.updateDone(items, state.isMessageValid);
       },
       clearItemToTrade: (e) async* {
         Map<String, BarterModel> items = state.pickedBarterItem;
         items.clear();
-        yield TradeOfferState.clearItems(items, 'info');
-        yield TradeOfferState.updateDone(items, 'info');
+        yield TradeOfferState.clearItems(items, state.isMessageValid);
+        yield TradeOfferState.updateDone(items, state.isMessageValid);
       },
       messageChanged: (e) async* {
         yield state.copyWith(

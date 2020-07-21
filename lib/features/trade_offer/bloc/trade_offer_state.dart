@@ -15,7 +15,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
 
   factory TradeOfferState.empty() => TradeOfferState(
         pickedBarterItem: Map<String, BarterModel>(),
-        isMessageValid: true,
+        isMessageValid: false,
         isUpdating: false,
         isSubmitting: false,
         isSuccess: false,
@@ -24,51 +24,51 @@ abstract class TradeOfferState implements _$TradeOfferState {
       );
 
   factory TradeOfferState.addItem(
-          Map<String, BarterModel> pickedBarterItem, String info) =>
+          Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
         pickedBarterItem: pickedBarterItem,
-        isMessageValid: true,
+        isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        info: info,
+        info: '',
       );
 
   factory TradeOfferState.removeItem(
-          Map<String, BarterModel> pickedBarterItem, String info) =>
+          Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
         pickedBarterItem: pickedBarterItem,
-        isMessageValid: true,
+        isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        info: info,
+        info: '',
       );
 
   factory TradeOfferState.clearItems(
-          Map<String, BarterModel> pickedBarterItem, String info) =>
+          Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
         pickedBarterItem: pickedBarterItem,
-        isMessageValid: true,
+        isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        info: info,
+        info: '',
       );
 
   factory TradeOfferState.updateDone(
-          Map<String, BarterModel> pickedBarterItem, String info) =>
+          Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
         pickedBarterItem: pickedBarterItem,
-        isMessageValid: true,
+        isMessageValid: isMessageValid,
         isUpdating: false,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
-        info: info,
+        info: '',
       );
 
   factory TradeOfferState.loading() => TradeOfferState(
