@@ -27,28 +27,28 @@ jobs:
         id: write_file1
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: 'android/app/src/prod/google-services.json'
+          fileName:  ${{ GITHUB_REPOSITORY }} /android/app/src/prod/google-services.json
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
 
       - name: base64-to-file2
         id: write_file
         uses: timheuer/base64-to-file@v1.0.3
           with:
-            fileName: 'android/app/src/prod/toutly_prod_key.jks'
+            fileName: ${{ GITHUB_REPOSITORY }} /android/app/src/prod/toutly_prod_key.jks
             encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
 
       - name: base64-to-file3
         id: write_file
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: 'android/app/src/prod/toutly_prod_key.properties'
+          fileName:  ${{ GITHUB_REPOSITORY }} android/app/src/prod/toutly_prod_key.properties'\
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
 
     - name: base64-to-file4
         id: write_file
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: 'ios/Firebase/prod/GoogleService-Info.plist'
+          fileName:  ${{ GITHUB_REPOSITORY }} ios/Firebase/prod/GoogleService-Info.plist
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
 
           - name: Install dependencies
