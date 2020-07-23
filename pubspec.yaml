@@ -26,7 +26,7 @@ dependencies:
   lazy_load_scrollview: ^1.1.0
 
   #bloc related libs
-  flutter_bloc: ^5.0.0
+  flutter_bloc: ^6.0.1
   rxdart: ^0.23.1
 
   #firebase related libs
