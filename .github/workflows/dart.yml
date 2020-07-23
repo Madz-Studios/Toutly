@@ -33,9 +33,9 @@ jobs:
       - name: base64-to-file2
         id: write_file
         uses: timheuer/base64-to-file@v1.0.3
-          with:
-            fileName: ${{ GITHUB_REPOSITORY }} /android/app/src/prod/toutly_prod_key.jks
-            encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
+        with:
+          fileName: ${{ GITHUB_REPOSITORY }} /android/app/src/prod/toutly_prod_key.jks
+          encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
 
       - name: base64-to-file3
         id: write_file
