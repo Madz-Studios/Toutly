@@ -2,7 +2,6 @@ import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
-import 'package:Toutly/features/navigation/widgets/item_tab_view.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/search/screen/search_screen.dart';
@@ -46,12 +45,10 @@ class NavigationScreen extends StatelessWidget {
           );
         },
         userBarterListing: (_) {
-          List<Widget> screens = [
+          return _buildSingleViewScreen(
+            null,
             UserBarterListingScreen(),
-          ];
-          return ItemTabView(
-            screens: screens,
-            currentIndex: state.index,
+            state.index,
           );
         },
         inboxScreen: (_) {
