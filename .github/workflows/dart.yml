@@ -44,16 +44,16 @@ jobs:
           fileName:  ${{ GITHUB_REPOSITORY }} android/app/src/prod/toutly_prod_key.properties'\
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
 
-    - name: base64-to-file4
+      - name: base64-to-file4
         id: write_file
         uses: timheuer/base64-to-file@v1.0.3
         with:
           fileName:  ${{ GITHUB_REPOSITORY }} ios/Firebase/prod/GoogleService-Info.plist
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
 
-          - name: Install dependencies
-            run: flutter pub get
-          - name: Build Android
-            run: flutter build apk --target lib/main-prod.dart --flavor prod
-          - name: Build iOS
-            run: flutter build ios --target lib/main-prod.dart --flavor prod
+      - name: Install dependencies
+        run: flutter pub get
+      - name: Build Android
+        run: flutter build apk --target lib/main-prod.dart --flavor prod
+      - name: Build iOS
+        run: flutter build ios --target lib/main-prod.dart --flavor prod
