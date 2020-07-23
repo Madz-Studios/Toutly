@@ -1,4 +1,3 @@
-import 'package:Toutly/features/favourites/screen/favourites_screen.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
@@ -49,7 +48,6 @@ class NavigationScreen extends StatelessWidget {
         userBarterListing: (_) {
           List<Widget> screens = [
             UserBarterListingScreen(),
-            FavouritesScreen(),
           ];
           return ItemTabView(
             screens: screens,

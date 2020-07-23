@@ -5,7 +5,6 @@
 // **************************************************************************
 
 import 'package:Toutly/shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
-import 'package:Toutly/features/edit_barter_item/bloc/edit_barter_item_bloc.dart';
 import 'package:Toutly/core/di/module_injector.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -57,7 +56,6 @@ import 'package:get_it/get_it.dart';
 Future<void> $initGetIt(GetIt g, {String environment}) async {
   final injectableModule = _$InjectableModule();
   g.registerLazySingleton<AppleSignInBloc>(() => AppleSignInBloc());
-  g.registerLazySingleton<EditBarterItemBloc>(() => EditBarterItemBloc());
   g.registerLazySingleton<FacebookLogin>(() => injectableModule.facebookLogin);
   g.registerLazySingleton<FirebaseAuth>(() => injectableModule.firebaseAuth);
   g.registerLazySingleton<FirebaseStorage>(

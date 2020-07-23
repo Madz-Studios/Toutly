@@ -1,4 +1,3 @@
-import 'package:Toutly/features/edit_barter_item/bloc/edit_barter_item_bloc.dart';
 import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
@@ -70,11 +69,6 @@ class App extends StatelessWidget {
         /// View Barter Item Bloc
         BlocProvider<ViewBarterItemBloc>(
           create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
-        ),
-
-        /// Edit Barter Item Bloc
-        BlocProvider<EditBarterItemBloc>(
-          create: (BuildContext context) => getIt<EditBarterItemBloc>(),
         ),
 
         /// Barter Items Bloc
