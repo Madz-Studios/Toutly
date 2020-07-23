@@ -23,6 +23,8 @@ jobs:
         channel: 'stable'  
 
 
+    - name: base64-to-file
+    id: write_file
     uses: timheuer/base64-to-file@v1.0.3
      with:
        fileName: 'android/app/src/prod/google-services.json'
