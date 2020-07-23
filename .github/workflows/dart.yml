@@ -27,38 +27,29 @@ jobs:
         id: write_file1
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName:  google-services.json
+          fileName: Toutly/android/app/src/prod/google-services.json
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
-
-        run: echo google-services.json > Toutly/android/app/src/prod/google-services.json
 
       - name: base64-to-file2
         id: write_file2
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: toutly_prod_key.jks
+          fileName: Toutly/android/app/src/prod/toutly_prod_key.jks
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
-
-        run: echo toutly_prod_key.jks > Toutly/android/app/src/prod/toutly_prod_key.jks
 
       - name: base64-to-file3
         id: write_file3
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName:  toutly_prod_key.properties
+          fileName: Toutly/android/app/src/prod/toutly_prod_key.properties
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
-
-        run: echo toutly_prod_key.properties > Toutly/android/app/src/prod/toutly_prod_key.properties
-
 
       - name: base64-to-file4
         id: write_file4
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName:  GoogleService-Info.plist
+          fileName: Toutly/ios/Firebase/prod/GoogleService-Info.plist
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
-
-        run: echo GoogleService-Info.plist > Toutly/ios/Firebase/prod/GoogleService-Info.plist
 
       - name: Install dependencies
         run: flutter pub get
