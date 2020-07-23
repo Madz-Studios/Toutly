@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies
       run: flutter pub get
     - name: Build Android
-      run: flutter build apk --target lib/main-dev.dart --flavor dev
+      run: flutter build apk --target lib/main-prod.dart --flavor prod
     - name: Build iOS
-      run: flutter build ios --target lib/main-dev.dart --flavor dev
+      run: flutter build ios --target lib/main-prod.dart --flavor prod
 
