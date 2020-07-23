@@ -21,10 +21,31 @@ jobs:
     - uses: subosito/flutter-action@v1
       with:
         channel: 'stable'  
+
+
+    uses: timheuer/base64-to-file@v1.0.3
+     with:
+       fileName: 'android/app/src/prod/google-services.json'
+       encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
+
+    uses: timheuer/base64-to-file@v1.0.3
+     with:
+       fileName: 'android/app/src/prod/toutly_prod_key.jks'
+       encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
+
+    uses: timheuer/base64-to-file@v1.0.3
+     with:
+       fileName: 'android/app/src/prod/toutly_prod_key.properties'
+       encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
+
+     uses: timheuer/base64-to-file@v1.0.3
+     with:
+       fileName: 'ios/Firebase/prod/GoogleService-Info.plist'
+       encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
+
     - name: Install dependencies
       run: flutter pub get
     - name: Build Android
       run: flutter build apk --target lib/main-prod.dart --flavor prod
     - name: Build iOS
       run: flutter build ios --target lib/main-prod.dart --flavor prod
-
