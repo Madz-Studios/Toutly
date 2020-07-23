@@ -12,42 +12,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-       # The flutter action needs java so include it
-    - uses: actions/setup-java@v1
-      with:
-        java-version: '12.x'
-    # Include the flutter action
-    - uses: subosito/flutter-action@v1
-      with:
-        channel: 'stable'  
+      - uses: actions/checkout@v2
+        # The flutter action needs java so include it
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      # Include the flutter action
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'stable'
 
 
-    - name: base64-to-file
-    id: write_file
-    uses: timheuer/base64-to-file@v1.0.3
-     with:
-       fileName: 'android/app/src/prod/google-services.json'
-       encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
+      - name: base64-to-file1
+        id: write_file1
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: 'android/app/src/prod/google-services.json'
+          encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
 
-    uses: timheuer/base64-to-file@v1.0.3
-     with:
-       fileName: 'android/app/src/prod/toutly_prod_key.jks'
-       encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
+      - name: base64-to-file2
+        id: write_file
+        uses: timheuer/base64-to-file@v1.0.3
+          with:
+            fileName: 'android/app/src/prod/toutly_prod_key.jks'
+            encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
 
-    uses: timheuer/base64-to-file@v1.0.3
-     with:
-       fileName: 'android/app/src/prod/toutly_prod_key.properties'
-       encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
+      - name: base64-to-file3
+        id: write_file
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: 'android/app/src/prod/toutly_prod_key.properties'
+          encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
 
-     uses: timheuer/base64-to-file@v1.0.3
-     with:
-       fileName: 'ios/Firebase/prod/GoogleService-Info.plist'
-       encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
+    - name: base64-to-file4
+        id: write_file
+        uses: timheuer/base64-to-file@v1.0.3
+        with:
+          fileName: 'ios/Firebase/prod/GoogleService-Info.plist'
+          encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
 
-    - name: Install dependencies
-      run: flutter pub get
-    - name: Build Android
-      run: flutter build apk --target lib/main-prod.dart --flavor prod
-    - name: Build iOS
-      run: flutter build ios --target lib/main-prod.dart --flavor prod
+          - name: Install dependencies
+            run: flutter pub get
+          - name: Build Android
+            run: flutter build apk --target lib/main-prod.dart --flavor prod
+          - name: Build iOS
+            run: flutter build ios --target lib/main-prod.dart --flavor prod
