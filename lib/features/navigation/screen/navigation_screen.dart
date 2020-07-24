@@ -5,7 +5,7 @@ import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/search/screen/search_screen.dart';
-import 'package:Toutly/features/user_barter_listing/screen/user_barter_listing_screen.dart';
+import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,10 +44,10 @@ class NavigationScreen extends StatelessWidget {
             state.index,
           );
         },
-        userBarterListing: (_) {
-          return _buildSingleViewScreen(
+        userProfile: (_) {
+          return _buildNoAppBarSingleViewScreen(
             null,
-            UserBarterListingScreen(),
+            UserProfileScreen(),
             state.index,
           );
         },
@@ -62,6 +62,16 @@ class NavigationScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildNoAppBarSingleViewScreen(
+      Widget appBar, Widget screen, int currentIndex) {
+    return Scaffold(
+      body: screen,
+      bottomNavigationBar: NavigationBar(
+        currentIndex,
+      ),
+    );
+  }
+
   Widget _buildSingleViewScreen(
       Widget appBar, Widget screen, int currentIndex) {
     return Scaffold(
@@ -70,13 +80,6 @@ class NavigationScreen extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         currentIndex,
       ),
-    );
-  }
-
-  Widget _buildSingleViewNoBottomNavBarScreen(Widget appBar, Widget screen) {
-    return Scaffold(
-      appBar: appBar,
-      body: screen,
     );
   }
 }

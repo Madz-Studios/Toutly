@@ -154,8 +154,14 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       ));
   g.registerLazySingleton<TradeOfferBloc>(
       () => TradeOfferBloc(g<Validators>()));
-  g.registerLazySingleton<UserBloc>(() =>
-      UserBloc(g<FirebaseGetUserUseCase>(), g<FirestoreGetUserUseCase>()));
+  g.registerLazySingleton<UserBloc>(() => UserBloc(
+        g<FirebaseGetUserUseCase>(),
+        g<FirestoreGetUserUseCase>(),
+        g<FirestoreUpdateUserUseCase>(),
+        g<FirebaseStorage>(),
+        g<Uuid>(),
+        g<Validators>(),
+      ));
   g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
       g<FirebaseGetUserUseCase>(), g<FirestoreDeleteBarterItemUseCase>()));
   g.registerLazySingleton<AuthenticationBloc>(() => AuthenticationBloc(

@@ -51,23 +51,11 @@ class NavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           title: Text(''),
           icon: SvgPicture.asset(
-            'assets/icons/toutly.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: Colors.black,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/toutly.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Text(''),
-          icon: SvgPicture.asset(
-            'assets/icons/unpressed-favourites.svg',
+            'assets/icons/add.svg',
             height: appSizeConfig.blockSizeVertical * 3,
           ),
           activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-favourites.svg',
+            'assets/icons/add.svg',
             height: appSizeConfig.blockSizeVertical * 3,
             color: kPrimaryColor,
           ),
@@ -80,6 +68,18 @@ class NavigationBar extends StatelessWidget {
           ),
           activeIcon: SvgPicture.asset(
             'assets/icons/unpressed-chat.svg',
+            height: appSizeConfig.blockSizeVertical * 3,
+            color: kPrimaryColor,
+          ),
+        ),
+        BottomNavigationBarItem(
+          title: Text(''),
+          icon: SvgPicture.asset(
+            'assets/icons/profile.svg',
+            height: appSizeConfig.blockSizeVertical * 3,
+          ),
+          activeIcon: SvgPicture.asset(
+            'assets/icons/profile.svg',
             height: appSizeConfig.blockSizeVertical * 3,
             color: kPrimaryColor,
           ),
@@ -98,8 +98,8 @@ class NavigationBar extends StatelessWidget {
     if (index == AppNavigationIndex.postIndex) {
       _navigationBloc.add(NavigationEvent.goToPostScreenEvent());
     }
-    if (index == AppNavigationIndex.userBarterListingIndex) {
-      _navigationBloc.add(NavigationEvent.goToUserBarterListingScreenEvent());
+    if (index == AppNavigationIndex.useProfileIndex) {
+      _navigationBloc.add(NavigationEvent.goToUserProfileScreenEvent());
     }
     if (index == AppNavigationIndex.inboxIndex) {
       _navigationBloc.add(NavigationEvent.goToInboxScreenEvent());

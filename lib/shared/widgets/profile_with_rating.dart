@@ -17,7 +17,9 @@ class ProfileWithRating extends StatelessWidget {
     return Row(
       children: <Widget>[
         CircleAvatar(
-          backgroundImage: AssetImage('assets/images/profile_placeholder.png'),
+          backgroundImage: user.photoUrl == null || user.photoUrl.isEmpty
+              ? AssetImage('assets/images/profile_placeholder.png')
+              : NetworkImage(user.photoUrl),
         ),
         SizedBox(
           width: appSizeConfig.safeBlockHorizontal * 2.5,

@@ -1,7 +1,6 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
-import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,6 @@ import 'trade_barter_item_list.dart';
 
 class SelectItemToTrade extends StatelessWidget {
   final _tradeOfferBloc = getIt<TradeOfferBloc>();
-  final _barterBloc = getIt<BarterBloc>();
   SelectItemToTrade({
     Key key,
     @required this.barterModel,

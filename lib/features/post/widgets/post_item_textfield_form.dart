@@ -1,3 +1,4 @@
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -61,6 +62,9 @@ class PostItemTextFieldForm extends StatelessWidget {
               color: Color(0XFFB5B5B5),
             ),
             labelText: title,
+            labelStyle: TextStyle(
+              color: kPrimaryColor,
+            ),
             suffixText: controller.text.length >= 4 ? '' : '*',
             suffixStyle: TextStyle(
               fontWeight: FontWeight.w500,
@@ -74,7 +78,7 @@ class PostItemTextFieldForm extends StatelessWidget {
               ),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.transparent),
+              borderSide: BorderSide(color: kPrimaryColor),
               borderRadius: BorderRadius.all(
                 Radius.circular(8.0),
               ),
