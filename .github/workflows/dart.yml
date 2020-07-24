@@ -26,33 +26,17 @@ jobs:
       - name: Set project dir environment var
         run: echo ::set-env name=PROJECT_DIR::"$GITHUB_WORKSPACE/Toutly"
 
-      - name: base64-to-file1
-        id: write_file1
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-          fileName: ${PROJECT_DIR}/android/app/src/prod/google-services.json
-          encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
+      - name: base64-to-PROD_GOOGLE_SERVICE_JSON
+        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_JSON}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/google-services.json
 
-      - name: base64-to-file2
-        id: write_file2
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-          fileName: ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.jks
-          encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
+      - name: base64-to-TOUTLY_PROD_KEY_JKS
+        run: echo "${{ secrets.TOUTLY_PROD_KEY_JKS}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.jks
 
-      - name: base64-to-file3
-        id: write_file3
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-          fileName: ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.properties
-          encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
+      - name: base64-to-TOUTLY_PROD_KEY_PROPERTIES
+        run: echo "${{ secrets.TOUTLY_PROD_KEY_PROPERTIES}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.properties
 
-      - name: base64-to-file4
-        id: write_file4
-        uses: timheuer/base64-to-file@v1.0.3
-        with:
-          fileName: ${PROJECT_DIR}/ios/Firebase/prod/GoogleService-Info.plist
-          encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
+      - name: base64-to-PROD_GOOGLE_SERVICE_INFO_PLIST
+        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST}}" | base64 --decode > ${PROJECT_DIR}/ios/Firebase/prod/GoogleService-Info.plist
 
       - name: Install dependencies
         run: flutter pub get
