@@ -27,28 +27,28 @@ jobs:
         id: write_file1
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: ${{ github.workspace }}/google-services.json
+          fileName: google-services.json
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
 
       - name: base64-to-file2
         id: write_file2
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: ${{ github.workspace }}/toutly_prod_key.jks
+          fileName: toutly_prod_key.jks
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
 
       - name: base64-to-file3
         id: write_file3
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: ${{ github.workspace }}/toutly_prod_key.properties
+          fileName: toutly_prod_key.properties
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
 
       - name: base64-to-file4
         id: write_file4
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: ${{ github.workspace }}/GoogleService-Info.plist
+          fileName: GoogleService-Info.plist
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
 
       - name: Install dependencies
