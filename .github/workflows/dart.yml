@@ -30,8 +30,9 @@ jobs:
       - name: base64-to-TOUTLY_PROD_KEY_PROPERTIES
         run: echo "${{ secrets.TOUTLY_PROD_KEY_PROPERTIES}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.properties
 
-      - name: base64-to-PROD_GOOGLE_SERVICE_INFO_PLIST
-        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST}}" | base64 --decode > ${PROJECT_DIR}/ios/Firebase/prod/GoogleService-Info.plist
+#      - name: base64-to-PROD_GOOGLE_SERVICE_INFO_PLIST
+#        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST}}" | base64 --decode > ${PROJECT_DIR}/ios/Firebase/prod/GoogleService-Info.plist
+
       # Include the flutter action
       - uses: subosito/flutter-action@v1
         with:
