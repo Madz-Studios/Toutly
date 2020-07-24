@@ -23,35 +23,35 @@ jobs:
           channel: 'stable'
 
 
+      - name: Set project dir environment var
+        run: echo ::set-env name=PROJECT_DIR::"$GITHUB_WORKSPACE/Toutly"
+
       - name: base64-to-file1
         id: write_file1
         uses: timheuer/base64-to-file@v1.0.3
-        working-directory: /android/app/src/prod
         with:
-          fileName: google-services.json
+          fileName: /android/app/src/prod/google-services.json
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_JSON }}
 
       - name: base64-to-file2
         id: write_file2
         uses: timheuer/base64-to-file@v1.0.3
-        working-directory: /android/app/src/prod
         with:
-          fileName: toutly_prod_key.jks
+          fileName: /android/app/src/prod/toutly_prod_key.jks
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_JKS }}
 
       - name: base64-to-file3
         id: write_file3
         uses: timheuer/base64-to-file@v1.0.3
-        working-directory: /android/app/src/prod
         with:
-          fileName: toutly_prod_key.properties
+          fileName: /android/app/src/prod/toutly_prod_key.properties
           encodedString: ${{ secrets.TOUTLY_PROD_KEY_PROPERTIES }}
 
       - name: base64-to-file4
         id: write_file4
         uses: timheuer/base64-to-file@v1.0.3
         with:
-          fileName: GoogleService-Info.plist
+          fileName: ios/Firebase/prod/GoogleService-Info.plist
           encodedString: ${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST }}
 
       - name: Install dependencies
