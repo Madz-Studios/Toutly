@@ -19,16 +19,19 @@ jobs:
           java-version: '12.x'
 
       - name: Set project dir environment var
-        run: echo ::set-env name=PROJECT_DIR::"$GITHUB_WORKSPACE"
+      - run: echo ::set-env name=PROJECT_DIR::"$GITHUB_WORKSPACE"
 
       - name: base64-to-PROD_GOOGLE_SERVICE_JSON
-        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_JSON}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/google-services.json
+      - run: echo "${{ secrets.PROD_GOOGLE_SERVICE_JSON}}" | base64 --decode > google-services.json
+      - run: cat ${PROJECT_DIR}/android/app/src/prod/google-services.json
 
       - name: base64-to-TOUTLY_PROD_KEY_JKS
-        run: echo "${{ secrets.TOUTLY_PROD_KEY_JKS}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.jks
+      - run: echo "${{ secrets.TOUTLY_PROD_KEY_JKS}}" | base64 --decode > toutly_prod_key.jks
+      - run: cat ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.jks
 
       - name: base64-to-TOUTLY_PROD_KEY_PROPERTIES
-        run: echo "${{ secrets.TOUTLY_PROD_KEY_PROPERTIES}}" | base64 --decode > ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.properties
+      - run: echo "${{ secrets.TOUTLY_PROD_KEY_PROPERTIES}}" | base64 --decode > toutly_prod_key.properties
+      - run: cat ${PROJECT_DIR}/android/app/src/prod/toutly_prod_key.properties
 
 #      - name: base64-to-PROD_GOOGLE_SERVICE_INFO_PLIST
 #        run: echo "${{ secrets.PROD_GOOGLE_SERVICE_INFO_PLIST}}" | base64 --decode > ${PROJECT_DIR}/ios/Firebase/prod/GoogleService-Info.plist
