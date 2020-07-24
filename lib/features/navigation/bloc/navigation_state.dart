@@ -8,7 +8,7 @@ abstract class NavigationState with _$NavigationState {
       NavigationStateSearchScreen;
   const factory NavigationState.postScreen(int index) =
       NavigationStatePostItemScreen;
-  const factory NavigationState.userBarterListing(int index) =
+  const factory NavigationState.userProfile(int index) =
       NavigationStateUserBarterListingcreen;
   const factory NavigationState.inboxScreen(int index) =
       NavigationStateInboxScreen;

@@ -24,9 +24,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       goToPostScreenEvent: (_) async* {
         yield NavigationState.postScreen(AppNavigationIndex.postIndex);
       },
-      goToUserBarterListingScreenEvent: (_) async* {
-        yield NavigationState.userBarterListing(
-            AppNavigationIndex.userBarterListingIndex);
+      goToUserProfileScreenEvent: (_) async* {
+        yield NavigationState.userProfile(AppNavigationIndex.useProfileIndex);
       },
       goToInboxScreenEvent: (_) async* {
         yield NavigationState.inboxScreen(AppNavigationIndex.inboxIndex);

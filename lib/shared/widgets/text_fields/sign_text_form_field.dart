@@ -1,3 +1,4 @@
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class SignTextFormField extends StatelessWidget {
@@ -31,6 +32,10 @@ class SignTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0XFFF7F7F8),
+        labelText: hintText,
+        labelStyle: TextStyle(
+          color: kPrimaryColor,
+        ),
         hintText: hintText,
         hintStyle: TextStyle(
           fontStyle: FontStyle.normal,
@@ -40,6 +45,18 @@ class SignTextFormField extends StatelessWidget {
         ),
         border: OutlineInputBorder(
           borderSide: BorderSide(),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: kPrimaryColor),
           borderRadius: BorderRadius.all(
             Radius.circular(8.0),
           ),

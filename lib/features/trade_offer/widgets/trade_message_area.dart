@@ -1,3 +1,4 @@
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class TradeMessageArea extends StatelessWidget {
@@ -41,7 +42,7 @@ class TradeMessageArea extends StatelessWidget {
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.transparent),
+          borderSide: BorderSide(color: kPrimaryColor),
           borderRadius: BorderRadius.all(
             Radius.circular(8.0),
           ),

@@ -5,15 +5,16 @@ part 'user_model.g.dart';
 
 @JsonSerializable()
 class UserModel {
-  String name;
+  String address;
+  String email;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateCreated;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateUpdated;
-  String email;
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;
+  String name;
   String photoUrl;
   String userId;
   double userRating;

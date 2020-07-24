@@ -17,16 +17,17 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     photoUrl: json['photoUrl'] as String,
     userId: json['userId'] as String,
     userRating: (json['userRating'] as num)?.toDouble(),
-  );
+  )..address = json['address'] as String;
 }
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'name': instance.name,
+      'address': instance.address,
+      'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),
       'dateUpdated': UserModel._toJsonTimestamp(instance.dateUpdated),
-      'email': instance.email,
       'geoHash': instance.geoHash,
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
+      'name': instance.name,
       'photoUrl': instance.photoUrl,
       'userId': instance.userId,
       'userRating': instance.userRating,

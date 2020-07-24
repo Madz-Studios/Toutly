@@ -8,8 +8,8 @@ abstract class NavigationEvent implements _$NavigationEvent {
       NavigationEventGoToSearchScreen;
   const factory NavigationEvent.goToPostScreenEvent() =
       NavigationEventGoToPostScreen;
-  const factory NavigationEvent.goToUserBarterListingScreenEvent() =
-      NavigationEventGoToUserBarterListingScreen;
+  const factory NavigationEvent.goToUserProfileScreenEvent() =
+      NavigationEventGoToUserProfileScreen;
   const factory NavigationEvent.goToInboxScreenEvent() =
       NavigationEventGoToInboxScreen;
 }

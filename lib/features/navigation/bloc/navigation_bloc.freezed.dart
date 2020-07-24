@@ -24,9 +24,8 @@ class _$NavigationEventTearOff {
     return const NavigationEventGoToPostScreen();
   }
 
-  NavigationEventGoToUserBarterListingScreen
-      goToUserBarterListingScreenEvent() {
-    return const NavigationEventGoToUserBarterListingScreen();
+  NavigationEventGoToUserProfileScreen goToUserProfileScreenEvent() {
+    return const NavigationEventGoToUserProfileScreen();
   }
 
   NavigationEventGoToInboxScreen goToInboxScreenEvent() {
@@ -43,7 +42,7 @@ mixin _$NavigationEvent {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   });
   @optionalTypeArgs
@@ -51,7 +50,7 @@ mixin _$NavigationEvent {
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   });
@@ -62,8 +61,8 @@ mixin _$NavigationEvent {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   });
   @optionalTypeArgs
@@ -71,8 +70,8 @@ mixin _$NavigationEvent {
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   });
@@ -135,13 +134,13 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToHomeScreenEvent();
   }
@@ -152,7 +151,7 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   }) {
@@ -171,14 +170,14 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToHomeScreenEvent(this);
   }
@@ -189,8 +188,8 @@ class _$NavigationEventGoToHomeScreen implements NavigationEventGoToHomeScreen {
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   }) {
@@ -250,13 +249,13 @@ class _$NavigationEventGoToSearchScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToSearchScreenEvent();
   }
@@ -267,7 +266,7 @@ class _$NavigationEventGoToSearchScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   }) {
@@ -286,14 +285,14 @@ class _$NavigationEventGoToSearchScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToSearchScreenEvent(this);
   }
@@ -304,8 +303,8 @@ class _$NavigationEventGoToSearchScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   }) {
@@ -364,13 +363,13 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToPostScreenEvent();
   }
@@ -381,7 +380,7 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   }) {
@@ -400,14 +399,14 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToPostScreenEvent(this);
   }
@@ -418,8 +417,8 @@ class _$NavigationEventGoToPostScreen implements NavigationEventGoToPostScreen {
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   }) {
@@ -436,40 +435,39 @@ abstract class NavigationEventGoToPostScreen implements NavigationEvent {
       _$NavigationEventGoToPostScreen;
 }
 
-abstract class $NavigationEventGoToUserBarterListingScreenCopyWith<$Res> {
-  factory $NavigationEventGoToUserBarterListingScreenCopyWith(
-          NavigationEventGoToUserBarterListingScreen value,
-          $Res Function(NavigationEventGoToUserBarterListingScreen) then) =
-      _$NavigationEventGoToUserBarterListingScreenCopyWithImpl<$Res>;
+abstract class $NavigationEventGoToUserProfileScreenCopyWith<$Res> {
+  factory $NavigationEventGoToUserProfileScreenCopyWith(
+          NavigationEventGoToUserProfileScreen value,
+          $Res Function(NavigationEventGoToUserProfileScreen) then) =
+      _$NavigationEventGoToUserProfileScreenCopyWithImpl<$Res>;
 }
 
-class _$NavigationEventGoToUserBarterListingScreenCopyWithImpl<$Res>
+class _$NavigationEventGoToUserProfileScreenCopyWithImpl<$Res>
     extends _$NavigationEventCopyWithImpl<$Res>
-    implements $NavigationEventGoToUserBarterListingScreenCopyWith<$Res> {
-  _$NavigationEventGoToUserBarterListingScreenCopyWithImpl(
-      NavigationEventGoToUserBarterListingScreen _value,
-      $Res Function(NavigationEventGoToUserBarterListingScreen) _then)
-      : super(_value,
-            (v) => _then(v as NavigationEventGoToUserBarterListingScreen));
+    implements $NavigationEventGoToUserProfileScreenCopyWith<$Res> {
+  _$NavigationEventGoToUserProfileScreenCopyWithImpl(
+      NavigationEventGoToUserProfileScreen _value,
+      $Res Function(NavigationEventGoToUserProfileScreen) _then)
+      : super(_value, (v) => _then(v as NavigationEventGoToUserProfileScreen));
 
   @override
-  NavigationEventGoToUserBarterListingScreen get _value =>
-      super._value as NavigationEventGoToUserBarterListingScreen;
+  NavigationEventGoToUserProfileScreen get _value =>
+      super._value as NavigationEventGoToUserProfileScreen;
 }
 
-class _$NavigationEventGoToUserBarterListingScreen
-    implements NavigationEventGoToUserBarterListingScreen {
-  const _$NavigationEventGoToUserBarterListingScreen();
+class _$NavigationEventGoToUserProfileScreen
+    implements NavigationEventGoToUserProfileScreen {
+  const _$NavigationEventGoToUserProfileScreen();
 
   @override
   String toString() {
-    return 'NavigationEvent.goToUserBarterListingScreenEvent()';
+    return 'NavigationEvent.goToUserProfileScreenEvent()';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationEventGoToUserBarterListingScreen);
+        (other is NavigationEventGoToUserProfileScreen);
   }
 
   @override
@@ -481,15 +479,15 @@ class _$NavigationEventGoToUserBarterListingScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    return goToUserBarterListingScreenEvent();
+    return goToUserProfileScreenEvent();
   }
 
   @override
@@ -498,13 +496,13 @@ class _$NavigationEventGoToUserBarterListingScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToUserBarterListingScreenEvent != null) {
-      return goToUserBarterListingScreenEvent();
+    if (goToUserProfileScreenEvent != null) {
+      return goToUserProfileScreenEvent();
     }
     return orElse();
   }
@@ -517,16 +515,16 @@ class _$NavigationEventGoToUserBarterListingScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
-    return goToUserBarterListingScreenEvent(this);
+    return goToUserProfileScreenEvent(this);
   }
 
   @override
@@ -535,23 +533,22 @@ class _$NavigationEventGoToUserBarterListingScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (goToUserBarterListingScreenEvent != null) {
-      return goToUserBarterListingScreenEvent(this);
+    if (goToUserProfileScreenEvent != null) {
+      return goToUserProfileScreenEvent(this);
     }
     return orElse();
   }
 }
 
-abstract class NavigationEventGoToUserBarterListingScreen
-    implements NavigationEvent {
-  const factory NavigationEventGoToUserBarterListingScreen() =
-      _$NavigationEventGoToUserBarterListingScreen;
+abstract class NavigationEventGoToUserProfileScreen implements NavigationEvent {
+  const factory NavigationEventGoToUserProfileScreen() =
+      _$NavigationEventGoToUserProfileScreen;
 }
 
 abstract class $NavigationEventGoToInboxScreenCopyWith<$Res> {
@@ -597,13 +594,13 @@ class _$NavigationEventGoToInboxScreen
     @required Result goToHomeScreenEvent(),
     @required Result goToSearchScreenEvent(),
     @required Result goToPostScreenEvent(),
-    @required Result goToUserBarterListingScreenEvent(),
+    @required Result goToUserProfileScreenEvent(),
     @required Result goToInboxScreenEvent(),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToInboxScreenEvent();
   }
@@ -614,7 +611,7 @@ class _$NavigationEventGoToInboxScreen
     Result goToHomeScreenEvent(),
     Result goToSearchScreenEvent(),
     Result goToPostScreenEvent(),
-    Result goToUserBarterListingScreenEvent(),
+    Result goToUserProfileScreenEvent(),
     Result goToInboxScreenEvent(),
     @required Result orElse(),
   }) {
@@ -633,14 +630,14 @@ class _$NavigationEventGoToInboxScreen
         Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     @required Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
     @required
-        Result goToUserBarterListingScreenEvent(
-            NavigationEventGoToUserBarterListingScreen value),
+        Result goToUserProfileScreenEvent(
+            NavigationEventGoToUserProfileScreen value),
     @required Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
   }) {
     assert(goToHomeScreenEvent != null);
     assert(goToSearchScreenEvent != null);
     assert(goToPostScreenEvent != null);
-    assert(goToUserBarterListingScreenEvent != null);
+    assert(goToUserProfileScreenEvent != null);
     assert(goToInboxScreenEvent != null);
     return goToInboxScreenEvent(this);
   }
@@ -651,8 +648,8 @@ class _$NavigationEventGoToInboxScreen
     Result goToHomeScreenEvent(NavigationEventGoToHomeScreen value),
     Result goToSearchScreenEvent(NavigationEventGoToSearchScreen value),
     Result goToPostScreenEvent(NavigationEventGoToPostScreen value),
-    Result goToUserBarterListingScreenEvent(
-        NavigationEventGoToUserBarterListingScreen value),
+    Result goToUserProfileScreenEvent(
+        NavigationEventGoToUserProfileScreen value),
     Result goToInboxScreenEvent(NavigationEventGoToInboxScreen value),
     @required Result orElse(),
   }) {
@@ -690,7 +687,7 @@ class _$NavigationStateTearOff {
     );
   }
 
-  NavigationStateUserBarterListingcreen userBarterListing(int index) {
+  NavigationStateUserBarterListingcreen userProfile(int index) {
     return NavigationStateUserBarterListingcreen(
       index,
     );
@@ -714,7 +711,7 @@ mixin _$NavigationState {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   });
   @optionalTypeArgs
@@ -722,7 +719,7 @@ mixin _$NavigationState {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   });
@@ -731,8 +728,7 @@ mixin _$NavigationState {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   });
   @optionalTypeArgs
@@ -740,7 +736,7 @@ mixin _$NavigationState {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   });
@@ -837,13 +833,13 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return homeScreen(index);
   }
@@ -854,7 +850,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
@@ -871,14 +867,13 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return homeScreen(this);
   }
@@ -889,7 +884,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
@@ -976,13 +971,13 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return searchScreen(index);
   }
@@ -993,7 +988,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
@@ -1010,14 +1005,13 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return searchScreen(this);
   }
@@ -1028,7 +1022,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
@@ -1117,13 +1111,13 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return postScreen(index);
   }
@@ -1134,7 +1128,7 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
@@ -1151,14 +1145,13 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return postScreen(this);
   }
@@ -1169,7 +1162,7 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
@@ -1234,7 +1227,7 @@ class _$NavigationStateUserBarterListingcreen
 
   @override
   String toString() {
-    return 'NavigationState.userBarterListing(index: $index)';
+    return 'NavigationState.userProfile(index: $index)';
   }
 
   @override
@@ -1261,15 +1254,15 @@ class _$NavigationStateUserBarterListingcreen
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
-    return userBarterListing(index);
+    return userProfile(index);
   }
 
   @override
@@ -1278,13 +1271,13 @@ class _$NavigationStateUserBarterListingcreen
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (userBarterListing != null) {
-      return userBarterListing(index);
+    if (userProfile != null) {
+      return userProfile(index);
     }
     return orElse();
   }
@@ -1295,16 +1288,15 @@ class _$NavigationStateUserBarterListingcreen
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
-    return userBarterListing(this);
+    return userProfile(this);
   }
 
   @override
@@ -1313,13 +1305,13 @@ class _$NavigationStateUserBarterListingcreen
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (userBarterListing != null) {
-      return userBarterListing(this);
+    if (userProfile != null) {
+      return userProfile(this);
     }
     return orElse();
   }
@@ -1402,13 +1394,13 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result homeScreen(int index),
     @required Result searchScreen(int index),
     @required Result postScreen(int index),
-    @required Result userBarterListing(int index),
+    @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return inboxScreen(index);
   }
@@ -1419,7 +1411,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result homeScreen(int index),
     Result searchScreen(int index),
     Result postScreen(int index),
-    Result userBarterListing(int index),
+    Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
@@ -1436,14 +1428,13 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result searchScreen(NavigationStateSearchScreen value),
     @required Result postScreen(NavigationStatePostItemScreen value),
-    @required
-        Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(searchScreen != null);
     assert(postScreen != null);
-    assert(userBarterListing != null);
+    assert(userProfile != null);
     assert(inboxScreen != null);
     return inboxScreen(this);
   }
@@ -1454,7 +1445,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
     Result homeScreen(NavigationStateHomeScreen value),
     Result searchScreen(NavigationStateSearchScreen value),
     Result postScreen(NavigationStatePostItemScreen value),
-    Result userBarterListing(NavigationStateUserBarterListingcreen value),
+    Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
