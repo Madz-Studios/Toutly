@@ -101,7 +101,7 @@ android {
 
     buildTypes {
         release {
-            signingConfig signingConfigs.prod
+            signingConfig signingConfigs.dev
 
             minifyEnabled true
             useProguard true
