@@ -1,11 +1,12 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/edit_profile/screen/edit_profile_screen.dart';
+import 'package:Toutly/features/user_profile/widgets/user_info.dart';
+import 'package:Toutly/features/user_profile/widgets/user_profile_tab_menu.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class UserProfileScreen extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   final _userBloc = getIt<UserBloc>();
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +26,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         return Scaffold(
@@ -48,15 +51,42 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
               ),
             ],
           ),
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: UserInfo(state),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(
+                height: appSizeConfig.safeBlockVertical * 3,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: appSizeConfig.safeBlockHorizontal * 3,
                 ),
-              ],
-            ),
+                child: UserInfo(state),
+              ),
+              SizedBox(
+                height: appSizeConfig.safeBlockVertical * 3,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: appSizeConfig.safeBlockHorizontal * 3,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    UserPosts(),
+                    UserFollowers(),
+                    UserFollowing(),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: appSizeConfig.safeBlockVertical * 3,
+              ),
+              Expanded(
+                child: UserProfileTabMenu(),
+              ),
+            ],
           ),
         );
       },
@@ -64,51 +94,78 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 }
 
-class UserInfo extends StatelessWidget {
-  final UserState userState;
+class UserFollowing extends StatelessWidget {
+  const UserFollowing({
+    Key key,
+  }) : super(key: key);
 
-  UserInfo(this.userState);
   @override
   Widget build(BuildContext context) {
-    final appSizeConfig = AppSizeConfig(context);
-    return Row(
-      children: [
-        Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: appSizeConfig.safeBlockVertical * 3,
-            horizontal: appSizeConfig.safeBlockHorizontal * 3,
-          ),
-          child: CircleAvatar(
-            backgroundImage: userState.userModel?.photoUrl == null ||
-                    userState.userModel.photoUrl.isEmpty
-                ? AssetImage('assets/images/profile_placeholder.png')
-                : NetworkImage(userState.userModel?.photoUrl),
-            radius: appSizeConfig.safeBlockVertical * 3,
+    return Column(
+      children: <Widget>[
+        Text(
+          '1',
+          style: TextStyle(
+            fontSize: 14.0,
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(userState.userModel?.name ?? ''),
-            RatingBar(
-              ignoreGestures: true,
-              initialRating: userState.userModel?.userRating == null
-                  ? 0
-                  : userState.userModel.userRating,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemSize: appSizeConfig.blockSizeVertical * 2,
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
-              ),
-              onRatingUpdate: (value) {},
-            ),
-            Text(userState.userModel?.address ?? ''),
-          ],
+        Text(
+          'Following',
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class UserFollowers extends StatelessWidget {
+  const UserFollowers({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          '1',
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
+        Text(
+          'Followers',
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class UserPosts extends StatelessWidget {
+  const UserPosts({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        Text(
+          '1',
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
+        ),
+        Text(
+          'Post',
+          style: TextStyle(
+            fontSize: 14.0,
+          ),
         ),
       ],
     );
