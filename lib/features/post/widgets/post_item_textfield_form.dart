@@ -43,7 +43,7 @@ class PostItemTextFieldForm extends StatelessWidget {
         TextFormField(
           readOnly: readOnly,
           controller: controller,
-          keyboardType: TextInputType.multiline,
+          keyboardType: TextInputType.text,
           maxLength: maxLength,
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
