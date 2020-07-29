@@ -19,17 +19,25 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {}
 
   ///TODO: Put the in a separate Bloc, Search Bloc???
-  Future<AlgoliaQuerySnapshot> getBarterFeeds(
-      String algoliaAppId, String algoliaSearchApiKey) async {
+  Future<AlgoliaQuerySnapshot> getBarterFeeds(String algoliaAppId,
+      String algoliaSearchApiKey, String latitude, String longitude) async {
     Algolia algolia = Algolia.init(
       applicationId: algoliaAppId,
       apiKey: algoliaSearchApiKey,
     );
 
+    final aroundLatLng = '$latitude, $longitude';
+
+    print('aroundLatLng = $aroundLatLng');
+
     ///
     /// Perform Query
     ///
-    AlgoliaQuery query = algolia.instance.index('barter_index').search('');
+    AlgoliaQuery query = algolia.instance
+        .index('barter_index')
+        .search('')
+        .setAroundLatLng(aroundLatLng)
+        .setAroundRadius(10000); //100 km
 
     final data = query.getObjects();
 
