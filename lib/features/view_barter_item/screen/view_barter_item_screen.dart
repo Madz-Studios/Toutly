@@ -51,7 +51,7 @@ class ViewBarterItemScreen extends StatelessWidget {
             children: [
               Flexible(
                 flex: 1,
-                child: CarouselSliderCustom(state.barterModel.photosUrl),
+                child: CarouselSliderCustom(state.barterModel?.photosUrl),
               ),
               Flexible(
                 flex: 1,
