@@ -11,25 +11,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserBarterListingScreen extends StatefulWidget {
-  @override
-  _UserBarterListingScreenState createState() =>
-      _UserBarterListingScreenState();
-}
-
-class _UserBarterListingScreenState extends State<UserBarterListingScreen> {
+class UserBarterListingScreen extends StatelessWidget {
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
 
   final _barterBloc = getIt<BarterBloc>();
-
-  final _userBloc = getIt<UserBloc>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _userBloc.add(UserEvent.getCurrentLoggedInUser());
-  }
 
   @override
   Widget build(BuildContext context) {
