@@ -26,4 +26,8 @@ class BarterMessageModel {
       : DateTime.fromMillisecondsSinceEpoch(timestamp.millisecondsSinceEpoch);
   static Timestamp _toJsonTimestamp(DateTime time) =>
       time == null ? null : Timestamp.fromDate(time);
+
+  factory BarterMessageModel.fromJson(Map<String, dynamic> json) =>
+      _$BarterMessageModelFromJson(json);
+  Map<String, dynamic> toJson() => _$BarterMessageModelToJson(this);
 }

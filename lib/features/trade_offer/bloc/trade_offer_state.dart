@@ -4,7 +4,7 @@ part of 'trade_offer_bloc.dart';
 abstract class TradeOfferState implements _$TradeOfferState {
   const TradeOfferState._();
   const factory TradeOfferState({
-    @required Map<String, BarterModel> pickedBarterItem,
+    @required Map<String, BarterModel> pickedBarterItems,
     @required bool isMessageValid,
     @required bool isUpdating,
     @required bool isSubmitting,
@@ -14,7 +14,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
   }) = _TradeOfferState;
 
   factory TradeOfferState.empty() => TradeOfferState(
-        pickedBarterItem: Map<String, BarterModel>(),
+        pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: false,
         isUpdating: false,
         isSubmitting: false,
@@ -26,7 +26,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
   factory TradeOfferState.addItem(
           Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
-        pickedBarterItem: pickedBarterItem,
+        pickedBarterItems: pickedBarterItem,
         isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
@@ -38,7 +38,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
   factory TradeOfferState.removeItem(
           Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
-        pickedBarterItem: pickedBarterItem,
+        pickedBarterItems: pickedBarterItem,
         isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
@@ -50,7 +50,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
   factory TradeOfferState.clearItems(
           Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
-        pickedBarterItem: pickedBarterItem,
+        pickedBarterItems: pickedBarterItem,
         isMessageValid: isMessageValid,
         isUpdating: true,
         isSubmitting: false,
@@ -62,7 +62,19 @@ abstract class TradeOfferState implements _$TradeOfferState {
   factory TradeOfferState.updateDone(
           Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
       TradeOfferState(
-        pickedBarterItem: pickedBarterItem,
+        pickedBarterItems: pickedBarterItem,
+        isMessageValid: isMessageValid,
+        isUpdating: false,
+        isSubmitting: false,
+        isSuccess: false,
+        isFailure: false,
+        info: '',
+      );
+
+  factory TradeOfferState.updateStart(
+          Map<String, BarterModel> pickedBarterItem, bool isMessageValid) =>
+      TradeOfferState(
+        pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: isMessageValid,
         isUpdating: false,
         isSubmitting: false,
@@ -72,7 +84,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
       );
 
   factory TradeOfferState.loading() => TradeOfferState(
-        pickedBarterItem: Map<String, BarterModel>(),
+        pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: true,
         isUpdating: false,
         isSubmitting: true,
@@ -82,7 +94,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
       );
 
   factory TradeOfferState.failure(String info) => TradeOfferState(
-        pickedBarterItem: Map<String, BarterModel>(),
+        pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: true,
         isUpdating: false,
         isSubmitting: false,
@@ -91,7 +103,7 @@ abstract class TradeOfferState implements _$TradeOfferState {
         info: info,
       );
   factory TradeOfferState.success(String info) => TradeOfferState(
-        pickedBarterItem: Map<String, BarterModel>(),
+        pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: true,
         isUpdating: false,
         isSubmitting: false,
@@ -100,5 +112,5 @@ abstract class TradeOfferState implements _$TradeOfferState {
         info: info,
       );
 
-  bool get isTradeOfferFormValid => pickedBarterItem.length > 0;
+  bool get isTradeOfferFormValid => pickedBarterItems.length > 0;
 }

@@ -24,7 +24,7 @@ class _TradeBarterItemState extends State<TradeBarterItem> {
     return BlocBuilder<TradeOfferBloc, TradeOfferState>(
       builder: (context, state) {
         isSelected =
-            state.pickedBarterItem.containsKey(widget.barterModel.itemId);
+            state.pickedBarterItems.containsKey(widget.barterModel.itemId);
         return Card(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

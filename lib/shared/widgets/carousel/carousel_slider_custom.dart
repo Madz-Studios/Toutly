@@ -34,7 +34,7 @@ class _CarouselSliderCustomState extends State<CarouselSliderCustom> {
         Align(
           alignment: Alignment.bottomCenter,
           child: IndicatorCarousel(
-            items: getCachedImages(widget.photosUrl),
+            items: getCachedImages(widget?.photosUrl ?? ''),
             current: _current,
           ),
         ),

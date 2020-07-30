@@ -44,11 +44,11 @@ class UserProfileTabMenu extends StatelessWidget {
               child: TabBarView(
                 children: <Widget>[
                   UserBarterListingScreen(),
-                  Container(
-                    color: Colors.yellow,
+                  Placeholder(
+                    color: Colors.red,
                   ),
-                  Container(
-                    color: Colors.yellow,
+                  Placeholder(
+                    color: Colors.blue,
                   ),
                 ],
               ),

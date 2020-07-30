@@ -34,8 +34,17 @@ class _$TradeOfferEventTearOff {
     );
   }
 
-  TradeOfferEventSubmitButtonOfferPressed submitButtonOfferPressed() {
-    return const TradeOfferEventSubmitButtonOfferPressed();
+  TradeOfferEventSubmitButtonOfferPressed submitButtonOfferPressed(
+      {@required UserModel currentUser,
+      @required UserModel barterUser,
+      @required BarterModel barterItem,
+      @required String message}) {
+    return TradeOfferEventSubmitButtonOfferPressed(
+      currentUser: currentUser,
+      barterUser: barterUser,
+      barterItem: barterItem,
+      message: message,
+    );
   }
 }
 
@@ -49,7 +58,9 @@ mixin _$TradeOfferEvent {
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -57,7 +68,8 @@ mixin _$TradeOfferEvent {
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -162,7 +174,9 @@ class _$TradeOfferAddItemToTrade implements TradeOfferAddItemToTrade {
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   }) {
     assert(addItemToTrade != null);
     assert(removeItemToTrade != null);
@@ -179,7 +193,8 @@ class _$TradeOfferAddItemToTrade implements TradeOfferAddItemToTrade {
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -301,7 +316,9 @@ class _$TradeOfferRemovetemToTrade implements TradeOfferRemovetemToTrade {
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   }) {
     assert(addItemToTrade != null);
     assert(removeItemToTrade != null);
@@ -318,7 +335,8 @@ class _$TradeOfferRemovetemToTrade implements TradeOfferRemovetemToTrade {
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -415,7 +433,9 @@ class _$TradeOfferClearItemToTrade implements TradeOfferClearItemToTrade {
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   }) {
     assert(addItemToTrade != null);
     assert(removeItemToTrade != null);
@@ -432,7 +452,8 @@ class _$TradeOfferClearItemToTrade implements TradeOfferClearItemToTrade {
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -547,7 +568,9 @@ class _$TradeOfferMessageChanged implements TradeOfferMessageChanged {
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   }) {
     assert(addItemToTrade != null);
     assert(removeItemToTrade != null);
@@ -564,7 +587,8 @@ class _$TradeOfferMessageChanged implements TradeOfferMessageChanged {
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -625,6 +649,11 @@ abstract class $TradeOfferEventSubmitButtonOfferPressedCopyWith<$Res> {
           TradeOfferEventSubmitButtonOfferPressed value,
           $Res Function(TradeOfferEventSubmitButtonOfferPressed) then) =
       _$TradeOfferEventSubmitButtonOfferPressedCopyWithImpl<$Res>;
+  $Res call(
+      {UserModel currentUser,
+      UserModel barterUser,
+      BarterModel barterItem,
+      String message});
 }
 
 class _$TradeOfferEventSubmitButtonOfferPressedCopyWithImpl<$Res>
@@ -639,25 +668,83 @@ class _$TradeOfferEventSubmitButtonOfferPressedCopyWithImpl<$Res>
   @override
   TradeOfferEventSubmitButtonOfferPressed get _value =>
       super._value as TradeOfferEventSubmitButtonOfferPressed;
+
+  @override
+  $Res call({
+    Object currentUser = freezed,
+    Object barterUser = freezed,
+    Object barterItem = freezed,
+    Object message = freezed,
+  }) {
+    return _then(TradeOfferEventSubmitButtonOfferPressed(
+      currentUser: currentUser == freezed
+          ? _value.currentUser
+          : currentUser as UserModel,
+      barterUser:
+          barterUser == freezed ? _value.barterUser : barterUser as UserModel,
+      barterItem:
+          barterItem == freezed ? _value.barterItem : barterItem as BarterModel,
+      message: message == freezed ? _value.message : message as String,
+    ));
+  }
 }
 
 class _$TradeOfferEventSubmitButtonOfferPressed
     implements TradeOfferEventSubmitButtonOfferPressed {
-  const _$TradeOfferEventSubmitButtonOfferPressed();
+  const _$TradeOfferEventSubmitButtonOfferPressed(
+      {@required this.currentUser,
+      @required this.barterUser,
+      @required this.barterItem,
+      @required this.message})
+      : assert(currentUser != null),
+        assert(barterUser != null),
+        assert(barterItem != null),
+        assert(message != null);
+
+  @override
+  final UserModel currentUser;
+  @override
+  final UserModel barterUser;
+  @override
+  final BarterModel barterItem;
+  @override
+  final String message;
 
   @override
   String toString() {
-    return 'TradeOfferEvent.submitButtonOfferPressed()';
+    return 'TradeOfferEvent.submitButtonOfferPressed(currentUser: $currentUser, barterUser: $barterUser, barterItem: $barterItem, message: $message)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is TradeOfferEventSubmitButtonOfferPressed);
+        (other is TradeOfferEventSubmitButtonOfferPressed &&
+            (identical(other.currentUser, currentUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.currentUser, currentUser)) &&
+            (identical(other.barterUser, barterUser) ||
+                const DeepCollectionEquality()
+                    .equals(other.barterUser, barterUser)) &&
+            (identical(other.barterItem, barterItem) ||
+                const DeepCollectionEquality()
+                    .equals(other.barterItem, barterItem)) &&
+            (identical(other.message, message) ||
+                const DeepCollectionEquality().equals(other.message, message)));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(currentUser) ^
+      const DeepCollectionEquality().hash(barterUser) ^
+      const DeepCollectionEquality().hash(barterItem) ^
+      const DeepCollectionEquality().hash(message);
+
+  @override
+  $TradeOfferEventSubmitButtonOfferPressedCopyWith<
+          TradeOfferEventSubmitButtonOfferPressed>
+      get copyWith => _$TradeOfferEventSubmitButtonOfferPressedCopyWithImpl<
+          TradeOfferEventSubmitButtonOfferPressed>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -666,14 +753,17 @@ class _$TradeOfferEventSubmitButtonOfferPressed
     @required Result removeItemToTrade(BarterModel barterModel),
     @required Result clearItemToTrade(),
     @required Result messageChanged(String message),
-    @required Result submitButtonOfferPressed(),
+    @required
+        Result submitButtonOfferPressed(UserModel currentUser,
+            UserModel barterUser, BarterModel barterItem, String message),
   }) {
     assert(addItemToTrade != null);
     assert(removeItemToTrade != null);
     assert(clearItemToTrade != null);
     assert(messageChanged != null);
     assert(submitButtonOfferPressed != null);
-    return submitButtonOfferPressed();
+    return submitButtonOfferPressed(
+        currentUser, barterUser, barterItem, message);
   }
 
   @override
@@ -683,12 +773,14 @@ class _$TradeOfferEventSubmitButtonOfferPressed
     Result removeItemToTrade(BarterModel barterModel),
     Result clearItemToTrade(),
     Result messageChanged(String message),
-    Result submitButtonOfferPressed(),
+    Result submitButtonOfferPressed(UserModel currentUser, UserModel barterUser,
+        BarterModel barterItem, String message),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (submitButtonOfferPressed != null) {
-      return submitButtonOfferPressed();
+      return submitButtonOfferPressed(
+          currentUser, barterUser, barterItem, message);
     }
     return orElse();
   }
@@ -733,15 +825,25 @@ class _$TradeOfferEventSubmitButtonOfferPressed
 
 abstract class TradeOfferEventSubmitButtonOfferPressed
     implements TradeOfferEvent {
-  const factory TradeOfferEventSubmitButtonOfferPressed() =
-      _$TradeOfferEventSubmitButtonOfferPressed;
+  const factory TradeOfferEventSubmitButtonOfferPressed(
+      {@required UserModel currentUser,
+      @required UserModel barterUser,
+      @required BarterModel barterItem,
+      @required String message}) = _$TradeOfferEventSubmitButtonOfferPressed;
+
+  UserModel get currentUser;
+  UserModel get barterUser;
+  BarterModel get barterItem;
+  String get message;
+  $TradeOfferEventSubmitButtonOfferPressedCopyWith<
+      TradeOfferEventSubmitButtonOfferPressed> get copyWith;
 }
 
 class _$TradeOfferStateTearOff {
   const _$TradeOfferStateTearOff();
 
   _TradeOfferState call(
-      {@required Map<String, BarterModel> pickedBarterItem,
+      {@required Map<String, BarterModel> pickedBarterItems,
       @required bool isMessageValid,
       @required bool isUpdating,
       @required bool isSubmitting,
@@ -749,7 +851,7 @@ class _$TradeOfferStateTearOff {
       @required bool isFailure,
       @required String info}) {
     return _TradeOfferState(
-      pickedBarterItem: pickedBarterItem,
+      pickedBarterItems: pickedBarterItems,
       isMessageValid: isMessageValid,
       isUpdating: isUpdating,
       isSubmitting: isSubmitting,
@@ -764,7 +866,7 @@ class _$TradeOfferStateTearOff {
 const $TradeOfferState = _$TradeOfferStateTearOff();
 
 mixin _$TradeOfferState {
-  Map<String, BarterModel> get pickedBarterItem;
+  Map<String, BarterModel> get pickedBarterItems;
   bool get isMessageValid;
   bool get isUpdating;
   bool get isSubmitting;
@@ -780,7 +882,7 @@ abstract class $TradeOfferStateCopyWith<$Res> {
           TradeOfferState value, $Res Function(TradeOfferState) then) =
       _$TradeOfferStateCopyWithImpl<$Res>;
   $Res call(
-      {Map<String, BarterModel> pickedBarterItem,
+      {Map<String, BarterModel> pickedBarterItems,
       bool isMessageValid,
       bool isUpdating,
       bool isSubmitting,
@@ -799,7 +901,7 @@ class _$TradeOfferStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object pickedBarterItem = freezed,
+    Object pickedBarterItems = freezed,
     Object isMessageValid = freezed,
     Object isUpdating = freezed,
     Object isSubmitting = freezed,
@@ -808,9 +910,9 @@ class _$TradeOfferStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      pickedBarterItem: pickedBarterItem == freezed
-          ? _value.pickedBarterItem
-          : pickedBarterItem as Map<String, BarterModel>,
+      pickedBarterItems: pickedBarterItems == freezed
+          ? _value.pickedBarterItems
+          : pickedBarterItems as Map<String, BarterModel>,
       isMessageValid: isMessageValid == freezed
           ? _value.isMessageValid
           : isMessageValid as bool,
@@ -832,7 +934,7 @@ abstract class _$TradeOfferStateCopyWith<$Res>
       __$TradeOfferStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Map<String, BarterModel> pickedBarterItem,
+      {Map<String, BarterModel> pickedBarterItems,
       bool isMessageValid,
       bool isUpdating,
       bool isSubmitting,
@@ -853,7 +955,7 @@ class __$TradeOfferStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object pickedBarterItem = freezed,
+    Object pickedBarterItems = freezed,
     Object isMessageValid = freezed,
     Object isUpdating = freezed,
     Object isSubmitting = freezed,
@@ -862,9 +964,9 @@ class __$TradeOfferStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_TradeOfferState(
-      pickedBarterItem: pickedBarterItem == freezed
-          ? _value.pickedBarterItem
-          : pickedBarterItem as Map<String, BarterModel>,
+      pickedBarterItems: pickedBarterItems == freezed
+          ? _value.pickedBarterItems
+          : pickedBarterItems as Map<String, BarterModel>,
       isMessageValid: isMessageValid == freezed
           ? _value.isMessageValid
           : isMessageValid as bool,
@@ -881,14 +983,14 @@ class __$TradeOfferStateCopyWithImpl<$Res>
 
 class _$_TradeOfferState extends _TradeOfferState {
   const _$_TradeOfferState(
-      {@required this.pickedBarterItem,
+      {@required this.pickedBarterItems,
       @required this.isMessageValid,
       @required this.isUpdating,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(pickedBarterItem != null),
+      : assert(pickedBarterItems != null),
         assert(isMessageValid != null),
         assert(isUpdating != null),
         assert(isSubmitting != null),
@@ -898,7 +1000,7 @@ class _$_TradeOfferState extends _TradeOfferState {
         super._();
 
   @override
-  final Map<String, BarterModel> pickedBarterItem;
+  final Map<String, BarterModel> pickedBarterItems;
   @override
   final bool isMessageValid;
   @override
@@ -914,16 +1016,16 @@ class _$_TradeOfferState extends _TradeOfferState {
 
   @override
   String toString() {
-    return 'TradeOfferState(pickedBarterItem: $pickedBarterItem, isMessageValid: $isMessageValid, isUpdating: $isUpdating, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'TradeOfferState(pickedBarterItems: $pickedBarterItems, isMessageValid: $isMessageValid, isUpdating: $isUpdating, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _TradeOfferState &&
-            (identical(other.pickedBarterItem, pickedBarterItem) ||
+            (identical(other.pickedBarterItems, pickedBarterItems) ||
                 const DeepCollectionEquality()
-                    .equals(other.pickedBarterItem, pickedBarterItem)) &&
+                    .equals(other.pickedBarterItems, pickedBarterItems)) &&
             (identical(other.isMessageValid, isMessageValid) ||
                 const DeepCollectionEquality()
                     .equals(other.isMessageValid, isMessageValid)) &&
@@ -946,7 +1048,7 @@ class _$_TradeOfferState extends _TradeOfferState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(pickedBarterItem) ^
+      const DeepCollectionEquality().hash(pickedBarterItems) ^
       const DeepCollectionEquality().hash(isMessageValid) ^
       const DeepCollectionEquality().hash(isUpdating) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
@@ -962,7 +1064,7 @@ class _$_TradeOfferState extends _TradeOfferState {
 abstract class _TradeOfferState extends TradeOfferState {
   const _TradeOfferState._() : super._();
   const factory _TradeOfferState(
-      {@required Map<String, BarterModel> pickedBarterItem,
+      {@required Map<String, BarterModel> pickedBarterItems,
       @required bool isMessageValid,
       @required bool isUpdating,
       @required bool isSubmitting,
@@ -971,7 +1073,7 @@ abstract class _TradeOfferState extends TradeOfferState {
       @required String info}) = _$_TradeOfferState;
 
   @override
-  Map<String, BarterModel> get pickedBarterItem;
+  Map<String, BarterModel> get pickedBarterItems;
   @override
   bool get isMessageValid;
   @override
