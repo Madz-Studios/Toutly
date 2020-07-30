@@ -9,12 +9,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class TradeOfferScreen extends StatelessWidget {
-  final BarterModel barterModel;
+  final BarterModel barterItem;
   final UserModel barterUser;
+  final UserModel currentUser;
 
   TradeOfferScreen({
-    @required this.barterModel,
+    @required this.barterItem,
     @required this.barterUser,
+    @required this.currentUser,
   });
 
   final _tradeOfferBloc = getIt<TradeOfferBloc>();
@@ -44,8 +46,9 @@ class TradeOfferScreen extends StatelessWidget {
             horizontal: appSizeConfig.blockSizeHorizontal * 2,
           ),
           child: TradeOfferForm(
+            currentUser: currentUser,
             barterUser: barterUser,
-            barterModel: barterModel,
+            barterItem: barterItem,
           ),
         ),
       ),

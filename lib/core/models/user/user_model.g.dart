@@ -8,6 +8,10 @@ part of 'user_model.dart';
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
+    address: json['address'] as String,
+    barterTransactionList: (json['barterTransactionList'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
     dateCreated: UserModel._fromJsonTimestamp(json['dateCreated'] as Timestamp),
     dateUpdated: UserModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     email: json['email'] as String,
@@ -17,11 +21,12 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     photoUrl: json['photoUrl'] as String,
     userId: json['userId'] as String,
     userRating: (json['userRating'] as num)?.toDouble(),
-  )..address = json['address'] as String;
+  );
 }
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'address': instance.address,
+      'barterTransactionList': instance.barterTransactionList,
       'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),
       'dateUpdated': UserModel._toJsonTimestamp(instance.dateUpdated),

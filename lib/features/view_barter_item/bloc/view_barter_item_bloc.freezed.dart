@@ -436,8 +436,7 @@ abstract class ViewBarterItemEventDeleteBarterItem
 class _$ViewBarterItemStateTearOff {
   const _$ViewBarterItemStateTearOff();
 
-  _ViewBarterItemState call(
-      {FirebaseUser currentUser, BarterModel barterModel}) {
+  _ViewBarterItemState call({UserModel currentUser, BarterModel barterModel}) {
     return _ViewBarterItemState(
       currentUser: currentUser,
       barterModel: barterModel,
@@ -449,7 +448,7 @@ class _$ViewBarterItemStateTearOff {
 const $ViewBarterItemState = _$ViewBarterItemStateTearOff();
 
 mixin _$ViewBarterItemState {
-  FirebaseUser get currentUser;
+  UserModel get currentUser;
   BarterModel get barterModel;
 
   $ViewBarterItemStateCopyWith<ViewBarterItemState> get copyWith;
@@ -459,7 +458,7 @@ abstract class $ViewBarterItemStateCopyWith<$Res> {
   factory $ViewBarterItemStateCopyWith(
           ViewBarterItemState value, $Res Function(ViewBarterItemState) then) =
       _$ViewBarterItemStateCopyWithImpl<$Res>;
-  $Res call({FirebaseUser currentUser, BarterModel barterModel});
+  $Res call({UserModel currentUser, BarterModel barterModel});
 }
 
 class _$ViewBarterItemStateCopyWithImpl<$Res>
@@ -478,7 +477,7 @@ class _$ViewBarterItemStateCopyWithImpl<$Res>
     return _then(_value.copyWith(
       currentUser: currentUser == freezed
           ? _value.currentUser
-          : currentUser as FirebaseUser,
+          : currentUser as UserModel,
       barterModel: barterModel == freezed
           ? _value.barterModel
           : barterModel as BarterModel,
@@ -492,7 +491,7 @@ abstract class _$ViewBarterItemStateCopyWith<$Res>
           $Res Function(_ViewBarterItemState) then) =
       __$ViewBarterItemStateCopyWithImpl<$Res>;
   @override
-  $Res call({FirebaseUser currentUser, BarterModel barterModel});
+  $Res call({UserModel currentUser, BarterModel barterModel});
 }
 
 class __$ViewBarterItemStateCopyWithImpl<$Res>
@@ -513,7 +512,7 @@ class __$ViewBarterItemStateCopyWithImpl<$Res>
     return _then(_ViewBarterItemState(
       currentUser: currentUser == freezed
           ? _value.currentUser
-          : currentUser as FirebaseUser,
+          : currentUser as UserModel,
       barterModel: barterModel == freezed
           ? _value.barterModel
           : barterModel as BarterModel,
@@ -525,7 +524,7 @@ class _$_ViewBarterItemState implements _ViewBarterItemState {
   const _$_ViewBarterItemState({this.currentUser, this.barterModel});
 
   @override
-  final FirebaseUser currentUser;
+  final UserModel currentUser;
   @override
   final BarterModel barterModel;
 
@@ -560,11 +559,11 @@ class _$_ViewBarterItemState implements _ViewBarterItemState {
 
 abstract class _ViewBarterItemState implements ViewBarterItemState {
   const factory _ViewBarterItemState(
-      {FirebaseUser currentUser,
+      {UserModel currentUser,
       BarterModel barterModel}) = _$_ViewBarterItemState;
 
   @override
-  FirebaseUser get currentUser;
+  UserModel get currentUser;
   @override
   BarterModel get barterModel;
   @override

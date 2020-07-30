@@ -3,20 +3,18 @@ class FirestoreCollectionNames {
   ///Firebase collection names
   ///
 
-  static String auctionItemsCollection = 'auction_items';
-  static String barterItemsCollection = 'barter_items';
-  static String offerBarterCollection = 'offer_barter';
   static String barterMessagesCollection = 'barter_messages';
+
+  static String barterTransactionCollection = 'barter_transaction';
+  static String barterItemsCollection = 'barter_items';
   static String userCollection = 'user';
 
-  static String userBarterInboxCollection = 'userBarterInbox';
-  static String userBarterItemsCollection = 'userBarterItems';
-
-  String getUserBarterInboxCollection(String userId) {
-    return "$userCollection/$userId/$userBarterInboxCollection";
+  static String getUserBarterInboxCollection(
+      String userId, String transactionId) {
+    return "$userCollection/$userId/$barterMessagesCollection/$transactionId";
   }
 
-  String getUserBarterItemsCollection(String userId) {
-    return "$userCollection/$userId/$userBarterItemsCollection";
+  static String getUserBarterTransactionCollection(String userId) {
+    return "$userCollection/$userId/$barterTransactionCollection";
   }
 }

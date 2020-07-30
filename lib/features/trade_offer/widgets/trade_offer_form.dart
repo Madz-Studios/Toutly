@@ -1,8 +1,10 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/features/trade_offer/widgets/trade_barter_item_card.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
@@ -13,17 +15,20 @@ import 'select_item_to_trade.dart';
 import 'trade_message_area.dart';
 
 class TradeOfferForm extends StatefulWidget {
+  final UserModel currentUser;
   final UserModel barterUser; // user that barter the item
-  final BarterModel barterModel; //item that is being bartered
+  final BarterModel barterItem; //item that is being bartered
   TradeOfferForm({
-    this.barterModel,
-    this.barterUser,
+    @required this.currentUser,
+    @required this.barterItem,
+    @required this.barterUser,
   });
   @override
   _TradeOfferFormState createState() => _TradeOfferFormState();
 }
 
 class _TradeOfferFormState extends State<TradeOfferForm> {
+  final _navBloc = getIt<NavigationBloc>();
   final _tradeOfferBloc = getIt<TradeOfferBloc>();
   final _messageController = TextEditingController();
 
@@ -33,8 +38,17 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
         !state.isSubmitting;
   }
 
-  void _onFormSubmitted() {
-    _tradeOfferBloc.add(TradeOfferEvent.submitButtonOfferPressed());
+  _onFormSubmitted() {
+    if (_messageController.text.isNotEmpty) {
+      _tradeOfferBloc.add(
+        TradeOfferEvent.submitButtonOfferPressed(
+          barterItem: widget.barterItem,
+          barterUser: widget.barterUser,
+          currentUser: widget.currentUser,
+          message: _messageController.text,
+        ),
+      );
+    }
   }
 
   void _onMessageChanged() {
@@ -59,7 +73,48 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<TradeOfferBloc, TradeOfferState>(
+    return BlocConsumer<TradeOfferBloc, TradeOfferState>(
+      listener: (context, state) {
+        if (state.isFailure) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Text('${state.info}'),
+                    ),
+                    Icon(Icons.error),
+                  ],
+                ),
+                backgroundColor: Colors.red,
+              ),
+            );
+        }
+        if (state.isSubmitting) {
+          Scaffold.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              SnackBar(
+                backgroundColor: kPrimaryColor,
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Submitting offer...'),
+                    CircularProgressIndicator(),
+                  ],
+                ),
+              ),
+            );
+        }
+        if (state.isSuccess) {
+          Navigator.pop(context);
+          Navigator.pop(context);
+          _navBloc.add(NavigationEvent.goToInboxScreenEvent());
+        }
+      },
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,7 +122,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2,
             ),
-            TradeBarterItemCard(widget.barterModel),
+            TradeBarterItemCard(widget.barterItem),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 4,
             ),
@@ -199,28 +254,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SelectItemToTrade(
-                    barterModel: state.pickedBarterItem.length >= 1
-                        ? state.pickedBarterItem.values.toList()[0]
-                        : null,
-                  ),
-                  SelectItemToTrade(
-                    barterModel: state.pickedBarterItem.length >= 2
-                        ? state.pickedBarterItem.values.toList()[1]
-                        : null,
-                  ),
-                  SelectItemToTrade(
-                    barterModel: state.pickedBarterItem.length >= 3
-                        ? state.pickedBarterItem.values.toList()[2]
-                        : null,
-                  ),
-                  SelectItemToTrade(
-                    barterModel: state.pickedBarterItem.length >= 4
-                        ? state.pickedBarterItem.values.toList()[3]
-                        : null,
-                  ),
-                ],
+                children: getSelectedItems(state),
               ),
             ),
             SizedBox(
@@ -240,5 +274,33 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
         );
       },
     );
+  }
+
+  List<Widget> getSelectedItems(TradeOfferState state) {
+    List<Widget> items = [];
+    if (state.pickedBarterItems != null) {
+      items.add(SelectItemToTrade(
+        barterModel: state.pickedBarterItems.length >= 1
+            ? state.pickedBarterItems.values.toList()[0]
+            : null,
+      ));
+      items.add(SelectItemToTrade(
+        barterModel: state.pickedBarterItems.length >= 2
+            ? state.pickedBarterItems.values.toList()[1]
+            : null,
+      ));
+      items.add(SelectItemToTrade(
+        barterModel: state.pickedBarterItems.length >= 3
+            ? state.pickedBarterItems.values.toList()[2]
+            : null,
+      ));
+      items.add(SelectItemToTrade(
+        barterModel: state.pickedBarterItems.length >= 4
+            ? state.pickedBarterItems.values.toList()[3]
+            : null,
+      ));
+    }
+
+    return items;
   }
 }

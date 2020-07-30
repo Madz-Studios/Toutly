@@ -37,7 +37,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         .index('barter_index')
         .search('')
         .setAroundLatLng(aroundLatLng)
-        .setAroundRadius(10000); //100 km
+        .setAroundRadius(5000); //5,000 meters or 5 km
 
     final data = query.getObjects();
 

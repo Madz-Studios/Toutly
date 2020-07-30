@@ -12,6 +12,10 @@ abstract class TradeOfferEvent with _$TradeOfferEvent {
   const factory TradeOfferEvent.messageChanged({String message}) =
       TradeOfferMessageChanged;
 
-  const factory TradeOfferEvent.submitButtonOfferPressed() =
-      TradeOfferEventSubmitButtonOfferPressed;
+  const factory TradeOfferEvent.submitButtonOfferPressed({
+    @required UserModel currentUser,
+    @required UserModel barterUser,
+    @required BarterModel barterItem,
+    @required String message,
+  }) = TradeOfferEventSubmitButtonOfferPressed;
 }
