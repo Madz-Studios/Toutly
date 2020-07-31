@@ -5,6 +5,7 @@ import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_cas
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -124,7 +125,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             address: e.address,
             photosUrl: _photosUrl,
             preferredItem: e.preferredItem,
-            publicAccess: true,
+            publicAccess: e.privacy ==
+                AppConstants.privacyList[0], // is public access true
             title: e.title,
             userId: firebaseUser.uid,
           );

@@ -32,4 +32,9 @@ class AppConstants {
     'Toys & Games',
     'Vehicles & Parts',
   ];
+
+  static const List<String> privacyList = [
+    'Public',
+    'Private',
+  ];
 }

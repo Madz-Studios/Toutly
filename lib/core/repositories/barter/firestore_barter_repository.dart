@@ -25,16 +25,13 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   final Firestore firestore;
 
-  /// Create a barter item in barter firestore collection using [itemId]
+  /// Create a barter item in barter firestore collection using [documentID]
   @override
   Future<void> createBarterMarketItem(BarterModel barterModel) async {
     final String barterCollection =
         FirestoreCollectionNames.barterItemsCollection;
 
-    await firestore
-        .collection(barterCollection)
-        .document(barterModel.itemId)
-        .setData(barterModel.toJson());
+    await firestore.collection(barterCollection).add(barterModel.toJson());
   }
 
   /// Get "ALL" barter item in barter firestore collection using [userId].
