@@ -28,6 +28,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _locationController = TextEditingController();
 
   String _selectedCategory;
+  String _selectedPrivacy;
   GeoPoint _geoLocation;
   String _geoHash;
   String _locationPlaceHolderText = 'Getting Location...';
@@ -44,6 +45,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     _locationController.addListener(_onLocationChanged);
 
     _selectedCategory = AppConstants.categoryList[0];
+    _selectedPrivacy = AppConstants.privacyList[0];
   }
 
   @override
@@ -100,6 +102,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
         geoLocation: _geoLocation,
         geoHash: _geoHash,
         title: _titleController.text,
+        privacy: _selectedPrivacy,
       ),
     );
   }
@@ -111,7 +114,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     _locationController.clear();
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuItems() {
+  List<DropdownMenuItem<String>> _buildDropdownMenuCategoryItems() {
     List<DropdownMenuItem<String>> items = List();
     for (String category in AppConstants.categoryList) {
       items.add(
@@ -124,9 +127,28 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     return items;
   }
 
-  _onChangeDropdownItem(String selectedCategory) {
+  List<DropdownMenuItem<String>> _buildDropdownMenuPrivacyItems() {
+    List<DropdownMenuItem<String>> items = List();
+    for (String privacy in AppConstants.privacyList) {
+      items.add(
+        DropdownMenuItem(
+          value: privacy,
+          child: Text(privacy),
+        ),
+      );
+    }
+    return items;
+  }
+
+  _onChangeCategoryDropdownItem(String selectedCategory) {
     setState(() {
       _selectedCategory = selectedCategory;
+    });
+  }
+
+  _onChangePrivacyDropdownItem(String selectedPrivacy) {
+    setState(() {
+      _selectedPrivacy = selectedPrivacy;
     });
   }
 
@@ -171,8 +193,8 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             DropdownButtonFormField(
               isExpanded: true,
               value: _selectedCategory,
-              items: _buildDropdownMenuItems(),
-              onChanged: _onChangeDropdownItem,
+              items: _buildDropdownMenuCategoryItems(),
+              onChanged: _onChangeCategoryDropdownItem,
               style: GoogleFonts.roboto(
                 fontStyle: FontStyle.normal,
                 fontWeight: FontWeight.w500,
@@ -190,6 +212,45 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                   color: Color(0XFFB5B5B5),
                 ),
                 labelText: 'Category',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.transparent),
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(8.0),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(
+              height: appSizeConfig.blockSizeVertical * 3,
+            ),
+            DropdownButtonFormField(
+              isExpanded: true,
+              value: _selectedPrivacy,
+              items: _buildDropdownMenuPrivacyItems(),
+              onChanged: _onChangePrivacyDropdownItem,
+              style: GoogleFonts.roboto(
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w500,
+                fontSize: 14.0,
+                color: Colors.black87,
+              ),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Color(0XFFF7F7F8),
+                hintText: "Select Privacy",
+                hintStyle: TextStyle(
+                  fontStyle: FontStyle.normal,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 16.0,
+                  color: Color(0XFFB5B5B5),
+                ),
+                labelText: 'Privacy',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.transparent),
                   borderRadius: BorderRadius.all(

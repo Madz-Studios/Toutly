@@ -32,5 +32,6 @@ abstract class PostEvent with _$PostEvent {
     @required String address,
     @required GeoPoint geoLocation,
     @required String geoHash,
+    @required String privacy,
   }) = PostEventPostButtonPressed;
 }

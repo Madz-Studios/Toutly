@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:json_annotation/json_annotation.dart';
 

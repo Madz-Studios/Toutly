@@ -65,7 +65,8 @@ class _$PostEventTearOff {
       @required String preferredItem,
       @required String address,
       @required GeoPoint geoLocation,
-      @required String geoHash}) {
+      @required String geoHash,
+      @required String privacy}) {
     return PostEventPostButtonPressed(
       category: category,
       title: title,
@@ -74,6 +75,7 @@ class _$PostEventTearOff {
       address: address,
       geoLocation: geoLocation,
       geoHash: geoHash,
+      privacy: privacy,
     );
   }
 }
@@ -99,7 +101,8 @@ mixin _$PostEvent {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
@@ -117,7 +120,8 @@ mixin _$PostEvent {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -231,7 +235,8 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -261,7 +266,8 @@ class _$PostEventTitleChanged implements PostEventTitleChanged {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -401,7 +407,8 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -431,7 +438,8 @@ class _$PostEventDescriptionChanged implements PostEventDescriptionChanged {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -574,7 +582,8 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -604,7 +613,8 @@ class _$PostEventPreferredItemChanged implements PostEventPreferredItemChanged {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -743,7 +753,8 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -773,7 +784,8 @@ class _$PostEventLocationChanged implements PostEventLocationChanged {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -921,7 +933,8 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -951,7 +964,8 @@ class _$PostEventAddPhotoToList implements PostEventAddPhotoToList {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1104,7 +1118,8 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -1134,7 +1149,8 @@ class _$PostEventRemovePhotoFromList implements PostEventRemovePhotoFromList {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1250,7 +1266,8 @@ class _$PostEventClearPhotoList implements PostEventClearPhotoList {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -1280,7 +1297,8 @@ class _$PostEventClearPhotoList implements PostEventClearPhotoList {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -1349,7 +1367,8 @@ abstract class $PostEventPostButtonPressedCopyWith<$Res> {
       String preferredItem,
       String address,
       GeoPoint geoLocation,
-      String geoHash});
+      String geoHash,
+      String privacy});
 }
 
 class _$PostEventPostButtonPressedCopyWithImpl<$Res>
@@ -1372,6 +1391,7 @@ class _$PostEventPostButtonPressedCopyWithImpl<$Res>
     Object address = freezed,
     Object geoLocation = freezed,
     Object geoHash = freezed,
+    Object privacy = freezed,
   }) {
     return _then(PostEventPostButtonPressed(
       category: category == freezed ? _value.category : category as String,
@@ -1385,6 +1405,7 @@ class _$PostEventPostButtonPressedCopyWithImpl<$Res>
       geoLocation:
           geoLocation == freezed ? _value.geoLocation : geoLocation as GeoPoint,
       geoHash: geoHash == freezed ? _value.geoHash : geoHash as String,
+      privacy: privacy == freezed ? _value.privacy : privacy as String,
     ));
   }
 }
@@ -1397,14 +1418,16 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
       @required this.preferredItem,
       @required this.address,
       @required this.geoLocation,
-      @required this.geoHash})
+      @required this.geoHash,
+      @required this.privacy})
       : assert(category != null),
         assert(title != null),
         assert(description != null),
         assert(preferredItem != null),
         assert(address != null),
         assert(geoLocation != null),
-        assert(geoHash != null);
+        assert(geoHash != null),
+        assert(privacy != null);
 
   @override
   final String category;
@@ -1420,10 +1443,12 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
   final GeoPoint geoLocation;
   @override
   final String geoHash;
+  @override
+  final String privacy;
 
   @override
   String toString() {
-    return 'PostEvent.postButtonPressed(category: $category, title: $title, description: $description, preferredItem: $preferredItem, address: $address, geoLocation: $geoLocation, geoHash: $geoHash)';
+    return 'PostEvent.postButtonPressed(category: $category, title: $title, description: $description, preferredItem: $preferredItem, address: $address, geoLocation: $geoLocation, geoHash: $geoHash, privacy: $privacy)';
   }
 
   @override
@@ -1448,7 +1473,10 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
                 const DeepCollectionEquality()
                     .equals(other.geoLocation, geoLocation)) &&
             (identical(other.geoHash, geoHash) ||
-                const DeepCollectionEquality().equals(other.geoHash, geoHash)));
+                const DeepCollectionEquality()
+                    .equals(other.geoHash, geoHash)) &&
+            (identical(other.privacy, privacy) ||
+                const DeepCollectionEquality().equals(other.privacy, privacy)));
   }
 
   @override
@@ -1460,7 +1488,8 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
       const DeepCollectionEquality().hash(preferredItem) ^
       const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(geoLocation) ^
-      const DeepCollectionEquality().hash(geoHash);
+      const DeepCollectionEquality().hash(geoHash) ^
+      const DeepCollectionEquality().hash(privacy);
 
   @override
   $PostEventPostButtonPressedCopyWith<PostEventPostButtonPressed>
@@ -1486,7 +1515,8 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
             String preferredItem,
             String address,
             GeoPoint geoLocation,
-            String geoHash),
+            String geoHash,
+            String privacy),
   }) {
     assert(titleChanged != null);
     assert(descriptionChanged != null);
@@ -1497,7 +1527,7 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
     assert(clearPhotoList != null);
     assert(postButtonPressed != null);
     return postButtonPressed(category, title, description, preferredItem,
-        address, geoLocation, geoHash);
+        address, geoLocation, geoHash, privacy);
   }
 
   @override
@@ -1517,13 +1547,14 @@ class _$PostEventPostButtonPressed implements PostEventPostButtonPressed {
         String preferredItem,
         String address,
         GeoPoint geoLocation,
-        String geoHash),
+        String geoHash,
+        String privacy),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (postButtonPressed != null) {
       return postButtonPressed(category, title, description, preferredItem,
-          address, geoLocation, geoHash);
+          address, geoLocation, geoHash, privacy);
     }
     return orElse();
   }
@@ -1580,7 +1611,8 @@ abstract class PostEventPostButtonPressed implements PostEvent {
       @required String preferredItem,
       @required String address,
       @required GeoPoint geoLocation,
-      @required String geoHash}) = _$PostEventPostButtonPressed;
+      @required String geoHash,
+      @required String privacy}) = _$PostEventPostButtonPressed;
 
   String get category;
   String get title;
@@ -1589,6 +1621,7 @@ abstract class PostEventPostButtonPressed implements PostEvent {
   String get address;
   GeoPoint get geoLocation;
   String get geoHash;
+  String get privacy;
   $PostEventPostButtonPressedCopyWith<PostEventPostButtonPressed> get copyWith;
 }
 
