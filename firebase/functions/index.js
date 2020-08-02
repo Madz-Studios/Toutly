@@ -11,7 +11,7 @@ const ALGOLIA_ADMIN_KEY = functions.config().algolia.api_key;
 const ALGOLIA_SEARCH_KEY = functions.config().algolia.search_key;
 
 const ALGOLIA_INDEX_NAME = "barter_index";
-const client = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
+const algoliaClient = algoliasearch(ALGOLIA_ID, ALGOLIA_ADMIN_KEY);
 // [END init_algolia]
 
 // [START update_index_function]
@@ -28,7 +28,7 @@ exports.onBarterCreated = functions.firestore
     barter.objectID = context.params.barterId;
 
     // Write to the algolia index
-    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    const index = algoliaClient.initIndex(ALGOLIA_INDEX_NAME);
     return index.saveObject(barter);
   });
 
@@ -37,7 +37,7 @@ exports.onBarterDeleted = functions.firestore
   .document("barter_items/{barterId}")
   .onDelete((snap, context) => {
     // Delete an apartment from the algolia index
-    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    const index = algoliaClient.initIndex(ALGOLIA_INDEX_NAME);
     return index.deleteObject(context.params.barterId);
   });
 //EDIT BARTER ITEM
@@ -48,7 +48,7 @@ exports.onBarterEdited = functions.firestore
     const previousValue = change.before.data();
     newValue.objectID = context.params.barterId;
     // Write the update to the algolia index
-    const index = client.initIndex(ALGOLIA_INDEX_NAME);
+    const index = algoliaClient.initIndex(ALGOLIA_INDEX_NAME);
     return index.saveObject(newValue);
   });
 // [END update_index_function]
@@ -120,7 +120,7 @@ app.get("/", (req, res) => {
   };
 
   // Call the Algolia API to generate a unique key based on our search key
-  const key = client.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, params);
+  const key = algoliaClient.generateSecuredApiKey(ALGOLIA_SEARCH_KEY, params);
 
   // Then return this key as {key: '...key'}
   res.json({ key });
@@ -130,3 +130,40 @@ app.get("/", (req, res) => {
 // called 'getSearchKey';
 exports.getSearchKey = functions.https.onRequest(app);
 // [END get_algolia_user_token]
+
+//[START - Automated firestore backup]
+
+const firestore = require("@google-cloud/firestore");
+const firebaseClient = new firestore.v1.FirestoreAdminClient();
+
+// Replace BUCKET_NAME
+const bucket = "gs://automated_firestore_backup";
+
+exports.scheduledFirestoreExport = functions.pubsub
+  .schedule("every 24 hours")
+  .onRun((context) => {
+    const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT;
+    const databaseName = firebaseClient.databasePath(projectId, "(default)");
+
+    return firebaseClient
+      .exportDocuments({
+        name: databaseName,
+        outputUriPrefix: bucket,
+        // Leave collectionIds empty to export all collections
+        // or set to a list of collection IDs to export,
+        // collectionIds: ['users', 'posts']
+        collectionIds: [],
+      })
+      .then((responses) => {
+        const response = responses[0];
+        console.log(`Operation Name: ${response["name"]}`);
+
+        return response;
+      })
+      .catch((err) => {
+        console.error(err);
+        throw new Error("Export operation failed");
+      });
+  });
+
+//[END - Automated firestore backup]
