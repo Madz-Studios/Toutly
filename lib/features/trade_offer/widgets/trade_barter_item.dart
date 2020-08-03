@@ -1,6 +1,7 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -50,18 +51,27 @@ class _TradeBarterItemState extends State<TradeBarterItem> {
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     Align(
+                      alignment: Alignment.topRight,
+                      child: Icon(
+                        widget.barterModel.publicAccess
+                            ? Icons.public
+                            : Icons.lock,
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                    Align(
                       alignment: Alignment.topLeft,
-                      child: IconButton(
-                        icon: isSelected
+                      child: GestureDetector(
+                        child: isSelected
                             ? Icon(
                                 Icons.check_box,
-                                color: Colors.blue,
+                                color: kPrimaryColor,
                               )
                             : Icon(
                                 Icons.check_box_outline_blank,
-                                color: Colors.blue,
+                                color: kPrimaryColor,
                               ),
-                        onPressed: () {
+                        onTap: () {
                           setState(() {
                             isSelected = !isSelected;
                           });

@@ -36,12 +36,12 @@ class UserBarterItem extends StatelessWidget {
                   errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 Align(
-                  alignment: Alignment.topLeft,
+                  alignment: Alignment.topRight,
                   child: Icon(
                     barterModel.publicAccess ? Icons.public : Icons.lock,
                     color: kPrimaryColor,
                   ),
-                )
+                ),
               ],
             ),
           ),

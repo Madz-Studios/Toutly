@@ -2,7 +2,6 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -318,13 +317,5 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
         );
       },
     );
-  }
-
-  String _getAddress(LocationState locationState) {
-    return locationState.placeMark?.locality != null
-        ? '${locationState?.placeMark?.name ?? ''}, '
-            '${locationState?.placeMark?.subLocality ?? ''}, '
-            '${locationState?.placeMark?.locality ?? ''} '
-        : 'Getting Location...';
   }
 }

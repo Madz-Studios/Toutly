@@ -171,6 +171,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(
                         horizontal: appSizeConfig.safeBlockHorizontal * 10,
+                        vertical: appSizeConfig.safeBlockVertical * 5,
                       ),
                       child: ActionButton(
                         title: 'Logout',

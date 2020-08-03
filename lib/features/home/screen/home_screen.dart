@@ -37,16 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (userContext, userState) {
         UserModel currentUser = userState.userModel;
-        if (currentUser != null &&
-            currentUser.address != null &&
-            currentUser.address.isEmpty) {
+        if (currentUser != null && currentUser.address == null) {
           _locationBloc.add(LocationEvent.getInitialUserLocation());
         }
         return BlocBuilder<LocationBloc, LocationState>(
           builder: (locationContext, locationState) {
-            if (currentUser != null &&
-                currentUser.address != null &&
-                currentUser.address.isEmpty) {
+            if (currentUser.userId != null &&
+                currentUser.address == null &&
+                locationState.geoFirePoint != null) {
               String address = '${locationState?.placeMark?.name ?? ''}, '
                   '${locationState?.placeMark?.subLocality ?? ''}, '
                   '${locationState?.placeMark?.locality ?? ''} ';
@@ -89,8 +87,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       );
                     } else {
                       AlgoliaQuerySnapshot algoliaQuerySnapshot = snapshot.data;
-                      return BarterItemFeed(
-                          algoliaQuerySnapshot: algoliaQuerySnapshot);
+
+                      if (algoliaQuerySnapshot.empty) {
+                        return Center(
+                          child: Text(
+                            'There is no items being bartered in your area.',
+                          ),
+                        );
+                      } else {
+                        return BarterItemFeed(
+                          algoliaQuerySnapshot: algoliaQuerySnapshot,
+                        );
+                      }
                     }
                   },
                 );
