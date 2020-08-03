@@ -54,6 +54,13 @@ class UserBarterListingScreen extends StatelessWidget {
                         ),
                       );
                     } else {
+                      if (snapshot.data.length == 0) {
+                        return Center(
+                          child: Text(
+                            'You have no items here.',
+                          ),
+                        );
+                      }
                       return GridView.builder(
                         itemCount: snapshot.data.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
