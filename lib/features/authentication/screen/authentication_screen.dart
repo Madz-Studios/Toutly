@@ -1,4 +1,6 @@
+import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
+import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
 import 'package:Toutly/features/signin/screen/signin_screen.dart';
 import 'package:Toutly/features/splash/splash_screen.dart';
@@ -7,13 +9,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
+  final _navBloc = getIt<NavigationBloc>();
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) => state.map(
         initial: (value) => SplashScreen(),
         unauthenticated: (value) => SignInScreen(),
-        authenticated: (value) => NavigationScreen(),
+        authenticated: (value) {
+          _navBloc.add(NavigationEvent.goToHomeScreenEvent());
+          return NavigationScreen();
+        },
       ),
     );
   }

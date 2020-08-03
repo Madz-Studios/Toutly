@@ -1,8 +1,10 @@
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
+import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -10,8 +12,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ItemDescriptionForm extends StatefulWidget {
   @override
@@ -20,7 +20,6 @@ class ItemDescriptionForm extends StatefulWidget {
 
 class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   final _postBloc = getIt<PostBloc>();
-  final _locationBloc = getIt<LocationBloc>();
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -36,8 +35,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   @override
   void initState() {
     super.initState();
-
-    _locationBloc.add(LocationEvent.getInitialUserLocation());
 
     _titleController.addListener(_onTitleChanged);
     _descriptionController.addListener(_onDescriptionChanged);
@@ -86,7 +83,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       _descriptionController.text.isNotEmpty &&
       _preferredItemController.text.isNotEmpty &&
       _locationController.text.isNotEmpty &&
-      _locationController.text != _locationPlaceHolderText;
+      _locationController.text.isNotEmpty;
 
   bool isPostButtonEnabled(PostState state) {
     return state.isPostFormValid && isPopulated && !state.isSubmitting;
@@ -150,27 +147,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     setState(() {
       _selectedPrivacy = selectedPrivacy;
     });
-  }
-
-  _getLocation(BuildContext context, LocationState locationState,
-      RemoteConfigDataState remoteConfigDataState) async {
-    LocationResult result = await showLocationPicker(
-      context,
-      remoteConfigDataState.firebaseApiKey,
-      initialCenter: LatLng(
-        locationState?.geoFirePoint?.latitude ?? 37.4219983,
-        locationState?.geoFirePoint?.longitude ?? -122.084,
-      ),
-      myLocationButtonEnabled: true,
-      hintText: 'Location',
-    );
-
-    _locationBloc.add(
-      LocationEvent.updateUserLocation(
-        result?.latLng?.latitude ?? 0,
-        result?.latLng?.longitude ?? 0,
-      ),
-    );
   }
 
   @override
@@ -300,35 +276,18 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             ),
             BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
               builder: (context, remoteConfigDataState) {
-                return BlocBuilder<LocationBloc, LocationState>(
-                  builder: (context, locationState) {
-                    _locationController.text = _getAddress(locationState);
-                    _geoLocation = locationState?.geoFirePoint?.geoPoint ??
-                        GeoPoint(37.4219983, -122.084);
+                return BlocBuilder<UserBloc, UserState>(
+                  builder: (context, userState) {
+                    UserModel currentUser = userState.userModel;
+                    _geoLocation = currentUser.geoLocation;
+                    _geoHash = currentUser.geoHash;
 
-                    _geoHash = locationState?.geoFirePoint?.hash ?? '';
-                    return InkWell(
-                      onTap: () {
-                        _getLocation(
-                          context,
-                          locationState,
-                          remoteConfigDataState,
-                        );
-                        setState(() {
-                          _locationController.text = _getAddress(locationState);
-                          _geoLocation = locationState?.geoFirePoint?.geoPoint;
-                          _geoHash = locationState?.geoFirePoint?.hash;
-                        });
-                      },
-                      child: IgnorePointer(
-                        child: PostItemTextFieldForm(
-                          title: 'Location',
-                          description: 'Describe your meeting place',
-                          controller: _locationController,
-                          readOnly: true,
-                          maxLength: 100,
-                        ),
-                      ),
+                    return PostItemTextFieldForm(
+                      title: 'Location',
+                      description: 'Describe your meeting place',
+                      controller: _locationController,
+                      readOnly: false,
+                      maxLength: 100,
                     );
                   },
                 );

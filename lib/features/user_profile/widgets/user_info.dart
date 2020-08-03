@@ -25,40 +25,44 @@ class UserInfo extends StatelessWidget {
             radius: appSizeConfig.safeBlockVertical * 5,
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              userState.userModel?.name ?? '',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.bold,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                userState.userModel?.name ?? '',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            RatingBar(
-              ignoreGestures: true,
-              initialRating: userState.userModel?.userRating == null
-                  ? 0
-                  : userState.userModel.userRating,
-              minRating: 0,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemSize: appSizeConfig.blockSizeVertical * 2,
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: Colors.amber,
+              RatingBar(
+                ignoreGestures: true,
+                initialRating: userState.userModel?.userRating == null
+                    ? 0
+                    : userState.userModel.userRating,
+                minRating: 0,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemSize: appSizeConfig.blockSizeVertical * 2,
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: Colors.amber,
+                ),
+                onRatingUpdate: (value) {},
               ),
-              onRatingUpdate: (value) {},
-            ),
-            Text(
-              userState.userModel?.address ?? '',
-              style: TextStyle(
-                fontSize: 14.0,
+              Text(
+                userState.userModel?.address ?? '',
+                overflow: TextOverflow.fade,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );

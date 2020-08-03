@@ -93,24 +93,17 @@ class App extends StatelessWidget {
 
         /// Remote Config Data Bloc
         BlocProvider<RemoteConfigDataBloc>(
-          create: (BuildContext context) => getIt<RemoteConfigDataBloc>()
-            ..add(RemoteConfigDataEvent.loadConfigData()),
+          create: (BuildContext context) => getIt<RemoteConfigDataBloc>(),
         ),
 
         /// Location Bloc
         BlocProvider<LocationBloc>(
-          create: (BuildContext context) => getIt<LocationBloc>()
-            ..add(
-              LocationEvent.getInitialUserLocation(),
-            ),
+          create: (BuildContext context) => getIt<LocationBloc>(),
         ),
 
         /// User Bloc
         BlocProvider<UserBloc>(
-          create: (BuildContext context) => getIt<UserBloc>()
-            ..add(
-              UserEvent.getCurrentLoggedInUser(),
-            ),
+          create: (BuildContext context) => getIt<UserBloc>(),
         ),
       ],
       child: MaterialApp(
