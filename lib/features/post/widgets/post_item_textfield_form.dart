@@ -62,9 +62,6 @@ class PostItemTextFieldForm extends StatelessWidget {
               color: Color(0XFFB5B5B5),
             ),
             labelText: title,
-            labelStyle: TextStyle(
-              color: kPrimaryColor,
-            ),
             suffixText: controller.text.length >= 4 ? '' : '*',
             suffixStyle: TextStyle(
               fontWeight: FontWeight.w500,

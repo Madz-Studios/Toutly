@@ -33,9 +33,9 @@ class SignTextFormField extends StatelessWidget {
         filled: true,
         fillColor: Color(0XFFF7F7F8),
         labelText: hintText,
-        labelStyle: TextStyle(
-          color: kPrimaryColor,
-        ),
+//        labelStyle: TextStyle(
+//          color: kPrimaryColor,
+//        ),
         hintText: hintText,
         hintStyle: TextStyle(
           fontStyle: FontStyle.normal,
