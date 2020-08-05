@@ -1,12 +1,12 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
+import 'package:Toutly/features/likes/screen/likes_screen.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
-import 'package:Toutly/features/search/screen/search_screen.dart';
 import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
@@ -21,19 +21,15 @@ class NavigationScreen extends StatelessWidget {
     return BlocBuilder<NavigationBloc, NavigationState>(
       builder: (context, state) => state.map(
         homeScreen: (_) {
-          return _buildSingleViewScreen(
-            CustomAppBar(
-              appSizeConfig: appSizeConfig,
-              title: 'TOUTLY',
-            ),
+          return _buildNoAppBarSingleViewScreen(
             HomeScreen(),
             state.index,
           );
         },
-        searchScreen: (_) {
+        likesScreen: (_) {
           return _buildSingleViewScreen(
             null,
-            SearchScreen(),
+            LikesScreen(),
             state.index,
           );
         },
@@ -50,7 +46,6 @@ class NavigationScreen extends StatelessWidget {
         },
         userProfile: (_) {
           return _buildNoAppBarSingleViewScreen(
-            null,
             UserProfileScreen(),
             state.index,
           );
@@ -66,8 +61,7 @@ class NavigationScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildNoAppBarSingleViewScreen(
-      Widget appBar, Widget screen, int currentIndex) {
+  Widget _buildNoAppBarSingleViewScreen(Widget screen, int currentIndex) {
     return Scaffold(
       body: screen,
       bottomNavigationBar: NavigationBar(

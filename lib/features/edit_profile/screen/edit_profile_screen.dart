@@ -28,6 +28,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _locationBloc = getIt<LocationBloc>();
 
   final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _addressController = TextEditingController();
 
   @override
@@ -35,6 +36,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.initState();
     _nameController.addListener(_onNameChanged);
     _addressController.addListener(_onAddressChanged);
+
+    _emailController.text = 'markdiesta@gmail.com';
 
     setInitialProfileValue(widget.userModel);
   }
@@ -90,98 +93,121 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               ),
               body: SafeArea(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          height: appSizeConfig.safeBlockVertical * 2,
-                        ),
-                        SelectProfilePhoto(userState.userModel),
-                        SizedBox(
-                          height: appSizeConfig.safeBlockVertical * 3,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                          ),
-                          child: SignTextFormField(
-                            controller: _nameController,
-                            textInputType: TextInputType.text,
-                            validator: (_) {
-                              return !userState.isNameValid
-                                  ? 'Invalid Name'
-                                  : null;
-                            },
-                            hintText: "Name",
-                            obscureText: false,
-                          ),
-                        ),
-                        SizedBox(
-                          height: appSizeConfig.safeBlockVertical * 3,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                          ),
-                          child: BlocBuilder<UserBloc, UserState>(
-                            builder: (_, userState) {
-                              UserModel currentUser = userState.userModel;
-                              return BlocBuilder<RemoteConfigDataBloc,
-                                  RemoteConfigDataState>(
-                                builder: (_, remoteConfigDataState) {
-                                  return BlocBuilder<LocationBloc,
-                                      LocationState>(
-                                    builder: (_, locationState) {
-                                      return InkWell(
-                                        onTap: () {
-                                          _locationBloc.add(LocationEvent
-                                              .getInitialUserLocation());
-                                          _getLocation(
-                                            context,
-                                            currentUser,
-                                            remoteConfigDataState,
-                                          );
-                                        },
-                                        child: IgnorePointer(
-                                          child: SignTextFormField(
-                                            controller: _addressController,
-                                            textInputType: TextInputType.text,
-                                            validator: (_) {
-                                              return !userState.isLocationValid
-                                                  ? 'Invalid Location'
-                                                  : null;
-                                            },
-                                            hintText: "Address",
-                                            obscureText: false,
+                child: SingleChildScrollView(
+                  child: BlocBuilder<UserBloc, UserState>(
+                    builder: (_, userState) {
+                      UserModel currentUser = userState.userModel;
+                      _emailController.text = currentUser.email;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Column(
+                            children: [
+                              SizedBox(
+                                height: appSizeConfig.safeBlockVertical * 2,
+                              ),
+                              SelectProfilePhoto(userState.userModel),
+                              SizedBox(
+                                height: appSizeConfig.safeBlockVertical * 3,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      appSizeConfig.safeBlockHorizontal * 5,
+                                ),
+                                child: SignTextFormField(
+                                  controller: _nameController,
+                                  textInputType: TextInputType.text,
+                                  validator: (_) {
+                                    return !userState.isNameValid
+                                        ? 'Invalid Name'
+                                        : null;
+                                  },
+                                  hintText: "Name",
+                                  obscureText: false,
+                                ),
+                              ),
+                              SizedBox(
+                                height: appSizeConfig.safeBlockVertical * 3,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      appSizeConfig.safeBlockHorizontal * 5,
+                                ),
+                                child: SignTextFormField(
+                                  controller: _emailController,
+                                  hintText: 'Email',
+                                  textInputType: TextInputType.text,
+                                  obscureText: false,
+                                  enabled: false,
+                                ),
+                              ),
+                              SizedBox(
+                                height: appSizeConfig.safeBlockVertical * 3,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      appSizeConfig.safeBlockHorizontal * 5,
+                                ),
+                                child: BlocBuilder<RemoteConfigDataBloc,
+                                    RemoteConfigDataState>(
+                                  builder: (_, remoteConfigDataState) {
+                                    return BlocBuilder<LocationBloc,
+                                        LocationState>(
+                                      builder: (_, locationState) {
+                                        return InkWell(
+                                          onTap: () {
+                                            _locationBloc.add(LocationEvent
+                                                .getInitialUserLocation());
+                                            _getLocation(
+                                              context,
+                                              currentUser,
+                                              remoteConfigDataState,
+                                            );
+                                          },
+                                          child: IgnorePointer(
+                                            child: SignTextFormField(
+                                              controller: _addressController,
+                                              textInputType: TextInputType.text,
+                                              validator: (_) {
+                                                return !userState
+                                                        .isLocationValid
+                                                    ? 'Invalid Location'
+                                                    : null;
+                                              },
+                                              hintText: "Address",
+                                              obscureText: false,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    },
-                                  );
-                                },
-                              );
-                            },
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: appSizeConfig.safeBlockHorizontal * 10,
-                        vertical: appSizeConfig.safeBlockVertical * 5,
-                      ),
-                      child: ActionButton(
-                        title: 'Logout',
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _authBloc.add(AuthenticationEvent.signedOut());
-                        },
-                      ),
-                    )
-                  ],
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  appSizeConfig.safeBlockHorizontal * 10,
+                              vertical: appSizeConfig.safeBlockVertical * 5,
+                            ),
+                            child: ActionButton(
+                              title: 'Logout',
+                              onPressed: () {
+                                Navigator.pop(context);
+                                _authBloc.add(AuthenticationEvent.signedOut());
+                              },
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                  ),
                 ),
               ),
             );

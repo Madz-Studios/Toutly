@@ -43,12 +43,12 @@ class _LikesPanelState extends State<LikesPanel> {
         IconButton(
           icon: _isLiked
               ? SvgPicture.asset(
-                  'assets/icons/favourites.svg',
+                  'assets/icons/likes.svg',
                   height: appSizeConfig.blockSizeVertical * 3,
                   color: Colors.red,
                 )
               : SvgPicture.asset(
-                  'assets/icons/unpressed-favourites.svg',
+                  'assets/icons/unpressed-likes.svg',
                   height: appSizeConfig.blockSizeVertical * 3,
                 ),
           onPressed: () {

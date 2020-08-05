@@ -18,8 +18,8 @@ class NavigationBloc extends Bloc<NavigationEvent, NavigationState> {
       goToHomeScreenEvent: (_) async* {
         yield NavigationState.homeScreen(AppNavigationIndex.homeIndex);
       },
-      goToSearchScreenEvent: (_) async* {
-        yield NavigationState.searchScreen(AppNavigationIndex.searchIndex);
+      goToLikesScreenEvent: (_) async* {
+        yield NavigationState.likesScreen(AppNavigationIndex.searchIndex);
       },
       goToPostScreenEvent: (_) async* {
         yield NavigationState.postScreen(AppNavigationIndex.postIndex);

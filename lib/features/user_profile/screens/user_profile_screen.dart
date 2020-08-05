@@ -64,22 +64,22 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 ),
                 child: UserInfo(state),
               ),
-              SizedBox(
-                height: appSizeConfig.safeBlockVertical * 3,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: appSizeConfig.safeBlockHorizontal * 3,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    UserPosts(),
-                    UserFollowers(),
-                    UserFollowing(),
-                  ],
-                ),
-              ),
+//              SizedBox(
+//                height: appSizeConfig.safeBlockVertical * 3,
+//              ),
+//              Padding(
+//                padding: EdgeInsets.symmetric(
+//                  horizontal: appSizeConfig.safeBlockHorizontal * 3,
+//                ),
+//                child: Row(
+//                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+//                  children: <Widget>[
+//                    UserPosts(),
+//                    UserFollowers(),
+//                    UserFollowing(),
+//                  ],
+//                ),
+//              ),
               SizedBox(
                 height: appSizeConfig.safeBlockVertical * 3,
               ),

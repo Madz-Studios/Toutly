@@ -4,7 +4,7 @@ part of 'navigation_bloc.dart';
 abstract class NavigationState with _$NavigationState {
   const factory NavigationState.homeScreen(int index) =
       NavigationStateHomeScreen;
-  const factory NavigationState.searchScreen(int index) =
+  const factory NavigationState.likesScreen(int index) =
       NavigationStateSearchScreen;
   const factory NavigationState.postScreen(int index) =
       NavigationStatePostItemScreen;
