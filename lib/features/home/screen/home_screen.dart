@@ -2,15 +2,19 @@ import 'dart:io';
 
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
+import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
+import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
+import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:algolia/algolia.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -18,10 +22,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final _homeBloc = getIt<HomeBloc>();
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
   final _locationBloc = getIt<LocationBloc>();
   final _userBloc = getIt<UserBloc>();
+  final _searchBloc = getIt<SearchBloc>();
+
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -34,79 +40,189 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (userContext, userState) {
-        UserModel currentUser = userState.userModel;
-        if (currentUser != null && currentUser.address == null) {
-          _locationBloc.add(LocationEvent.getInitialUserLocation());
-        }
-        return BlocBuilder<LocationBloc, LocationState>(
-          builder: (locationContext, locationState) {
-            if (currentUser.userId != null &&
-                currentUser.address == null &&
-                locationState.geoFirePoint != null) {
-              String address = '${locationState?.placeMark?.name ?? ''}, '
-                  '${locationState?.placeMark?.subLocality ?? ''}, '
-                  '${locationState?.placeMark?.locality ?? ''} ';
-
-              currentUser.geoLocation = locationState?.geoFirePoint?.geoPoint;
-              currentUser.address = address;
-              currentUser.geoHash = locationState?.geoFirePoint?.hash;
-
-              _userBloc.add(UserEvent.updateCurrentLoggedInUser(currentUser));
-            }
-
-            return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-              builder: (remoteConfigContext, remoteConfigState) {
-                return FutureBuilder(
-                  future: _homeBloc.getBarterFeeds(
-                    remoteConfigState.algoliaAppId,
-                    remoteConfigState.algoliaSearchApiKey,
-                    currentUser?.geoLocation?.latitude.toString() ?? '',
-                    currentUser?.geoLocation?.longitude.toString() ?? '',
-                  ),
-                  builder: (context, snapshot) {
-                    if (!snapshot.hasData) {
-                      if (Platform.isIOS) {
-                        return Center(
-                          child: CupertinoActivityIndicator(),
-                        );
-                      } else {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                    } else if (snapshot.hasError) {
-                      return Center(
-                        child: Text(
-                          'Error: ${snapshot.error}',
-                          style: TextStyle(
-                            color: Colors.red,
+    final appSizeConfig = AppSizeConfig(context);
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        automaticallyImplyLeading: false, // Don't show the leading button
+        titleSpacing: 0,
+        centerTitle: true,
+        title: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: appSizeConfig.safeBlockHorizontal * 5),
+          child: BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+            builder: (remoteConfigContext, remoteConfigState) {
+              return BlocBuilder<UserBloc, UserState>(
+                builder: (userContext, userState) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _searchController,
+                          textInputAction: TextInputAction.search,
+                          onSubmitted: (searchText) {
+                            _searchSubmit(
+                              searchText,
+                              userState.userModel.geoLocation.latitude,
+                              userState.userModel.geoLocation.longitude,
+                              remoteConfigState,
+                            );
+                          },
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Color(0XFFF7F7F8),
+                            hintText: 'Search',
+                            hintStyle: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16.0,
+                              color: Color(0XFFB5B5B5),
+                            ),
+                            isDense: true,
+                            // Added this
+                            contentPadding: EdgeInsets.all(8),
+                            // Added this
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                Icons.clear,
+                                color: Colors.grey,
+                              ),
+                              onPressed: () {
+                                print('clear text');
+                                _searchController.clear();
+                              },
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide:
+                                  const BorderSide(color: Colors.transparent),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: kPrimaryColor),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(8.0),
+                              ),
+                            ),
                           ),
                         ),
-                      );
-                    } else {
-                      AlgoliaQuerySnapshot algoliaQuerySnapshot = snapshot.data;
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: appSizeConfig.safeBlockHorizontal * 2.5,
+                        ),
+                        child: GestureDetector(
+                          child: SvgPicture.asset(
+                            'assets/images/filter.svg',
+                            height: appSizeConfig.blockSizeVertical * 3,
+                          ),
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => SearchFilterScreen(
+                                    searchText: _searchController.text,
+                                    userState: userState,
+                                    remoteConfigState: remoteConfigState),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ),
+      ),
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (userContext, userState) {
+          UserModel currentUser = userState.userModel;
+          if (currentUser != null && currentUser.address == null) {
+            _locationBloc.add(LocationEvent.getInitialUserLocation());
+          }
+          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+            builder: (remoteConfigContext, remoteConfigState) {
+              return BlocBuilder<LocationBloc, LocationState>(
+                builder: (locationContext, locationState) {
+                  if (currentUser.userId != null &&
+                      currentUser.address == null &&
+                      locationState.geoFirePoint != null) {
+                    String address = '${locationState?.placeMark?.name ?? ''}, '
+                        '${locationState?.placeMark?.subLocality ?? ''}, '
+                        '${locationState?.placeMark?.locality ?? ''} ';
 
-                      if (algoliaQuerySnapshot.empty) {
+                    currentUser.geoLocation =
+                        locationState?.geoFirePoint?.geoPoint;
+                    currentUser.address = address;
+                    currentUser.geoHash = locationState?.geoFirePoint?.hash;
+
+                    _userBloc
+                        .add(UserEvent.updateCurrentLoggedInUser(currentUser));
+                  }
+                  return BlocBuilder<SearchBloc, SearchState>(
+                    builder: (searchContext, searchState) => searchState.map(
+                      empty: (e) {
+                        if (currentUser.userId != null) {
+                          _searchSubmit(
+                            '',
+                            userState.userModel.geoLocation.latitude,
+                            userState.userModel.geoLocation.longitude,
+                            remoteConfigState,
+                          );
+                        }
+
+                        return Container();
+                      },
+                      loading: (e) {
+                        if (Platform.isIOS) {
+                          return Center(
+                            child: CupertinoActivityIndicator(),
+                          );
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      },
+                      loaded: (e) {
+                        AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
+
+                        if (algoliaQuerySnapshot.empty) {
+                          return Center(
+                            child: Text(
+                              'There is no items being bartered in your area.',
+                            ),
+                          );
+                        } else {
+                          return BarterItemFeed(
+                            algoliaQuerySnapshot: algoliaQuerySnapshot,
+                          );
+                        }
+                      },
+                      failure: (e) {
                         return Center(
                           child: Text(
-                            'There is no items being bartered in your area.',
+                            'Error: ${e.info}',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
                           ),
                         );
-                      } else {
-                        return BarterItemFeed(
-                          algoliaQuerySnapshot: algoliaQuerySnapshot,
-                        );
-                      }
-                    }
-                  },
-                );
-              },
-            );
-          },
-        );
-      },
+                      },
+                    ),
+                  );
+                },
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
@@ -136,6 +252,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
         return Container(); // don't need to build widget or return anything
       },
+    );
+  }
+
+  void _searchSubmit(String searchText, double latitude, double longitude,
+      RemoteConfigDataState remoteConfigState) {
+    print('searchText = $searchText');
+
+    _searchBloc.add(
+      SearchEvent.search(
+          algoliaAppId: remoteConfigState.algoliaAppId,
+          algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
+          latitude: latitude.toString(),
+          longitude: longitude.toString(),
+          searchText: searchText,
+          category: ''),
     );
   }
 }

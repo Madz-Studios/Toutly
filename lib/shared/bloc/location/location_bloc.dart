@@ -36,8 +36,10 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
               longitude: geoPoint.longitude,
             );
 
-            print('Position latitude = ${position.latitude}');
-            print('Position longitude = ${position.longitude}');
+            print(
+                'getInitialUserLocation Position latitude = ${position.latitude}');
+            print(
+                'getInitialUserLocation Position longitude = ${position.longitude}');
 
             List<Placemark> p = await geoLocator.placemarkFromCoordinates(
                 position.latitude, position.longitude);

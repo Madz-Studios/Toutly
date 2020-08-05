@@ -27,6 +27,7 @@ import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
+import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
@@ -42,7 +43,6 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
-import 'package:Toutly/features/home/bloc/home_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
@@ -104,6 +104,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<RemoteConfig>(() => remoteConfig);
   g.registerLazySingleton<RemoteConfigDataBloc>(
       () => RemoteConfigDataBloc(g<RemoteConfig>()));
+  g.registerLazySingleton<SearchBloc>(() => SearchBloc());
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
@@ -145,8 +146,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
-  g.registerLazySingleton<HomeBloc>(
-      () => HomeBloc(g<FirestoreGetUserUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
@@ -155,7 +154,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Validators>(),
         g<FirebaseGetUserUseCase>(),
         g<FirestoreCreateBarterItemUseCase>(),
-        g<FirestoreUpdateBarterItemUseCase>(),
       ));
   g.registerLazySingleton<SignBloc>(() => SignBloc(
         g<FirebaseSignUpUseCase>(),

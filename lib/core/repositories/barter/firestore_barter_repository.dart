@@ -31,7 +31,10 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final String barterCollection =
         FirestoreCollectionNames.barterItemsCollection;
 
-    await firestore.collection(barterCollection).add(barterModel.toJson());
+    await firestore
+        .collection(barterCollection)
+        .document(barterModel.itemId)
+        .setData(barterModel.toJson());
   }
 
   /// Get "ALL" barter item in barter firestore collection using [userId].

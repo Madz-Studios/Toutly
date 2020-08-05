@@ -37,4 +37,11 @@ class AppConstants {
     'Public',
     'Private',
   ];
+
+  static const List<String> filterByTimeList = [
+    'All listings',
+    'The last 24h',
+    'The last 7 days',
+    'The last 30 days',
+  ];
 }

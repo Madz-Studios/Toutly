@@ -29,7 +29,6 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   String _selectedPrivacy;
   GeoPoint _geoLocation;
   String _geoHash;
-  String _locationPlaceHolderText = 'Getting Location...';
 
   @override
   void initState() {
@@ -110,7 +109,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
     _locationController.clear();
   }
 
-  List<DropdownMenuItem<String>> _buildDropdownMenuCategoryItems() {
+  List<DropdownMenuItem<String>> _generateDropdownMenuCategoryItems() {
     List<DropdownMenuItem<String>> items = List();
     for (String category in AppConstants.categoryList) {
       items.add(
@@ -168,7 +167,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             DropdownButtonFormField(
               isExpanded: true,
               value: _selectedCategory,
-              items: _buildDropdownMenuCategoryItems(),
+              items: _generateDropdownMenuCategoryItems(),
               onChanged: _onChangeCategoryDropdownItem,
               style: GoogleFonts.roboto(
                 fontStyle: FontStyle.normal,

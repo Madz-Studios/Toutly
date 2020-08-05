@@ -7,6 +7,7 @@ class SignTextFormField extends StatelessWidget {
   final FormFieldValidator<String> validator;
   final bool obscureText;
   final TextInputType textInputType;
+  final bool enabled;
 
   SignTextFormField({
     @required this.controller,
@@ -14,6 +15,7 @@ class SignTextFormField extends StatelessWidget {
     @required this.validator,
     @required this.obscureText,
     @required this.textInputType,
+    this.enabled,
   });
   @override
   Widget build(BuildContext context) {
@@ -21,6 +23,7 @@ class SignTextFormField extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       textAlign: TextAlign.left,
+      enabled: enabled,
       style: TextStyle(
         fontStyle: FontStyle.normal,
         fontWeight: FontWeight.w500,

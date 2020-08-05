@@ -39,11 +39,11 @@ class NavigationBar extends StatelessWidget {
         BottomNavigationBarItem(
           title: Text(''),
           icon: SvgPicture.asset(
-            'assets/icons/unpressed-search.svg',
+            'assets/icons/unpressed-likes.svg',
             height: appSizeConfig.blockSizeVertical * 3,
           ),
           activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-search.svg',
+            'assets/icons/unpressed-likes.svg',
             height: appSizeConfig.blockSizeVertical * 3,
             color: kPrimaryColor,
           ),
@@ -93,7 +93,7 @@ class NavigationBar extends StatelessWidget {
       _navigationBloc.add(NavigationEvent.goToHomeScreenEvent());
     }
     if (index == AppNavigationIndex.searchIndex) {
-      _navigationBloc.add(NavigationEvent.goToSearchScreenEvent());
+      _navigationBloc.add(NavigationEvent.goToLikesScreenEvent());
     }
     if (index == AppNavigationIndex.postIndex) {
       _navigationBloc.add(NavigationEvent.goToPostScreenEvent());

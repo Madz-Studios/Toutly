@@ -29,7 +29,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
   final FirebaseGetUserUseCase firebaseGetUserUseCase;
 
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
-  final FirestoreUpdateBarterItemUseCase firestoreUpdateBarterItemUseCase;
 
   PostBloc(
     this.firebaseStorage,
@@ -37,7 +36,6 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     this.validators,
     this.firebaseGetUserUseCase,
     this.firestoreCreateBarterItemUseCase,
-    this.firestoreUpdateBarterItemUseCase,
   ) : super(PostState.empty());
 
   @override
