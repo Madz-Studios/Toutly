@@ -7,6 +7,7 @@ import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
+import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -26,6 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final _locationBloc = getIt<LocationBloc>();
   final _userBloc = getIt<UserBloc>();
   final _searchBloc = getIt<SearchBloc>();
+  final _searchConfigBloc = getIt<SearchConfigBloc>();
 
   final _searchController = TextEditingController();
 
@@ -36,6 +38,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _remoteConfigBloc.add(RemoteConfigDataEvent.loadConfigData());
 
     _userBloc.add(UserEvent.getCurrentLoggedInUser());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _searchController.dispose();
   }
 
   @override
@@ -51,88 +59,98 @@ class _HomeScreenState extends State<HomeScreen> {
           padding: EdgeInsets.symmetric(
               horizontal: appSizeConfig.safeBlockHorizontal * 5),
           child: BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (remoteConfigContext, remoteConfigState) {
+            builder: (_, remoteConfigState) {
               return BlocBuilder<UserBloc, UserState>(
-                builder: (userContext, userState) {
-                  return Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _searchController,
-                          textInputAction: TextInputAction.search,
-                          onSubmitted: (searchText) {
-                            _searchSubmit(
-                              searchText,
-                              userState.userModel.geoLocation.latitude,
-                              userState.userModel.geoLocation.longitude,
-                              remoteConfigState,
-                            );
-                          },
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0XFFF7F7F8),
-                            hintText: 'Search',
-                            hintStyle: TextStyle(
-                              fontStyle: FontStyle.normal,
-                              fontWeight: FontWeight.w500,
-                              fontSize: 16.0,
-                              color: Color(0XFFB5B5B5),
-                            ),
-                            isDense: true,
-                            // Added this
-                            contentPadding: EdgeInsets.all(8),
-                            // Added this
-                            suffixIcon: IconButton(
-                              icon: Icon(
-                                Icons.clear,
-                                color: Colors.grey,
+                builder: (_, userState) {
+                  return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+                    builder: (_, searchConfigState) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _searchController,
+                              textInputAction: TextInputAction.search,
+                              onSubmitted: (searchText) {
+                                _searchSubmit(
+                                  searchText: searchText,
+                                  category: searchConfigState.category,
+                                  postedWithin: searchConfigState.postedWithin,
+                                  latitude: searchConfigState.latitude,
+                                  longitude: searchConfigState.longitude,
+                                  algoliaSearchApiKey:
+                                      remoteConfigState.algoliaSearchApiKey,
+                                  algoliaAppId: remoteConfigState.algoliaAppId,
+                                );
+                              },
+                              decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Color(0XFFF7F7F8),
+                                hintText: 'Search',
+                                hintStyle: TextStyle(
+                                  fontStyle: FontStyle.normal,
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16.0,
+                                  color: Color(0XFFB5B5B5),
+                                ),
+                                isDense: true,
+                                // Added this
+                                contentPadding: EdgeInsets.all(8),
+                                // Added this
+                                suffixIcon: IconButton(
+                                  icon: Icon(
+                                    Icons.clear,
+                                    color: Colors.grey,
+                                  ),
+                                  onPressed: () {
+                                    print('clear text');
+                                    _searchController.clear();
+                                  },
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: const BorderSide(
+                                      color: Colors.transparent),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(color: kPrimaryColor),
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(8.0),
+                                  ),
+                                ),
                               ),
-                              onPressed: () {
-                                print('clear text');
-                                _searchController.clear();
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              left: appSizeConfig.safeBlockHorizontal * 2.5,
+                            ),
+                            child: GestureDetector(
+                              child: SvgPicture.asset(
+                                'assets/images/filter.svg',
+                                height: appSizeConfig.blockSizeVertical * 3,
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => SearchFilterScreen(
+                                      searchText: _searchController.text,
+                                      category: searchConfigState.category,
+                                      postedWithin:
+                                          searchConfigState.postedWithin,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
-                            enabledBorder: OutlineInputBorder(
-                              borderSide:
-                                  const BorderSide(color: Colors.transparent),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: kPrimaryColor),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(8.0),
-                              ),
-                            ),
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: appSizeConfig.safeBlockHorizontal * 2.5,
-                        ),
-                        child: GestureDetector(
-                          child: SvgPicture.asset(
-                            'assets/images/filter.svg',
-                            height: appSizeConfig.blockSizeVertical * 3,
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => SearchFilterScreen(
-                                    searchText: _searchController.text,
-                                    userState: userState,
-                                    remoteConfigState: remoteConfigState),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ],
+                        ],
+                      );
+                    },
                   );
                 },
               );
@@ -168,12 +186,29 @@ class _HomeScreenState extends State<HomeScreen> {
                   return BlocBuilder<SearchBloc, SearchState>(
                     builder: (searchContext, searchState) => searchState.map(
                       empty: (e) {
+                        /// initial home search
                         if (currentUser.userId != null) {
                           _searchSubmit(
-                            '',
-                            userState.userModel.geoLocation.latitude,
-                            userState.userModel.geoLocation.longitude,
-                            remoteConfigState,
+                            searchText: '',
+                            category: '',
+                            postedWithin: '',
+                            latitude: userState.userModel.geoLocation.latitude,
+                            longitude:
+                                userState.userModel.geoLocation.longitude,
+                            algoliaSearchApiKey:
+                                remoteConfigState.algoliaSearchApiKey,
+                            algoliaAppId: remoteConfigState.algoliaAppId,
+                          );
+
+                          _searchConfigBloc.add(
+                            SearchConfigEvent.setConfig(
+                                searchText: '',
+                                category: '',
+                                postedWithin: '',
+                                latitude:
+                                    userState.userModel.geoLocation.latitude,
+                                longitude:
+                                    userState.userModel.geoLocation.longitude),
                           );
                         }
 
@@ -226,47 +261,27 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  ///Set Users address to current location.
-  void setUsersLocation() {
-    BlocBuilder<UserBloc, UserState>(
-      builder: (userContext, userState) {
-        UserModel currentUser = userState.userModel;
-        if (currentUser.address == null || currentUser.address.isEmpty) {
-          _locationBloc.add(LocationEvent.getInitialUserLocation());
-        }
-
-        BlocBuilder<LocationBloc, LocationState>(
-          builder: (locationContext, locationState) {
-            String address = '${locationState?.placeMark?.name ?? ''}, '
-                '${locationState?.placeMark?.subLocality ?? ''}, '
-                '${locationState?.placeMark?.locality ?? ''} ';
-
-            currentUser.geoLocation = locationState.geoFirePoint.geoPoint;
-            currentUser.address = address;
-            currentUser.geoHash = locationState.geoFirePoint.hash;
-            _userBloc.add(UserEvent.updateCurrentLoggedInUser(currentUser));
-
-            return Container(); // don't need to build widget or return anything
-          },
-        );
-
-        return Container(); // don't need to build widget or return anything
-      },
-    );
-  }
-
-  void _searchSubmit(String searchText, double latitude, double longitude,
-      RemoteConfigDataState remoteConfigState) {
+  void _searchSubmit({
+    @required String searchText,
+    @required String category,
+    @required String postedWithin,
+    @required double latitude,
+    @required double longitude,
+    @required String algoliaAppId,
+    @required String algoliaSearchApiKey,
+  }) {
     print('searchText = $searchText');
 
     _searchBloc.add(
       SearchEvent.search(
-          algoliaAppId: remoteConfigState.algoliaAppId,
-          algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-          latitude: latitude.toString(),
-          longitude: longitude.toString(),
-          searchText: searchText,
-          category: ''),
+        algoliaAppId: algoliaAppId,
+        algoliaSearchApiKey: algoliaSearchApiKey,
+        latitude: latitude,
+        longitude: longitude,
+        searchText: searchText,
+        category: category,
+        postedWithin: postedWithin,
+      ),
     );
   }
 }
