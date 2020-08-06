@@ -4,6 +4,7 @@ import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
+import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -104,7 +105,12 @@ class App extends StatelessWidget {
 
         /// Search Bloc
         BlocProvider<SearchBloc>(
-            create: (BuildContext context) => getIt<SearchBloc>()),
+          create: (BuildContext context) => getIt<SearchBloc>(),
+        ),
+
+        /// Search Config Bloc
+        BlocProvider<SearchConfigBloc>(
+            create: (BuildContext context) => getIt<SearchConfigBloc>()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: env == Flavor.DEV.toString() ? true : false,

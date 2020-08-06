@@ -1,21 +1,23 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
+import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SearchFilterScreen extends StatefulWidget {
   final String searchText;
-  final UserState userState;
-  final RemoteConfigDataState remoteConfigState;
+  final String category;
+  final String postedWithin;
+
   SearchFilterScreen({
     @required this.searchText,
-    @required this.userState,
-    @required this.remoteConfigState,
+    @required this.category,
+    @required this.postedWithin,
   });
 
   @override
@@ -24,33 +26,125 @@ class SearchFilterScreen extends StatefulWidget {
 
 class _SearchFilterScreenState extends State<SearchFilterScreen> {
   final _searchBloc = getIt<SearchBloc>();
+  final _searchConfig = getIt<SearchConfigBloc>();
 
-  String _selectedCategory;
-
-  String _defaultCategoryValue = 'All Categories';
+  String _defaultCategoryValue;
   String _defaultPostedWithinValue;
 
-  List<bool> _defaultToggleValues = [
-    true,
-    false,
-    false,
-    false,
-  ];
-  List<bool> isSelectedToggle = [];
+  String _selectedCategory;
+  String _selectedPostedWithin;
 
   @override
   void initState() {
     super.initState();
-
-    isSelectedToggle.addAll(_defaultToggleValues);
-    _selectedCategory = _defaultCategoryValue;
-
+    _defaultCategoryValue = 'All Categories';
     _defaultPostedWithinValue = AppConstants.filterByTimeList[0];
+
+    if (widget.category.isNotEmpty) {
+      _selectedCategory = widget.category;
+    } else {
+      _selectedCategory = _defaultCategoryValue;
+    }
+
+    if (widget.postedWithin.isNotEmpty) {
+      _selectedPostedWithin = widget.postedWithin;
+    } else {
+      _selectedPostedWithin = _defaultPostedWithinValue;
+    }
+  }
+
+  void applyFilter({
+    @required double latitude,
+    @required double longitude,
+    @required String algoliaAppId,
+    @required String algoliaSearchApiKey,
+  }) {
+    _searchConfig.add(
+      SearchConfigEvent.setConfig(
+        searchText: widget.searchText,
+        category:
+            _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
+        postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
+            ? ''
+            : _selectedPostedWithin,
+        latitude: latitude,
+        longitude: longitude,
+      ),
+    );
+    _searchBloc.add(
+      SearchEvent.search(
+        searchText: widget.searchText,
+        category:
+            _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
+        postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
+            ? ''
+            : _selectedPostedWithin,
+        algoliaAppId: algoliaAppId,
+        algoliaSearchApiKey: algoliaSearchApiKey,
+        latitude: latitude,
+        longitude: longitude,
+      ),
+    );
+  }
+
+  _reset() {
+    print('reset');
+    setState(() {
+      _selectedCategory = _defaultCategoryValue;
+      _selectedPostedWithin = _defaultPostedWithinValue;
+    });
+  }
+
+  _onChangeCategoryDropdownItem(String selectedCategory) {
+    setState(() {
+      _selectedCategory = selectedCategory;
+    });
+  }
+
+  _onChangePostedWithinDropdownItem(String selectedPostedWithin) {
+    setState(() {
+      _selectedPostedWithin = selectedPostedWithin;
+    });
+  }
+
+  List<DropdownMenuItem<String>> _generateDropdownCategoryItems() {
+    List<DropdownMenuItem<String>> items = List();
+
+    items.add(
+      DropdownMenuItem(
+        value: _defaultCategoryValue,
+        child: Text(_defaultCategoryValue),
+      ),
+    );
+    for (String category in AppConstants.categoryList) {
+      items.add(
+        DropdownMenuItem(
+          value: category,
+          child: Text(category),
+        ),
+      );
+    }
+    return items;
+  }
+
+  List<DropdownMenuItem<String>> _generateDropdownPostedCategoryItems() {
+    List<DropdownMenuItem<String>> items = List();
+
+    for (String postedWithin in AppConstants.filterByTimeList) {
+      items.add(
+        DropdownMenuItem(
+          value: postedWithin,
+          child: Text(postedWithin),
+        ),
+      );
+    }
+    return items;
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -88,132 +182,107 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           )
         ],
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Padding(
-            padding: EdgeInsets.only(
-              top: appSizeConfig.safeBlockVertical * 5,
-              right: appSizeConfig.safeBlockHorizontal * 5,
-              left: appSizeConfig.safeBlockHorizontal * 5,
-            ),
-            child: _buildDropdownButtonFormField(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: appSizeConfig.safeBlockVertical * 5,
-              right: appSizeConfig.safeBlockHorizontal * 5,
-              left: appSizeConfig.safeBlockHorizontal * 5,
-            ),
-            child: Row(
-              children: [
-                Text(
-                  'Posted within',
-                  style: TextStyle(
-                    fontSize: 12.0,
+      body: BlocBuilder<SearchConfigBloc, SearchConfigState>(
+        builder: (_, searchConfigState) {
+          String stateCategory = searchConfigState.category;
+          String statePostedWithin = searchConfigState.postedWithin;
+          double latitude = searchConfigState.latitude;
+          double longitude = searchConfigState.longitude;
+          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+            builder: (_, remoteConfigState) {
+              String algoliaAppId = remoteConfigState.algoliaAppId;
+              String algoliaSearchApiKey =
+                  remoteConfigState.algoliaSearchApiKey;
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: appSizeConfig.safeBlockVertical * 5,
+                      right: appSizeConfig.safeBlockHorizontal * 5,
+                      left: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Categories',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
                   ),
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: appSizeConfig.safeBlockVertical * 2.5,
-              right: appSizeConfig.safeBlockHorizontal * 5,
-              left: appSizeConfig.safeBlockHorizontal * 5,
-            ),
-            child: _buildPostedWithinButtons(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: appSizeConfig.safeBlockVertical * 10,
-              right: appSizeConfig.safeBlockHorizontal * 20,
-              left: appSizeConfig.safeBlockHorizontal * 20,
-            ),
-            child: ActionButton(
-              title: 'Apply',
-              onPressed: () {
-                applyFilter(
-                  widget.searchText,
-                  widget.userState,
-                  widget.remoteConfigState,
-                );
-                Navigator.pop(context);
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  SingleChildScrollView _buildPostedWithinButtons() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: ToggleButtons(
-        isSelected: isSelectedToggle,
-        color: Color(0XFFF1F1F1),
-        selectedColor: Colors.white,
-        fillColor: Color(0XFF949494),
-        borderRadius: BorderRadius.all(Radius.circular(
-          8,
-        )),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              _defaultPostedWithinValue,
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              AppConstants.filterByTimeList[1],
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              AppConstants.filterByTimeList[2],
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: Text(
-              AppConstants.filterByTimeList[3],
-              style: TextStyle(
-                color: Colors.black,
-              ),
-            ),
-          ),
-        ],
-        onPressed: (index) {
-          setState(() {
-            for (int i = 0; i < isSelectedToggle.length; i++) {
-              isSelectedToggle[i] = i == index;
-            }
-          });
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: appSizeConfig.safeBlockVertical * 1.5,
+                      right: appSizeConfig.safeBlockHorizontal * 5,
+                      left: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: _buildDropDownCategories(stateCategory),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: appSizeConfig.safeBlockVertical * 5,
+                      right: appSizeConfig.safeBlockHorizontal * 5,
+                      left: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: Row(
+                      children: [
+                        Text(
+                          'Posted within',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                          ),
+                          textAlign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: appSizeConfig.safeBlockVertical * 1.5,
+                      right: appSizeConfig.safeBlockHorizontal * 5,
+                      left: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: _buildDropDownPostedWithin(statePostedWithin),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: appSizeConfig.safeBlockVertical * 10,
+                      right: appSizeConfig.safeBlockHorizontal * 20,
+                      left: appSizeConfig.safeBlockHorizontal * 20,
+                    ),
+                    child: ActionButton(
+                      title: 'Apply',
+                      onPressed: () {
+                        applyFilter(
+                          latitude: latitude,
+                          longitude: longitude,
+                          algoliaAppId: algoliaAppId,
+                          algoliaSearchApiKey: algoliaSearchApiKey,
+                        );
+                        Navigator.pop(context);
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          );
         },
       ),
     );
   }
 
-  DropdownButtonFormField<String> _buildDropdownButtonFormField() {
+  DropdownButtonFormField<String> _buildDropDownCategories(
+      String stateCategory) {
     return DropdownButtonFormField(
       isExpanded: true,
       value: _selectedCategory,
-      items: _generateDropdownMenuCategoryItems(),
+      items: _generateDropdownCategoryItems(),
       onChanged: _onChangeCategoryDropdownItem,
       style: TextStyle(
         fontStyle: FontStyle.normal,
@@ -240,53 +309,35 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     );
   }
 
-  _onChangeCategoryDropdownItem(String selectedCategory) {
-    setState(() {
-      _selectedCategory = selectedCategory;
-    });
-  }
-
-  List<DropdownMenuItem<String>> _generateDropdownMenuCategoryItems() {
-    List<DropdownMenuItem<String>> items = List();
-
-    items.add(
-      DropdownMenuItem(
-        value: _defaultCategoryValue,
-        child: Text(_defaultCategoryValue),
+  DropdownButtonFormField<String> _buildDropDownPostedWithin(
+      String statePostedWithin) {
+    return DropdownButtonFormField(
+      isExpanded: true,
+      value: _selectedPostedWithin,
+      items: _generateDropdownPostedCategoryItems(),
+      onChanged: _onChangePostedWithinDropdownItem,
+      style: TextStyle(
+        fontStyle: FontStyle.normal,
+        fontWeight: FontWeight.w500,
+        fontSize: 14.0,
+        color: Colors.black87,
+      ),
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: Color(0XFFF7F7F8),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
+        ),
       ),
     );
-    for (String category in AppConstants.categoryList) {
-      items.add(
-        DropdownMenuItem(
-          value: category,
-          child: Text(category),
-        ),
-      );
-    }
-    return items;
-  }
-
-  void _reset() {
-    print('reset');
-    setState(() {
-      _selectedCategory = _defaultCategoryValue;
-      isSelectedToggle.clear();
-      isSelectedToggle.addAll(_defaultToggleValues);
-    });
-  }
-
-  void applyFilter(String searchText, UserState userState,
-      RemoteConfigDataState remoteConfigState) {
-    _searchBloc.add(
-      SearchEvent.search(
-          algoliaAppId: remoteConfigState.algoliaAppId,
-          algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-          latitude: userState.userModel.geoLocation.latitude.toString(),
-          longitude: userState.userModel.geoLocation.longitude.toString(),
-          searchText: searchText,
-          category: ''),
-    );
-
-    print('Apply filter.');
   }
 }

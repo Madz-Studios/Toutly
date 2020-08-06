@@ -19,10 +19,11 @@ class _$SearchEventTearOff {
   SearchEventSearch search(
       {@required String algoliaAppId,
       @required String algoliaSearchApiKey,
-      @required String latitude,
-      @required String longitude,
+      @required double latitude,
+      @required double longitude,
       @required String searchText,
-      @required String category}) {
+      @required String category,
+      @required String postedWithin}) {
     return SearchEventSearch(
       algoliaAppId: algoliaAppId,
       algoliaSearchApiKey: algoliaSearchApiKey,
@@ -30,6 +31,7 @@ class _$SearchEventTearOff {
       longitude: longitude,
       searchText: searchText,
       category: category,
+      postedWithin: postedWithin,
     );
   }
 }
@@ -45,16 +47,23 @@ mixin _$SearchEvent {
         Result search(
             String algoliaAppId,
             String algoliaSearchApiKey,
-            String latitude,
-            String longitude,
+            double latitude,
+            double longitude,
             String searchText,
-            String category),
+            String category,
+            String postedWithin),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result search(String algoliaAppId, String algoliaSearchApiKey,
-        String latitude, String longitude, String searchText, String category),
+    Result search(
+        String algoliaAppId,
+        String algoliaSearchApiKey,
+        double latitude,
+        double longitude,
+        String searchText,
+        String category,
+        String postedWithin),
     @required Result orElse(),
   });
   @optionalTypeArgs
@@ -125,10 +134,11 @@ class _$SearchEventInit implements SearchEventInit {
         Result search(
             String algoliaAppId,
             String algoliaSearchApiKey,
-            String latitude,
-            String longitude,
+            double latitude,
+            double longitude,
             String searchText,
-            String category),
+            String category,
+            String postedWithin),
   }) {
     assert(init != null);
     assert(search != null);
@@ -139,8 +149,14 @@ class _$SearchEventInit implements SearchEventInit {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result search(String algoliaAppId, String algoliaSearchApiKey,
-        String latitude, String longitude, String searchText, String category),
+    Result search(
+        String algoliaAppId,
+        String algoliaSearchApiKey,
+        double latitude,
+        double longitude,
+        String searchText,
+        String category,
+        String postedWithin),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -187,10 +203,11 @@ abstract class $SearchEventSearchCopyWith<$Res> {
   $Res call(
       {String algoliaAppId,
       String algoliaSearchApiKey,
-      String latitude,
-      String longitude,
+      double latitude,
+      double longitude,
       String searchText,
-      String category});
+      String category,
+      String postedWithin});
 }
 
 class _$SearchEventSearchCopyWithImpl<$Res>
@@ -211,6 +228,7 @@ class _$SearchEventSearchCopyWithImpl<$Res>
     Object longitude = freezed,
     Object searchText = freezed,
     Object category = freezed,
+    Object postedWithin = freezed,
   }) {
     return _then(SearchEventSearch(
       algoliaAppId: algoliaAppId == freezed
@@ -219,11 +237,14 @@ class _$SearchEventSearchCopyWithImpl<$Res>
       algoliaSearchApiKey: algoliaSearchApiKey == freezed
           ? _value.algoliaSearchApiKey
           : algoliaSearchApiKey as String,
-      latitude: latitude == freezed ? _value.latitude : latitude as String,
-      longitude: longitude == freezed ? _value.longitude : longitude as String,
+      latitude: latitude == freezed ? _value.latitude : latitude as double,
+      longitude: longitude == freezed ? _value.longitude : longitude as double,
       searchText:
           searchText == freezed ? _value.searchText : searchText as String,
       category: category == freezed ? _value.category : category as String,
+      postedWithin: postedWithin == freezed
+          ? _value.postedWithin
+          : postedWithin as String,
     ));
   }
 }
@@ -235,30 +256,34 @@ class _$SearchEventSearch implements SearchEventSearch {
       @required this.latitude,
       @required this.longitude,
       @required this.searchText,
-      @required this.category})
+      @required this.category,
+      @required this.postedWithin})
       : assert(algoliaAppId != null),
         assert(algoliaSearchApiKey != null),
         assert(latitude != null),
         assert(longitude != null),
         assert(searchText != null),
-        assert(category != null);
+        assert(category != null),
+        assert(postedWithin != null);
 
   @override
   final String algoliaAppId;
   @override
   final String algoliaSearchApiKey;
   @override
-  final String latitude;
+  final double latitude;
   @override
-  final String longitude;
+  final double longitude;
   @override
   final String searchText;
   @override
   final String category;
+  @override
+  final String postedWithin;
 
   @override
   String toString() {
-    return 'SearchEvent.search(algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, latitude: $latitude, longitude: $longitude, searchText: $searchText, category: $category)';
+    return 'SearchEvent.search(algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, latitude: $latitude, longitude: $longitude, searchText: $searchText, category: $category, postedWithin: $postedWithin)';
   }
 
   @override
@@ -282,7 +307,10 @@ class _$SearchEventSearch implements SearchEventSearch {
                     .equals(other.searchText, searchText)) &&
             (identical(other.category, category) ||
                 const DeepCollectionEquality()
-                    .equals(other.category, category)));
+                    .equals(other.category, category)) &&
+            (identical(other.postedWithin, postedWithin) ||
+                const DeepCollectionEquality()
+                    .equals(other.postedWithin, postedWithin)));
   }
 
   @override
@@ -293,7 +321,8 @@ class _$SearchEventSearch implements SearchEventSearch {
       const DeepCollectionEquality().hash(latitude) ^
       const DeepCollectionEquality().hash(longitude) ^
       const DeepCollectionEquality().hash(searchText) ^
-      const DeepCollectionEquality().hash(category);
+      const DeepCollectionEquality().hash(category) ^
+      const DeepCollectionEquality().hash(postedWithin);
 
   @override
   $SearchEventSearchCopyWith<SearchEventSearch> get copyWith =>
@@ -307,29 +336,36 @@ class _$SearchEventSearch implements SearchEventSearch {
         Result search(
             String algoliaAppId,
             String algoliaSearchApiKey,
-            String latitude,
-            String longitude,
+            double latitude,
+            double longitude,
             String searchText,
-            String category),
+            String category,
+            String postedWithin),
   }) {
     assert(init != null);
     assert(search != null);
     return search(algoliaAppId, algoliaSearchApiKey, latitude, longitude,
-        searchText, category);
+        searchText, category, postedWithin);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
-    Result search(String algoliaAppId, String algoliaSearchApiKey,
-        String latitude, String longitude, String searchText, String category),
+    Result search(
+        String algoliaAppId,
+        String algoliaSearchApiKey,
+        double latitude,
+        double longitude,
+        String searchText,
+        String category,
+        String postedWithin),
     @required Result orElse(),
   }) {
     assert(orElse != null);
     if (search != null) {
       return search(algoliaAppId, algoliaSearchApiKey, latitude, longitude,
-          searchText, category);
+          searchText, category, postedWithin);
     }
     return orElse();
   }
@@ -364,17 +400,19 @@ abstract class SearchEventSearch implements SearchEvent {
   const factory SearchEventSearch(
       {@required String algoliaAppId,
       @required String algoliaSearchApiKey,
-      @required String latitude,
-      @required String longitude,
+      @required double latitude,
+      @required double longitude,
       @required String searchText,
-      @required String category}) = _$SearchEventSearch;
+      @required String category,
+      @required String postedWithin}) = _$SearchEventSearch;
 
   String get algoliaAppId;
   String get algoliaSearchApiKey;
-  String get latitude;
-  String get longitude;
+  double get latitude;
+  double get longitude;
   String get searchText;
   String get category;
+  String get postedWithin;
   $SearchEventSearchCopyWith<SearchEventSearch> get copyWith;
 }
 

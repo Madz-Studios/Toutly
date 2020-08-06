@@ -6,9 +6,10 @@ abstract class SearchEvent with _$SearchEvent {
   const factory SearchEvent.search({
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
-    @required String latitude,
-    @required String longitude,
+    @required double latitude,
+    @required double longitude,
     @required String searchText,
     @required String category,
+    @required String postedWithin,
   }) = SearchEventSearch;
 }

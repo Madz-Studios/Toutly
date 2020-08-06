@@ -12,7 +12,7 @@ class SignTextFormField extends StatelessWidget {
   SignTextFormField({
     @required this.controller,
     @required this.hintText,
-    @required this.validator,
+    this.validator,
     @required this.obscureText,
     @required this.textInputType,
     this.enabled,
@@ -36,9 +36,6 @@ class SignTextFormField extends StatelessWidget {
         filled: true,
         fillColor: Color(0XFFF7F7F8),
         labelText: hintText,
-//        labelStyle: TextStyle(
-//          color: kPrimaryColor,
-//        ),
         hintText: hintText,
         hintStyle: TextStyle(
           fontStyle: FontStyle.normal,
@@ -58,12 +55,27 @@ class SignTextFormField extends StatelessWidget {
             Radius.circular(8.0),
           ),
         ),
+        disabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: Colors.transparent),
+          borderRadius: BorderRadius.all(
+            Radius.circular(8.0),
+          ),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(color: kPrimaryColor),
           borderRadius: BorderRadius.all(
             Radius.circular(8.0),
           ),
         ),
+        suffixIcon: enabled == null
+            ? Icon(
+                Icons.lock,
+                color: Colors.transparent,
+              )
+            : Icon(
+                Icons.lock,
+                color: Colors.red,
+              ),
       ),
     );
   }

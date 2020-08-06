@@ -28,6 +28,7 @@ import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
+import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
@@ -105,6 +106,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<RemoteConfigDataBloc>(
       () => RemoteConfigDataBloc(g<RemoteConfig>()));
   g.registerLazySingleton<SearchBloc>(() => SearchBloc());
+  g.registerLazySingleton<SearchConfigBloc>(() => SearchConfigBloc());
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
