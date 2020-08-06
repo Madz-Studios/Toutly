@@ -18,7 +18,7 @@ dependencies:
 
   #UI libs
   flutter_icons: ^1.1.0
-  flutter_svg: ^0.17.4
+  flutter_svg: ^0.18.0
   google_fonts: ^1.1.0
   cupertino_icons: ^0.1.3
   flutter_rating_bar: ^3.0.1+1
@@ -31,10 +31,10 @@ dependencies:
 
   #firebase related libs
   firebase_core: 0.4.5
-  cloud_firestore: ^0.13.6
+  cloud_firestore: ^0.13.7
   firebase_auth: ^0.16.1
   firebase_storage: ^3.1.6
-  firebase_remote_config: ^0.3.1
+  firebase_remote_config: ^0.3.1+1
   firebase_crashlytics: ^0.1.3+3
   firebase_analytics: ^5.0.15
 
@@ -67,8 +67,6 @@ dependencies:
   #fulltext search
   algolia: ^0.1.6+1
 
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -82,7 +80,7 @@ dev_dependencies:
 
   mockito: ^4.1.1
   # flavor
-  flutter_flavorizr: ^1.0.3
+  #flutter_flavorizr: ^1.0.3
 
 flutter:
   uses-material-design: true
