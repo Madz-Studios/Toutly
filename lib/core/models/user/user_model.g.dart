@@ -12,6 +12,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     barterTransactionList: (json['barterTransactionList'] as List)
         ?.map((e) => e as String)
         ?.toList(),
+    barterLikesList:
+        (json['barterLikesList'] as List)?.map((e) => e as String)?.toList(),
     dateCreated: UserModel._fromJsonTimestamp(json['dateCreated'] as Timestamp),
     dateUpdated: UserModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     email: json['email'] as String,
@@ -26,6 +28,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'address': instance.address,
+      'barterLikesList': instance.barterLikesList,
       'barterTransactionList': instance.barterTransactionList,
       'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),

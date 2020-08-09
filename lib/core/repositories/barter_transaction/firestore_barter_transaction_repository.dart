@@ -39,12 +39,6 @@ class FirestoreBarterTransactionRepositoryImpl
   Future<List<BarterTransactionModel>>
       getFutureAllBarterTransactionUsingTransactionId(
           String transactionId) async {
-    final String barterTransaction =
-        FirestoreCollectionNames.barterTransactionCollection;
-
-//    final barterItems =
-//        await firestore.collection(barterTransaction).getDocuments();
-
     return null;
   }
 }

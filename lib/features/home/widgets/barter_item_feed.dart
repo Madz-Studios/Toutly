@@ -52,7 +52,7 @@ class BarterItemFeed extends StatelessWidget {
             },
             child: BarterItem(
               algoliaBarter: algoliaBarterModel,
-              user: user,
+              barterUser: user,
             ),
           );
         }

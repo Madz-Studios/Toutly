@@ -1,7 +1,6 @@
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreUserRepository {
@@ -15,7 +14,9 @@ abstract class FirestoreUserRepository {
 class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
   final Firestore firestore;
 
-  FirestoreUserRepositoryImpl({@required this.firestore});
+  FirestoreUserRepositoryImpl(
+    this.firestore,
+  );
   @override
   Future<void> createUser(UserModel user) async {
     await firestore

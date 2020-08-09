@@ -31,6 +31,13 @@ abstract class UseCaseUserParamUserModel with _$UseCaseUserParamUserModel {
 }
 
 @freezed
+abstract class UseCaseUserParamUserModelWithItemId
+    with _$UseCaseUserParamUserModelWithItemId {
+  const factory UseCaseUserParamUserModelWithItemId.init(
+      UserModel user, String itemId) = UseCaseUserParamUserIdWithItemIdInit;
+}
+
+@freezed
 abstract class UseCaseUserParamGeoLocation with _$UseCaseUserParamGeoLocation {
   const factory UseCaseUserParamGeoLocation.init(
       double latitude, double longitude) = UseCaseUserParamGeoLocationInit;

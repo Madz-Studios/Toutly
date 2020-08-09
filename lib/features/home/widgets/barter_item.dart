@@ -1,9 +1,11 @@
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../shared/widgets/profile_with_rating.dart';
 import 'barter_item_description.dart';
@@ -12,11 +14,11 @@ import 'likes_panel.dart';
 class BarterItem extends StatelessWidget {
   BarterItem({
     @required this.algoliaBarter,
-    @required this.user,
+    @required this.barterUser,
   });
 
   final AlgoliaBarterModel algoliaBarter;
-  final UserModel user;
+  final UserModel barterUser;
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +38,7 @@ class BarterItem extends StatelessWidget {
                 top: appSizeConfig.blockSizeVertical * 2.5,
               ),
               child: ProfileWithRating(
-                user: user,
+                user: barterUser,
               ),
             ),
             SizedBox(
@@ -51,11 +53,23 @@ class BarterItem extends StatelessWidget {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
               ),
-              child: LikesPanel(algoliaBarter),
+              child: BlocBuilder<UserBloc, UserState>(
+                builder: (_, userState) {
+                  final currentUser = userState.userModel;
+                  return LikesPanel(
+                    barterUser: barterUser,
+                    currentUser: currentUser,
+                    itemId: algoliaBarter.itemId,
+                  );
+                },
+              ),
             ),
             Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+              padding: EdgeInsets.only(
+                left: appSizeConfig.blockSizeHorizontal * 2.5,
+                right: appSizeConfig.blockSizeHorizontal * 2.5,
+                bottom: appSizeConfig.blockSizeVertical * 2.5,
+                top: appSizeConfig.blockSizeVertical * 2.5,
               ),
               child: BarterItemDescription(algoliaBarter),
             )

@@ -27,7 +27,7 @@ class UserBarterListingScreen extends StatelessWidget {
         ),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, userState) {
-            _barterBloc.add(BarterEvent.getUserBarterItems(
+            _barterBloc.add(BarterEvent.getAllUserBarterItems(
                 userState.userModel?.userId ?? ''));
             return BlocBuilder<BarterBloc, BarterState>(
               builder: (context, barterState) {

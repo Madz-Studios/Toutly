@@ -486,6 +486,144 @@ abstract class UseCaseUserParamModelInit implements UseCaseUserParamUserModel {
   $UseCaseUserParamModelInitCopyWith<UseCaseUserParamModelInit> get copyWith;
 }
 
+class _$UseCaseUserParamUserModelWithItemIdTearOff {
+  const _$UseCaseUserParamUserModelWithItemIdTearOff();
+
+  UseCaseUserParamUserIdWithItemIdInit init(UserModel user, String itemId) {
+    return UseCaseUserParamUserIdWithItemIdInit(
+      user,
+      itemId,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserParamUserModelWithItemId =
+    _$UseCaseUserParamUserModelWithItemIdTearOff();
+
+mixin _$UseCaseUserParamUserModelWithItemId {
+  UserModel get user;
+  String get itemId;
+
+  $UseCaseUserParamUserModelWithItemIdCopyWith<
+      UseCaseUserParamUserModelWithItemId> get copyWith;
+}
+
+abstract class $UseCaseUserParamUserModelWithItemIdCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelWithItemIdCopyWith(
+          UseCaseUserParamUserModelWithItemId value,
+          $Res Function(UseCaseUserParamUserModelWithItemId) then) =
+      _$UseCaseUserParamUserModelWithItemIdCopyWithImpl<$Res>;
+  $Res call({UserModel user, String itemId});
+}
+
+class _$UseCaseUserParamUserModelWithItemIdCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelWithItemIdCopyWith<$Res> {
+  _$UseCaseUserParamUserModelWithItemIdCopyWithImpl(this._value, this._then);
+
+  final UseCaseUserParamUserModelWithItemId _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserParamUserModelWithItemId) _then;
+
+  @override
+  $Res call({
+    Object user = freezed,
+    Object itemId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      user: user == freezed ? _value.user : user as UserModel,
+      itemId: itemId == freezed ? _value.itemId : itemId as String,
+    ));
+  }
+}
+
+abstract class $UseCaseUserParamUserIdWithItemIdInitCopyWith<$Res>
+    implements $UseCaseUserParamUserModelWithItemIdCopyWith<$Res> {
+  factory $UseCaseUserParamUserIdWithItemIdInitCopyWith(
+          UseCaseUserParamUserIdWithItemIdInit value,
+          $Res Function(UseCaseUserParamUserIdWithItemIdInit) then) =
+      _$UseCaseUserParamUserIdWithItemIdInitCopyWithImpl<$Res>;
+  @override
+  $Res call({UserModel user, String itemId});
+}
+
+class _$UseCaseUserParamUserIdWithItemIdInitCopyWithImpl<$Res>
+    extends _$UseCaseUserParamUserModelWithItemIdCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserIdWithItemIdInitCopyWith<$Res> {
+  _$UseCaseUserParamUserIdWithItemIdInitCopyWithImpl(
+      UseCaseUserParamUserIdWithItemIdInit _value,
+      $Res Function(UseCaseUserParamUserIdWithItemIdInit) _then)
+      : super(_value, (v) => _then(v as UseCaseUserParamUserIdWithItemIdInit));
+
+  @override
+  UseCaseUserParamUserIdWithItemIdInit get _value =>
+      super._value as UseCaseUserParamUserIdWithItemIdInit;
+
+  @override
+  $Res call({
+    Object user = freezed,
+    Object itemId = freezed,
+  }) {
+    return _then(UseCaseUserParamUserIdWithItemIdInit(
+      user == freezed ? _value.user : user as UserModel,
+      itemId == freezed ? _value.itemId : itemId as String,
+    ));
+  }
+}
+
+class _$UseCaseUserParamUserIdWithItemIdInit
+    implements UseCaseUserParamUserIdWithItemIdInit {
+  const _$UseCaseUserParamUserIdWithItemIdInit(this.user, this.itemId)
+      : assert(user != null),
+        assert(itemId != null);
+
+  @override
+  final UserModel user;
+  @override
+  final String itemId;
+
+  @override
+  String toString() {
+    return 'UseCaseUserParamUserModelWithItemId.init(user: $user, itemId: $itemId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserParamUserIdWithItemIdInit &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(itemId);
+
+  @override
+  $UseCaseUserParamUserIdWithItemIdInitCopyWith<
+          UseCaseUserParamUserIdWithItemIdInit>
+      get copyWith => _$UseCaseUserParamUserIdWithItemIdInitCopyWithImpl<
+          UseCaseUserParamUserIdWithItemIdInit>(this, _$identity);
+}
+
+abstract class UseCaseUserParamUserIdWithItemIdInit
+    implements UseCaseUserParamUserModelWithItemId {
+  const factory UseCaseUserParamUserIdWithItemIdInit(
+      UserModel user, String itemId) = _$UseCaseUserParamUserIdWithItemIdInit;
+
+  @override
+  UserModel get user;
+  @override
+  String get itemId;
+  @override
+  $UseCaseUserParamUserIdWithItemIdInitCopyWith<
+      UseCaseUserParamUserIdWithItemIdInit> get copyWith;
+}
+
 class _$UseCaseUserParamGeoLocationTearOff {
   const _$UseCaseUserParamGeoLocationTearOff();
 
