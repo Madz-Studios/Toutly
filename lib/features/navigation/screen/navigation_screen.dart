@@ -28,7 +28,10 @@ class NavigationScreen extends StatelessWidget {
         },
         likesScreen: (_) {
           return _buildSingleViewScreen(
-            null,
+            CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Favourites',
+            ),
             LikesScreen(),
             state.index,
           );
