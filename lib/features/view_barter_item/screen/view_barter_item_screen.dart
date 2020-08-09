@@ -262,7 +262,7 @@ class ViewBarterItemScreen extends StatelessWidget {
     _viewBarterItemBloc.add(
       ViewBarterItemEvent.deleteBarterItem(barterModel),
     );
-    _barterBloc.add(BarterEvent.getUserBarterItems(barterModel.userId));
+    _barterBloc.add(BarterEvent.getAllUserBarterItems(barterModel.userId));
   }
 
   void _tradeItemPressed(BuildContext context, UserModel currentUser,

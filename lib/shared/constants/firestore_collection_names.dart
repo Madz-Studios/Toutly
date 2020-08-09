@@ -8,6 +8,7 @@ class FirestoreCollectionNames {
   static String barterTransactionCollection = 'barter_transaction';
   static String barterItemsCollection = 'barter_items';
   static String userCollection = 'user';
+  static String userLikesCollection = 'user_likes';
 
   static String getUserBarterInboxCollection(
       String userId, String transactionId) {

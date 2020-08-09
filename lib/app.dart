@@ -1,6 +1,7 @@
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
+import 'package:Toutly/shared/bloc/likes/likes_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
@@ -108,9 +109,15 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<SearchBloc>(),
         ),
 
+        /// Likes Bloc
+        BlocProvider<LikesBloc>(
+          create: (BuildContext context) => getIt<LikesBloc>(),
+        ),
+
         /// Search Config Bloc
         BlocProvider<SearchConfigBloc>(
-            create: (BuildContext context) => getIt<SearchConfigBloc>()),
+          create: (BuildContext context) => getIt<SearchConfigBloc>(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: env == Flavor.DEV.toString() ? true : false,

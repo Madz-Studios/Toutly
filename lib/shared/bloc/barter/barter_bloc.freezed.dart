@@ -16,7 +16,7 @@ class _$BarterEventTearOff {
     return const BarterEventInitial();
   }
 
-  BarterEventGetUserBarterItems getUserBarterItems(String userId) {
+  BarterEventGetUserBarterItems getAllUserBarterItems(String userId) {
     return BarterEventGetUserBarterItems(
       userId,
     );
@@ -30,23 +30,23 @@ mixin _$BarterEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result getUserBarterItems(String userId),
+    @required Result getAllUserBarterItems(String userId),
   });
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result getUserBarterItems(String userId),
+    Result getAllUserBarterItems(String userId),
     @required Result orElse(),
   });
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(BarterEventInitial value),
-    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(BarterEventInitial value),
-    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
     @required Result orElse(),
   });
 }
@@ -102,10 +102,10 @@ class _$BarterEventInitial implements BarterEventInitial {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result getUserBarterItems(String userId),
+    @required Result getAllUserBarterItems(String userId),
   }) {
     assert(initial != null);
-    assert(getUserBarterItems != null);
+    assert(getAllUserBarterItems != null);
     return initial();
   }
 
@@ -113,7 +113,7 @@ class _$BarterEventInitial implements BarterEventInitial {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result getUserBarterItems(String userId),
+    Result getAllUserBarterItems(String userId),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -127,10 +127,10 @@ class _$BarterEventInitial implements BarterEventInitial {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(BarterEventInitial value),
-    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
   }) {
     assert(initial != null);
-    assert(getUserBarterItems != null);
+    assert(getAllUserBarterItems != null);
     return initial(this);
   }
 
@@ -138,7 +138,7 @@ class _$BarterEventInitial implements BarterEventInitial {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(BarterEventInitial value),
-    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
@@ -191,7 +191,7 @@ class _$BarterEventGetUserBarterItems implements BarterEventGetUserBarterItems {
 
   @override
   String toString() {
-    return 'BarterEvent.getUserBarterItems(userId: $userId)';
+    return 'BarterEvent.getAllUserBarterItems(userId: $userId)';
   }
 
   @override
@@ -215,23 +215,23 @@ class _$BarterEventGetUserBarterItems implements BarterEventGetUserBarterItems {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result initial(),
-    @required Result getUserBarterItems(String userId),
+    @required Result getAllUserBarterItems(String userId),
   }) {
     assert(initial != null);
-    assert(getUserBarterItems != null);
-    return getUserBarterItems(userId);
+    assert(getAllUserBarterItems != null);
+    return getAllUserBarterItems(userId);
   }
 
   @override
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result initial(),
-    Result getUserBarterItems(String userId),
+    Result getAllUserBarterItems(String userId),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (getUserBarterItems != null) {
-      return getUserBarterItems(userId);
+    if (getAllUserBarterItems != null) {
+      return getAllUserBarterItems(userId);
     }
     return orElse();
   }
@@ -240,23 +240,23 @@ class _$BarterEventGetUserBarterItems implements BarterEventGetUserBarterItems {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result initial(BarterEventInitial value),
-    @required Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    @required Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
   }) {
     assert(initial != null);
-    assert(getUserBarterItems != null);
-    return getUserBarterItems(this);
+    assert(getAllUserBarterItems != null);
+    return getAllUserBarterItems(this);
   }
 
   @override
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result initial(BarterEventInitial value),
-    Result getUserBarterItems(BarterEventGetUserBarterItems value),
+    Result getAllUserBarterItems(BarterEventGetUserBarterItems value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (getUserBarterItems != null) {
-      return getUserBarterItems(this);
+    if (getAllUserBarterItems != null) {
+      return getAllUserBarterItems(this);
     }
     return orElse();
   }

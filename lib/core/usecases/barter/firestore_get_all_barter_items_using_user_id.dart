@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 @lazySingleton
 class FirestoreGetAllBarterItemsUsingUserIdUseCase
-    implements UseCaseFirestoreQuery<void, UseCaseUserIdWithListBarterParam> {
+    implements UseCaseFirestoreQuery<void, UseCaseUserIdParam> {
   final FirestoreBarterRepository firestoreBarterRepository;
 
   FirestoreGetAllBarterItemsUsingUserIdUseCase(
@@ -19,7 +19,7 @@ class FirestoreGetAllBarterItemsUsingUserIdUseCase
 //  }
 
   @override
-  Future<List<BarterModel>> call(UseCaseUserIdWithListBarterParam params) {
+  Future<List<BarterModel>> call(UseCaseUserIdParam params) {
     return firestoreBarterRepository.getFutureAllBarterItemsUsingUserId(
       params.userId,
     );

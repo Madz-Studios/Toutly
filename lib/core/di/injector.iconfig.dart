@@ -18,6 +18,7 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_create_barter_mes
 import 'package:Toutly/core/usecases/barter_transaction/firestore_create_barter_transaction_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_delete_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
+import 'package:Toutly/core/usecases/barter/firestore_get_all_favourite_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:geoflutterfire/src/geoflutterfire.dart';
@@ -44,6 +45,7 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
+import 'package:Toutly/shared/bloc/likes/likes_bloc.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
@@ -89,11 +91,15 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreGetAllBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
+  g.registerLazySingleton<
+          FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase>(
+      () => FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase(
+          firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerLazySingleton<FirestoreUpdateBarterItemUseCase>(() =>
       FirestoreUpdateBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerFactory<FirestoreUserRepository>(
-      () => FirestoreUserRepositoryImpl(firestore: g<Firestore>()));
+      () => FirestoreUserRepositoryImpl(g<Firestore>()));
   g.registerLazySingleton<Geoflutterfire>(
       () => injectableModule.geoFlutterFire);
   g.registerLazySingleton<Geolocator>(() => injectableModule.geoLocator);
@@ -148,6 +154,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirestoreUpdateUserUseCase>(() =>
       FirestoreUpdateUserUseCase(
           firestoreUserRepository: g<FirestoreUserRepository>()));
+  g.registerLazySingleton<LikesBloc>(() => LikesBloc(
+      g<FirebaseGetUserUseCase>(),
+      g<FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase>()));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
   g.registerLazySingleton<PostBloc>(() => PostBloc(
@@ -193,8 +202,10 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirestoreGetUserUseCase>(),
       ));
   g.registerLazySingleton<BarterBloc>(() => BarterBloc(
-      g<FirebaseGetUserUseCase>(),
-      g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+        g<FirebaseGetUserUseCase>(),
+        g<FirestoreGetAllBarterItemsUsingUserIdUseCase>(),
+        g<FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase>(),
+      ));
   g.registerLazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
       LocalSharedDeleteAllSaveDataUseCase(
           localSharedPrefRepository: g<LocalSharedPrefRepository>()));

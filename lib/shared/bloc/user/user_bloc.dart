@@ -22,7 +22,6 @@ class UserBloc extends Bloc<UserEvent, UserState> {
   final FirebaseGetUserUseCase firebaseGetUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase firestoreUpdateUserUseCase;
-
   final FirebaseStorage firebaseStorage;
   final Uuid uuid;
 
@@ -104,16 +103,22 @@ class UserBloc extends Bloc<UserEvent, UserState> {
         }
       },
       updateCurrentLoggedInUser: (e) async* {
-        firestoreUpdateUserUseCase.call(
-          UseCaseUserParamUserModel.init(e.userModel),
-        );
+        yield UserState.loading();
+        try {
+          firestoreUpdateUserUseCase.call(
+            UseCaseUserParamUserModel.init(e.userModel),
+          );
+        } on PlatformException catch (platFormException) {
+          yield UserState.failure(info: platFormException.message);
+        }
       },
     );
   }
 
   Future<UserModel> getUser(String userId) async {
-    final user =
-        firestoreGetUserUseCase.call(UseCaseUserParamUserId.init(userId));
+    final user = firestoreGetUserUseCase.call(
+      UseCaseUserParamUserId.init(userId),
+    );
 
     return user;
   }

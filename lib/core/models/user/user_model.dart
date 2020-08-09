@@ -6,6 +6,7 @@ part 'user_model.g.dart';
 @JsonSerializable()
 class UserModel {
   String address;
+  List<String> barterLikesList;
   List<String> barterTransactionList;
   String email;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
@@ -22,6 +23,7 @@ class UserModel {
   UserModel({
     this.address,
     this.barterTransactionList,
+    this.barterLikesList,
     this.dateCreated,
     this.dateUpdated,
     this.email,

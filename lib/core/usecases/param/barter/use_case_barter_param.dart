@@ -18,8 +18,8 @@ abstract class UseCaseUserIdParam with _$UseCaseUserIdParam {
 }
 
 @freezed
-abstract class UseCaseUserIdWithListBarterParam
-    with _$UseCaseUserIdWithListBarterParam {
-  const factory UseCaseUserIdWithListBarterParam.init(String userId) =
-      UseCaseUserIdWithListBarterParamInit;
+abstract class UseCaseUserIdWithItemIdListParam
+    with _$UseCaseUserIdWithItemIdListParam {
+  const factory UseCaseUserIdWithItemIdListParam.init(List<String> itemIds) =
+      UseCaseUserIdWithItemIdListParamInit;
 }

@@ -40,7 +40,8 @@ class _TradeBarterItemListState extends State<TradeBarterItemList> {
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, userState) {
             _barterBloc.add(
-              BarterEvent.getUserBarterItems(userState.userModel?.userId ?? ''),
+              BarterEvent.getAllUserBarterItems(
+                  userState.userModel?.userId ?? ''),
             );
             return BlocBuilder<BarterBloc, BarterState>(
               builder: (context, barterState) {

@@ -4,6 +4,6 @@ part of 'barter_bloc.dart';
 abstract class BarterEvent with _$BarterEvent {
   const factory BarterEvent.initial() = BarterEventInitial;
 
-  const factory BarterEvent.getUserBarterItems(String userId) =
+  const factory BarterEvent.getAllUserBarterItems(String userId) =
       BarterEventGetUserBarterItems;
 }

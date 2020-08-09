@@ -11,15 +11,22 @@ abstract class FirestoreBarterRepository {
 
   Future<List<BarterModel>> getFutureAllBarterItemsUsingUserId(String userId);
 
+  Future<List<BarterModel>> getFutureAllFavouriteBarterItemsUsingItemIdList(
+      List<String> itemIds);
+
   Future<void> updateBarterItem(BarterModel barterModel);
 
   Future<void> deleteBarterItem(BarterModel barterModel);
+
+  Future<BarterModel> getBarterUsingItemId(String itemId);
 }
 
 @Injectable(as: FirestoreBarterRepository)
 @lazySingleton
 class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
-  FirestoreBarterRepositoryImpl({@required this.firestore});
+  FirestoreBarterRepositoryImpl({
+    @required this.firestore,
+  });
 
   static const limit = 10;
 
@@ -97,5 +104,45 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .collection(barterCollection)
         .document(barterModel.itemId)
         .delete();
+  }
+
+  @override
+  Future<BarterModel> getBarterUsingItemId(String itemId) async {
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
+
+    final barterItem = await firestore
+        .collection(barterCollection)
+        .where('itemId', isEqualTo: itemId)
+        .orderBy('dateCreated', descending: true)
+        .getDocuments();
+
+    final barterModel = BarterModel.fromJson(barterItem.documents[0].data);
+
+    return barterModel;
+  }
+
+  @override
+  Future<List<BarterModel>> getFutureAllFavouriteBarterItemsUsingItemIdList(
+      List<String> itemIds) async {
+    List<BarterModel> listBarterItems = [];
+
+    for (final itemId in itemIds) {
+      final barterItems = await firestore
+          .collection(FirestoreCollectionNames.barterItemsCollection)
+          .where('itemId', isEqualTo: itemId)
+          .orderBy('dateCreated', descending: true)
+          .getDocuments();
+
+      if (barterItems.documents.isNotEmpty) {
+        for (final item in barterItems.documents) {
+          final barterModel = BarterModel.fromJson(item.data);
+
+          listBarterItems.add(barterModel);
+        }
+      }
+    }
+
+    return listBarterItems;
   }
 }
