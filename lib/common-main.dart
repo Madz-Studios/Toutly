@@ -44,6 +44,9 @@ void commonMain(String env) async {
 
   /// Local Firestore Emulator setup END
 
+  //hide top status bar
+  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+
   runApp(App(
     env: env,
   ));

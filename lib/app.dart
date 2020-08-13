@@ -3,6 +3,7 @@ import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/bloc/likes/likes_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
+import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
@@ -117,6 +118,11 @@ class App extends StatelessWidget {
         /// Search Config Bloc
         BlocProvider<SearchConfigBloc>(
           create: (BuildContext context) => getIt<SearchConfigBloc>(),
+        ),
+
+        /// Messages Bloc
+        BlocProvider<MessagesBloc>(
+          create: (BuildContext context) => getIt<MessagesBloc>(),
         ),
       ],
       child: MaterialApp(

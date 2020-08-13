@@ -75,6 +75,7 @@ class BarterItemFeed extends StatelessWidget {
           isDialog: false,
           barterUser: barterUser,
         ),
+        fullscreenDialog: true,
       ),
     );
   }

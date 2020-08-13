@@ -3,6 +3,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/features/trade_offer/widgets/trade_offer_form.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,15 +27,15 @@ class TradeOfferScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         leading: BackOrCloseButton(
           isDialog: false,
-          buttonColor: Colors.black,
+          buttonColor: kPrimaryColor,
           onPressed: () {
             _tradeOfferBloc.add(TradeOfferEvent.clearItemToTrade());
             Navigator.pop(context);
           },
         ),
-        backgroundColor: Colors.white,
         title: Text(
           'Trade offer',
           style: TextStyle(color: Colors.black),

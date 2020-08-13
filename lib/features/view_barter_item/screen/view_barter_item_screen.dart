@@ -33,11 +33,11 @@ class ViewBarterItemScreen extends StatelessWidget {
       builder: (context, state) {
         final barterItem = state.barterModel;
         final currentUser = state.currentUser;
-        return SafeArea(
-            child: Scaffold(
+        return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,
             leading: BackOrCloseButton(
+              buttonColor: kPrimaryColor,
               isDialog: isDialog,
               onPressed: () {
                 _viewBarterItemBloc.add(
@@ -83,22 +83,6 @@ class ViewBarterItemScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-//                            Visibility(
-//                              visible: state.currentUser?.userId ==
-//                                  barterItem?.userId,
-//                              child: Flexible(
-//                                flex: 1,
-//                                child: IconButton(
-//                                  icon: Icon(
-//                                    Icons.edit,
-//                                    color: kPrimaryColor,
-//                                  ),
-//                                  onPressed: () {
-//                                    print('Edit');
-//                                  },
-//                                ),
-//                              ),
-//                            ),
                           ],
                         ),
                         SizedBox(
@@ -150,7 +134,7 @@ class ViewBarterItemScreen extends StatelessWidget {
               ),
             ],
           ),
-        ));
+        );
       },
     );
   }

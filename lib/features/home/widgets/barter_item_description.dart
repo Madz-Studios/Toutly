@@ -19,6 +19,7 @@ class BarterItemDescription extends StatelessWidget {
             fontWeight: FontWeight.bold,
             fontSize: 16,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
         SizedBox(
           height: appSizeConfig.blockSizeVertical * 1.5,
@@ -29,6 +30,7 @@ class BarterItemDescription extends StatelessWidget {
             fontWeight: FontWeight.w200,
             fontSize: 12,
           ),
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
