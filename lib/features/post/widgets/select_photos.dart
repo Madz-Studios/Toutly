@@ -187,7 +187,8 @@ class _SelectPhotosState extends State<SelectPhotos> {
       );
     } else if (_pickImageError != null) {
       return Text(
-        'Pick image error: $_pickImageError',
+        'Pick image error: There was an error in getting the photo. Please try again.',
+        overflow: TextOverflow.ellipsis,
         textAlign: TextAlign.center,
       );
     } else {

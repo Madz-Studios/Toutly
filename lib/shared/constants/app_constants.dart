@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-final kPrimaryColor = Color(0XFF43B78D);
+final kPrimaryColor = Color(0XFF29960F);
 
 class AppConstants {
   static const codeErrorAuthDenied = 'ERROR_AUTHORIZATION_DENIED';

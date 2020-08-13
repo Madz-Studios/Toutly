@@ -8,7 +8,7 @@ class BackOrCloseButton extends StatelessWidget {
   final Function onPressed;
   BackOrCloseButton({
     @required this.isDialog,
-    this.buttonColor = Colors.black,
+    @required this.buttonColor,
     @required this.onPressed,
   });
 

@@ -69,41 +69,44 @@ class LikesScreen extends StatelessWidget {
                             'You have no items here.',
                           ),
                         );
-                      }
-                      return GridView.builder(
-                        itemCount: snapshot.data.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing:
-                              appSizeConfig.blockSizeHorizontal * 1.5,
-                          mainAxisSpacing:
-                              appSizeConfig.blockSizeVertical * 1.5,
-                        ),
-                        itemBuilder: (context, index) {
-                          final barterModel = snapshot.data[index];
-                          return GestureDetector(
-                            onTap: () {
-                              _viewBarterItemBloc.add(
-                                ViewBarterItemEvent.viewBarterItem(barterModel),
-                              );
+                      } else {
+                        return GridView.builder(
+                          itemCount: snapshot.data.length,
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing:
+                                appSizeConfig.blockSizeHorizontal * 1.5,
+                            mainAxisSpacing:
+                                appSizeConfig.blockSizeVertical * 1.5,
+                          ),
+                          itemBuilder: (context, index) {
+                            final barterModel = snapshot.data[index];
+                            return GestureDetector(
+                              onTap: () {
+                                _viewBarterItemBloc.add(
+                                  ViewBarterItemEvent.viewBarterItem(
+                                      barterModel),
+                                );
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewBarterItemScreen(
-                                    isDialog: true,
-                                    barterUser: userState.userModel,
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewBarterItemScreen(
+                                      isDialog: true,
+                                      barterUser: userState.userModel,
+                                    ),
+                                    fullscreenDialog: true,
                                   ),
-                                  fullscreenDialog: true,
-                                ),
-                              );
-                            },
-                            child: GridTile(
-                              child: UserBarterItem(barterModel),
-                            ),
-                          );
-                        },
-                      );
+                                );
+                              },
+                              child: GridTile(
+                                child: UserBarterItem(barterModel),
+                              ),
+                            );
+                          },
+                        );
+                      }
                     }
                   },
                 );

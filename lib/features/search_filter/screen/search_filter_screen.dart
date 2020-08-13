@@ -155,10 +155,10 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
         centerTitle: true,
         leading: BackOrCloseButton(
           isDialog: false,
-          buttonColor: Colors.black,
           onPressed: () {
             Navigator.pop(context);
           },
+          buttonColor: kPrimaryColor,
         ),
         actions: [
           Padding(

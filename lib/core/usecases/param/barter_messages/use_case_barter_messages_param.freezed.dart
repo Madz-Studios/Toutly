@@ -13,10 +13,10 @@ class _$UseCaseBarterMessagesModelParamTearOff {
   const _$UseCaseBarterMessagesModelParamTearOff();
 
   UseCaseBarterMessagesModelParamInit init(
-      {@required String transactionId,
+      {@required String messageId,
       @required BarterMessageModel barterMessageModel}) {
     return UseCaseBarterMessagesModelParamInit(
-      transactionId: transactionId,
+      messageId: messageId,
       barterMessageModel: barterMessageModel,
     );
   }
@@ -27,7 +27,7 @@ const $UseCaseBarterMessagesModelParam =
     _$UseCaseBarterMessagesModelParamTearOff();
 
 mixin _$UseCaseBarterMessagesModelParam {
-  String get transactionId;
+  String get messageId;
   BarterMessageModel get barterMessageModel;
 
   $UseCaseBarterMessagesModelParamCopyWith<UseCaseBarterMessagesModelParam>
@@ -39,7 +39,7 @@ abstract class $UseCaseBarterMessagesModelParamCopyWith<$Res> {
           UseCaseBarterMessagesModelParam value,
           $Res Function(UseCaseBarterMessagesModelParam) then) =
       _$UseCaseBarterMessagesModelParamCopyWithImpl<$Res>;
-  $Res call({String transactionId, BarterMessageModel barterMessageModel});
+  $Res call({String messageId, BarterMessageModel barterMessageModel});
 }
 
 class _$UseCaseBarterMessagesModelParamCopyWithImpl<$Res>
@@ -52,13 +52,11 @@ class _$UseCaseBarterMessagesModelParamCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object transactionId = freezed,
+    Object messageId = freezed,
     Object barterMessageModel = freezed,
   }) {
     return _then(_value.copyWith(
-      transactionId: transactionId == freezed
-          ? _value.transactionId
-          : transactionId as String,
+      messageId: messageId == freezed ? _value.messageId : messageId as String,
       barterMessageModel: barterMessageModel == freezed
           ? _value.barterMessageModel
           : barterMessageModel as BarterMessageModel,
@@ -73,7 +71,7 @@ abstract class $UseCaseBarterMessagesModelParamInitCopyWith<$Res>
           $Res Function(UseCaseBarterMessagesModelParamInit) then) =
       _$UseCaseBarterMessagesModelParamInitCopyWithImpl<$Res>;
   @override
-  $Res call({String transactionId, BarterMessageModel barterMessageModel});
+  $Res call({String messageId, BarterMessageModel barterMessageModel});
 }
 
 class _$UseCaseBarterMessagesModelParamInitCopyWithImpl<$Res>
@@ -90,13 +88,11 @@ class _$UseCaseBarterMessagesModelParamInitCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object transactionId = freezed,
+    Object messageId = freezed,
     Object barterMessageModel = freezed,
   }) {
     return _then(UseCaseBarterMessagesModelParamInit(
-      transactionId: transactionId == freezed
-          ? _value.transactionId
-          : transactionId as String,
+      messageId: messageId == freezed ? _value.messageId : messageId as String,
       barterMessageModel: barterMessageModel == freezed
           ? _value.barterMessageModel
           : barterMessageModel as BarterMessageModel,
@@ -107,27 +103,27 @@ class _$UseCaseBarterMessagesModelParamInitCopyWithImpl<$Res>
 class _$UseCaseBarterMessagesModelParamInit
     implements UseCaseBarterMessagesModelParamInit {
   const _$UseCaseBarterMessagesModelParamInit(
-      {@required this.transactionId, @required this.barterMessageModel})
-      : assert(transactionId != null),
+      {@required this.messageId, @required this.barterMessageModel})
+      : assert(messageId != null),
         assert(barterMessageModel != null);
 
   @override
-  final String transactionId;
+  final String messageId;
   @override
   final BarterMessageModel barterMessageModel;
 
   @override
   String toString() {
-    return 'UseCaseBarterMessagesModelParam.init(transactionId: $transactionId, barterMessageModel: $barterMessageModel)';
+    return 'UseCaseBarterMessagesModelParam.init(messageId: $messageId, barterMessageModel: $barterMessageModel)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is UseCaseBarterMessagesModelParamInit &&
-            (identical(other.transactionId, transactionId) ||
+            (identical(other.messageId, messageId) ||
                 const DeepCollectionEquality()
-                    .equals(other.transactionId, transactionId)) &&
+                    .equals(other.messageId, messageId)) &&
             (identical(other.barterMessageModel, barterMessageModel) ||
                 const DeepCollectionEquality()
                     .equals(other.barterMessageModel, barterMessageModel)));
@@ -136,7 +132,7 @@ class _$UseCaseBarterMessagesModelParamInit
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(transactionId) ^
+      const DeepCollectionEquality().hash(messageId) ^
       const DeepCollectionEquality().hash(barterMessageModel);
 
   @override
@@ -149,15 +145,139 @@ class _$UseCaseBarterMessagesModelParamInit
 abstract class UseCaseBarterMessagesModelParamInit
     implements UseCaseBarterMessagesModelParam {
   const factory UseCaseBarterMessagesModelParamInit(
-          {@required String transactionId,
+          {@required String messageId,
           @required BarterMessageModel barterMessageModel}) =
       _$UseCaseBarterMessagesModelParamInit;
 
   @override
-  String get transactionId;
+  String get messageId;
   @override
   BarterMessageModel get barterMessageModel;
   @override
   $UseCaseBarterMessagesModelParamInitCopyWith<
       UseCaseBarterMessagesModelParamInit> get copyWith;
+}
+
+class _$UseCaseAllUserMessagesWithUserIdParamTearOff {
+  const _$UseCaseAllUserMessagesWithUserIdParamTearOff();
+
+  UseCaseAllUserBarterMessagesModelParamInit init({@required String userId}) {
+    return UseCaseAllUserBarterMessagesModelParamInit(
+      userId: userId,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseAllUserMessagesWithUserIdParam =
+    _$UseCaseAllUserMessagesWithUserIdParamTearOff();
+
+mixin _$UseCaseAllUserMessagesWithUserIdParam {
+  String get userId;
+
+  $UseCaseAllUserMessagesWithUserIdParamCopyWith<
+      UseCaseAllUserMessagesWithUserIdParam> get copyWith;
+}
+
+abstract class $UseCaseAllUserMessagesWithUserIdParamCopyWith<$Res> {
+  factory $UseCaseAllUserMessagesWithUserIdParamCopyWith(
+          UseCaseAllUserMessagesWithUserIdParam value,
+          $Res Function(UseCaseAllUserMessagesWithUserIdParam) then) =
+      _$UseCaseAllUserMessagesWithUserIdParamCopyWithImpl<$Res>;
+  $Res call({String userId});
+}
+
+class _$UseCaseAllUserMessagesWithUserIdParamCopyWithImpl<$Res>
+    implements $UseCaseAllUserMessagesWithUserIdParamCopyWith<$Res> {
+  _$UseCaseAllUserMessagesWithUserIdParamCopyWithImpl(this._value, this._then);
+
+  final UseCaseAllUserMessagesWithUserIdParam _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseAllUserMessagesWithUserIdParam) _then;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+abstract class $UseCaseAllUserBarterMessagesModelParamInitCopyWith<$Res>
+    implements $UseCaseAllUserMessagesWithUserIdParamCopyWith<$Res> {
+  factory $UseCaseAllUserBarterMessagesModelParamInitCopyWith(
+          UseCaseAllUserBarterMessagesModelParamInit value,
+          $Res Function(UseCaseAllUserBarterMessagesModelParamInit) then) =
+      _$UseCaseAllUserBarterMessagesModelParamInitCopyWithImpl<$Res>;
+  @override
+  $Res call({String userId});
+}
+
+class _$UseCaseAllUserBarterMessagesModelParamInitCopyWithImpl<$Res>
+    extends _$UseCaseAllUserMessagesWithUserIdParamCopyWithImpl<$Res>
+    implements $UseCaseAllUserBarterMessagesModelParamInitCopyWith<$Res> {
+  _$UseCaseAllUserBarterMessagesModelParamInitCopyWithImpl(
+      UseCaseAllUserBarterMessagesModelParamInit _value,
+      $Res Function(UseCaseAllUserBarterMessagesModelParamInit) _then)
+      : super(_value,
+            (v) => _then(v as UseCaseAllUserBarterMessagesModelParamInit));
+
+  @override
+  UseCaseAllUserBarterMessagesModelParamInit get _value =>
+      super._value as UseCaseAllUserBarterMessagesModelParamInit;
+
+  @override
+  $Res call({
+    Object userId = freezed,
+  }) {
+    return _then(UseCaseAllUserBarterMessagesModelParamInit(
+      userId: userId == freezed ? _value.userId : userId as String,
+    ));
+  }
+}
+
+class _$UseCaseAllUserBarterMessagesModelParamInit
+    implements UseCaseAllUserBarterMessagesModelParamInit {
+  const _$UseCaseAllUserBarterMessagesModelParamInit({@required this.userId})
+      : assert(userId != null);
+
+  @override
+  final String userId;
+
+  @override
+  String toString() {
+    return 'UseCaseAllUserMessagesWithUserIdParam.init(userId: $userId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseAllUserBarterMessagesModelParamInit &&
+            (identical(other.userId, userId) ||
+                const DeepCollectionEquality().equals(other.userId, userId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(userId);
+
+  @override
+  $UseCaseAllUserBarterMessagesModelParamInitCopyWith<
+          UseCaseAllUserBarterMessagesModelParamInit>
+      get copyWith => _$UseCaseAllUserBarterMessagesModelParamInitCopyWithImpl<
+          UseCaseAllUserBarterMessagesModelParamInit>(this, _$identity);
+}
+
+abstract class UseCaseAllUserBarterMessagesModelParamInit
+    implements UseCaseAllUserMessagesWithUserIdParam {
+  const factory UseCaseAllUserBarterMessagesModelParamInit(
+      {@required String userId}) = _$UseCaseAllUserBarterMessagesModelParamInit;
+
+  @override
+  String get userId;
+  @override
+  $UseCaseAllUserBarterMessagesModelParamInitCopyWith<
+      UseCaseAllUserBarterMessagesModelParamInit> get copyWith;
 }

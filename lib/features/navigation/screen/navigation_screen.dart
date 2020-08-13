@@ -1,7 +1,7 @@
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
-import 'package:Toutly/features/inbox/screen/inbox_screen.dart';
 import 'package:Toutly/features/likes/screen/likes_screen.dart';
+import 'package:Toutly/features/messages/screen/messages_screen.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
@@ -55,8 +55,11 @@ class NavigationScreen extends StatelessWidget {
         },
         inboxScreen: (_) {
           return _buildSingleViewScreen(
-            null,
-            InboxScreen(),
+            CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Messages',
+            ),
+            MessagesScreen(),
             state.index,
           );
         },

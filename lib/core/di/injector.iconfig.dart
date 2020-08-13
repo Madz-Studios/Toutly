@@ -10,21 +10,24 @@ import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:Toutly/core/repositories/barter_messages/firestore_barter_messages_repository.dart';
+import 'package:Toutly/core/repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
+import 'package:Toutly/core/repositories/barter_message/firestore_barter_message_repository.dart';
 import 'package:Toutly/core/repositories/barter/firestore_barter_repository.dart';
-import 'package:Toutly/core/repositories/barter_transaction/firestore_barter_transaction_repository.dart';
+import 'package:Toutly/core/usecases/barter_conversation_text/firestore_create_barter_conversation_text_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
-import 'package:Toutly/core/usecases/barter_transaction/firestore_create_barter_transaction_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_delete_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_get_all_barter_items_using_user_id.dart';
+import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_get_all_favourite_barter_items_using_user_id.dart';
+import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import 'package:Toutly/core/usecases/barter/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:geoflutterfire/src/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
+import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
@@ -68,33 +71,41 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<FirebaseStorage>(
       () => injectableModule.firebaseStorage);
   g.registerLazySingleton<Firestore>(() => injectableModule.firestore);
-  g.registerFactory<FirestoreBarterMessagesRepository>(
-      () => FirestoreBarterMessagesRepositoryImpl(firestore: g<Firestore>()));
+  g.registerFactory<FirestoreBarterConversationTextRepository>(() =>
+      FirestoreBarterConversationTextRepositoryImpl(firestore: g<Firestore>()));
+  g.registerFactory<FirestoreBarterMessageRepository>(
+      () => FirestoreBarterMessageRepositoryImpl(firestore: g<Firestore>()));
   g.registerFactory<FirestoreBarterRepository>(
       () => FirestoreBarterRepositoryImpl(firestore: g<Firestore>()));
-  g.registerFactory<FirestoreBarterTransactionRepository>(() =>
-      FirestoreBarterTransactionRepositoryImpl(firestore: g<Firestore>()));
+  g.registerLazySingleton<FirestoreCreateBarterConversationTextUseCase>(() =>
+      FirestoreCreateBarterConversationTextUseCase(
+          firestoreBarterConversationTextRepository:
+              g<FirestoreBarterConversationTextRepository>()));
   g.registerLazySingleton<FirestoreCreateBarterItemUseCase>(() =>
       FirestoreCreateBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerLazySingleton<FirestoreCreateBarterMessagesUseCase>(() =>
       FirestoreCreateBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
-              g<FirestoreBarterMessagesRepository>()));
-  g.registerLazySingleton<FirestoreCreateBarterTransactionUseCase>(() =>
-      FirestoreCreateBarterTransactionUseCase(
-          firestoreBarterTransactionRepository:
-              g<FirestoreBarterTransactionRepository>()));
+              g<FirestoreBarterMessageRepository>()));
   g.registerLazySingleton<FirestoreDeleteBarterItemUseCase>(() =>
       FirestoreDeleteBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerLazySingleton<FirestoreGetAllBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
+  g.registerLazySingleton<FirestoreGetAllBarterMessagesUseCase>(() =>
+      FirestoreGetAllBarterMessagesUseCase(
+          firestoreBarterMessagesRepository:
+              g<FirestoreBarterMessageRepository>()));
   g.registerLazySingleton<
           FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase>(
       () => FirestoreGetAllFavouriteBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
+  g.registerLazySingleton<FirestoreGetAllOfferMessagesUseCase>(() =>
+      FirestoreGetAllOfferMessagesUseCase(
+          firestoreBarterMessagesRepository:
+              g<FirestoreBarterMessageRepository>()));
   g.registerLazySingleton<FirestoreUpdateBarterItemUseCase>(() =>
       FirestoreUpdateBarterItemUseCase(
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
@@ -106,6 +117,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
   g.registerLazySingleton<LocationBloc>(
       () => LocationBloc(g<Geolocator>(), g<Geoflutterfire>()));
+  g.registerLazySingleton<MessagesBloc>(() => MessagesBloc(
+      g<FirestoreGetAllBarterMessagesUseCase>(),
+      g<FirestoreGetAllOfferMessagesUseCase>()));
   g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
   final remoteConfig = await injectableModule.remoteConfig;
   g.registerFactory<RemoteConfig>(() => remoteConfig);
@@ -178,7 +192,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Validators>(),
       ));
   g.registerLazySingleton<TradeOfferBloc>(() => TradeOfferBloc(
-        g<FirestoreCreateBarterTransactionUseCase>(),
+        g<FirestoreCreateBarterConversationTextUseCase>(),
         g<FirestoreCreateBarterMessagesUseCase>(),
         g<Validators>(),
         g<Uuid>(),
