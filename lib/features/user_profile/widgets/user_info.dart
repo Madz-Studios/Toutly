@@ -2,7 +2,6 @@ import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class UserInfo extends StatelessWidget {
   final UserState userState;
@@ -37,22 +36,22 @@ class UserInfo extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              RatingBar(
-                ignoreGestures: true,
-                initialRating: userState.userModel?.userRating == null
-                    ? 0
-                    : userState.userModel.userRating,
-                minRating: 0,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemSize: appSizeConfig.blockSizeVertical * 2,
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (value) {},
-              ),
+//              RatingBar(
+//                ignoreGestures: true,
+//                initialRating: userState.userModel?.userRating == null
+//                    ? 0
+//                    : userState.userModel.userRating,
+//                minRating: 0,
+//                direction: Axis.horizontal,
+//                allowHalfRating: true,
+//                itemCount: 5,
+//                itemSize: appSizeConfig.blockSizeVertical * 2,
+//                itemBuilder: (context, _) => Icon(
+//                  Icons.star,
+//                  color: Colors.amber,
+//                ),
+//                onRatingUpdate: (value) {},
+//              ),
               Text(
                 userState.userModel?.address ?? '',
                 overflow: TextOverflow.fade,
