@@ -20,12 +20,13 @@ class NavigationBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BottomNavigationBar(
+      selectedItemColor: kPrimaryColor,
       type: BottomNavigationBarType.fixed,
       currentIndex: currentIndex,
       onTap: _onItemTapped,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-          title: Text(''),
+          title: Text('Feed'),
           icon: SvgPicture.asset(
             'assets/icons/unpressed-home.svg',
             height: appSizeConfig.blockSizeVertical * 3,
@@ -37,7 +38,7 @@ class NavigationBar extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          title: Text(''),
+          title: Text('Likes'),
           icon: SvgPicture.asset(
             'assets/icons/unpressed-likes.svg',
             height: appSizeConfig.blockSizeVertical * 3,
@@ -49,7 +50,7 @@ class NavigationBar extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          title: Text(''),
+          title: Text('Barter'),
           icon: SvgPicture.asset(
             'assets/icons/add.svg',
             height: appSizeConfig.blockSizeVertical * 3,
@@ -61,7 +62,7 @@ class NavigationBar extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          title: Text(''),
+          title: Text('Messages'),
           icon: SvgPicture.asset(
             'assets/icons/unpressed-chat.svg',
             height: appSizeConfig.blockSizeVertical * 3,
@@ -73,7 +74,7 @@ class NavigationBar extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          title: Text(''),
+          title: Text('Profile'),
           icon: SvgPicture.asset(
             'assets/icons/profile.svg',
             height: appSizeConfig.blockSizeVertical * 3,

@@ -47,7 +47,10 @@ class BarterItemFeed extends StatelessWidget {
         } else {
           final user = snapshot.data;
           return GestureDetector(
+            behavior: HitTestBehavior.translucent,
             onTap: () {
+              // Touch and fold the keyboard
+              FocusScope.of(context).requestFocus(FocusNode());
               _gotoViewBarterItem(context, algoliaBarterModel, user);
             },
             child: BarterItem(
