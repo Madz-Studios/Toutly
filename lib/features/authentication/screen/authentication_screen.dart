@@ -6,7 +6,9 @@ import 'package:Toutly/features/signin/screen/signin_screen.dart';
 import 'package:Toutly/features/splash/splash_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
+import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
+import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +17,7 @@ class AuthenticationScreen extends StatelessWidget {
   final _locationBloc = getIt<LocationBloc>();
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
   final _userBloc = getIt<UserBloc>();
+  final _searchConfigBloc = getIt<SearchConfigBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -28,29 +31,24 @@ class AuthenticationScreen extends StatelessWidget {
           _userBloc.add(UserEvent.getCurrentLoggedInUser());
 
           _locationBloc.add(LocationEvent.getInitialUserLocation());
-          return BlocBuilder<LocationBloc, LocationState>(
-            builder: (_, locationState) {
-              return BlocBuilder<UserBloc, UserState>(
-                builder: (_, userState) {
-                  UserModel currentUser = userState.userModel;
-                  if (currentUser != null && currentUser.address == null) {
-                    if (currentUser.userId != null &&
-                        currentUser.address == null &&
-                        locationState.geoFirePoint != null) {
-                      String address =
-                          '${locationState?.placeMark?.subLocality ?? ''}, '
-                          '${locationState?.placeMark?.locality ?? ''} ';
+          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+            builder: (_, remoteConfigState) {
+              return BlocBuilder<LocationBloc, LocationState>(
+                builder: (_, locationState) {
+                  return BlocBuilder<UserBloc, UserState>(
+                    builder: (_, userState) {
+                      UserModel currentUser = userState.userModel;
 
-                      currentUser.geoLocation =
-                          locationState?.geoFirePoint?.geoPoint;
-                      currentUser.address = address;
-                      currentUser.geoHash = locationState?.geoFirePoint?.hash;
+                      ///If the User is new get the current user location and address and update the user data.
 
-                      _userBloc.add(
-                          UserEvent.updateCurrentLoggedInUser(currentUser));
-                    }
-                  }
-                  return NavigationScreen();
+                      SearchUtil().processInitialUserData(
+                        currentUser,
+                        locationState,
+                        remoteConfigState,
+                      );
+                      return NavigationScreen();
+                    },
+                  );
                 },
               );
             },

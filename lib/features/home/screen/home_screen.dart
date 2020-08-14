@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
@@ -19,8 +18,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
-  final _searchConfigBloc = getIt<SearchConfigBloc>();
-
   final _searchController = TextEditingController();
 
   @override
@@ -95,34 +92,18 @@ class HomeScreen extends StatelessWidget {
               builder: (remoteConfigContext, remoteConfigState) {
                 return BlocBuilder<LocationBloc, LocationState>(
                   builder: (_, locationState) {
+                    ///If the User is new or no data in the address
+                    /// get the current user location and address and update the user data.
+
+                    SearchUtil().processInitialUserData(
+                      currentUser,
+                      locationState,
+                      remoteConfigState,
+                    );
+
                     return BlocBuilder<SearchBloc, SearchState>(
                       builder: (_, searchState) => searchState.map(
                         empty: (e) {
-                          /// initial home search
-                          if (currentUser.userId != null &&
-                              currentUser.geoLocation != null) {
-                            SearchUtil().searchSubmit(
-                              searchText: '',
-                              category: '',
-                              postedWithin: '',
-                              latitude: currentUser.geoLocation.latitude,
-                              longitude: currentUser.geoLocation.longitude,
-                              algoliaSearchApiKey:
-                                  remoteConfigState.algoliaSearchApiKey,
-                              algoliaAppId: remoteConfigState.algoliaAppId,
-                            );
-
-                            _searchConfigBloc.add(
-                              SearchConfigEvent.setConfig(
-                                searchText: '',
-                                category: '',
-                                postedWithin: '',
-                                latitude: currentUser.geoLocation.latitude,
-                                longitude: currentUser.geoLocation.longitude,
-                              ),
-                            );
-                          }
-
                           return Container();
                         },
                         loading: (e) {
@@ -196,8 +177,6 @@ class __SearchTextFieldState extends State<_SearchTextField> {
         return BlocBuilder<SearchConfigBloc, SearchConfigState>(
           builder: (_, searchConfigState) {
             _searchController.text = searchConfigState.searchText;
-            debugPrint(
-                'searchConfigState.searchText = ${searchConfigState.searchText}');
             return TextField(
               controller: _searchController,
               textInputAction: TextInputAction.search,
