@@ -18,29 +18,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  final _locationBloc = getIt<LocationBloc>();
-
+class HomeScreen extends StatelessWidget {
   final _searchConfigBloc = getIt<SearchConfigBloc>();
 
-  final _userBloc = getIt<UserBloc>();
-
   final _searchController = TextEditingController();
-
-  final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
-
-  @override
-  void initState() {
-    super.initState();
-    _remoteConfigBloc.add(RemoteConfigDataEvent.loadConfigData());
-
-    _userBloc.add(UserEvent.getCurrentLoggedInUser());
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,42 +91,22 @@ class _HomeScreenState extends State<HomeScreen> {
         child: BlocBuilder<UserBloc, UserState>(
           builder: (_, userState) {
             UserModel currentUser = userState.userModel;
-            if (currentUser != null && currentUser.address == null) {
-              _locationBloc.add(LocationEvent.getInitialUserLocation());
-            }
             return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
               builder: (remoteConfigContext, remoteConfigState) {
                 return BlocBuilder<LocationBloc, LocationState>(
                   builder: (_, locationState) {
-                    if (currentUser.userId != null &&
-                        currentUser.address == null &&
-                        locationState.geoFirePoint != null) {
-                      String address =
-                          '${locationState?.placeMark?.name ?? ''}, '
-                          '${locationState?.placeMark?.subLocality ?? ''}, '
-                          '${locationState?.placeMark?.locality ?? ''} ';
-
-                      currentUser.geoLocation =
-                          locationState?.geoFirePoint?.geoPoint;
-                      currentUser.address = address;
-                      currentUser.geoHash = locationState?.geoFirePoint?.hash;
-
-                      _userBloc.add(
-                          UserEvent.updateCurrentLoggedInUser(currentUser));
-                    }
                     return BlocBuilder<SearchBloc, SearchState>(
                       builder: (_, searchState) => searchState.map(
                         empty: (e) {
                           /// initial home search
-                          if (currentUser.userId != null) {
+                          if (currentUser.userId != null &&
+                              currentUser.geoLocation != null) {
                             SearchUtil().searchSubmit(
                               searchText: '',
                               category: '',
                               postedWithin: '',
-                              latitude:
-                                  userState.userModel.geoLocation.latitude,
-                              longitude:
-                                  userState.userModel.geoLocation.longitude,
+                              latitude: currentUser.geoLocation.latitude,
+                              longitude: currentUser.geoLocation.longitude,
                               algoliaSearchApiKey:
                                   remoteConfigState.algoliaSearchApiKey,
                               algoliaAppId: remoteConfigState.algoliaAppId,
@@ -153,13 +114,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                             _searchConfigBloc.add(
                               SearchConfigEvent.setConfig(
-                                  searchText: '',
-                                  category: '',
-                                  postedWithin: '',
-                                  latitude:
-                                      userState.userModel.geoLocation.latitude,
-                                  longitude: userState
-                                      .userModel.geoLocation.longitude),
+                                searchText: '',
+                                category: '',
+                                postedWithin: '',
+                                latitude: currentUser.geoLocation.latitude,
+                                longitude: currentUser.geoLocation.longitude,
+                              ),
                             );
                           }
 

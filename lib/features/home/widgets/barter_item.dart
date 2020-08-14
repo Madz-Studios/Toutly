@@ -44,25 +44,34 @@ class BarterItem extends StatelessWidget {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            CachedNetworkImage(
-              imageUrl: algoliaBarter.photosUrl[0],
-              placeholder: (context, url) => Container(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-              ),
-              child: BlocBuilder<UserBloc, UserState>(
-                builder: (_, userState) {
-                  final currentUser = userState.userModel;
-                  return LikesPanel(
-                    barterUser: barterUser,
-                    currentUser: currentUser,
-                    itemId: algoliaBarter.itemId,
-                  );
-                },
-              ),
+            Stack(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: algoliaBarter.photosUrl[0],
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+                BlocBuilder<UserBloc, UserState>(
+                  builder: (_, userState) {
+                    final currentUser = userState.userModel;
+                    if (currentUser != null) {
+                      if (currentUser.userId != barterUser.userId) {
+                        return Align(
+                          alignment: Alignment.topRight,
+                          child: LikesPanel(
+                            barterUser: barterUser,
+                            currentUser: currentUser,
+                            itemId: algoliaBarter.itemId,
+                          ),
+                        );
+                      } else {
+                        return Container();
+                      }
+                    }
+                    return Container();
+                  },
+                ),
+              ],
             ),
             Padding(
               padding: EdgeInsets.only(
