@@ -283,7 +283,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
 
                     return IgnorePointer(
                       child: PostItemTextFieldForm(
-                        description: 'Your current address',
+                        description: 'Location',
                         controller: _locationController,
                         readOnly: true,
                         maxLength: 100,
