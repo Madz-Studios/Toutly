@@ -1,4 +1,4 @@
-part of 'barter_bloc.dart';
+part of 'barter_cubit.dart';
 
 @freezed
 abstract class BarterState with _$BarterState {

@@ -1,44 +1,44 @@
-part of 'barter_bloc.dart';
+part of 'likes_cubit.dart';
 
 @freezed
-abstract class BarterState with _$BarterState {
-  const factory BarterState({
-    @required Stream<QuerySnapshot> userBarterItems,
+abstract class LikesState with _$LikesState {
+  const factory LikesState({
+    @required Future<List<BarterModel>> listings,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
   }) = _BarterState;
 
-  factory BarterState.empty() => BarterState(
-        userBarterItems: Stream.empty(),
+  factory LikesState.empty() => LikesState(
+        listings: Future.value([]),
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
         info: '',
       );
 
-  factory BarterState.loading() => BarterState(
-        userBarterItems: Stream.empty(),
+  factory LikesState.loading() => LikesState(
+        listings: Future.value([]),
         isSubmitting: true,
         isSuccess: false,
         isFailure: false,
         info: '',
       );
 
-  factory BarterState.failure({@required String info}) => BarterState(
-        userBarterItems: Stream.empty(),
+  factory LikesState.failure({@required String info}) => LikesState(
+        listings: Future.value([]),
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
         info: info,
       );
 
-  factory BarterState.success(
-          {@required Stream<QuerySnapshot> userBarterItems,
+  factory LikesState.success(
+          {@required Future<List<BarterModel>> listings,
           @required String info}) =>
-      BarterState(
-        userBarterItems: userBarterItems,
+      LikesState(
+        listings: listings,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,

@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/barter_item/barter_cubit.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
@@ -73,6 +74,10 @@ class App extends StatelessWidget {
         /// Barter Items Bloc
         BlocProvider<BarterBloc>(
           create: (BuildContext context) => getIt<BarterBloc>(),
+        ),
+
+        BlocProvider<BarterCubit>(
+          create: (BuildContext context) => getIt<BarterCubit>(),
         ),
 
         /// TradeOffer Bloc

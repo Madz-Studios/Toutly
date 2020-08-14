@@ -1,7 +1,7 @@
 import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
-import 'package:Toutly/core/usecases/barter/firestore_create_barter_item_use_case.dart';
+import 'package:Toutly/core/usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
