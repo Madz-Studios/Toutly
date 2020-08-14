@@ -52,9 +52,7 @@ class SearchUtil {
     RemoteConfigDataState remoteConfigDataState,
   ) {
     if (currentUser != null && currentUser.address == null) {
-      if (currentUser.userId != null &&
-          currentUser.address == null &&
-          locationState.geoFirePoint != null) {
+      if (currentUser.userId != null && currentUser.address == null) {
         String address = '${locationState?.placeMark?.subLocality ?? ''}, '
             '${locationState?.placeMark?.locality ?? ''} ';
 
@@ -65,21 +63,7 @@ class SearchUtil {
         _userBloc.add(UserEvent.updateCurrentLoggedInUser(currentUser));
       }
 
-      /// initial home search
-      if (currentUser.userId != null &&
-          remoteConfigDataState.algoliaSearchApiKey.isNotEmpty &&
-          remoteConfigDataState.algoliaAppId.isNotEmpty &&
-          locationState.geoFirePoint != null) {
-        SearchUtil().searchSubmit(
-          searchText: '',
-          category: '',
-          postedWithin: '',
-          latitude: locationState.geoFirePoint.latitude,
-          longitude: locationState.geoFirePoint.longitude,
-          algoliaSearchApiKey: remoteConfigDataState.algoliaSearchApiKey,
-          algoliaAppId: remoteConfigDataState.algoliaAppId,
-        );
-
+      if (locationState.geoFirePoint != null) {
         /// initial set of search config
         _searchConfigBloc.add(
           SearchConfigEvent.setConfig(
@@ -89,6 +73,22 @@ class SearchUtil {
             latitude: locationState?.geoFirePoint?.latitude,
             longitude: locationState?.geoFirePoint?.longitude,
           ),
+        );
+      }
+
+      /// initial home search
+      if (currentUser.userId != null &&
+          remoteConfigDataState.algoliaSearchApiKey.isNotEmpty &&
+          remoteConfigDataState.algoliaAppId.isNotEmpty &&
+          locationState.geoFirePoint.longitude != 0) {
+        SearchUtil().searchSubmit(
+          searchText: '',
+          category: '',
+          postedWithin: '',
+          latitude: locationState.geoFirePoint.latitude,
+          longitude: locationState.geoFirePoint.longitude,
+          algoliaSearchApiKey: remoteConfigDataState.algoliaSearchApiKey,
+          algoliaAppId: remoteConfigDataState.algoliaAppId,
         );
       }
     }
