@@ -28,34 +28,26 @@ class _LikesPanelState extends State<LikesPanel> {
     final appSizeConfig = AppSizeConfig(context);
     bool _isLiked =
         widget.currentUser.barterLikesList?.contains(widget.itemId) ?? false;
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        Spacer(),
-        Visibility(
-          visible: widget.currentUser.userId != widget.barterUser.userId,
-          child: IconButton(
-            icon: _isLiked
-                ? SvgPicture.asset(
-                    'assets/icons/likes.svg',
-                    height: appSizeConfig.blockSizeVertical * 3,
-                    color: Colors.red,
-                  )
-                : SvgPicture.asset(
-                    'assets/icons/unpressed-likes.svg',
-                    height: appSizeConfig.blockSizeVertical * 3,
-                  ),
-            onPressed: () {
-              setState(() {
-                _isLiked = !_isLiked;
-                debugPrint('onPress liked = $_isLiked');
-              });
+    return IconButton(
+      icon: _isLiked
+          ? SvgPicture.asset(
+              'assets/icons/likes.svg',
+              height: appSizeConfig.blockSizeVertical * 3,
+              color: Colors.red,
+            )
+          : SvgPicture.asset(
+              'assets/icons/likes.svg',
+              height: appSizeConfig.blockSizeVertical * 3,
+              color: Colors.white,
+            ),
+      onPressed: () {
+        setState(() {
+          _isLiked = !_isLiked;
+          debugPrint('onPress liked = $_isLiked');
+        });
 
-              updateUserLikes(_isLiked);
-            },
-          ),
-        ),
-      ],
+        updateUserLikes(_isLiked);
+      },
     );
   }
 
