@@ -275,7 +275,7 @@ class _$BarterStateTearOff {
   const _$BarterStateTearOff();
 
   _BarterState call(
-      {@required Future<List<BarterModel>> userBarterItems,
+      {@required Stream<QuerySnapshot> userBarterItems,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
@@ -294,7 +294,7 @@ class _$BarterStateTearOff {
 const $BarterState = _$BarterStateTearOff();
 
 mixin _$BarterState {
-  Future<List<BarterModel>> get userBarterItems;
+  Stream<QuerySnapshot> get userBarterItems;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -308,7 +308,7 @@ abstract class $BarterStateCopyWith<$Res> {
           BarterState value, $Res Function(BarterState) then) =
       _$BarterStateCopyWithImpl<$Res>;
   $Res call(
-      {Future<List<BarterModel>> userBarterItems,
+      {Stream<QuerySnapshot> userBarterItems,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -333,7 +333,7 @@ class _$BarterStateCopyWithImpl<$Res> implements $BarterStateCopyWith<$Res> {
     return _then(_value.copyWith(
       userBarterItems: userBarterItems == freezed
           ? _value.userBarterItems
-          : userBarterItems as Future<List<BarterModel>>,
+          : userBarterItems as Stream<QuerySnapshot>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -350,7 +350,7 @@ abstract class _$BarterStateCopyWith<$Res>
       __$BarterStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Future<List<BarterModel>> userBarterItems,
+      {Stream<QuerySnapshot> userBarterItems,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -377,7 +377,7 @@ class __$BarterStateCopyWithImpl<$Res> extends _$BarterStateCopyWithImpl<$Res>
     return _then(_BarterState(
       userBarterItems: userBarterItems == freezed
           ? _value.userBarterItems
-          : userBarterItems as Future<List<BarterModel>>,
+          : userBarterItems as Stream<QuerySnapshot>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -401,7 +401,7 @@ class _$_BarterState implements _BarterState {
         assert(info != null);
 
   @override
-  final Future<List<BarterModel>> userBarterItems;
+  final Stream<QuerySnapshot> userBarterItems;
   @override
   final bool isSubmitting;
   @override
@@ -452,14 +452,14 @@ class _$_BarterState implements _BarterState {
 
 abstract class _BarterState implements BarterState {
   const factory _BarterState(
-      {@required Future<List<BarterModel>> userBarterItems,
+      {@required Stream<QuerySnapshot> userBarterItems,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) = _$_BarterState;
 
   @override
-  Future<List<BarterModel>> get userBarterItems;
+  Stream<QuerySnapshot> get userBarterItems;
   @override
   bool get isSubmitting;
   @override

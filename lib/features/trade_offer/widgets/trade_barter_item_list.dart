@@ -7,6 +7,7 @@ import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'trade_barter_item.dart';
 
 class TradeBarterItemList extends StatefulWidget {
-  TradeBarterItemList();
-
   @override
   _TradeBarterItemListState createState() => _TradeBarterItemListState();
 }
@@ -39,14 +38,10 @@ class _TradeBarterItemListState extends State<TradeBarterItemList> {
       child: Container(
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, userState) {
-            _barterBloc.add(
-              BarterEvent.getAllUserBarterItems(
-                  userState.userModel?.userId ?? ''),
-            );
             return BlocBuilder<BarterBloc, BarterState>(
               builder: (context, barterState) {
-                return FutureBuilder(
-                  future: barterState.userBarterItems,
+                return StreamBuilder(
+                  stream: barterState.userBarterItems,
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       if (Platform.isIOS) {
@@ -68,7 +63,14 @@ class _TradeBarterItemListState extends State<TradeBarterItemList> {
                         ),
                       );
                     } else {
-                      List<BarterModel> userBarterItems = snapshot.data;
+                      QuerySnapshot querySnapshot = snapshot.data;
+
+                      List<BarterModel> userBarterItems = [];
+                      for (final document in querySnapshot.documents) {
+                        BarterModel barterModel =
+                            BarterModel.fromJson(document.data);
+                        userBarterItems.add(barterModel);
+                      }
 
                       if (userBarterItems.isEmpty) {
                         return Padding(

@@ -108,6 +108,7 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           firestoreUpdateUserUseCase.call(
             UseCaseUserParamUserModel.init(e.userModel),
           );
+          yield UserState.success(userModel: e.userModel);
         } on PlatformException catch (platFormException) {
           yield UserState.failure(info: platFormException.message);
         }
