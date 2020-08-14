@@ -93,12 +93,20 @@ class _$LocationEventInitCopyWithImpl<$Res>
   LocationEventInit get _value => super._value as LocationEventInit;
 }
 
-class _$LocationEventInit implements LocationEventInit {
+class _$LocationEventInit
+    with DiagnosticableTreeMixin
+    implements LocationEventInit {
   const _$LocationEventInit();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocationEvent.init()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'LocationEvent.init'));
   }
 
   @override
@@ -190,12 +198,22 @@ class _$LocationEventGetUserLocationCopyWithImpl<$Res>
       super._value as LocationEventGetUserLocation;
 }
 
-class _$LocationEventGetUserLocation implements LocationEventGetUserLocation {
+class _$LocationEventGetUserLocation
+    with DiagnosticableTreeMixin
+    implements LocationEventGetUserLocation {
   const _$LocationEventGetUserLocation();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocationEvent.getInitialUserLocation()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'LocationEvent.getInitialUserLocation'));
   }
 
   @override
@@ -300,6 +318,7 @@ class _$LocationEventUpdateUserLocationCopyWithImpl<$Res>
 }
 
 class _$LocationEventUpdateUserLocation
+    with DiagnosticableTreeMixin
     implements LocationEventUpdateUserLocation {
   const _$LocationEventUpdateUserLocation(this.latitude, this.longitude)
       : assert(latitude != null),
@@ -311,8 +330,17 @@ class _$LocationEventUpdateUserLocation
   final double longitude;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocationEvent.updateUserLocation(latitude: $latitude, longitude: $longitude)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LocationEvent.updateUserLocation'))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude));
   }
 
   @override
@@ -490,7 +518,7 @@ class __$LocationStateCopyWithImpl<$Res>
   }
 }
 
-class _$_LocationState implements _LocationState {
+class _$_LocationState with DiagnosticableTreeMixin implements _LocationState {
   const _$_LocationState({this.geoFirePoint, this.placeMark});
 
   @override
@@ -499,8 +527,17 @@ class _$_LocationState implements _LocationState {
   final Placemark placeMark;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'LocationState(geoFirePoint: $geoFirePoint, placeMark: $placeMark)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'LocationState'))
+      ..add(DiagnosticsProperty('geoFirePoint', geoFirePoint))
+      ..add(DiagnosticsProperty('placeMark', placeMark));
   }
 
   @override

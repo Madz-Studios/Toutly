@@ -64,6 +64,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 builder: (_, userState) {
                   return BlocBuilder<SearchConfigBloc, SearchConfigState>(
                     builder: (_, searchConfigState) {
+                      _searchController.text = searchConfigState.searchText;
+                      debugPrint(
+                          'searchConfigState.searchText = ${searchConfigState.searchText}');
                       return Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -104,8 +107,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                     color: Colors.grey,
                                   ),
                                   onPressed: () {
-                                    print('clear text');
                                     _searchController.clear();
+                                    _searchSubmit(
+                                      searchText: '',
+                                      category: searchConfigState.category,
+                                      postedWithin:
+                                          searchConfigState.postedWithin,
+                                      latitude: searchConfigState.latitude,
+                                      longitude: searchConfigState.longitude,
+                                      algoliaSearchApiKey:
+                                          remoteConfigState.algoliaSearchApiKey,
+                                      algoliaAppId:
+                                          remoteConfigState.algoliaAppId,
+                                    );
                                   },
                                 ),
                                 enabledBorder: OutlineInputBorder(
@@ -159,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
       body: BlocBuilder<UserBloc, UserState>(
-        builder: (userContext, userState) {
+        builder: (_, userState) {
           UserModel currentUser = userState.userModel;
           if (currentUser != null && currentUser.address == null) {
             _locationBloc.add(LocationEvent.getInitialUserLocation());
@@ -167,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
             builder: (remoteConfigContext, remoteConfigState) {
               return BlocBuilder<LocationBloc, LocationState>(
-                builder: (locationContext, locationState) {
+                builder: (_, locationState) {
                   if (currentUser.userId != null &&
                       currentUser.address == null &&
                       locationState.geoFirePoint != null) {
@@ -184,7 +198,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         .add(UserEvent.updateCurrentLoggedInUser(currentUser));
                   }
                   return BlocBuilder<SearchBloc, SearchState>(
-                    builder: (searchContext, searchState) => searchState.map(
+                    builder: (_, searchState) => searchState.map(
                       empty: (e) {
                         /// initial home search
                         if (currentUser.userId != null) {
@@ -241,6 +255,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         }
                       },
                       failure: (e) {
+                        debugPrint(e.toString());
                         return Center(
                           child: Text(
                             'Error: ${e.info}',
@@ -270,7 +285,7 @@ class _HomeScreenState extends State<HomeScreen> {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
   }) {
-    print('searchText = $searchText');
+    debugPrint('_searchSubmit searchText = $searchText');
 
     _searchBloc.add(
       SearchEvent.search(
@@ -281,6 +296,16 @@ class _HomeScreenState extends State<HomeScreen> {
         searchText: searchText,
         category: category,
         postedWithin: postedWithin,
+      ),
+    );
+
+    _searchConfigBloc.add(
+      SearchConfigEvent.setConfig(
+        searchText: searchText,
+        category: category,
+        postedWithin: postedWithin,
+        latitude: latitude,
+        longitude: longitude,
       ),
     );
   }

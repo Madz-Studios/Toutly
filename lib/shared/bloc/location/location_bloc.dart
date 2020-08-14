@@ -1,5 +1,6 @@
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -36,9 +37,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
               longitude: geoPoint.longitude,
             );
 
-            print(
+            debugPrint(
                 'getInitialUserLocation Position latitude = ${position.latitude}');
-            print(
+            debugPrint(
                 'getInitialUserLocation Position longitude = ${position.longitude}');
 
             List<Placemark> p = await geoLocator.placemarkFromCoordinates(
@@ -52,8 +53,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             if (platFormException.code == 'PERMISSION_DENIED') {
               AppSettings.openLocationSettings();
             } else {
-              print('platFormException code ${platFormException.code}');
-              print('platFormException message ${platFormException.message}');
+              debugPrint('platFormException code ${platFormException.code}');
+              debugPrint(
+                  'platFormException message ${platFormException.message}');
             }
           }
         },
@@ -66,8 +68,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
               longitude: geoPoint.longitude,
             );
 
-            print('Position latitude = ${e.latitude}');
-            print('Position longitude = ${e.longitude}');
+            debugPrint('Position latitude = ${e.latitude}');
+            debugPrint('Position longitude = ${e.longitude}');
 
             List<Placemark> p = await geoLocator.placemarkFromCoordinates(
                 e.latitude, e.longitude);
@@ -82,8 +84,9 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
             if (platFormException.code == 'PERMISSION_DENIED') {
               AppSettings.openLocationSettings();
             } else {
-              print('platFormException code ${platFormException.code}');
-              print('platFormException message ${platFormException.message}');
+              debugPrint('platFormException code ${platFormException.code}');
+              debugPrint(
+                  'platFormException message ${platFormException.message}');
             }
           }
         });

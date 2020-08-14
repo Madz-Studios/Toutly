@@ -88,7 +88,6 @@ class SignInScreen extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         ///clear forms and reset state.
-                        print("Go to Sign Up Screen");
                         Navigator.of(context).push(
                           MaterialPageRoute(builder: (context) {
                             return SignUpScreen();

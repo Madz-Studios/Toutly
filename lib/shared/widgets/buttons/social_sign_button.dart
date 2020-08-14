@@ -24,7 +24,6 @@ class SocialSignButton extends StatelessWidget {
       splashColor: Colors.green,
       icon: _icon,
       onPressed: () {
-        print("onPressed called.");
         _signBloc.add(_signEvent);
       },
     );

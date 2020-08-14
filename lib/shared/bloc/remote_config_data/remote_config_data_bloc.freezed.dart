@@ -82,12 +82,20 @@ class _$RemoteConfigDataEventInitCopyWithImpl<$Res>
       super._value as RemoteConfigDataEventInit;
 }
 
-class _$RemoteConfigDataEventInit implements RemoteConfigDataEventInit {
+class _$RemoteConfigDataEventInit
+    with DiagnosticableTreeMixin
+    implements RemoteConfigDataEventInit {
   const _$RemoteConfigDataEventInit();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RemoteConfigDataEvent.init()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'RemoteConfigDataEvent.init'));
   }
 
   @override
@@ -174,12 +182,21 @@ class _$RemoteConfigDataEventLoadConfigDataCopyWithImpl<$Res>
 }
 
 class _$RemoteConfigDataEventLoadConfigData
+    with DiagnosticableTreeMixin
     implements RemoteConfigDataEventLoadConfigData {
   const _$RemoteConfigDataEventLoadConfigData();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RemoteConfigDataEvent.loadConfigData()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'RemoteConfigDataEvent.loadConfigData'));
   }
 
   @override
@@ -350,7 +367,9 @@ class __$RemoteConfigDataStateCopyWithImpl<$Res>
   }
 }
 
-class _$_RemoteConfigDataState implements _RemoteConfigDataState {
+class _$_RemoteConfigDataState
+    with DiagnosticableTreeMixin
+    implements _RemoteConfigDataState {
   const _$_RemoteConfigDataState(
       {@required this.firebaseApiKey,
       @required this.algoliaAppId,
@@ -367,8 +386,18 @@ class _$_RemoteConfigDataState implements _RemoteConfigDataState {
   final String algoliaSearchApiKey;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'RemoteConfigDataState(firebaseApiKey: $firebaseApiKey, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'RemoteConfigDataState'))
+      ..add(DiagnosticsProperty('firebaseApiKey', firebaseApiKey))
+      ..add(DiagnosticsProperty('algoliaAppId', algoliaAppId))
+      ..add(DiagnosticsProperty('algoliaSearchApiKey', algoliaSearchApiKey));
   }
 
   @override

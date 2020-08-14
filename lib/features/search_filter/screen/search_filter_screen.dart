@@ -88,7 +88,6 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
   }
 
   _reset() {
-    print('reset');
     setState(() {
       _selectedCategory = _defaultCategoryValue;
       _selectedPostedWithin = _defaultPostedWithinValue;

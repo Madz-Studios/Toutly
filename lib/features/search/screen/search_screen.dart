@@ -18,7 +18,7 @@ class SearchScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('Logout'),
                   onPressed: () {
-                    print('Log out!');
+                    debugPrint('Log out!');
                     _authBloc.add(AuthenticationEvent.signedOut());
                   },
                 )

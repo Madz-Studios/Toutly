@@ -23,6 +23,11 @@ class SearchConfigBloc extends Bloc<SearchConfigEvent, SearchConfigState> {
           longitude: e.longitude,
         );
       },
+      clearSearchText: (e) async* {
+        yield state.copyWith(
+          searchText: '',
+        );
+      },
     );
   }
 }

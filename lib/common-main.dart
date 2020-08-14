@@ -18,7 +18,7 @@ void commonMain(String env) async {
 
   Bloc.observer = SimpleBlocDelegate();
 
-  print('Environment =  $env');
+  debugPrint('Environment =  $env');
 
   /// Google fonts license
   LicenseRegistry.addLicense(() async* {

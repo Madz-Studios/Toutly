@@ -3,7 +3,6 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_bart
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -40,35 +39,21 @@ class MessagesBloc extends Bloc<MessagesEvent, MessagesState> {
   }
 
   Stream<QuerySnapshot> getAllUserBarterMessages(String userId) {
-    Stream<QuerySnapshot> snapshots;
-    try {
-      snapshots = firestoreGetAllBarterMessagesUseCase.call(
-        UseCaseAllUserMessagesWithUserIdParam.init(
-          userId: userId,
-        ),
-      );
-    } on PlatformException catch (platformException) {
-      throw PlatformException();
-    } on Exception catch (e) {
-      throw Exception(e);
-    }
+    final snapshots = firestoreGetAllBarterMessagesUseCase.call(
+      UseCaseAllUserMessagesWithUserIdParam.init(
+        userId: userId,
+      ),
+    );
 
     return snapshots;
   }
 
   Stream<QuerySnapshot> getAllUserOfferMessages(String userId) {
-    Stream<QuerySnapshot> snapshots;
-    try {
-      snapshots = firestoreGetAllOfferMessagesUseCase.call(
-        UseCaseAllUserMessagesWithUserIdParam.init(
-          userId: userId,
-        ),
-      );
-    } on PlatformException catch (platformException) {
-      throw PlatformException();
-    } on Exception catch (e) {
-      throw Exception(e);
-    }
+    final snapshots = firestoreGetAllOfferMessagesUseCase.call(
+      UseCaseAllUserMessagesWithUserIdParam.init(
+        userId: userId,
+      ),
+    );
 
     return snapshots;
   }
