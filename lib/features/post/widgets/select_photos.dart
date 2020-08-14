@@ -136,7 +136,7 @@ class _SelectPhotosState extends State<SelectPhotos> {
         _imageFile = pickedFile;
       });
     } on Exception catch (e) {
-      print('Exception = $e');
+      debugPrint('Exception = $e');
 
       AppSettings.openLocationSettings();
     } finally {

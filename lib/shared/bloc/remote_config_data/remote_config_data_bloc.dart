@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -37,9 +38,9 @@ class RemoteConfigDataBloc
           firebaseApiKey = remoteConfig.getString('android_gcp_api_key');
         }
 
-        print('algoliaAppId = $algoliaAppId');
-        print('algoliaSearchApiKey = $algoliaSearchApiKey');
-        print('firebaseApiKey = $firebaseApiKey');
+        debugPrint('algoliaAppId = $algoliaAppId');
+        debugPrint('algoliaSearchApiKey = $algoliaSearchApiKey');
+        debugPrint('firebaseApiKey = $firebaseApiKey');
 
         yield RemoteConfigDataState.setConfigData(
           firebaseApiKey: firebaseApiKey,

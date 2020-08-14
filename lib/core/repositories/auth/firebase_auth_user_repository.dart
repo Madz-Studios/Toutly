@@ -1,5 +1,6 @@
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -106,7 +107,7 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
         );
         break;
       case FacebookLoginStatus.Error:
-        print(result.error.toString());
+        debugPrint(result.error.toString());
         throw PlatformException(
           code: AppConstants.codeErrorAuthDenied,
           message: AppConstants.messageErrorAuthDenied,

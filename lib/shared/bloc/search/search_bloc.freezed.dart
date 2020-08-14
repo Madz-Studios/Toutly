@@ -110,12 +110,20 @@ class _$SearchEventInitCopyWithImpl<$Res>
   SearchEventInit get _value => super._value as SearchEventInit;
 }
 
-class _$SearchEventInit implements SearchEventInit {
+class _$SearchEventInit
+    with DiagnosticableTreeMixin
+    implements SearchEventInit {
   const _$SearchEventInit();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchEvent.init()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'SearchEvent.init'));
   }
 
   @override
@@ -249,7 +257,9 @@ class _$SearchEventSearchCopyWithImpl<$Res>
   }
 }
 
-class _$SearchEventSearch implements SearchEventSearch {
+class _$SearchEventSearch
+    with DiagnosticableTreeMixin
+    implements SearchEventSearch {
   const _$SearchEventSearch(
       {@required this.algoliaAppId,
       @required this.algoliaSearchApiKey,
@@ -282,8 +292,22 @@ class _$SearchEventSearch implements SearchEventSearch {
   final String postedWithin;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchEvent.search(algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, latitude: $latitude, longitude: $longitude, searchText: $searchText, category: $category, postedWithin: $postedWithin)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SearchEvent.search'))
+      ..add(DiagnosticsProperty('algoliaAppId', algoliaAppId))
+      ..add(DiagnosticsProperty('algoliaSearchApiKey', algoliaSearchApiKey))
+      ..add(DiagnosticsProperty('latitude', latitude))
+      ..add(DiagnosticsProperty('longitude', longitude))
+      ..add(DiagnosticsProperty('searchText', searchText))
+      ..add(DiagnosticsProperty('category', category))
+      ..add(DiagnosticsProperty('postedWithin', postedWithin));
   }
 
   @override
@@ -507,12 +531,20 @@ class _$SearchStateEmptyCopyWithImpl<$Res>
   SearchStateEmpty get _value => super._value as SearchStateEmpty;
 }
 
-class _$SearchStateEmpty implements SearchStateEmpty {
+class _$SearchStateEmpty
+    with DiagnosticableTreeMixin
+    implements SearchStateEmpty {
   const _$SearchStateEmpty();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchState.empty()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'SearchState.empty'));
   }
 
   @override
@@ -607,12 +639,20 @@ class _$SearchStateLoadingCopyWithImpl<$Res>
   SearchStateLoading get _value => super._value as SearchStateLoading;
 }
 
-class _$SearchStateLoading implements SearchStateLoading {
+class _$SearchStateLoading
+    with DiagnosticableTreeMixin
+    implements SearchStateLoading {
   const _$SearchStateLoading();
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchState.loading()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'SearchState.loading'));
   }
 
   @override
@@ -717,15 +757,25 @@ class _$SearchStateLoadedCopyWithImpl<$Res>
   }
 }
 
-class _$SearchStateLoaded implements SearchStateLoaded {
+class _$SearchStateLoaded
+    with DiagnosticableTreeMixin
+    implements SearchStateLoaded {
   const _$SearchStateLoaded(this.data) : assert(data != null);
 
   @override
   final AlgoliaQuerySnapshot data;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchState.loaded(data: $data)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SearchState.loaded'))
+      ..add(DiagnosticsProperty('data', data));
   }
 
   @override
@@ -842,15 +892,25 @@ class _$SearchStateFailureCopyWithImpl<$Res>
   }
 }
 
-class _$SearchStateFailure implements SearchStateFailure {
+class _$SearchStateFailure
+    with DiagnosticableTreeMixin
+    implements SearchStateFailure {
   const _$SearchStateFailure(this.info) : assert(info != null);
 
   @override
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SearchState.failure(info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SearchState.failure'))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

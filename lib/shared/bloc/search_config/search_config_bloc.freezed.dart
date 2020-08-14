@@ -16,6 +16,10 @@ class _$SearchConfigEventTearOff {
     return const SearchConfigEventInit();
   }
 
+  SearchConfigEventClearSearchText clearSearchText() {
+    return const SearchConfigEventClearSearchText();
+  }
+
   SearchConfigSetConfigEvent setConfig(
       {@required String searchText,
       @required String category,
@@ -39,6 +43,7 @@ mixin _$SearchConfigEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
+    @required Result clearSearchText(),
     @required
         Result setConfig(String searchText, String category,
             String postedWithin, double latitude, double longitude),
@@ -46,6 +51,7 @@ mixin _$SearchConfigEvent {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
+    Result clearSearchText(),
     Result setConfig(String searchText, String category, String postedWithin,
         double latitude, double longitude),
     @required Result orElse(),
@@ -53,11 +59,13 @@ mixin _$SearchConfigEvent {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result init(SearchConfigEventInit value),
+    @required Result clearSearchText(SearchConfigEventClearSearchText value),
     @required Result setConfig(SearchConfigSetConfigEvent value),
   });
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result init(SearchConfigEventInit value),
+    Result clearSearchText(SearchConfigEventClearSearchText value),
     Result setConfig(SearchConfigSetConfigEvent value),
     @required Result orElse(),
   });
@@ -115,11 +123,13 @@ class _$SearchConfigEventInit implements SearchConfigEventInit {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
+    @required Result clearSearchText(),
     @required
         Result setConfig(String searchText, String category,
             String postedWithin, double latitude, double longitude),
   }) {
     assert(init != null);
+    assert(clearSearchText != null);
     assert(setConfig != null);
     return init();
   }
@@ -128,6 +138,7 @@ class _$SearchConfigEventInit implements SearchConfigEventInit {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
+    Result clearSearchText(),
     Result setConfig(String searchText, String category, String postedWithin,
         double latitude, double longitude),
     @required Result orElse(),
@@ -143,9 +154,11 @@ class _$SearchConfigEventInit implements SearchConfigEventInit {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result init(SearchConfigEventInit value),
+    @required Result clearSearchText(SearchConfigEventClearSearchText value),
     @required Result setConfig(SearchConfigSetConfigEvent value),
   }) {
     assert(init != null);
+    assert(clearSearchText != null);
     assert(setConfig != null);
     return init(this);
   }
@@ -154,6 +167,7 @@ class _$SearchConfigEventInit implements SearchConfigEventInit {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result init(SearchConfigEventInit value),
+    Result clearSearchText(SearchConfigEventClearSearchText value),
     Result setConfig(SearchConfigSetConfigEvent value),
     @required Result orElse(),
   }) {
@@ -167,6 +181,109 @@ class _$SearchConfigEventInit implements SearchConfigEventInit {
 
 abstract class SearchConfigEventInit implements SearchConfigEvent {
   const factory SearchConfigEventInit() = _$SearchConfigEventInit;
+}
+
+abstract class $SearchConfigEventClearSearchTextCopyWith<$Res> {
+  factory $SearchConfigEventClearSearchTextCopyWith(
+          SearchConfigEventClearSearchText value,
+          $Res Function(SearchConfigEventClearSearchText) then) =
+      _$SearchConfigEventClearSearchTextCopyWithImpl<$Res>;
+}
+
+class _$SearchConfigEventClearSearchTextCopyWithImpl<$Res>
+    extends _$SearchConfigEventCopyWithImpl<$Res>
+    implements $SearchConfigEventClearSearchTextCopyWith<$Res> {
+  _$SearchConfigEventClearSearchTextCopyWithImpl(
+      SearchConfigEventClearSearchText _value,
+      $Res Function(SearchConfigEventClearSearchText) _then)
+      : super(_value, (v) => _then(v as SearchConfigEventClearSearchText));
+
+  @override
+  SearchConfigEventClearSearchText get _value =>
+      super._value as SearchConfigEventClearSearchText;
+}
+
+class _$SearchConfigEventClearSearchText
+    implements SearchConfigEventClearSearchText {
+  const _$SearchConfigEventClearSearchText();
+
+  @override
+  String toString() {
+    return 'SearchConfigEvent.clearSearchText()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is SearchConfigEventClearSearchText);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(),
+    @required Result clearSearchText(),
+    @required
+        Result setConfig(String searchText, String category,
+            String postedWithin, double latitude, double longitude),
+  }) {
+    assert(init != null);
+    assert(clearSearchText != null);
+    assert(setConfig != null);
+    return clearSearchText();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(),
+    Result clearSearchText(),
+    Result setConfig(String searchText, String category, String postedWithin,
+        double latitude, double longitude),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (clearSearchText != null) {
+      return clearSearchText();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(SearchConfigEventInit value),
+    @required Result clearSearchText(SearchConfigEventClearSearchText value),
+    @required Result setConfig(SearchConfigSetConfigEvent value),
+  }) {
+    assert(init != null);
+    assert(clearSearchText != null);
+    assert(setConfig != null);
+    return clearSearchText(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(SearchConfigEventInit value),
+    Result clearSearchText(SearchConfigEventClearSearchText value),
+    Result setConfig(SearchConfigSetConfigEvent value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (clearSearchText != null) {
+      return clearSearchText(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SearchConfigEventClearSearchText implements SearchConfigEvent {
+  const factory SearchConfigEventClearSearchText() =
+      _$SearchConfigEventClearSearchText;
 }
 
 abstract class $SearchConfigSetConfigEventCopyWith<$Res> {
@@ -282,11 +399,13 @@ class _$SearchConfigSetConfigEvent implements SearchConfigSetConfigEvent {
   @optionalTypeArgs
   Result when<Result extends Object>({
     @required Result init(),
+    @required Result clearSearchText(),
     @required
         Result setConfig(String searchText, String category,
             String postedWithin, double latitude, double longitude),
   }) {
     assert(init != null);
+    assert(clearSearchText != null);
     assert(setConfig != null);
     return setConfig(searchText, category, postedWithin, latitude, longitude);
   }
@@ -295,6 +414,7 @@ class _$SearchConfigSetConfigEvent implements SearchConfigSetConfigEvent {
   @optionalTypeArgs
   Result maybeWhen<Result extends Object>({
     Result init(),
+    Result clearSearchText(),
     Result setConfig(String searchText, String category, String postedWithin,
         double latitude, double longitude),
     @required Result orElse(),
@@ -310,9 +430,11 @@ class _$SearchConfigSetConfigEvent implements SearchConfigSetConfigEvent {
   @optionalTypeArgs
   Result map<Result extends Object>({
     @required Result init(SearchConfigEventInit value),
+    @required Result clearSearchText(SearchConfigEventClearSearchText value),
     @required Result setConfig(SearchConfigSetConfigEvent value),
   }) {
     assert(init != null);
+    assert(clearSearchText != null);
     assert(setConfig != null);
     return setConfig(this);
   }
@@ -321,6 +443,7 @@ class _$SearchConfigSetConfigEvent implements SearchConfigSetConfigEvent {
   @optionalTypeArgs
   Result maybeMap<Result extends Object>({
     Result init(SearchConfigEventInit value),
+    Result clearSearchText(SearchConfigEventClearSearchText value),
     Result setConfig(SearchConfigSetConfigEvent value),
     @required Result orElse(),
   }) {

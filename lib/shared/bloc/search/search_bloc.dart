@@ -1,6 +1,7 @@
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:algolia/algolia.dart';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -90,8 +91,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       dateFilter = 'dateUpdated._seconds >= ${postedInSeconds.toInt()}';
     }
 
-    print('date filter is = $postedWithin.');
-    print('dateFilter value = $dateFilter.');
+    debugPrint('date filter is = $postedWithin.');
+    debugPrint('dateFilter value = $dateFilter.');
 
     return dateFilter;
   }

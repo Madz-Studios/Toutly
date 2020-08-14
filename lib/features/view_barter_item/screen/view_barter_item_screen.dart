@@ -239,7 +239,7 @@ class ViewBarterItemScreen extends StatelessWidget {
 
   void _deleteItemAndGoToUserListings(
       BarterModel barterModel, BuildContext context) {
-    print('Deleted barter item id = ${barterModel.itemId}');
+    debugPrint('Deleted barter item id = ${barterModel.itemId}');
 
     Navigator.pop(context);
     Navigator.of(context, rootNavigator: true).pop();
@@ -251,8 +251,6 @@ class ViewBarterItemScreen extends StatelessWidget {
 
   void _tradeItemPressed(BuildContext context, UserModel currentUser,
       BarterModel barterItem) async {
-    print('Trade action was pressed');
-
     Navigator.push(
       context,
       MaterialPageRoute(
