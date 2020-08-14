@@ -68,6 +68,15 @@ class PostItemTextFieldForm extends StatelessWidget {
               fontSize: 18,
               color: Colors.red,
             ),
+            suffixIcon: !readOnly
+                ? Icon(
+                    Icons.lock,
+                    color: Colors.transparent,
+                  )
+                : Icon(
+                    Icons.lock,
+                    color: Colors.red,
+                  ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.transparent),
               borderRadius: BorderRadius.all(
