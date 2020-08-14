@@ -436,10 +436,20 @@ abstract class LocationEventUpdateUserLocation implements LocationEvent {
 class _$LocationStateTearOff {
   const _$LocationStateTearOff();
 
-  _LocationState call({GeoFirePoint geoFirePoint, Placemark placeMark}) {
+  _LocationState call(
+      {@required GeoPoint geoPoint,
+      @required Placemark placeMark,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      String info}) {
     return _LocationState(
-      geoFirePoint: geoFirePoint,
+      geoPoint: geoPoint,
       placeMark: placeMark,
+      isSubmitting: isSubmitting,
+      isSuccess: isSuccess,
+      isFailure: isFailure,
+      info: info,
     );
   }
 }
@@ -448,8 +458,12 @@ class _$LocationStateTearOff {
 const $LocationState = _$LocationStateTearOff();
 
 mixin _$LocationState {
-  GeoFirePoint get geoFirePoint;
+  GeoPoint get geoPoint;
   Placemark get placeMark;
+  bool get isSubmitting;
+  bool get isSuccess;
+  bool get isFailure;
+  String get info;
 
   $LocationStateCopyWith<LocationState> get copyWith;
 }
@@ -458,7 +472,13 @@ abstract class $LocationStateCopyWith<$Res> {
   factory $LocationStateCopyWith(
           LocationState value, $Res Function(LocationState) then) =
       _$LocationStateCopyWithImpl<$Res>;
-  $Res call({GeoFirePoint geoFirePoint, Placemark placeMark});
+  $Res call(
+      {GeoPoint geoPoint,
+      Placemark placeMark,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
 }
 
 class _$LocationStateCopyWithImpl<$Res>
@@ -471,15 +491,22 @@ class _$LocationStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object geoFirePoint = freezed,
+    Object geoPoint = freezed,
     Object placeMark = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      geoFirePoint: geoFirePoint == freezed
-          ? _value.geoFirePoint
-          : geoFirePoint as GeoFirePoint,
+      geoPoint: geoPoint == freezed ? _value.geoPoint : geoPoint as GeoPoint,
       placeMark:
           placeMark == freezed ? _value.placeMark : placeMark as Placemark,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
     ));
   }
 }
@@ -490,7 +517,13 @@ abstract class _$LocationStateCopyWith<$Res>
           _LocationState value, $Res Function(_LocationState) then) =
       __$LocationStateCopyWithImpl<$Res>;
   @override
-  $Res call({GeoFirePoint geoFirePoint, Placemark placeMark});
+  $Res call(
+      {GeoPoint geoPoint,
+      Placemark placeMark,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
 }
 
 class __$LocationStateCopyWithImpl<$Res>
@@ -505,30 +538,56 @@ class __$LocationStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object geoFirePoint = freezed,
+    Object geoPoint = freezed,
     Object placeMark = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
   }) {
     return _then(_LocationState(
-      geoFirePoint: geoFirePoint == freezed
-          ? _value.geoFirePoint
-          : geoFirePoint as GeoFirePoint,
+      geoPoint: geoPoint == freezed ? _value.geoPoint : geoPoint as GeoPoint,
       placeMark:
           placeMark == freezed ? _value.placeMark : placeMark as Placemark,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
     ));
   }
 }
 
 class _$_LocationState with DiagnosticableTreeMixin implements _LocationState {
-  const _$_LocationState({this.geoFirePoint, this.placeMark});
+  const _$_LocationState(
+      {@required this.geoPoint,
+      @required this.placeMark,
+      @required this.isSubmitting,
+      @required this.isSuccess,
+      @required this.isFailure,
+      this.info})
+      : assert(geoPoint != null),
+        assert(placeMark != null),
+        assert(isSubmitting != null),
+        assert(isSuccess != null),
+        assert(isFailure != null);
 
   @override
-  final GeoFirePoint geoFirePoint;
+  final GeoPoint geoPoint;
   @override
   final Placemark placeMark;
+  @override
+  final bool isSubmitting;
+  @override
+  final bool isSuccess;
+  @override
+  final bool isFailure;
+  @override
+  final String info;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LocationState(geoFirePoint: $geoFirePoint, placeMark: $placeMark)';
+    return 'LocationState(geoPoint: $geoPoint, placeMark: $placeMark, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -536,27 +595,46 @@ class _$_LocationState with DiagnosticableTreeMixin implements _LocationState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'LocationState'))
-      ..add(DiagnosticsProperty('geoFirePoint', geoFirePoint))
-      ..add(DiagnosticsProperty('placeMark', placeMark));
+      ..add(DiagnosticsProperty('geoPoint', geoPoint))
+      ..add(DiagnosticsProperty('placeMark', placeMark))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _LocationState &&
-            (identical(other.geoFirePoint, geoFirePoint) ||
+            (identical(other.geoPoint, geoPoint) ||
                 const DeepCollectionEquality()
-                    .equals(other.geoFirePoint, geoFirePoint)) &&
+                    .equals(other.geoPoint, geoPoint)) &&
             (identical(other.placeMark, placeMark) ||
                 const DeepCollectionEquality()
-                    .equals(other.placeMark, placeMark)));
+                    .equals(other.placeMark, placeMark)) &&
+            (identical(other.isSubmitting, isSubmitting) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubmitting, isSubmitting)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.isFailure, isFailure) ||
+                const DeepCollectionEquality()
+                    .equals(other.isFailure, isFailure)) &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
   }
 
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(geoFirePoint) ^
-      const DeepCollectionEquality().hash(placeMark);
+      const DeepCollectionEquality().hash(geoPoint) ^
+      const DeepCollectionEquality().hash(placeMark) ^
+      const DeepCollectionEquality().hash(isSubmitting) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(isFailure) ^
+      const DeepCollectionEquality().hash(info);
 
   @override
   _$LocationStateCopyWith<_LocationState> get copyWith =>
@@ -565,12 +643,25 @@ class _$_LocationState with DiagnosticableTreeMixin implements _LocationState {
 
 abstract class _LocationState implements LocationState {
   const factory _LocationState(
-      {GeoFirePoint geoFirePoint, Placemark placeMark}) = _$_LocationState;
+      {@required GeoPoint geoPoint,
+      @required Placemark placeMark,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      String info}) = _$_LocationState;
 
   @override
-  GeoFirePoint get geoFirePoint;
+  GeoPoint get geoPoint;
   @override
   Placemark get placeMark;
+  @override
+  bool get isSubmitting;
+  @override
+  bool get isSuccess;
+  @override
+  bool get isFailure;
+  @override
+  String get info;
   @override
   _$LocationStateCopyWith<_LocationState> get copyWith;
 }

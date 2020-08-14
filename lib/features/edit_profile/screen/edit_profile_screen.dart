@@ -73,7 +73,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     userState.userModel.address =
         "${locationState.placeMark.subLocality}, ${locationState.placeMark.locality}";
 
-    userState.userModel.geoLocation = locationState.geoFirePoint.geoPoint;
+    userState.userModel.geoLocation = locationState.geoPoint;
 
     _userBloc.add(
       UserEvent.updateCurrentLoggedInUser(
@@ -86,8 +86,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         searchText: searchConfigState.searchText,
         category: searchConfigState.category,
         postedWithin: searchConfigState.postedWithin,
-        latitude: locationState.geoFirePoint.geoPoint.latitude,
-        longitude: locationState.geoFirePoint.geoPoint.longitude,
+        latitude: locationState.geoPoint.latitude,
+        longitude: locationState.geoPoint.longitude,
       ),
     );
 
@@ -95,8 +95,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       SearchEvent.search(
         algoliaAppId: remoteConfigDataState.algoliaAppId,
         algoliaSearchApiKey: remoteConfigDataState.algoliaSearchApiKey,
-        latitude: locationState.geoFirePoint.geoPoint.latitude,
-        longitude: locationState.geoFirePoint.geoPoint.longitude,
+        latitude: locationState.geoPoint.latitude,
+        longitude: locationState.geoPoint.longitude,
         searchText: searchConfigState.searchText,
         category: searchConfigState.category,
         postedWithin: searchConfigState.postedWithin,
