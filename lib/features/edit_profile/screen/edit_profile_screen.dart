@@ -70,7 +70,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       SearchConfigState searchConfigState,
       RemoteConfigDataState remoteConfigDataState) {
     userState.userModel.name = _nameController.text;
-    userState.userModel.address = _addressController.text;
+    userState.userModel.address =
+        "${locationState.placeMark.subLocality}, ${locationState.placeMark.locality}";
 
     userState.userModel.geoLocation = locationState.geoFirePoint.geoPoint;
 

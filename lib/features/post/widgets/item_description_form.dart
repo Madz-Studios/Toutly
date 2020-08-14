@@ -279,13 +279,15 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                     UserModel currentUser = userState.userModel;
                     _geoLocation = currentUser.geoLocation;
                     _geoHash = currentUser.geoHash;
+                    _locationController.text = currentUser.address;
 
-                    return PostItemTextFieldForm(
-                      title: 'Location',
-                      description: 'Describe your meeting place',
-                      controller: _locationController,
-                      readOnly: false,
-                      maxLength: 100,
+                    return IgnorePointer(
+                      child: PostItemTextFieldForm(
+                        description: 'Your current address',
+                        controller: _locationController,
+                        readOnly: true,
+                        maxLength: 100,
+                      ),
                     );
                   },
                 );
