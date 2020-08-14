@@ -8,7 +8,6 @@ import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
 import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 /// Main screen, loads after authentication screen
 class NavigationScreen extends StatelessWidget {
   final _postBloc = getIt<PostBloc>();
-//  final _searchConfigBloc = getIt<SearchConfigBloc>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
