@@ -172,106 +172,115 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      body: BlocBuilder<UserBloc, UserState>(
-        builder: (_, userState) {
-          UserModel currentUser = userState.userModel;
-          if (currentUser != null && currentUser.address == null) {
-            _locationBloc.add(LocationEvent.getInitialUserLocation());
-          }
-          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (remoteConfigContext, remoteConfigState) {
-              return BlocBuilder<LocationBloc, LocationState>(
-                builder: (_, locationState) {
-                  if (currentUser.userId != null &&
-                      currentUser.address == null &&
-                      locationState.geoFirePoint != null) {
-                    String address = '${locationState?.placeMark?.name ?? ''}, '
-                        '${locationState?.placeMark?.subLocality ?? ''}, '
-                        '${locationState?.placeMark?.locality ?? ''} ';
+      body: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () {
+          // Touch and fold the keyboard
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: BlocBuilder<UserBloc, UserState>(
+          builder: (_, userState) {
+            UserModel currentUser = userState.userModel;
+            if (currentUser != null && currentUser.address == null) {
+              _locationBloc.add(LocationEvent.getInitialUserLocation());
+            }
+            return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+              builder: (remoteConfigContext, remoteConfigState) {
+                return BlocBuilder<LocationBloc, LocationState>(
+                  builder: (_, locationState) {
+                    if (currentUser.userId != null &&
+                        currentUser.address == null &&
+                        locationState.geoFirePoint != null) {
+                      String address =
+                          '${locationState?.placeMark?.name ?? ''}, '
+                          '${locationState?.placeMark?.subLocality ?? ''}, '
+                          '${locationState?.placeMark?.locality ?? ''} ';
 
-                    currentUser.geoLocation =
-                        locationState?.geoFirePoint?.geoPoint;
-                    currentUser.address = address;
-                    currentUser.geoHash = locationState?.geoFirePoint?.hash;
+                      currentUser.geoLocation =
+                          locationState?.geoFirePoint?.geoPoint;
+                      currentUser.address = address;
+                      currentUser.geoHash = locationState?.geoFirePoint?.hash;
 
-                    _userBloc
-                        .add(UserEvent.updateCurrentLoggedInUser(currentUser));
-                  }
-                  return BlocBuilder<SearchBloc, SearchState>(
-                    builder: (_, searchState) => searchState.map(
-                      empty: (e) {
-                        /// initial home search
-                        if (currentUser.userId != null) {
-                          _searchSubmit(
-                            searchText: '',
-                            category: '',
-                            postedWithin: '',
-                            latitude: userState.userModel.geoLocation.latitude,
-                            longitude:
-                                userState.userModel.geoLocation.longitude,
-                            algoliaSearchApiKey:
-                                remoteConfigState.algoliaSearchApiKey,
-                            algoliaAppId: remoteConfigState.algoliaAppId,
-                          );
+                      _userBloc.add(
+                          UserEvent.updateCurrentLoggedInUser(currentUser));
+                    }
+                    return BlocBuilder<SearchBloc, SearchState>(
+                      builder: (_, searchState) => searchState.map(
+                        empty: (e) {
+                          /// initial home search
+                          if (currentUser.userId != null) {
+                            _searchSubmit(
+                              searchText: '',
+                              category: '',
+                              postedWithin: '',
+                              latitude:
+                                  userState.userModel.geoLocation.latitude,
+                              longitude:
+                                  userState.userModel.geoLocation.longitude,
+                              algoliaSearchApiKey:
+                                  remoteConfigState.algoliaSearchApiKey,
+                              algoliaAppId: remoteConfigState.algoliaAppId,
+                            );
 
-                          _searchConfigBloc.add(
-                            SearchConfigEvent.setConfig(
-                                searchText: '',
-                                category: '',
-                                postedWithin: '',
-                                latitude:
-                                    userState.userModel.geoLocation.latitude,
-                                longitude:
-                                    userState.userModel.geoLocation.longitude),
-                          );
-                        }
+                            _searchConfigBloc.add(
+                              SearchConfigEvent.setConfig(
+                                  searchText: '',
+                                  category: '',
+                                  postedWithin: '',
+                                  latitude:
+                                      userState.userModel.geoLocation.latitude,
+                                  longitude: userState
+                                      .userModel.geoLocation.longitude),
+                            );
+                          }
 
-                        return Container();
-                      },
-                      loading: (e) {
-                        if (Platform.isIOS) {
-                          return Center(
-                            child: CupertinoActivityIndicator(),
-                          );
-                        } else {
-                          return Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                      },
-                      loaded: (e) {
-                        AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
+                          return Container();
+                        },
+                        loading: (e) {
+                          if (Platform.isIOS) {
+                            return Center(
+                              child: CupertinoActivityIndicator(),
+                            );
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                        },
+                        loaded: (e) {
+                          AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
 
-                        if (algoliaQuerySnapshot.empty) {
+                          if (algoliaQuerySnapshot.empty) {
+                            return Center(
+                              child: Text(
+                                'There is no items being bartered in your area.',
+                              ),
+                            );
+                          } else {
+                            return BarterItemFeed(
+                              algoliaQuerySnapshot: algoliaQuerySnapshot,
+                            );
+                          }
+                        },
+                        failure: (e) {
+                          debugPrint(e.toString());
                           return Center(
                             child: Text(
-                              'There is no items being bartered in your area.',
+                              'Error: ${e.info}',
+                              style: TextStyle(
+                                color: Colors.red,
+                              ),
                             ),
                           );
-                        } else {
-                          return BarterItemFeed(
-                            algoliaQuerySnapshot: algoliaQuerySnapshot,
-                          );
-                        }
-                      },
-                      failure: (e) {
-                        debugPrint(e.toString());
-                        return Center(
-                          child: Text(
-                            'Error: ${e.info}',
-                            style: TextStyle(
-                              color: Colors.red,
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  );
-                },
-              );
-            },
-          );
-        },
+                        },
+                      ),
+                    );
+                  },
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
