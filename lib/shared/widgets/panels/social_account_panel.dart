@@ -1,6 +1,6 @@
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/social_sign_button.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +80,7 @@ class SocialAccountPanel extends StatelessWidget {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            BlocBuilder<AppleSignInBloc, AppleSignInState>(builder: (_, state) {
+            BlocBuilder<AppleSignCubit, AppleSignState>(builder: (_, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[

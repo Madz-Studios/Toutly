@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
@@ -27,7 +28,6 @@ import 'features/authentication/screen/authentication_screen.dart';
 import 'features/navigation/bloc/navigation_bloc.dart';
 import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
-import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 
 class App extends StatelessWidget {
   final analytics = FirebaseAnalytics();
@@ -84,6 +84,10 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<AuthCubit>(),
         ),
 
+        /// Apple Sign Cubit
+        BlocProvider<AppleSignCubit>(
+            create: (BuildContext context) => getIt<AppleSignCubit>()),
+
         /// CUBITS REGISTRATION END
 
         ///SCREENS BLOC
@@ -105,16 +109,6 @@ class App extends StatelessWidget {
         /// View Barter Item Bloc
         BlocProvider<ViewBarterItemBloc>(
           create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
-        ),
-
-        ///
-        /// UTILS BLOC
-        ///
-
-        /// Apple Sign In Bloc
-        BlocProvider<AppleSignInBloc>(
-          create: (BuildContext context) => getIt<AppleSignInBloc>()
-            ..add(AppleSignInEvent.checkIfAppleIsAvailable()),
         ),
 
         /// Remote Config Data Bloc

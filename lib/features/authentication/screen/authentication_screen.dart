@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -18,6 +19,7 @@ class AuthenticationScreen extends StatelessWidget {
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _searchConfigBloc = getIt<SearchConfigBloc>();
+  final _appleSignCubit = getIt<AppleSignCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -89,6 +91,7 @@ class AuthenticationScreen extends StatelessWidget {
             },
           );
         } else if (!authState.isAuth) {
+          _appleSignCubit.checkIfAppleIsAvailable();
           return SignInScreen();
         } else {
           return LoadingOrErrorWidgetUtil(authState.info);
