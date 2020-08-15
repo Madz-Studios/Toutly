@@ -17,8 +17,8 @@ import 'package:google_map_location_picker/google_map_location_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final UserModel userModel;
-  EditProfileScreen({@required this.userModel});
+  final UserModel currentUser;
+  EditProfileScreen(this.currentUser);
 
   @override
   _EditProfileScreenState createState() => _EditProfileScreenState();
@@ -41,7 +41,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _nameController.addListener(_onNameChanged);
     _addressController.addListener(_onAddressChanged);
 
-    setInitialProfileValue(widget.userModel);
+    _nameController.text = widget.currentUser.name;
+    _emailController.text = widget.currentUser.email;
+    _addressController.text = widget.currentUser.address;
   }
 
   @override
@@ -94,9 +96,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
 
-    ///refresh current user
-    _currentUserCubit.getCurrentLoggedInUser();
-
     Navigator.pop(context);
   }
 
@@ -104,136 +103,129 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-      builder: (_, currentUserState) {
-        UserModel currentUser;
-        if (currentUserState.isSuccess) {
-          currentUser = currentUserState.currentUserModel;
-        }
-        return BlocBuilder<LocationBloc, LocationState>(
-          builder: (_, locationState) {
-            return BlocBuilder<SearchConfigBloc, SearchConfigState>(
-              builder: (_, searchConfigState) {
-                return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-                  builder: (_, remoteConfigDataState) {
-                    return Scaffold(
-                      appBar: AppBar(
-                        backgroundColor: Colors.white,
-                        title: Text(
-                          'Edit Profile',
-                          style: TextStyle(
-                            fontSize: 18.0,
-                            color: Colors.black,
-                          ),
-                        ),
-                        leading: IconButton(
+        builder: (_, currentUserState) {
+      final currentUser = currentUserState.currentUserModel;
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          title: Text(
+            'Edit Profile',
+            style: TextStyle(
+              fontSize: 18.0,
+              color: Colors.black,
+            ),
+          ),
+          leading: IconButton(
+            icon: Icon(
+              Icons.clear,
+              color: kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+          actions: [
+            BlocBuilder<LocationBloc, LocationState>(
+              builder: (_, locationState) {
+                return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+                  builder: (_, searchConfigState) {
+                    return BlocBuilder<RemoteConfigDataBloc,
+                        RemoteConfigDataState>(
+                      builder: (_, remoteConfigDataState) {
+                        return IconButton(
                           icon: Icon(
-                            Icons.clear,
+                            Icons.check,
                             color: kPrimaryColor,
                           ),
                           onPressed: () {
-                            Navigator.pop(context);
+                            _onSaveClicked(currentUser, locationState,
+                                searchConfigState, remoteConfigDataState);
                           },
-                        ),
-                        actions: [
-                          IconButton(
-                            icon: Icon(
-                              Icons.check,
-                              color: kPrimaryColor,
-                            ),
-                            onPressed: () {
-                              _onSaveClicked(currentUser, locationState,
-                                  searchConfigState, remoteConfigDataState);
-                            },
-                          ),
-                        ],
-                      ),
-                      body: SafeArea(
-                        child: SingleChildScrollView(
-                          child:
-                              BlocBuilder<CurrentUserCubit, CurrentUserState>(
-                            builder: (_, currentUserState) {
-                              UserModel currentUser;
-                              if (currentUserState.isSuccess) {
-                                currentUser = currentUserState.currentUserModel;
-                                _emailController.text = currentUser.email;
-
-                                return _buildEditProfileForm(appSizeConfig,
-                                    currentUser, currentUserState, context);
-                              } else {
-                                return Container();
-                              }
-                            },
-                          ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 );
               },
-            );
-          },
-        );
-      },
-    );
+            ),
+          ],
+        ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: _buildEditProfileForm(appSizeConfig, context),
+          ),
+        ),
+      );
+    });
   }
 
   Column _buildEditProfileForm(
-      AppSizeConfig appSizeConfig,
-      UserModel currentUser,
-      CurrentUserState currentUserState,
-      BuildContext context) {
+      AppSizeConfig appSizeConfig, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Column(
-          children: [
-            SizedBox(
-              height: appSizeConfig.safeBlockVertical * 2,
-            ),
-            SelectProfilePhoto(currentUser),
-            SizedBox(
-              height: appSizeConfig.safeBlockVertical * 3,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.safeBlockHorizontal * 5,
-              ),
-              child: SignTextFormField(
-                controller: _nameController,
-                textInputType: TextInputType.text,
-                validator: (_) {
-                  return !currentUserState.isNameValid ? 'Invalid Name' : null;
-                },
-                hintText: "Name",
-                obscureText: false,
-              ),
-            ),
-            SizedBox(
-              height: appSizeConfig.safeBlockVertical * 3,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.safeBlockHorizontal * 5,
-              ),
-              child: SignTextFormField(
-                controller: _emailController,
-                hintText: 'Email',
-                textInputType: TextInputType.text,
-                obscureText: false,
-                enabled: false,
-              ),
-            ),
-            SizedBox(
-              height: appSizeConfig.safeBlockVertical * 3,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.safeBlockHorizontal * 5,
-              ),
-              child: _buildAddressForm(context, currentUser, currentUserState),
-            ),
-          ],
+        BlocBuilder<CurrentUserCubit, CurrentUserState>(
+          builder: (_, currentUserState) {
+            if (currentUserState.isSuccess) {
+              final currentUser = currentUserState.currentUserModel;
+              return Column(
+                children: [
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 2,
+                  ),
+                  SelectProfilePhoto(currentUser),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 3,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: SignTextFormField(
+                      controller: _nameController,
+                      textInputType: TextInputType.text,
+                      validator: (_) {
+                        return !currentUserState.isNameValid
+                            ? 'Invalid Name'
+                            : null;
+                      },
+                      hintText: "Name",
+                      obscureText: false,
+                    ),
+                  ),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 3,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: SignTextFormField(
+                      controller: _emailController,
+                      hintText: 'Email',
+                      textInputType: TextInputType.text,
+                      obscureText: false,
+                      enabled: false,
+                    ),
+                  ),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 3,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                    ),
+                    child: _buildAddressForm(context),
+                  ),
+                ],
+              );
+            } else {
+              return Center(
+                child: Text(currentUserState.info),
+              );
+            }
+          },
         ),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -252,21 +244,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState> _buildAddressForm(
-    BuildContext context,
-    UserModel currentUser,
-    CurrentUserState userState,
-  ) {
+  Widget _buildAddressForm(BuildContext context) {
     return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
       builder: (_, remoteConfigDataState) {
-        return BlocBuilder<LocationBloc, LocationState>(
-          builder: (_, locationState) {
+        return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+          builder: (_, currentUserState) {
             return InkWell(
               onTap: () {
                 _locationBloc.add(LocationEvent.getInitialUserLocation());
                 _getLocation(
                   context,
-                  currentUser,
+                  currentUserState.currentUserModel,
                   remoteConfigDataState,
                 );
               },
@@ -275,7 +263,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   controller: _addressController,
                   textInputType: TextInputType.text,
                   validator: (_) {
-                    return !userState.isLocationValid
+                    return !currentUserState.isLocationValid
                         ? 'Invalid Location'
                         : null;
                   },
@@ -288,11 +276,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       },
     );
-  }
-
-  void setInitialProfileValue(UserModel userModel) {
-    _nameController.text = userModel?.name ?? '';
-    _addressController.text = userModel?.address ?? '';
   }
 
   _getLocation(BuildContext context, UserModel currentUser,

@@ -39,10 +39,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     emit(
       state.copyWith(
         isNameValid: validators.isValidTextLength4To30Chars(name),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-        info: '',
       ),
     );
   }
@@ -52,10 +48,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       state.copyWith(
         isLocationValid:
             validators.isValidTextLengthMoreThanOrEqualToFourChars(location),
-        isSubmitting: false,
-        isSuccess: false,
-        isFailure: false,
-        info: '',
       ),
     );
   }

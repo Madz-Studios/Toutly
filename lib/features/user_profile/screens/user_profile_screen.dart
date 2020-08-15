@@ -1,5 +1,4 @@
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/edit_profile/screen/edit_profile_screen.dart';
 import 'package:Toutly/features/user_profile/widgets/user_profile_tab_menu.dart';
@@ -9,20 +8,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserProfileScreen extends StatefulWidget {
-  @override
-  _UserProfileScreenState createState() => _UserProfileScreenState();
-}
-
-class _UserProfileScreenState extends State<UserProfileScreen> {
-  final _currentUserCubit = getIt<CurrentUserCubit>();
-
-  @override
-  void initState() {
-    super.initState();
-    _currentUserCubit.getCurrentLoggedInUser();
-  }
-
+class UserProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -44,9 +30,7 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => EditProfileScreen(
-                          userModel: currentUser,
-                        ),
+                        builder: (context) => EditProfileScreen(currentUser),
                       ),
                     );
                   },

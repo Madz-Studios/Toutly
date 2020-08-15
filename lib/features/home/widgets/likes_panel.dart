@@ -69,8 +69,5 @@ class LikesPanel extends StatelessWidget {
         _currentUserCubit.updateCurrentLoggedInUser(currentUser);
       }
     }
-
-    // need to update current user to reflect change in likes list
-//    _currentUserCubit.getCurrentLoggedInUser();
   }
 }

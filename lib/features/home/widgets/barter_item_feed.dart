@@ -1,4 +1,3 @@
-import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'barter_item.dart';
 
 class BarterItemFeed extends StatelessWidget {
-  final _otherUserCubit = getIt<OtherUserCubit>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final AlgoliaQuerySnapshot algoliaQuerySnapshot;
   BarterItemFeed({
