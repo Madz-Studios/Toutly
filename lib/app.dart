@@ -1,7 +1,9 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
+import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
@@ -21,13 +23,11 @@ import 'package:google_map_location_picker/generated/i18n.dart'
 import 'package:google_map_location_picker/generated/i18n.dart';
 
 import 'core/di/injector.dart';
-import 'features/authentication/bloc/authentication_bloc.dart';
 import 'features/authentication/screen/authentication_screen.dart';
 import 'features/navigation/bloc/navigation_bloc.dart';
 import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
-import 'shared/bloc/sign/sign_bloc.dart';
 
 class App extends StatelessWidget {
   final analytics = FirebaseAnalytics();
@@ -74,20 +74,20 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<MakeOfferCubit>(),
         ),
 
+        /// Sign Cubit
+        BlocProvider<SignCubit>(
+          create: (BuildContext context) => getIt<SignCubit>(),
+        ),
+
+        /// Auth Cubit
+        BlocProvider<AuthCubit>(
+          create: (BuildContext context) => getIt<AuthCubit>(),
+        ),
+
         /// CUBITS REGISTRATION END
 
         ///SCREENS BLOC
         ///
-
-        /// Authentication Bloc
-        BlocProvider<AuthenticationBloc>(
-          create: (BuildContext context) => getIt<AuthenticationBloc>(),
-        ),
-
-        /// Sign Bloc
-        BlocProvider<SignBloc>(
-          create: (BuildContext context) => getIt<SignBloc>(),
-        ),
 
         /// Navigation Bloc
         BlocProvider<NavigationBloc>(

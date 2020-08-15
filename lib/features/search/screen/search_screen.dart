@@ -1,9 +1,9 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:flutter/material.dart';
 
 class SearchScreen extends StatelessWidget {
-  final _authBloc = getIt<AuthenticationBloc>();
+  final _authCubit = getIt<AuthCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +18,8 @@ class SearchScreen extends StatelessWidget {
                 RaisedButton(
                   child: Text('Logout'),
                   onPressed: () {
-                    debugPrint('Log out!');
-                    _authBloc.add(AuthenticationEvent.signedOut());
+                    debugPrint('Sign out!');
+                    _authCubit.signedOut();
                   },
                 )
               ],

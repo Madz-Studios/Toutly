@@ -6,7 +6,7 @@ import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/make_offer/screen/trade_offer_screen.dart';
+import 'package:Toutly/features/make_offer/screen/make_offer_screen.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';

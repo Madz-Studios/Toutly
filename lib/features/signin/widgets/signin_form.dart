@@ -1,6 +1,6 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
-import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -8,7 +8,6 @@ import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// a login form
 class SignInForm extends StatefulWidget {
   State<SignInForm> createState() => _SignInFormState();
 }
@@ -17,8 +16,8 @@ class _SignInFormState extends State<SignInForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  final _signBloc = getIt<SignBloc>();
-  final _authenticationBloc = getIt<AuthenticationBloc>();
+  final _signCubit = getIt<SignCubit>();
+  final _authCubit = getIt<AuthCubit>();
 
   @override
   void initState() {
@@ -38,25 +37,17 @@ class _SignInFormState extends State<SignInForm> {
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
 
   void _onEmailChanged() {
-    _signBloc.add(
-      SignEvent.emailChanged(email: _emailController.text),
-    );
+    _signCubit.emailChanged(_emailController.text);
   }
 
   void _onPasswordChanged() {
-    _signBloc.add(
-      SignEvent.passwordChanged(password: _passwordController.text),
-    );
+    _signCubit.passwordChanged(_passwordController.text);
   }
 
   void _onFormSubmitted() {
     if (isPopulated) {
-      _signBloc.add(
-        SignEvent.signInWithEmailPasswordPressed(
-          email: _emailController.text,
-          password: _passwordController.text,
-        ),
-      );
+      _signCubit.signInWithEmailPasswordPressed(
+          _emailController.text, _passwordController.text);
     }
   }
 
@@ -67,7 +58,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<SignBloc, SignState>(
+    return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -104,7 +95,7 @@ class _SignInFormState extends State<SignInForm> {
             );
         }
         if (state.isSuccess) {
-          _authenticationBloc.add(AuthenticationEvent.signedIn());
+          _authCubit.signedIn();
         }
       },
       builder: (context, state) {

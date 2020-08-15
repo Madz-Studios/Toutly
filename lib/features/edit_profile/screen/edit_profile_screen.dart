@@ -1,7 +1,7 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
@@ -26,7 +26,7 @@ class EditProfileScreen extends StatefulWidget {
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _currentUserCubit = getIt<CurrentUserCubit>();
-  final _authBloc = getIt<AuthenticationBloc>();
+  final _authCubit = getIt<AuthCubit>();
   final _locationBloc = getIt<LocationBloc>();
   final _searchBloc = getIt<SearchBloc>();
   final _searchConfig = getIt<SearchConfigBloc>();
@@ -236,7 +236,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             title: 'Logout',
             onPressed: () {
               Navigator.pop(context);
-              _authBloc.add(AuthenticationEvent.signedOut());
+              _authCubit.signedOut();
             },
           ),
         )
