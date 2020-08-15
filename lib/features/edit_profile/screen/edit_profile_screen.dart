@@ -1,12 +1,12 @@
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
@@ -30,7 +30,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _authCubit = getIt<AuthCubit>();
   final _locationCubit = getIt<LocationCubit>();
   final _searchBloc = getIt<SearchBloc>();
-  final _searchConfig = getIt<SearchConfigBloc>();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -64,10 +64,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   _onSaveClicked(
-      UserModel currentUser,
-      LocationState locationState,
-      SearchConfigState searchConfigState,
-      RemoteConfigDataState remoteConfigDataState) {
+    UserModel currentUser,
+    LocationState locationState,
+    SearchConfigState searchConfigState,
+  ) {
     currentUser.name = _nameController.text;
     currentUser.address = "${locationState.placeMark.subLocality}, "
         "${locationState.placeMark.locality}";
@@ -75,20 +75,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     currentUser.geoLocation = locationState.geoPoint;
     _currentUserCubit.updateCurrentLoggedInUser(currentUser);
 
-    _searchConfig.add(
-      SearchConfigEvent.setConfig(
-        searchText: searchConfigState.searchText,
-        category: searchConfigState.category,
-        postedWithin: searchConfigState.postedWithin,
-        latitude: locationState.geoPoint.latitude,
-        longitude: locationState.geoPoint.longitude,
-      ),
-    );
+    _searchConfigCubit.updateLatLng(
+        locationState.geoPoint.latitude, locationState.geoPoint.longitude);
 
     _searchBloc.add(
       SearchEvent.search(
-        algoliaAppId: remoteConfigDataState.algoliaAppId,
-        algoliaSearchApiKey: remoteConfigDataState.algoliaSearchApiKey,
+        algoliaAppId: searchConfigState.algoliaAppId,
+        algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
         latitude: locationState.geoPoint.latitude,
         longitude: locationState.geoPoint.longitude,
         searchText: searchConfigState.searchText,
@@ -128,21 +121,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             actions: [
               BlocBuilder<LocationCubit, LocationState>(
                 builder: (_, locationState) {
-                  return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+                  return BlocBuilder<SearchConfigCubit, SearchConfigState>(
                     builder: (_, searchConfigState) {
-                      return BlocBuilder<RemoteConfigDataBloc,
-                          RemoteConfigDataState>(
-                        builder: (_, remoteConfigDataState) {
-                          return IconButton(
-                            icon: Icon(
-                              Icons.check,
-                              color: kPrimaryColor,
-                            ),
-                            onPressed: () {
-                              _onSaveClicked(currentUser, locationState,
-                                  searchConfigState, remoteConfigDataState);
-                            },
-                          );
+                      return IconButton(
+                        icon: Icon(
+                          Icons.check,
+                          color: kPrimaryColor,
+                        ),
+                        onPressed: () {
+                          _onSaveClicked(
+                              currentUser, locationState, searchConfigState);
                         },
                       );
                     },

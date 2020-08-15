@@ -1,12 +1,12 @@
 import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
 import 'package:Toutly/features/signin/screen/signin_screen.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/cupertino.dart';
@@ -18,7 +18,7 @@ class AuthenticationScreen extends StatelessWidget {
   final _locationCubit = getIt<LocationCubit>();
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
   final _currentUserCubit = getIt<CurrentUserCubit>();
-  final _searchConfigBloc = getIt<SearchConfigBloc>();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
   final _appleSignCubit = getIt<AppleSignCubit>();
 
   @override
@@ -46,25 +46,26 @@ class AuthenticationScreen extends StatelessWidget {
                         _currentUserCubit
                             .updateCurrentLoggedInUser(currentUser);
 
-                        _searchConfigBloc.add(
-                          SearchConfigEvent.setConfig(
-                            searchText: '',
-                            category: '',
-                            postedWithin: '',
-                            latitude: locationState.geoPoint.latitude,
-                            longitude: locationState.geoPoint.longitude,
-                          ),
+                        _searchConfigCubit.setConfig(
+                          searchText: '',
+                          category: '',
+                          postedWithin: '',
+                          algoliaAppId: remoteConfigState.algoliaAppId,
+                          algoliaSearchApiKey:
+                              remoteConfigState.algoliaSearchApiKey,
+                          latitude: locationState.geoPoint.latitude,
+                          longitude: locationState.geoPoint.longitude,
                         );
 
                         SearchUtil().searchSubmit(
                           searchText: '',
                           category: '',
                           postedWithin: '',
-                          latitude: locationState.geoPoint.latitude,
-                          longitude: locationState.geoPoint.longitude,
                           algoliaSearchApiKey:
                               remoteConfigState.algoliaSearchApiKey,
                           algoliaAppId: remoteConfigState.algoliaAppId,
+                          latitude: locationState.geoPoint.latitude,
+                          longitude: locationState.geoPoint.longitude,
                         );
                       }
                     },

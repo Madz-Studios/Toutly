@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/search_util.dart';
@@ -15,8 +16,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class HomeScreen extends StatelessWidget {
-  final _searchController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -30,7 +29,7 @@ class HomeScreen extends StatelessWidget {
           padding: EdgeInsets.symmetric(
             horizontal: appSizeConfig.safeBlockHorizontal * 5,
           ),
-          child: BlocBuilder<SearchConfigBloc, SearchConfigState>(
+          child: BlocBuilder<SearchConfigCubit, SearchConfigState>(
             builder: (_, searchConfigState) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -53,7 +52,7 @@ class HomeScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                             builder: (context) => SearchFilterScreen(
-                              searchText: _searchController.text,
+                              searchText: searchConfigState.searchText,
                               category: searchConfigState.category,
                               postedWithin: searchConfigState.postedWithin,
                             ),
@@ -130,6 +129,7 @@ class _SearchTextField extends StatefulWidget {
 
 class __SearchTextFieldState extends State<_SearchTextField> {
   final _searchController = TextEditingController();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   @override
   void dispose() {
@@ -141,7 +141,7 @@ class __SearchTextFieldState extends State<_SearchTextField> {
   Widget build(BuildContext context) {
     return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
       builder: (_, remoteConfigState) {
-        return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+        return BlocBuilder<SearchConfigCubit, SearchConfigState>(
           builder: (_, searchConfigState) {
             _searchController.text = searchConfigState.searchText;
             return TextField(
@@ -157,6 +157,8 @@ class __SearchTextFieldState extends State<_SearchTextField> {
                   algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
                   algoliaAppId: remoteConfigState.algoliaAppId,
                 );
+
+                _searchConfigCubit.updateSearchText(_searchController.text);
               },
               decoration: InputDecoration(
                 filled: true,
@@ -189,6 +191,7 @@ class __SearchTextFieldState extends State<_SearchTextField> {
                           remoteConfigState.algoliaSearchApiKey,
                       algoliaAppId: remoteConfigState.algoliaAppId,
                     );
+                    _searchConfigCubit.updateSearchText('');
                   },
                 ),
                 enabledBorder: OutlineInputBorder(
