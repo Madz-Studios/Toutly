@@ -3,12 +3,12 @@ import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
@@ -88,6 +88,11 @@ class App extends StatelessWidget {
         BlocProvider<AppleSignCubit>(
             create: (BuildContext context) => getIt<AppleSignCubit>()),
 
+        /// Location Bloc
+        BlocProvider<LocationCubit>(
+          create: (BuildContext context) => getIt<LocationCubit>(),
+        ),
+
         /// CUBITS REGISTRATION END
 
         ///SCREENS BLOC
@@ -114,11 +119,6 @@ class App extends StatelessWidget {
         /// Remote Config Data Bloc
         BlocProvider<RemoteConfigDataBloc>(
           create: (BuildContext context) => getIt<RemoteConfigDataBloc>(),
-        ),
-
-        /// Location Bloc
-        BlocProvider<LocationBloc>(
-          create: (BuildContext context) => getIt<LocationBloc>(),
         ),
 
         /// Search Bloc

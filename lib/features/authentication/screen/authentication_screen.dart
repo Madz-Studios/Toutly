@@ -1,10 +1,10 @@
 import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
 import 'package:Toutly/features/signin/screen/signin_screen.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/util/error_util.dart';
@@ -15,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
-  final _locationBloc = getIt<LocationBloc>();
+  final _locationCubit = getIt<LocationCubit>();
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _searchConfigBloc = getIt<SearchConfigBloc>();
@@ -28,12 +28,12 @@ class AuthenticationScreen extends StatelessWidget {
         if (authState.isAuth) {
           _currentUserCubit.getCurrentLoggedInUser();
           _remoteConfigBloc.add(RemoteConfigDataEvent.loadConfigData());
-          _locationBloc.add(LocationEvent.getInitialUserLocation());
+          _locationCubit.getInitialUserLocation();
           return BlocBuilder<CurrentUserCubit, CurrentUserState>(
             builder: (_, currentUserState) {
               return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
                 builder: (_, remoteConfigState) {
-                  return BlocConsumer<LocationBloc, LocationState>(
+                  return BlocConsumer<LocationCubit, LocationState>(
                     listener: (_, locationState) {
                       if (currentUserState.isSuccess &&
                           locationState.isSuccess) {
@@ -73,7 +73,7 @@ class AuthenticationScreen extends StatelessWidget {
                         return BlocBuilder<CurrentUserCubit, CurrentUserState>(
                           builder: (_, currentUserState) {
                             if (currentUserState.isSuccess &&
-                                currentUserState.isSuccess) {
+                                locationState.isSuccess) {
                               return NavigationScreen();
                             } else {
                               return LoadingOrErrorWidgetUtil(

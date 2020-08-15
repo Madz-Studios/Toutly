@@ -1,14 +1,15 @@
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _authCubit = getIt<AuthCubit>();
-  final _locationBloc = getIt<LocationBloc>();
+  final _locationCubit = getIt<LocationCubit>();
   final _searchBloc = getIt<SearchBloc>();
   final _searchConfig = getIt<SearchConfigBloc>();
 
@@ -103,60 +104,61 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-        builder: (_, currentUserState) {
-      final currentUser = currentUserState.currentUserModel;
-      return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          title: Text(
-            'Edit Profile',
-            style: TextStyle(
-              fontSize: 18.0,
-              color: Colors.black,
+      builder: (_, currentUserState) {
+        final currentUser = currentUserState.currentUserModel;
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            title: Text(
+              'Edit Profile',
+              style: TextStyle(
+                fontSize: 18.0,
+                color: Colors.black,
+              ),
             ),
-          ),
-          leading: IconButton(
-            icon: Icon(
-              Icons.clear,
-              color: kPrimaryColor,
-            ),
-            onPressed: () {
-              Navigator.pop(context);
-            },
-          ),
-          actions: [
-            BlocBuilder<LocationBloc, LocationState>(
-              builder: (_, locationState) {
-                return BlocBuilder<SearchConfigBloc, SearchConfigState>(
-                  builder: (_, searchConfigState) {
-                    return BlocBuilder<RemoteConfigDataBloc,
-                        RemoteConfigDataState>(
-                      builder: (_, remoteConfigDataState) {
-                        return IconButton(
-                          icon: Icon(
-                            Icons.check,
-                            color: kPrimaryColor,
-                          ),
-                          onPressed: () {
-                            _onSaveClicked(currentUser, locationState,
-                                searchConfigState, remoteConfigDataState);
-                          },
-                        );
-                      },
-                    );
-                  },
-                );
+            leading: IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: kPrimaryColor,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
               },
             ),
-          ],
-        ),
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: _buildEditProfileForm(appSizeConfig, context),
+            actions: [
+              BlocBuilder<LocationCubit, LocationState>(
+                builder: (_, locationState) {
+                  return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+                    builder: (_, searchConfigState) {
+                      return BlocBuilder<RemoteConfigDataBloc,
+                          RemoteConfigDataState>(
+                        builder: (_, remoteConfigDataState) {
+                          return IconButton(
+                            icon: Icon(
+                              Icons.check,
+                              color: kPrimaryColor,
+                            ),
+                            onPressed: () {
+                              _onSaveClicked(currentUser, locationState,
+                                  searchConfigState, remoteConfigDataState);
+                            },
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+              ),
+            ],
           ),
-        ),
-      );
-    });
+          body: SafeArea(
+            child: SingleChildScrollView(
+              child: _buildEditProfileForm(appSizeConfig, context),
+            ),
+          ),
+        );
+      },
+    );
   }
 
   Column _buildEditProfileForm(
@@ -221,9 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                 ],
               );
             } else {
-              return Center(
-                child: Text(currentUserState.info),
-              );
+              return LoadingOrErrorWidgetUtil(currentUserState.info);
             }
           },
         ),
@@ -249,29 +249,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       builder: (_, remoteConfigDataState) {
         return BlocBuilder<CurrentUserCubit, CurrentUserState>(
           builder: (_, currentUserState) {
-            return InkWell(
-              onTap: () {
-                _locationBloc.add(LocationEvent.getInitialUserLocation());
-                _getLocation(
-                  context,
-                  currentUserState.currentUserModel,
-                  remoteConfigDataState,
-                );
-              },
-              child: IgnorePointer(
-                child: SignTextFormField(
-                  controller: _addressController,
-                  textInputType: TextInputType.text,
-                  validator: (_) {
-                    return !currentUserState.isLocationValid
-                        ? 'Invalid Location'
-                        : null;
-                  },
-                  hintText: "Address",
-                  obscureText: false,
+            if (currentUserState.isSuccess) {
+              return InkWell(
+                onTap: () {
+                  _locationCubit.getInitialUserLocation();
+                  _getLocation(
+                    context,
+                    currentUserState.currentUserModel,
+                    remoteConfigDataState,
+                  );
+                },
+                child: IgnorePointer(
+                  child: SignTextFormField(
+                    controller: _addressController,
+                    textInputType: TextInputType.text,
+                    validator: (_) {
+                      return !currentUserState.isLocationValid
+                          ? 'Invalid Location'
+                          : null;
+                    },
+                    hintText: "Address",
+                    obscureText: false,
+                  ),
                 ),
-              ),
-            );
+              );
+            } else {
+              return LoadingOrErrorWidgetUtil(currentUserState.info);
+            }
           },
         );
       },
@@ -294,11 +298,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     if (result != null && result.address != null && result.address.isNotEmpty) {
       _addressController.text = result.address;
 
-      _locationBloc.add(
-        LocationEvent.updateUserLocation(
-          result?.latLng?.latitude ?? 0,
-          result?.latLng?.longitude ?? 0,
-        ),
+      _locationCubit.updateUserLocation(
+        result?.latLng?.latitude ?? 0,
+        result?.latLng?.longitude ?? 0,
       );
     }
   }
