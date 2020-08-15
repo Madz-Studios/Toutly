@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/trade_offer/screen/trade_offer_screen.dart';
+import 'package:Toutly/features/make_offer/screen/trade_offer_screen.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -20,6 +21,9 @@ class ViewBarterItemScreen extends StatelessWidget {
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _otherUserCubit = getIt<OtherUserCubit>();
+
+  final _singleBarterItemOtherUserCubit =
+      getIt<SingleBarterItemOtherUserCubit>();
 
   ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
   final bool isDialog;
@@ -147,7 +151,7 @@ class ViewBarterItemScreen extends StatelessWidget {
       return ActionButton(
         title: 'Make an offer',
         onPressed: () {
-          _tradeItemPressed(context, barterItem?.userId);
+          _tradeItemPressed(context, barterItem);
         },
       );
     }
@@ -251,14 +255,18 @@ class ViewBarterItemScreen extends StatelessWidget {
     _currentUserCubit.getCurrentLoggedInUser();
   }
 
-  void _tradeItemPressed(BuildContext context, String otherUserId) async {
+  void _tradeItemPressed(
+      BuildContext context, BarterModel otherUserBarterModel) async {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => TradeOfferScreen(),
+        builder: (context) => MakeOfferScreen(),
       ),
     );
 
-    _otherUserCubit.getOtherUser(otherUserId);
+    _singleBarterItemOtherUserCubit
+        .setOtherUserSingleBarterItem(otherUserBarterModel);
+
+    _otherUserCubit.getOtherUser(otherUserBarterModel.userId);
   }
 }

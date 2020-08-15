@@ -13,7 +13,7 @@ class SingleBarterItemOtherUserCubit
   SingleBarterItemOtherUserCubit()
       : super(SingleBarterItemOtherUserState.empty());
 
-  getOtherUserSingleBarterItem(BarterModel otherUserBarterModel) async {
+  setOtherUserSingleBarterItem(BarterModel otherUserBarterModel) async {
     try {
       emit(SingleBarterItemOtherUserState.loading());
 

@@ -51,10 +51,10 @@ import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
-import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -177,6 +177,12 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
           ));
   g.registerFactory<LocalSharedPrefRepository>(
       () => LocalUserRepositoryImpl(sharedPreferences: g<SharedPreferences>()));
+  g.registerLazySingleton<MakeOfferCubit>(() => MakeOfferCubit(
+        g<FirestoreCreateBarterConversationTextUseCase>(),
+        g<FirestoreCreateBarterMessagesUseCase>(),
+        g<Validators>(),
+        g<Uuid>(),
+      ));
   g.registerLazySingleton<OtherUserCubit>(() => OtherUserCubit(
         g<FirebaseGetUserUseCase>(),
         g<FirestoreGetUserUseCase>(),
@@ -202,12 +208,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirestoreCreateUserUseCase>(),
         g<FirestoreGetUserUseCase>(),
         g<Validators>(),
-      ));
-  g.registerLazySingleton<TradeOfferBloc>(() => TradeOfferBloc(
-        g<FirestoreCreateBarterConversationTextUseCase>(),
-        g<FirestoreCreateBarterMessagesUseCase>(),
-        g<Validators>(),
-        g<Uuid>(),
       ));
   g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
         g<FirebaseGetUserUseCase>(),

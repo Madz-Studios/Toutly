@@ -1,9 +1,9 @@
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,8 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'trade_barter_item_list.dart';
 
 class SelectItemToTrade extends StatelessWidget {
-  final _tradeOfferBloc = getIt<TradeOfferBloc>();
+  final _makeOfferCubit = getIt<MakeOfferCubit>();
   final _barterCubit = getIt<ListBarterModelCurrentUserCubit>();
+
   SelectItemToTrade({
     Key key,
     @required this.barterModel,
@@ -83,9 +84,7 @@ class SelectItemToTrade extends StatelessWidget {
                               color: Color(0XFFB4B4B4),
                             ),
                             onTap: () {
-                              _tradeOfferBloc.add(
-                                TradeOfferEvent.removeItemToTrade(barterModel),
-                              );
+                              _makeOfferCubit..removeItemToOffer(barterModel);
                             },
                           ),
                         ),

@@ -1,6 +1,6 @@
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +17,12 @@ class TradeBarterItem extends StatefulWidget {
 }
 
 class _TradeBarterItemState extends State<TradeBarterItem> {
-  final _tradeOfferBloc = getIt<TradeOfferBloc>();
+  final _makeOfferCubit = getIt<MakeOfferCubit>();
   bool isSelected = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TradeOfferBloc, TradeOfferState>(
+    return BlocBuilder<MakeOfferCubit, MakeOfferState>(
       builder: (context, state) {
         isSelected =
             state.pickedBarterItems.containsKey(widget.barterModel.itemId);
@@ -77,15 +77,10 @@ class _TradeBarterItemState extends State<TradeBarterItem> {
                           });
 
                           if (isSelected) {
-                            _tradeOfferBloc.add(
-                              TradeOfferEvent.addItemToTrade(
-                                  widget.barterModel),
-                            );
+                            _makeOfferCubit.addItemToOffer(widget.barterModel);
                           } else {
-                            _tradeOfferBloc.add(
-                              TradeOfferEvent.removeItemToTrade(
-                                  widget.barterModel),
-                            );
+                            _makeOfferCubit
+                                .removeItemToOffer(widget.barterModel);
                           }
                         },
                       ),

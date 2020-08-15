@@ -1,8 +1,12 @@
+import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/features/make_offer/widgets/trade_barter_item_card.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
-import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
-import 'package:Toutly/features/trade_offer/widgets/trade_barter_item_card.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -20,30 +24,8 @@ class TradeOfferForm extends StatefulWidget {
 
 class _TradeOfferFormState extends State<TradeOfferForm> {
   final _navBloc = getIt<NavigationBloc>();
-  final _tradeOfferBloc = getIt<TradeOfferBloc>();
+  final _makeOfferCubit = getIt<MakeOfferCubit>();
   final _messageController = TextEditingController();
-
-  bool isSignInButtonEnabled(TradeOfferState state) {
-    return state.isTradeOfferFormValid &&
-        state.isMessageValid &&
-        !state.isSubmitting;
-  }
-
-  _onFormSubmitted() {
-    if (_messageController.text.isNotEmpty) {
-      _tradeOfferBloc.add(
-        TradeOfferEvent.submitButtonOfferPressed(
-          message: _messageController.text,
-        ),
-      );
-    }
-  }
-
-  void _onMessageChanged() {
-    _tradeOfferBloc.add(
-      TradeOfferEvent.messageChanged(message: _messageController.text),
-    );
-  }
 
   @override
   void initState() {
@@ -58,12 +40,32 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
     _messageController.dispose();
   }
 
+  bool isSignInButtonEnabled(MakeOfferState state) {
+    return state.isMakeOfferFormValid &&
+        state.isMessageValid &&
+        !state.isSubmitting;
+  }
+
+  _onFormSubmitted(UserModel currentUser, BarterModel otherUserBarterModel) {
+    if (_messageController.text.isNotEmpty) {
+      _makeOfferCubit.submitButtonOfferPressed(
+        currentUser: currentUser,
+        otherUserBarterModel: otherUserBarterModel,
+        message: _messageController.text,
+      );
+    }
+  }
+
+  void _onMessageChanged() {
+    _makeOfferCubit.messageChanged(_messageController.text);
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<TradeOfferBloc, TradeOfferState>(
-      listener: (context, state) {
-        if (state.isFailure) {
+    return BlocConsumer<MakeOfferCubit, MakeOfferState>(
+      listener: (context, makeOfferState) {
+        if (makeOfferState.isFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -72,7 +74,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Expanded(
-                      child: Text('${state.info}'),
+                      child: Text('${makeOfferState.info}'),
                     ),
                     Icon(Icons.error),
                   ],
@@ -81,7 +83,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               ),
             );
         }
-        if (state.isSubmitting) {
+        if (makeOfferState.isSubmitting) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -97,13 +99,13 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               ),
             );
         }
-        if (state.isSuccess) {
+        if (makeOfferState.isSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);
           _navBloc.add(NavigationEvent.goToInboxScreenEvent());
         }
       },
-      builder: (context, state) {
+      builder: (context, makeOfferState) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -180,7 +182,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               child: TradeMessageArea(
                 controller: _messageController,
                 validator: (_) {
-                  return !state.isMessageValid
+                  return !makeOfferState.isMessageValid
                       ? 'Message should have at least 4 characters.'
                       : null;
                 },
@@ -257,7 +259,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: getSelectedItems(state),
+                children: getSelectedItems(makeOfferState),
               ),
             ),
             SizedBox(
@@ -267,10 +269,35 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 10,
               ),
-              child: ActionButton(
-                title: 'Submit',
-                onPressed:
-                    isSignInButtonEnabled(state) ? _onFormSubmitted : null,
+              child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
+                builder: (_, currentUserState) {
+                  if (currentUserState.isSuccess) {
+                    final currentUser = currentUserState.currentUserModel;
+                    return BlocBuilder<SingleBarterItemOtherUserCubit,
+                        SingleBarterItemOtherUserState>(
+                      builder: (_, singleBarterItemOtherUserState) {
+                        final otherUserBarterModel =
+                            singleBarterItemOtherUserState.otherUserBarterItem;
+                        return ActionButton(
+                          title: 'Submit',
+                          onPressed: isSignInButtonEnabled(makeOfferState)
+                              ? _onFormSubmitted(
+                                  currentUser, otherUserBarterModel)
+                              : null,
+                        );
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Text(
+                        'Error: ${currentUserState.info}',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  }
+                },
               ),
             ),
           ],
@@ -279,7 +306,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
     );
   }
 
-  List<Widget> getSelectedItems(TradeOfferState state) {
+  List<Widget> getSelectedItems(MakeOfferState state) {
     List<Widget> items = [];
     if (state.pickedBarterItems != null) {
       items.add(SelectItemToTrade(
