@@ -33,20 +33,42 @@ class AuthenticationScreen extends StatelessWidget {
           _locationBloc.add(LocationEvent.getInitialUserLocation());
           return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
             builder: (_, remoteConfigState) {
-              return BlocBuilder<LocationBloc, LocationState>(
+              return BlocConsumer<LocationBloc, LocationState>(
+                listener: (_, locationState) {
+                  if (locationState.isSuccess) {
+                    _searchConfigBloc.add(
+                      SearchConfigEvent.setConfig(
+                        searchText: '',
+                        category: '',
+                        postedWithin: '',
+                        latitude: locationState.geoPoint.latitude,
+                        longitude: locationState.geoPoint.longitude,
+                      ),
+                    );
+
+                    SearchUtil().searchSubmit(
+                      searchText: '',
+                      category: '',
+                      postedWithin: '',
+                      latitude: locationState.geoPoint.latitude,
+                      longitude: locationState.geoPoint.longitude,
+                      algoliaSearchApiKey:
+                          remoteConfigState.algoliaSearchApiKey,
+                      algoliaAppId: remoteConfigState.algoliaAppId,
+                    );
+                  }
+                },
                 builder: (_, locationState) {
                   return BlocBuilder<UserBloc, UserState>(
                     builder: (_, userState) {
                       UserModel currentUser = userState.userModel;
 
-                      ///If the User is new get the current user location and address and update the user data.
-
-                      SearchUtil().processInitialUserData(
-                        currentUser,
-                        locationState,
-                        remoteConfigState,
+                      return BlocConsumer<SearchConfigBloc, SearchConfigState>(
+                        listener: (_, searchConfigState) {},
+                        builder: (_, searchConfigState) {
+                          return NavigationScreen();
+                        },
                       );
-                      return NavigationScreen();
                     },
                   );
                 },

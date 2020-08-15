@@ -3,27 +3,49 @@ part of 'location_bloc.dart';
 @freezed
 abstract class LocationState with _$LocationState {
   const factory LocationState({
-    GeoFirePoint geoFirePoint,
-    Placemark placeMark,
+    @required GeoPoint geoPoint,
+    @required Placemark placeMark,
+    @required bool isSubmitting,
+    @required bool isSuccess,
+    @required bool isFailure,
+    String info,
   }) = _LocationState;
 
-  factory LocationState.init() => LocationState();
-
-  factory LocationState.setInitialLocationData({
-    @required geoFirePoint,
-    @required placeMark,
-  }) =>
-      LocationState(
-        geoFirePoint: geoFirePoint,
-        placeMark: placeMark,
+  factory LocationState.empty() => LocationState(
+        geoPoint: GeoPoint(0, 0),
+        placeMark: Placemark(),
+        isSubmitting: true,
+        isSuccess: false,
+        isFailure: false,
+        info: '',
       );
 
-  factory LocationState.updateLocationData({
-    @required geoFirePoint,
-    @required placeMark,
-  }) =>
+  factory LocationState.loading() => LocationState(
+        geoPoint: GeoPoint(0, 0),
+        placeMark: Placemark(),
+        isSubmitting: true,
+        isSuccess: false,
+        isFailure: false,
+        info: '',
+      );
+
+  factory LocationState.failure(String info) => LocationState(
+        geoPoint: GeoPoint(0, 0),
+        placeMark: Placemark(),
+        isSubmitting: false,
+        isSuccess: false,
+        isFailure: true,
+        info: info,
+      );
+
+  factory LocationState.success(
+          {@required geoPoint, @required placeMark, @required String info}) =>
       LocationState(
-        geoFirePoint: geoFirePoint,
+        geoPoint: geoPoint,
         placeMark: placeMark,
+        isSubmitting: false,
+        isSuccess: true,
+        isFailure: false,
+        info: info,
       );
 }

@@ -1,7 +1,4 @@
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/bloc/user/user_bloc.dart';
@@ -44,53 +41,5 @@ class SearchUtil {
         longitude: longitude,
       ),
     );
-  }
-
-  void processInitialUserData(
-    UserModel currentUser,
-    LocationState locationState,
-    RemoteConfigDataState remoteConfigDataState,
-  ) {
-    if (currentUser != null && currentUser.address == null) {
-      if (currentUser.userId != null &&
-          currentUser.address == null &&
-          locationState.geoFirePoint != null) {
-        String address = '${locationState?.placeMark?.subLocality ?? ''}, '
-            '${locationState?.placeMark?.locality ?? ''} ';
-
-        currentUser.geoLocation = locationState?.geoFirePoint?.geoPoint;
-        currentUser.address = address;
-        currentUser.geoHash = locationState?.geoFirePoint?.hash;
-
-        _userBloc.add(UserEvent.updateCurrentLoggedInUser(currentUser));
-      }
-
-      /// initial home search
-      if (currentUser.userId != null &&
-          remoteConfigDataState.algoliaSearchApiKey.isNotEmpty &&
-          remoteConfigDataState.algoliaAppId.isNotEmpty &&
-          locationState.geoFirePoint != null) {
-        SearchUtil().searchSubmit(
-          searchText: '',
-          category: '',
-          postedWithin: '',
-          latitude: locationState.geoFirePoint.latitude,
-          longitude: locationState.geoFirePoint.longitude,
-          algoliaSearchApiKey: remoteConfigDataState.algoliaSearchApiKey,
-          algoliaAppId: remoteConfigDataState.algoliaAppId,
-        );
-
-        /// initial set of search config
-        _searchConfigBloc.add(
-          SearchConfigEvent.setConfig(
-            searchText: '',
-            category: '',
-            postedWithin: '',
-            latitude: locationState?.geoFirePoint?.latitude,
-            longitude: locationState?.geoFirePoint?.longitude,
-          ),
-        );
-      }
-    }
   }
 }

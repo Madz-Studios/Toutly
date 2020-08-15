@@ -23,7 +23,6 @@ import 'package:Toutly/core/usecases/barter_item/firestore_get_all_likes_barter_
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
-import 'package:geoflutterfire/src/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:Toutly/core/cubits/likes/likes_cubit.dart';
@@ -113,14 +112,11 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
           firestoreBarterRepository: g<FirestoreBarterRepository>()));
   g.registerFactory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(g<Firestore>()));
-  g.registerLazySingleton<Geoflutterfire>(
-      () => injectableModule.geoFlutterFire);
   g.registerLazySingleton<Geolocator>(() => injectableModule.geoLocator);
   g.registerLazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
   g.registerLazySingleton<LikesCubit>(
       () => LikesCubit(g<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>()));
-  g.registerLazySingleton<LocationBloc>(
-      () => LocationBloc(g<Geolocator>(), g<Geoflutterfire>()));
+  g.registerLazySingleton<LocationBloc>(() => LocationBloc(g<Geolocator>()));
   g.registerLazySingleton<MessagesBloc>(() => MessagesBloc(
       g<FirestoreGetAllBarterMessagesUseCase>(),
       g<FirestoreGetAllOfferMessagesUseCase>()));

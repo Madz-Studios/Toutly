@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
@@ -32,48 +31,39 @@ class HomeScreen extends StatelessWidget {
         title: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: appSizeConfig.safeBlockHorizontal * 5),
-          child: BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (_, remoteConfigState) {
-              return BlocBuilder<UserBloc, UserState>(
-                builder: (_, userState) {
-                  return BlocBuilder<SearchConfigBloc, SearchConfigState>(
-                    builder: (_, searchConfigState) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                            child: _SearchTextField(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                              left: appSizeConfig.safeBlockHorizontal * 2.5,
-                            ),
-                            child: GestureDetector(
-                              child: SvgPicture.asset(
-                                'assets/images/filter.svg',
-                                height: appSizeConfig.blockSizeVertical * 3,
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => SearchFilterScreen(
-                                      searchText: _searchController.text,
-                                      category: searchConfigState.category,
-                                      postedWithin:
-                                          searchConfigState.postedWithin,
-                                    ),
-                                  ),
-                                );
-                              },
+          child: BlocBuilder<SearchConfigBloc, SearchConfigState>(
+            builder: (_, searchConfigState) {
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: _SearchTextField(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: appSizeConfig.safeBlockHorizontal * 2.5,
+                    ),
+                    child: GestureDetector(
+                      child: SvgPicture.asset(
+                        'assets/images/filter.svg',
+                        height: appSizeConfig.blockSizeVertical * 3,
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SearchFilterScreen(
+                              searchText: _searchController.text,
+                              category: searchConfigState.category,
+                              postedWithin: searchConfigState.postedWithin,
                             ),
                           ),
-                        ],
-                      );
-                    },
-                  );
-                },
+                        );
+                      },
+                    ),
+                  ),
+                ],
               );
             },
           ),
@@ -87,20 +77,10 @@ class HomeScreen extends StatelessWidget {
         },
         child: BlocBuilder<UserBloc, UserState>(
           builder: (_, userState) {
-            UserModel currentUser = userState.userModel;
             return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
               builder: (remoteConfigContext, remoteConfigState) {
                 return BlocBuilder<LocationBloc, LocationState>(
                   builder: (_, locationState) {
-                    ///If the User is new or no data in the address
-                    /// get the current user location and address and update the user data.
-
-                    SearchUtil().processInitialUserData(
-                      currentUser,
-                      locationState,
-                      remoteConfigState,
-                    );
-
                     return BlocBuilder<SearchBloc, SearchState>(
                       builder: (_, searchState) => searchState.map(
                         empty: (e) {
