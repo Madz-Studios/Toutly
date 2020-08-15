@@ -11,9 +11,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'trade_barter_item.dart';
+import 'make_offer_barter_item.dart';
 
-class TradeBarterItemList extends StatelessWidget {
+class MakeOfferBarterItemList extends StatelessWidget {
   final _navBloc = getIt<NavigationBloc>();
 
   @override
@@ -106,7 +106,7 @@ class TradeBarterItemList extends StatelessWidget {
                               itemBuilder: (context, index) {
                                 final barterModel = userBarterItems[index];
                                 return GridTile(
-                                  child: TradeBarterItem(barterModel),
+                                  child: MakeOfferBarterItem(barterModel),
                                 );
                               },
                             ),

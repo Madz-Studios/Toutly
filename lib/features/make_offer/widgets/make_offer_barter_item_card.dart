@@ -3,15 +3,16 @@ import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TradeBarterItemCard extends StatelessWidget {
+class MakeOfferBarterItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<SingleBarterItemOtherUserCubit,
         SingleBarterItemOtherUserState>(
       builder: (_, singleBarterItemOtherUserState) {
-        if(singleBarterItemOtherUserState.isSuccess) {
-          final otherUserBarterModel = singleBarterItemOtherUserState.otherUserBarterItem;
+        if (singleBarterItemOtherUserState.isSuccess) {
+          final otherUserBarterModel =
+              singleBarterItemOtherUserState.otherUserBarterItem;
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(5.0),
@@ -30,7 +31,8 @@ class TradeBarterItemCard extends StatelessWidget {
                           ),
                         ),
                         image: DecorationImage(
-                          image: NetworkImage(otherUserBarterModel.photosUrl[0]),
+                          image:
+                              NetworkImage(otherUserBarterModel.photosUrl[0]),
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -50,7 +52,6 @@ class TradeBarterItemCard extends StatelessWidget {
         } else {
           return Container();
         }
-
       },
     );
   }

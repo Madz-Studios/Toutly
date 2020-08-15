@@ -6,17 +6,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TradeBarterItem extends StatefulWidget {
+class MakeOfferBarterItem extends StatefulWidget {
   final BarterModel barterModel;
-  TradeBarterItem(
+  MakeOfferBarterItem(
     this.barterModel,
   );
 
   @override
-  _TradeBarterItemState createState() => _TradeBarterItemState();
+  _MakeOfferBarterItemState createState() => _MakeOfferBarterItemState();
 }
 
-class _TradeBarterItemState extends State<TradeBarterItem> {
+class _MakeOfferBarterItemState extends State<MakeOfferBarterItem> {
   final _makeOfferCubit = getIt<MakeOfferCubit>();
   bool isSelected = false;
 
