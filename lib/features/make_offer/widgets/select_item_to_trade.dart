@@ -84,7 +84,7 @@ class SelectItemToTrade extends StatelessWidget {
                               color: Color(0XFFB4B4B4),
                             ),
                             onTap: () {
-                              _makeOfferCubit..removeItemToOffer(barterModel);
+                              _makeOfferCubit.removeItemToOffer(barterModel);
                             },
                           ),
                         ),

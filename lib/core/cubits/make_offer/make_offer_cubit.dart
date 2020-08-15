@@ -42,27 +42,23 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
   }
 
   addItemToOffer(BarterModel barterModel) {
-    Map<String, BarterModel> items = state.pickedBarterItems;
-    items.putIfAbsent(barterModel.itemId, () => barterModel);
+    Map<String, BarterModel> newItems = Map.from(state.pickedBarterItems);
+    newItems.putIfAbsent(barterModel.itemId, () => barterModel);
     emit(state.copyWith(
-      pickedBarterItems: items,
+      pickedBarterItems: newItems,
     ));
   }
 
   removeItemToOffer(BarterModel barterModel) {
-    Map<String, BarterModel> items = state.pickedBarterItems;
-    items.remove(barterModel.itemId);
+    Map<String, BarterModel> newItems = Map.from(state.pickedBarterItems);
+    newItems.remove(barterModel.itemId);
     emit(state.copyWith(
-      pickedBarterItems: items,
+      pickedBarterItems: newItems,
     ));
   }
 
-  clearAllItemsToOffer() {
-    Map<String, BarterModel> items = state.pickedBarterItems;
-    items.clear();
-    emit(state.copyWith(
-      pickedBarterItems: items,
-    ));
+  reset() {
+    emit(MakeOfferState.empty());
   }
 
   submitButtonOfferPressed({
@@ -70,7 +66,9 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
     @required BarterModel otherUserBarterModel,
     @required String message,
   }) async {
-    emit(MakeOfferState.loading());
+    emit(state.copyWith(
+      isSubmitting: true,
+    ));
 
     try {
       String barterMessageId = uuid.v4();

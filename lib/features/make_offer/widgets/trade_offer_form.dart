@@ -1,6 +1,4 @@
-import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
-import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
@@ -18,6 +16,14 @@ import 'select_item_to_trade.dart';
 import 'trade_message_area.dart';
 
 class TradeOfferForm extends StatefulWidget {
+  final UserModel currentUser;
+  final BarterModel otherUserBarterModel;
+
+  TradeOfferForm(
+    this.currentUser,
+    this.otherUserBarterModel,
+  );
+
   @override
   _TradeOfferFormState createState() => _TradeOfferFormState();
 }
@@ -46,18 +52,42 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
         !state.isSubmitting;
   }
 
-  _onFormSubmitted(UserModel currentUser, BarterModel otherUserBarterModel) {
-    if (_messageController.text.isNotEmpty) {
-      _makeOfferCubit.submitButtonOfferPressed(
-        currentUser: currentUser,
-        otherUserBarterModel: otherUserBarterModel,
-        message: _messageController.text,
-      );
-    }
+  _onFormSubmitted() {
+    _makeOfferCubit.submitButtonOfferPressed(
+      currentUser: widget.currentUser,
+      otherUserBarterModel: widget.otherUserBarterModel,
+      message: _messageController.text,
+    );
   }
 
   void _onMessageChanged() {
     _makeOfferCubit.messageChanged(_messageController.text);
+  }
+
+  List<Widget> getSelectedItems(MakeOfferState state) {
+    List<Widget> items = [];
+    items.add(SelectItemToTrade(
+      barterModel: state.pickedBarterItems.length >= 1
+          ? state.pickedBarterItems.values.toList()[0]
+          : null,
+    ));
+    items.add(SelectItemToTrade(
+      barterModel: state.pickedBarterItems.length >= 2
+          ? state.pickedBarterItems.values.toList()[1]
+          : null,
+    ));
+    items.add(SelectItemToTrade(
+      barterModel: state.pickedBarterItems.length >= 3
+          ? state.pickedBarterItems.values.toList()[2]
+          : null,
+    ));
+    items.add(SelectItemToTrade(
+      barterModel: state.pickedBarterItems.length >= 4
+          ? state.pickedBarterItems.values.toList()[3]
+          : null,
+    ));
+
+    return items;
   }
 
   @override
@@ -103,6 +133,8 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
           Navigator.pop(context);
           Navigator.pop(context);
           _navBloc.add(NavigationEvent.goToInboxScreenEvent());
+
+          _makeOfferCubit.reset();
         }
       },
       builder: (context, makeOfferState) {
@@ -269,68 +301,16 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 10,
               ),
-              child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
-                builder: (_, currentUserState) {
-                  if (currentUserState.isSuccess) {
-                    final currentUser = currentUserState.currentUserModel;
-                    return BlocBuilder<SingleBarterItemOtherUserCubit,
-                        SingleBarterItemOtherUserState>(
-                      builder: (_, singleBarterItemOtherUserState) {
-                        final otherUserBarterModel =
-                            singleBarterItemOtherUserState.otherUserBarterItem;
-                        return ActionButton(
-                          title: 'Submit',
-                          onPressed: isSignInButtonEnabled(makeOfferState)
-                              ? _onFormSubmitted(
-                                  currentUser, otherUserBarterModel)
-                              : null,
-                        );
-                      },
-                    );
-                  } else {
-                    return Center(
-                      child: Text(
-                        'Error: ${currentUserState.info}',
-                        style: TextStyle(
-                          color: Colors.red,
-                        ),
-                      ),
-                    );
-                  }
-                },
+              child: ActionButton(
+                title: 'Submit',
+                onPressed: isSignInButtonEnabled(makeOfferState)
+                    ? _onFormSubmitted
+                    : null,
               ),
             ),
           ],
         );
       },
     );
-  }
-
-  List<Widget> getSelectedItems(MakeOfferState state) {
-    List<Widget> items = [];
-    if (state.pickedBarterItems != null) {
-      items.add(SelectItemToTrade(
-        barterModel: state.pickedBarterItems.length >= 1
-            ? state.pickedBarterItems.values.toList()[0]
-            : null,
-      ));
-      items.add(SelectItemToTrade(
-        barterModel: state.pickedBarterItems.length >= 2
-            ? state.pickedBarterItems.values.toList()[1]
-            : null,
-      ));
-      items.add(SelectItemToTrade(
-        barterModel: state.pickedBarterItems.length >= 3
-            ? state.pickedBarterItems.values.toList()[2]
-            : null,
-      ));
-      items.add(SelectItemToTrade(
-        barterModel: state.pickedBarterItems.length >= 4
-            ? state.pickedBarterItems.values.toList()[3]
-            : null,
-      ));
-    }
-
-    return items;
   }
 }
