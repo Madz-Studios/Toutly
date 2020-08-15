@@ -21,36 +21,43 @@ class SignUpScreen extends StatelessWidget {
                   horizontal: appSizeConfig.blockSizeHorizontal * 5,
                   vertical: appSizeConfig.blockSizeHorizontal * 5,
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    SvgPicture.asset(
-                      'assets/logos/toutly_logo.svg',
-                      width: appSizeConfig.blockSizeHorizontal * 15,
-                      height: appSizeConfig.blockSizeVertical * 15,
-                    ),
-                    SizedBox(
-                      height: appSizeConfig.safeBlockVertical * 2.5,
-                    ),
-                    Text(
-                      'Create an Account',
-                      style: TextStyle(
-                        fontFamily: 'SFCompactRounded',
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.w500,
-                        fontSize: 24.0,
+                child: GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    // Touch and fold the keyboard
+                    FocusScope.of(context).requestFocus(FocusNode());
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      SvgPicture.asset(
+                        'assets/logos/toutly_logo.svg',
+                        width: appSizeConfig.blockSizeHorizontal * 15,
+                        height: appSizeConfig.blockSizeVertical * 15,
                       ),
-                    ),
-                    SizedBox(
-                      height: appSizeConfig.safeBlockVertical * 2.5,
-                    ),
-                    SignUpForm(),
-                    SizedBox(
-                      height: appSizeConfig.safeBlockVertical * 5,
-                    ),
-                    SocialAccountPanel(),
-                  ],
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 2.5,
+                      ),
+                      Text(
+                        'Create an Account',
+                        style: TextStyle(
+                          fontFamily: 'SFCompactRounded',
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 24.0,
+                        ),
+                      ),
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 2.5,
+                      ),
+                      SignUpForm(),
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 5,
+                      ),
+                      SocialAccountPanel(),
+                    ],
+                  ),
                 ),
               ),
             ),
