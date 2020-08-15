@@ -17,25 +17,29 @@ class UserProfileScreen extends StatelessWidget {
         if (currentUserState.isSuccess) {
           final currentUser = currentUserState.currentUserModel;
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: kPrimaryColor,
-              title: Text('Profile'),
-              actions: [
-                IconButton(
-                  icon: Icon(
-                    Icons.edit,
-                    color: Colors.white,
+            appBar: PreferredSize(
+              preferredSize:
+                  Size.fromHeight(appSizeConfig.blockSizeVertical * 5.5),
+              child: AppBar(
+                backgroundColor: kPrimaryColor,
+                title: Text('Profile'),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.edit,
+                      color: Colors.white,
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EditProfileScreen(currentUser),
+                        ),
+                      );
+                    },
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => EditProfileScreen(currentUser),
-                      ),
-                    );
-                  },
-                ),
-              ],
+                ],
+              ),
             ),
             body: Column(
               mainAxisAlignment: MainAxisAlignment.start,

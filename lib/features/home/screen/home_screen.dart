@@ -20,50 +20,53 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: kPrimaryColor,
-        automaticallyImplyLeading: false, // Don't show the leading button
-        titleSpacing: 0,
-        centerTitle: true,
-        title: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.safeBlockHorizontal * 5,
-          ),
-          child: BlocBuilder<SearchConfigCubit, SearchConfigState>(
-            builder: (_, searchConfigState) {
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: _SearchTextField(),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: appSizeConfig.safeBlockHorizontal * 2.5,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(appSizeConfig.blockSizeVertical * 5.5),
+        child: AppBar(
+          backgroundColor: kPrimaryColor,
+          automaticallyImplyLeading: false, // Don't show the leading button
+          titleSpacing: 0,
+          centerTitle: true,
+          title: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: appSizeConfig.safeBlockHorizontal * 5,
+            ),
+            child: BlocBuilder<SearchConfigCubit, SearchConfigState>(
+              builder: (_, searchConfigState) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: _SearchTextField(),
                     ),
-                    child: GestureDetector(
-                      child: SvgPicture.asset(
-                        'assets/images/filter.svg',
-                        height: appSizeConfig.blockSizeVertical * 3,
+                    Padding(
+                      padding: EdgeInsets.only(
+                        left: appSizeConfig.safeBlockHorizontal * 2.5,
                       ),
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SearchFilterScreen(
-                              searchText: searchConfigState.searchText,
-                              category: searchConfigState.category,
-                              postedWithin: searchConfigState.postedWithin,
+                      child: GestureDetector(
+                        child: SvgPicture.asset(
+                          'assets/images/filter.svg',
+                          height: appSizeConfig.blockSizeVertical * 3,
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SearchFilterScreen(
+                                searchText: searchConfigState.searchText,
+                                category: searchConfigState.category,
+                                postedWithin: searchConfigState.postedWithin,
+                              ),
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
