@@ -1,8 +1,8 @@
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/likes/screen/likes_screen.dart';
 import 'package:Toutly/features/messages/screen/messages_screen.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/navigation/widgets/custom_app_bar.dart';
 import 'package:Toutly/features/navigation/widgets/navigation_bar.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
@@ -19,7 +19,7 @@ class NavigationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<NavigationBloc, NavigationState>(
+    return BlocBuilder<NavigationCubit, NavigationState>(
       builder: (context, state) => state.map(
         homeScreen: (_) {
           return _buildNoAppBarSingleViewScreen(

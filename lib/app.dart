@@ -5,11 +5,15 @@ import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_oth
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
+import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/features/authentication/screen/authentication_screen.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
@@ -23,10 +27,6 @@ import 'package:google_map_location_picker/generated/i18n.dart'
     as location_picker;
 import 'package:google_map_location_picker/generated/i18n.dart';
 
-import 'core/di/injector.dart';
-import 'features/authentication/screen/authentication_screen.dart';
-import 'features/navigation/bloc/navigation_bloc.dart';
-import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
 
 class App extends StatelessWidget {
@@ -98,18 +98,14 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<SearchConfigCubit>(),
         ),
 
+        /// Navigation Cubit
+        BlocProvider<NavigationCubit>(
+            create: (BuildContext context) => getIt<NavigationCubit>()),
+
         /// CUBITS REGISTRATION END
 
         ///SCREENS BLOC
         ///
-
-        /// Navigation Bloc
-        BlocProvider<NavigationBloc>(
-          create: (BuildContext context) => getIt<NavigationBloc>()
-            ..add(
-              NavigationEvent.goToHomeScreenEvent(),
-            ),
-        ),
 
         /// Post Bloc
         BlocProvider<PostBloc>(

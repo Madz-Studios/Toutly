@@ -1,5 +1,6 @@
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -7,7 +8,6 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_card.dart';
 import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_list.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -29,7 +29,7 @@ class MakeOfferForm extends StatefulWidget {
 }
 
 class _MakeOfferFormState extends State<MakeOfferForm> {
-  final _navBloc = getIt<NavigationBloc>();
+  final _navCubit = getIt<NavigationCubit>();
   final _makeOfferCubit = getIt<MakeOfferCubit>();
   final _messageController = TextEditingController();
 
@@ -132,7 +132,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
         if (makeOfferState.isSuccess) {
           Navigator.pop(context);
           Navigator.pop(context);
-          _navBloc.add(NavigationEvent.goToInboxScreenEvent());
+          _navCubit.goToInboxScreen();
 
           _makeOfferCubit.reset();
         }

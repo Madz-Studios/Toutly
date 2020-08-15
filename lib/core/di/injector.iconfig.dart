@@ -28,7 +28,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
@@ -119,7 +119,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<MessagesBloc>(() => MessagesBloc(
       g<FirestoreGetAllBarterMessagesUseCase>(),
       g<FirestoreGetAllOfferMessagesUseCase>()));
-  g.registerLazySingleton<NavigationBloc>(() => NavigationBloc());
+  g.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
   final remoteConfig = await injectableModule.remoteConfig;
   g.registerFactory<RemoteConfig>(() => remoteConfig);
   g.registerLazySingleton<RemoteConfigDataBloc>(

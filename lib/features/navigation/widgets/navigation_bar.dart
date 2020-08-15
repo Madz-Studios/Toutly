@@ -1,5 +1,5 @@
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationBar extends StatelessWidget {
-  final _navigationBloc = getIt<NavigationBloc>();
+  final _navigationCubit = getIt<NavigationCubit>();
 
   NavigationBar(
     this.currentIndex, {
@@ -91,19 +91,19 @@ class NavigationBar extends StatelessWidget {
 
   void _onItemTapped(int index) {
     if (index == AppNavigationIndex.homeIndex) {
-      _navigationBloc.add(NavigationEvent.goToHomeScreenEvent());
+      _navigationCubit.goToHomeScreen();
     }
     if (index == AppNavigationIndex.searchIndex) {
-      _navigationBloc.add(NavigationEvent.goToLikesScreenEvent());
+      _navigationCubit.goToLikesScreen();
     }
     if (index == AppNavigationIndex.postIndex) {
-      _navigationBloc.add(NavigationEvent.goToPostScreenEvent());
+      _navigationCubit.goToPostScreen();
     }
     if (index == AppNavigationIndex.useProfileIndex) {
-      _navigationBloc.add(NavigationEvent.goToUserProfileScreenEvent());
+      _navigationCubit.goToUserProfileScreen();
     }
     if (index == AppNavigationIndex.inboxIndex) {
-      _navigationBloc.add(NavigationEvent.goToInboxScreenEvent());
+      _navigationCubit.goToInboxScreen();
     }
   }
 }

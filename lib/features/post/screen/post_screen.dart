@@ -1,6 +1,6 @@
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/item_description_form.dart';
 import 'package:Toutly/features/post/widgets/select_photos.dart';
@@ -15,7 +15,7 @@ import 'package:google_fonts/google_fonts.dart';
 class PostScreen extends StatelessWidget {
   final _postBloc = getIt<PostBloc>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
-  final _navBloc = getIt<NavigationBloc>();
+  final _navCubit = getIt<NavigationCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +74,7 @@ class PostScreen extends StatelessWidget {
 
           ///clear the photo list for the next post
           _postBloc.add(PostEvent.clearPhotoList());
-          _navBloc.add(NavigationEvent.goToUserProfileScreenEvent());
+          _navCubit.goToUserProfileScreen();
           _gotToPreviewBarterItem(state.barterModel, context);
         }
       },

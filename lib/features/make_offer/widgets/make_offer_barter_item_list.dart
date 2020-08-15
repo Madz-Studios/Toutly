@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -14,7 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'make_offer_barter_item.dart';
 
 class MakeOfferBarterItemList extends StatelessWidget {
-  final _navBloc = getIt<NavigationBloc>();
+  final _navCubit = getIt<NavigationCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +77,7 @@ class MakeOfferBarterItemList extends StatelessWidget {
                               Navigator.pop(context);
                               Navigator.pop(context);
 
-                              _navBloc
-                                  .add(NavigationEvent.goToPostScreenEvent());
+                              _navCubit.goToPostScreen();
                             },
                           ),
                         ],
