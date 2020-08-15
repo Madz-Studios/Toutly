@@ -1,8 +1,10 @@
-import 'package:Toutly/core/cubits/barter_item/barter_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
-import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
-import 'package:Toutly/shared/bloc/likes/likes_bloc.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
@@ -26,7 +28,6 @@ import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
 import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
 import 'shared/bloc/sign/sign_bloc.dart';
-import 'shared/bloc/user/user_bloc.dart';
 
 class App extends StatelessWidget {
   final analytics = FirebaseAnalytics();
@@ -39,7 +40,37 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        ///
+        /// CUBITS REGISTRATION START
+
+        /// Current User Cubit
+        BlocProvider<CurrentUserCubit>(
+          create: (BuildContext context) => getIt<CurrentUserCubit>(),
+        ),
+
+        /// Other User Cubit
+        BlocProvider<OtherUserCubit>(
+          create: (BuildContext context) => getIt<OtherUserCubit>(),
+        ),
+
+        ///Barter Items Cubit
+        BlocProvider<ListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<ListBarterModelCurrentUserCubit>(),
+        ),
+
+        /// Likes CurrentUser Cubit
+        BlocProvider<LikesCurrentUserCubit>(
+          create: (BuildContext context) => getIt<LikesCurrentUserCubit>(),
+        ),
+
+        /// Single Other User Barter Item Cubit
+        BlocProvider<SingleBarterItemOtherUserCubit>(
+          create: (BuildContext context) =>
+              getIt<SingleBarterItemOtherUserCubit>(),
+        ),
+
+        /// CUBITS REGISTRATION END
+
         ///SCREENS BLOC
         ///
 
@@ -71,15 +102,6 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
         ),
 
-        /// Barter Items Bloc
-        BlocProvider<BarterBloc>(
-          create: (BuildContext context) => getIt<BarterBloc>(),
-        ),
-
-        BlocProvider<BarterCubit>(
-          create: (BuildContext context) => getIt<BarterCubit>(),
-        ),
-
         /// TradeOffer Bloc
         BlocProvider<TradeOfferBloc>(
           create: (BuildContext context) => getIt<TradeOfferBloc>(),
@@ -105,19 +127,9 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<LocationBloc>(),
         ),
 
-        /// User Bloc
-        BlocProvider<UserBloc>(
-          create: (BuildContext context) => getIt<UserBloc>(),
-        ),
-
         /// Search Bloc
         BlocProvider<SearchBloc>(
           create: (BuildContext context) => getIt<SearchBloc>(),
-        ),
-
-        /// Likes Bloc
-        BlocProvider<LikesBloc>(
-          create: (BuildContext context) => getIt<LikesBloc>(),
         ),
 
         /// Search Config Bloc

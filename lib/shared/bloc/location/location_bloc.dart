@@ -40,7 +40,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
           Placemark place = p[0];
 
-          yield LocationState.success(geoPoint: geoPoint, placeMark: place);
+          yield LocationState.success(
+              geoPoint: geoPoint, placeMark: place, info: 'Success');
         } on PlatformException catch (platFormException) {
           yield LocationState.failure(platFormException.message);
           if (platFormException.code == 'PERMISSION_DENIED') {
@@ -65,7 +66,8 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
 
           Placemark place = p[0];
 
-          yield LocationState.success(geoPoint: geoPoint, placeMark: place);
+          yield LocationState.success(
+              geoPoint: geoPoint, placeMark: place, info: 'Success');
         } on PlatformException catch (platFormException) {
           yield LocationState.failure(platFormException.message);
           if (platFormException.code == 'PERMISSION_DENIED') {

@@ -1,20 +1,20 @@
-part of 'user_cubit.dart';
+part of 'current_user_cubit.dart';
 
 @freezed
-abstract class UserState implements _$UserState {
-  const UserState._();
-  const factory UserState({
-    @required UserModel userModel,
+abstract class CurrentUserState implements _$CurrentUserState {
+  const CurrentUserState._();
+  const factory CurrentUserState({
+    @required UserModel currentUserModel,
     @required bool isNameValid,
     @required bool isLocationValid,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
-  }) = _UserState;
+  }) = _CurrentUserState;
 
-  factory UserState.empty() => UserState(
-        userModel: UserModel(),
+  factory CurrentUserState.empty() => CurrentUserState(
+        currentUserModel: UserModel(),
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,
@@ -23,8 +23,8 @@ abstract class UserState implements _$UserState {
         info: '',
       );
 
-  factory UserState.loading() => UserState(
-        userModel: UserModel(),
+  factory CurrentUserState.loading() => CurrentUserState(
+        currentUserModel: UserModel(),
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: true,
@@ -33,8 +33,8 @@ abstract class UserState implements _$UserState {
         info: '',
       );
 
-  factory UserState.failure({@required String info}) => UserState(
-        userModel: UserModel(),
+  factory CurrentUserState.failure(String info) => CurrentUserState(
+        currentUserModel: UserModel(),
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,
@@ -43,8 +43,9 @@ abstract class UserState implements _$UserState {
         info: info,
       );
 
-  factory UserState.success({@required UserModel userModel}) => UserState(
-        userModel: userModel,
+  factory CurrentUserState.success(UserModel currentUserModel) =>
+      CurrentUserState(
+        currentUserModel: currentUserModel,
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,

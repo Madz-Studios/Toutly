@@ -1,10 +1,11 @@
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/edit_profile/screen/edit_profile_screen.dart';
-import 'package:Toutly/features/user_profile/widgets/user_info.dart';
 import 'package:Toutly/features/user_profile/widgets/user_profile_tab_menu.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,142 +15,116 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
-  final _userBloc = getIt<UserBloc>();
+  final _currentUserCubit = getIt<CurrentUserCubit>();
 
   @override
   void initState() {
     super.initState();
-    _userBloc.add(
-      UserEvent.getCurrentLoggedInUser(),
-    );
+    _currentUserCubit.getCurrentLoggedInUser();
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            backgroundColor: kPrimaryColor,
-            title: Text('Profile'),
-            actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.edit,
-                  color: Colors.white,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => EditProfileScreen(
-                        userModel: state.userModel,
+    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+      builder: (context, currentUserState) {
+        if (currentUserState.isSuccess) {
+          final currentUser = currentUserState.currentUserModel;
+          return Scaffold(
+            appBar: AppBar(
+              backgroundColor: kPrimaryColor,
+              title: Text('Profile'),
+              actions: [
+                IconButton(
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.white,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => EditProfileScreen(
+                          userModel: currentUser,
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            mainAxisSize: MainAxisSize.max,
-            children: [
-              SizedBox(
-                height: appSizeConfig.safeBlockVertical * 3,
-              ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: appSizeConfig.safeBlockHorizontal * 3,
+                    );
+                  },
                 ),
-                child: UserInfo(state),
-              ),
-              SizedBox(
-                height: appSizeConfig.safeBlockVertical * 3,
-              ),
-              Expanded(
-                child: UserProfileTabMenu(),
-              ),
-            ],
-          ),
-        );
+              ],
+            ),
+            body: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                SizedBox(
+                  height: appSizeConfig.safeBlockVertical * 3,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: appSizeConfig.safeBlockHorizontal * 3,
+                  ),
+                  child: _UserInfo(currentUser),
+                ),
+                SizedBox(
+                  height: appSizeConfig.safeBlockVertical * 3,
+                ),
+                Expanded(
+                  child: UserProfileTabMenu(),
+                ),
+              ],
+            ),
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }
 }
 
-class _UserFollowing extends StatelessWidget {
-  const _UserFollowing({
-    Key key,
-  }) : super(key: key);
+class _UserInfo extends StatelessWidget {
+  final UserModel userModel;
 
+  _UserInfo(this.userModel);
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          '1',
-          style: TextStyle(
-            fontSize: 14.0,
+    final appSizeConfig = AppSizeConfig(context);
+    return Row(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.safeBlockHorizontal * 3,
+          ),
+          child: CircleAvatar(
+            backgroundImage:
+                userModel.photoUrl == null || userModel.photoUrl.isEmpty
+                    ? AssetImage('assets/images/profile_placeholder.png')
+                    : CachedNetworkImageProvider(userModel.photoUrl),
+            radius: appSizeConfig.safeBlockVertical * 5,
           ),
         ),
-        Text(
-          'Following',
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _UserFollowers extends StatelessWidget {
-  const _UserFollowers({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          '1',
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-        Text(
-          'Followers',
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _UserPosts extends StatelessWidget {
-  const _UserPosts({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Text(
-          '1',
-          style: TextStyle(
-            fontSize: 14.0,
-          ),
-        ),
-        Text(
-          'Post',
-          style: TextStyle(
-            fontSize: 14.0,
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                userModel.name ?? '',
+                style: TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                userModel.address ?? '',
+                overflow: TextOverflow.fade,
+                softWrap: true,
+                style: TextStyle(
+                  fontSize: 14.0,
+                ),
+              ),
+            ],
           ),
         ),
       ],

@@ -1,19 +1,20 @@
-import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'barter_cubit.freezed.dart';
-part 'barter_state.dart';
+part 'list_barter_model_current_user_cubit.freezed.dart';
+part 'list_barter_model_current_user_state.dart';
 
 @lazySingleton
-class BarterCubit extends Cubit<BarterState> {
+class ListBarterModelCurrentUserCubit
+    extends Cubit<ListBarterModelCurrentUserState> {
   final FirebaseGetUserUseCase firebaseGetUserUseCase;
 
   final FirestoreGetAllBarterItemsUsingUserIdUseCase
@@ -22,30 +23,26 @@ class BarterCubit extends Cubit<BarterState> {
   final FirestoreGetAllLikesBarterItemsUsingUserIdUseCase
       firestoreGetAllLikesBarterItemsUsingUserIdUseCase;
 
-  BarterCubit(
+  ListBarterModelCurrentUserCubit(
     this.firebaseGetUserUseCase,
     this.firestoreGetAllBarterItemsUsingUserIdUseCase,
     this.firestoreGetAllLikesBarterItemsUsingUserIdUseCase,
-  ) : super(BarterState.empty());
+  ) : super(ListBarterModelCurrentUserState.empty());
 
-  getUserBarterItems(String userId) {
+  getCurrentUserBarterItems() async {
     try {
-      emit(BarterState.loading());
+      emit(ListBarterModelCurrentUserState.loading());
+      final currentFirebaseUser =
+          await firebaseGetUserUseCase.call(UseCaseNoParam.init());
+
       final listings = firestoreGetAllBarterItemsUsingUserIdUseCase.call(
-        UseCaseUserIdParam.init(userId: userId),
+        UseCaseUserIdParam.init(userId: currentFirebaseUser.uid),
       );
-      emit(BarterState.success(userBarterItems: listings, info: 'Success'));
+      emit(ListBarterModelCurrentUserState.success(
+          userBarterItems: listings, info: 'Success'));
     } on PlatformException catch (platformException) {
-      emit(BarterState.failure(info: platformException.message));
+      emit(ListBarterModelCurrentUserState.failure(
+          info: platformException.message));
     }
-  }
-
-  Future<List<BarterModel>> getAllUserFavouriteBarterItems(
-      List<String> itemIds) {
-    final listings = firestoreGetAllLikesBarterItemsUsingUserIdUseCase.call(
-      UseCaseUserIdWithItemIdListParam.init(itemIds),
-    );
-
-    return listings;
   }
 }

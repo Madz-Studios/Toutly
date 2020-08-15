@@ -1,11 +1,12 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/conversation/screen/conversation_screen.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -16,66 +17,70 @@ class OffersTab extends StatelessWidget {
   final _messagesBloc = getIt<MessagesBloc>();
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (_, userState) {
-        final currentUser = userState.userModel;
-        return StreamBuilder<QuerySnapshot>(
-          stream: _messagesBloc.getAllUserOfferMessages(
-            currentUser.userId,
-          ),
-          builder: (_, snapshot) {
-            if (!snapshot.hasData) {
-              if (Platform.isIOS) {
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text(
-                  'Error: ${snapshot.error}',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            } else {
-              final messagesDocs = snapshot.data.documents;
-
-              if (messagesDocs.isNotEmpty) {
-                List<_MessageOfferItem> messageItems = [];
-                for (final message in messagesDocs) {
-                  final barterMessageModel =
-                      BarterMessageModel.fromJson(message.data);
-                  messageItems.add(
-                    _MessageOfferItem(barterMessageModel),
+    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+      builder: (_, currentUserState) {
+        if (currentUserState.isSuccess) {
+          final currentUser = currentUserState.currentUserModel;
+          return StreamBuilder<QuerySnapshot>(
+            stream: _messagesBloc.getAllUserOfferMessages(
+              currentUser.userId,
+            ),
+            builder: (_, snapshot) {
+              if (!snapshot.hasData) {
+                if (Platform.isIOS) {
+                  return Center(
+                    child: CupertinoActivityIndicator(),
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
                 }
-
-                return SingleChildScrollView(
-                  child: Column(
-                    children: messageItems,
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Text(
+                    'Error: ${snapshot.error}',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
                   ),
                 );
               } else {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'You have currently no messages',
-                      ),
-                    ],
-                  ),
-                );
+                final messagesDocs = snapshot.data.documents;
+
+                if (messagesDocs.isNotEmpty) {
+                  List<_MessageOfferItem> messageItems = [];
+                  for (final message in messagesDocs) {
+                    final barterMessageModel =
+                        BarterMessageModel.fromJson(message.data);
+                    messageItems.add(
+                      _MessageOfferItem(barterMessageModel),
+                    );
+                  }
+
+                  return SingleChildScrollView(
+                    child: Column(
+                      children: messageItems,
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'You have currently no messages',
+                        ),
+                      ],
+                    ),
+                  );
+                }
               }
-            }
-          },
-        );
+            },
+          );
+        } else {
+          return Container();
+        }
       },
     );
   }
@@ -85,7 +90,7 @@ class _MessageOfferItem extends StatelessWidget {
   final BarterMessageModel barterMessageModel;
   _MessageOfferItem(this.barterMessageModel);
 
-  final _userBloc = getIt<UserBloc>();
+  final _otherUserCubit = getIt<OtherUserCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -95,7 +100,7 @@ class _MessageOfferItem extends StatelessWidget {
         _onTappedMessageItem(context);
       },
       child: FutureBuilder(
-        future: _userBloc.getUser(
+        future: _otherUserCubit.getOtherUser(
           barterMessageModel.userBarter,
         ),
         builder: (context, snapshot) {

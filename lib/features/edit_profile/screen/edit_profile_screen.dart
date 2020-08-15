@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
@@ -6,7 +7,6 @@ import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -25,7 +25,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _userBloc = getIt<UserBloc>();
+  final _currentUserCubit = getIt<CurrentUserCubit>();
   final _authBloc = getIt<AuthenticationBloc>();
   final _locationBloc = getIt<LocationBloc>();
   final _searchBloc = getIt<SearchBloc>();
@@ -53,33 +53,24 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _onNameChanged() {
-    _userBloc.add(
-      UserEvent.nameChanged(name: _nameController.text),
-    );
+    _currentUserCubit.nameChanged(_nameController.text);
   }
 
   void _onAddressChanged() {
-    _userBloc.add(
-      UserEvent.locationChanged(location: _addressController.text),
-    );
+    _currentUserCubit.locationChanged(_addressController.text);
   }
 
   _onSaveClicked(
-      UserState userState,
+      UserModel currentUser,
       LocationState locationState,
       SearchConfigState searchConfigState,
       RemoteConfigDataState remoteConfigDataState) {
-    userState.userModel.name = _nameController.text;
-    userState.userModel.address =
-        "${locationState.placeMark.subLocality}, ${locationState.placeMark.locality}";
+    currentUser.name = _nameController.text;
+    currentUser.address = "${locationState.placeMark.subLocality}, "
+        "${locationState.placeMark.locality}";
 
-    userState.userModel.geoLocation = locationState.geoPoint;
-
-    _userBloc.add(
-      UserEvent.updateCurrentLoggedInUser(
-        userState.userModel,
-      ),
-    );
+    currentUser.geoLocation = locationState.geoPoint;
+    _currentUserCubit.updateCurrentLoggedInUser(currentUser);
 
     _searchConfig.add(
       SearchConfigEvent.setConfig(
@@ -103,9 +94,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       ),
     );
 
-    _userBloc.add(
-      UserEvent.getCurrentLoggedInUser(),
-    );
+    ///refresh current user
+    _currentUserCubit.getCurrentLoggedInUser();
 
     Navigator.pop(context);
   }
@@ -113,8 +103,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<UserBloc, UserState>(
-      builder: (_, userState) {
+    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+      builder: (_, currentUserState) {
+        UserModel currentUser;
+        if (currentUserState.isSuccess) {
+          currentUser = currentUserState.currentUserModel;
+        }
         return BlocBuilder<LocationBloc, LocationState>(
           builder: (_, locationState) {
             return BlocBuilder<SearchConfigBloc, SearchConfigState>(
@@ -147,7 +141,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               color: kPrimaryColor,
                             ),
                             onPressed: () {
-                              _onSaveClicked(userState, locationState,
+                              _onSaveClicked(currentUser, locationState,
                                   searchConfigState, remoteConfigDataState);
                             },
                           ),
@@ -155,96 +149,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       ),
                       body: SafeArea(
                         child: SingleChildScrollView(
-                          child: BlocBuilder<UserBloc, UserState>(
-                            builder: (_, userState) {
-                              UserModel currentUser = userState.userModel;
-                              _emailController.text = currentUser.email;
-                              return Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Column(
-                                    children: [
-                                      SizedBox(
-                                        height:
-                                            appSizeConfig.safeBlockVertical * 2,
-                                      ),
-                                      SelectProfilePhoto(userState.userModel),
-                                      SizedBox(
-                                        height:
-                                            appSizeConfig.safeBlockVertical * 3,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: appSizeConfig
-                                                  .safeBlockHorizontal *
-                                              5,
-                                        ),
-                                        child: SignTextFormField(
-                                          controller: _nameController,
-                                          textInputType: TextInputType.text,
-                                          validator: (_) {
-                                            return !userState.isNameValid
-                                                ? 'Invalid Name'
-                                                : null;
-                                          },
-                                          hintText: "Name",
-                                          obscureText: false,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            appSizeConfig.safeBlockVertical * 3,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: appSizeConfig
-                                                  .safeBlockHorizontal *
-                                              5,
-                                        ),
-                                        child: SignTextFormField(
-                                          controller: _emailController,
-                                          hintText: 'Email',
-                                          textInputType: TextInputType.text,
-                                          obscureText: false,
-                                          enabled: false,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            appSizeConfig.safeBlockVertical * 3,
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: appSizeConfig
-                                                  .safeBlockHorizontal *
-                                              5,
-                                        ),
-                                        child: _buildAddressForm(
-                                            context, currentUser, userState),
-                                      ),
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          appSizeConfig.safeBlockHorizontal *
-                                              10,
-                                      vertical:
-                                          appSizeConfig.safeBlockVertical * 5,
-                                    ),
-                                    child: ActionButton(
-                                      title: 'Logout',
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                        _authBloc.add(
-                                            AuthenticationEvent.signedOut());
-                                      },
-                                    ),
-                                  )
-                                ],
-                              );
+                          child:
+                              BlocBuilder<CurrentUserCubit, CurrentUserState>(
+                            builder: (_, currentUserState) {
+                              UserModel currentUser;
+                              if (currentUserState.isSuccess) {
+                                currentUser = currentUserState.currentUserModel;
+                                _emailController.text = currentUser.email;
+
+                                return _buildEditProfileForm(appSizeConfig,
+                                    currentUser, currentUserState, context);
+                              } else {
+                                return Container();
+                              }
                             },
                           ),
                         ),
@@ -260,10 +177,85 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
+  Column _buildEditProfileForm(
+      AppSizeConfig appSizeConfig,
+      UserModel currentUser,
+      CurrentUserState currentUserState,
+      BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Column(
+          children: [
+            SizedBox(
+              height: appSizeConfig.safeBlockVertical * 2,
+            ),
+            SelectProfilePhoto(currentUser),
+            SizedBox(
+              height: appSizeConfig.safeBlockVertical * 3,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.safeBlockHorizontal * 5,
+              ),
+              child: SignTextFormField(
+                controller: _nameController,
+                textInputType: TextInputType.text,
+                validator: (_) {
+                  return !currentUserState.isNameValid ? 'Invalid Name' : null;
+                },
+                hintText: "Name",
+                obscureText: false,
+              ),
+            ),
+            SizedBox(
+              height: appSizeConfig.safeBlockVertical * 3,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.safeBlockHorizontal * 5,
+              ),
+              child: SignTextFormField(
+                controller: _emailController,
+                hintText: 'Email',
+                textInputType: TextInputType.text,
+                obscureText: false,
+                enabled: false,
+              ),
+            ),
+            SizedBox(
+              height: appSizeConfig.safeBlockVertical * 3,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.safeBlockHorizontal * 5,
+              ),
+              child: _buildAddressForm(context, currentUser, currentUserState),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.safeBlockHorizontal * 10,
+            vertical: appSizeConfig.safeBlockVertical * 5,
+          ),
+          child: ActionButton(
+            title: 'Logout',
+            onPressed: () {
+              Navigator.pop(context);
+              _authBloc.add(AuthenticationEvent.signedOut());
+            },
+          ),
+        )
+      ],
+    );
+  }
+
   BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState> _buildAddressForm(
     BuildContext context,
     UserModel currentUser,
-    UserState userState,
+    CurrentUserState userState,
   ) {
     return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
       builder: (_, remoteConfigDataState) {

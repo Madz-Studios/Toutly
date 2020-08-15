@@ -9,8 +9,6 @@ abstract class FirestoreBarterRepository {
 
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
-//  Stream<QuerySnapshot> getFutureAllBarterItemsUsingUserId(String userId);
-
   Future<List<BarterModel>> getFutureAllLikesBarterItemsUsingItemIdList(
       List<String> itemIds);
 

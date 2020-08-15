@@ -1,5 +1,5 @@
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
 import 'package:Toutly/features/signin/screen/signin_screen.dart';
@@ -7,7 +7,6 @@ import 'package:Toutly/features/splash/splash_screen.dart';
 import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,7 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthenticationScreen extends StatelessWidget {
   final _locationBloc = getIt<LocationBloc>();
   final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
-  final _userBloc = getIt<UserBloc>();
+  final _currentUserCubit = getIt<CurrentUserCubit>();
   final _searchConfigBloc = getIt<SearchConfigBloc>();
 
   @override
@@ -28,7 +27,8 @@ class AuthenticationScreen extends StatelessWidget {
         authenticated: (value) {
           _remoteConfigBloc.add(RemoteConfigDataEvent.loadConfigData());
 
-          _userBloc.add(UserEvent.getCurrentLoggedInUser());
+//          _userBloc.add(UserEvent.getCurrentLoggedInUser());
+          _currentUserCubit.getCurrentLoggedInUser();
 
           _locationBloc.add(LocationEvent.getInitialUserLocation());
           return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
@@ -59,16 +59,9 @@ class AuthenticationScreen extends StatelessWidget {
                   }
                 },
                 builder: (_, locationState) {
-                  return BlocBuilder<UserBloc, UserState>(
-                    builder: (_, userState) {
-                      UserModel currentUser = userState.userModel;
-
-                      return BlocConsumer<SearchConfigBloc, SearchConfigState>(
-                        listener: (_, searchConfigState) {},
-                        builder: (_, searchConfigState) {
-                          return NavigationScreen();
-                        },
-                      );
+                  return BlocBuilder<SearchConfigBloc, SearchConfigState>(
+                    builder: (_, searchConfigState) {
+                      return NavigationScreen();
                     },
                   );
                 },

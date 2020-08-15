@@ -1,16 +1,18 @@
-part of 'barter_cubit.dart';
+part of 'list_barter_model_current_user_cubit.dart';
 
 @freezed
-abstract class BarterState with _$BarterState {
-  const factory BarterState({
+abstract class ListBarterModelCurrentUserState
+    with _$ListBarterModelCurrentUserState {
+  const factory ListBarterModelCurrentUserState({
     @required Stream<QuerySnapshot> userBarterItems,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
-  }) = _BarterState;
+  }) = _ListBarterModelCurrentUserState;
 
-  factory BarterState.empty() => BarterState(
+  factory ListBarterModelCurrentUserState.empty() =>
+      ListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
@@ -18,7 +20,8 @@ abstract class BarterState with _$BarterState {
         info: '',
       );
 
-  factory BarterState.loading() => BarterState(
+  factory ListBarterModelCurrentUserState.loading() =>
+      ListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: true,
         isSuccess: false,
@@ -26,7 +29,8 @@ abstract class BarterState with _$BarterState {
         info: '',
       );
 
-  factory BarterState.failure({@required String info}) => BarterState(
+  factory ListBarterModelCurrentUserState.failure({@required String info}) =>
+      ListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
@@ -34,10 +38,10 @@ abstract class BarterState with _$BarterState {
         info: info,
       );
 
-  factory BarterState.success(
+  factory ListBarterModelCurrentUserState.success(
           {@required Stream<QuerySnapshot> userBarterItems,
           @required String info}) =>
-      BarterState(
+      ListBarterModelCurrentUserState(
         userBarterItems: userBarterItems,
         isSubmitting: false,
         isSuccess: true,

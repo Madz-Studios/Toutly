@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
 
-part of 'barter_cubit.dart';
+part of 'likes_current_user_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -9,17 +9,17 @@ part of 'barter_cubit.dart';
 
 T _$identity<T>(T value) => value;
 
-class _$BarterStateTearOff {
-  const _$BarterStateTearOff();
+class _$LikesCurrentUserStateTearOff {
+  const _$LikesCurrentUserStateTearOff();
 
-  _BarterState call(
-      {@required Stream<QuerySnapshot> userBarterItems,
+  _LikesState call(
+      {@required Future<List<BarterModel>> listings,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
-    return _BarterState(
-      userBarterItems: userBarterItems,
+    return _LikesState(
+      listings: listings,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -29,49 +29,50 @@ class _$BarterStateTearOff {
 }
 
 // ignore: unused_element
-const $BarterState = _$BarterStateTearOff();
+const $LikesCurrentUserState = _$LikesCurrentUserStateTearOff();
 
-mixin _$BarterState {
-  Stream<QuerySnapshot> get userBarterItems;
+mixin _$LikesCurrentUserState {
+  Future<List<BarterModel>> get listings;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
   String get info;
 
-  $BarterStateCopyWith<BarterState> get copyWith;
+  $LikesCurrentUserStateCopyWith<LikesCurrentUserState> get copyWith;
 }
 
-abstract class $BarterStateCopyWith<$Res> {
-  factory $BarterStateCopyWith(
-          BarterState value, $Res Function(BarterState) then) =
-      _$BarterStateCopyWithImpl<$Res>;
+abstract class $LikesCurrentUserStateCopyWith<$Res> {
+  factory $LikesCurrentUserStateCopyWith(LikesCurrentUserState value,
+          $Res Function(LikesCurrentUserState) then) =
+      _$LikesCurrentUserStateCopyWithImpl<$Res>;
   $Res call(
-      {Stream<QuerySnapshot> userBarterItems,
+      {Future<List<BarterModel>> listings,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
       String info});
 }
 
-class _$BarterStateCopyWithImpl<$Res> implements $BarterStateCopyWith<$Res> {
-  _$BarterStateCopyWithImpl(this._value, this._then);
+class _$LikesCurrentUserStateCopyWithImpl<$Res>
+    implements $LikesCurrentUserStateCopyWith<$Res> {
+  _$LikesCurrentUserStateCopyWithImpl(this._value, this._then);
 
-  final BarterState _value;
+  final LikesCurrentUserState _value;
   // ignore: unused_field
-  final $Res Function(BarterState) _then;
+  final $Res Function(LikesCurrentUserState) _then;
 
   @override
   $Res call({
-    Object userBarterItems = freezed,
+    Object listings = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      userBarterItems: userBarterItems == freezed
-          ? _value.userBarterItems
-          : userBarterItems as Stream<QuerySnapshot>,
+      listings: listings == freezed
+          ? _value.listings
+          : listings as Future<List<BarterModel>>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -81,41 +82,42 @@ class _$BarterStateCopyWithImpl<$Res> implements $BarterStateCopyWith<$Res> {
   }
 }
 
-abstract class _$BarterStateCopyWith<$Res>
-    implements $BarterStateCopyWith<$Res> {
-  factory _$BarterStateCopyWith(
-          _BarterState value, $Res Function(_BarterState) then) =
-      __$BarterStateCopyWithImpl<$Res>;
+abstract class _$LikesStateCopyWith<$Res>
+    implements $LikesCurrentUserStateCopyWith<$Res> {
+  factory _$LikesStateCopyWith(
+          _LikesState value, $Res Function(_LikesState) then) =
+      __$LikesStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {Stream<QuerySnapshot> userBarterItems,
+      {Future<List<BarterModel>> listings,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
       String info});
 }
 
-class __$BarterStateCopyWithImpl<$Res> extends _$BarterStateCopyWithImpl<$Res>
-    implements _$BarterStateCopyWith<$Res> {
-  __$BarterStateCopyWithImpl(
-      _BarterState _value, $Res Function(_BarterState) _then)
-      : super(_value, (v) => _then(v as _BarterState));
+class __$LikesStateCopyWithImpl<$Res>
+    extends _$LikesCurrentUserStateCopyWithImpl<$Res>
+    implements _$LikesStateCopyWith<$Res> {
+  __$LikesStateCopyWithImpl(
+      _LikesState _value, $Res Function(_LikesState) _then)
+      : super(_value, (v) => _then(v as _LikesState));
 
   @override
-  _BarterState get _value => super._value as _BarterState;
+  _LikesState get _value => super._value as _LikesState;
 
   @override
   $Res call({
-    Object userBarterItems = freezed,
+    Object listings = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
-    return _then(_BarterState(
-      userBarterItems: userBarterItems == freezed
-          ? _value.userBarterItems
-          : userBarterItems as Stream<QuerySnapshot>,
+    return _then(_LikesState(
+      listings: listings == freezed
+          ? _value.listings
+          : listings as Future<List<BarterModel>>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -125,21 +127,21 @@ class __$BarterStateCopyWithImpl<$Res> extends _$BarterStateCopyWithImpl<$Res>
   }
 }
 
-class _$_BarterState implements _BarterState {
-  const _$_BarterState(
-      {@required this.userBarterItems,
+class _$_LikesState implements _LikesState {
+  const _$_LikesState(
+      {@required this.listings,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(userBarterItems != null),
+      : assert(listings != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
         assert(info != null);
 
   @override
-  final Stream<QuerySnapshot> userBarterItems;
+  final Future<List<BarterModel>> listings;
   @override
   final bool isSubmitting;
   @override
@@ -151,16 +153,16 @@ class _$_BarterState implements _BarterState {
 
   @override
   String toString() {
-    return 'BarterState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'LikesCurrentUserState(listings: $listings, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _BarterState &&
-            (identical(other.userBarterItems, userBarterItems) ||
+        (other is _LikesState &&
+            (identical(other.listings, listings) ||
                 const DeepCollectionEquality()
-                    .equals(other.userBarterItems, userBarterItems)) &&
+                    .equals(other.listings, listings)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -177,27 +179,27 @@ class _$_BarterState implements _BarterState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userBarterItems) ^
+      const DeepCollectionEquality().hash(listings) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
       const DeepCollectionEquality().hash(info);
 
   @override
-  _$BarterStateCopyWith<_BarterState> get copyWith =>
-      __$BarterStateCopyWithImpl<_BarterState>(this, _$identity);
+  _$LikesStateCopyWith<_LikesState> get copyWith =>
+      __$LikesStateCopyWithImpl<_LikesState>(this, _$identity);
 }
 
-abstract class _BarterState implements BarterState {
-  const factory _BarterState(
-      {@required Stream<QuerySnapshot> userBarterItems,
+abstract class _LikesState implements LikesCurrentUserState {
+  const factory _LikesState(
+      {@required Future<List<BarterModel>> listings,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
-      @required String info}) = _$_BarterState;
+      @required String info}) = _$_LikesState;
 
   @override
-  Stream<QuerySnapshot> get userBarterItems;
+  Future<List<BarterModel>> get listings;
   @override
   bool get isSubmitting;
   @override
@@ -207,5 +209,5 @@ abstract class _BarterState implements BarterState {
   @override
   String get info;
   @override
-  _$BarterStateCopyWith<_BarterState> get copyWith;
+  _$LikesStateCopyWith<_LikesState> get copyWith;
 }

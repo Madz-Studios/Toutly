@@ -1,16 +1,16 @@
-part of 'likes_cubit.dart';
+part of 'likes_current_user_cubit.dart';
 
 @freezed
-abstract class LikesState with _$LikesState {
-  const factory LikesState({
+abstract class LikesCurrentUserState with _$LikesCurrentUserState {
+  const factory LikesCurrentUserState({
     @required Future<List<BarterModel>> listings,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
-  }) = _BarterState;
+  }) = _LikesState;
 
-  factory LikesState.empty() => LikesState(
+  factory LikesCurrentUserState.empty() => LikesCurrentUserState(
         listings: Future.value([]),
         isSubmitting: false,
         isSuccess: false,
@@ -18,7 +18,7 @@ abstract class LikesState with _$LikesState {
         info: '',
       );
 
-  factory LikesState.loading() => LikesState(
+  factory LikesCurrentUserState.loading() => LikesCurrentUserState(
         listings: Future.value([]),
         isSubmitting: true,
         isSuccess: false,
@@ -26,7 +26,8 @@ abstract class LikesState with _$LikesState {
         info: '',
       );
 
-  factory LikesState.failure({@required String info}) => LikesState(
+  factory LikesCurrentUserState.failure({@required String info}) =>
+      LikesCurrentUserState(
         listings: Future.value([]),
         isSubmitting: false,
         isSuccess: false,
@@ -34,10 +35,10 @@ abstract class LikesState with _$LikesState {
         info: info,
       );
 
-  factory LikesState.success(
+  factory LikesCurrentUserState.success(
           {@required Future<List<BarterModel>> listings,
           @required String info}) =>
-      LikesState(
+      LikesCurrentUserState(
         listings: listings,
         isSubmitting: false,
         isSuccess: true,

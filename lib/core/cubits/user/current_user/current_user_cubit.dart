@@ -13,11 +13,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
 
-part 'user_cubit.freezed.dart';
-part 'user_state.dart';
+part 'current_user_cubit.freezed.dart';
+part 'current_user_state.dart';
 
 @lazySingleton
-class UserCubit extends Cubit<UserState> {
+class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirebaseGetUserUseCase firebaseGetUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase firestoreUpdateUserUseCase;
@@ -26,14 +26,14 @@ class UserCubit extends Cubit<UserState> {
 
   final Validators validators;
 
-  UserCubit(
+  CurrentUserCubit(
     this.firebaseGetUserUseCase,
     this.firestoreGetUserUseCase,
     this.firestoreUpdateUserUseCase,
     this.firebaseStorage,
     this.uuid,
     this.validators,
-  ) : super(UserState.empty());
+  ) : super(CurrentUserState.empty());
 
   nameChanged(String name) {
     emit(
@@ -48,18 +48,20 @@ class UserCubit extends Cubit<UserState> {
   }
 
   locationChanged(String location) {
-    emit(state.copyWith(
-      isLocationValid:
-          validators.isValidTextLengthMoreThanOrEqualToFourChars(location),
-      isSubmitting: false,
-      isSuccess: false,
-      isFailure: false,
-      info: '',
-    ));
+    emit(
+      state.copyWith(
+        isLocationValid:
+            validators.isValidTextLengthMoreThanOrEqualToFourChars(location),
+        isSubmitting: false,
+        isSuccess: false,
+        isFailure: false,
+        info: '',
+      ),
+    );
   }
 
   getCurrentLoggedInUser() async {
-    emit(UserState.loading());
+    emit(CurrentUserState.loading());
     try {
       final firebaseUser =
           await firebaseGetUserUseCase.call(UseCaseNoParam.init());
@@ -68,15 +70,15 @@ class UserCubit extends Cubit<UserState> {
         UseCaseUserParamUserId.init(firebaseUser.uid),
       );
 
-      emit(UserState.success(userModel: currentUser));
+      emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
-      emit(UserState.failure(info: platFormException.message));
+      emit(CurrentUserState.failure(platFormException.message));
     }
   }
 
   updateCurrentLoggedInUserProfilePicture(
       PickedFile pickedFile, UserModel currentUser) async {
-    emit(UserState.loading());
+    emit(CurrentUserState.loading());
     try {
       ///Upload profile picture in google storage
       final StorageReference storageReference =
@@ -98,29 +100,21 @@ class UserCubit extends Cubit<UserState> {
         UseCaseUserParamUserModel.init(currentUser),
       );
 
-      emit(UserState.success(userModel: currentUser));
+      emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
-      emit(UserState.failure(info: platFormException.message));
+      emit(CurrentUserState.failure(platFormException.message));
     }
   }
 
   updateCurrentLoggedInUser(UserModel currentUser) {
-    emit(UserState.loading());
+    emit(CurrentUserState.loading());
     try {
       firestoreUpdateUserUseCase.call(
         UseCaseUserParamUserModel.init(currentUser),
       );
-      emit(UserState.success(userModel: currentUser));
+      emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
-      emit(UserState.failure(info: platFormException.message));
+      emit(CurrentUserState.failure(platFormException.message));
     }
   }
 }
-
-//  Future<UserModel> getUser(String userId) async {
-//    final user = firestoreGetUserUseCase.call(
-//      UseCaseUserParamUserId.init(userId),
-//    );
-//
-//    return user;
-//  }

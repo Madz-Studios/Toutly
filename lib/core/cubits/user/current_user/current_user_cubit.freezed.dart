@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
 
-part of 'user_cubit.dart';
+part of 'current_user_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -9,19 +9,19 @@ part of 'user_cubit.dart';
 
 T _$identity<T>(T value) => value;
 
-class _$UserStateTearOff {
-  const _$UserStateTearOff();
+class _$CurrentUserStateTearOff {
+  const _$CurrentUserStateTearOff();
 
-  _UserState call(
-      {@required UserModel userModel,
+  _CurrentUserState call(
+      {@required UserModel currentUserModel,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
-    return _UserState(
-      userModel: userModel,
+    return _CurrentUserState(
+      currentUserModel: currentUserModel,
       isNameValid: isNameValid,
       isLocationValid: isLocationValid,
       isSubmitting: isSubmitting,
@@ -33,10 +33,10 @@ class _$UserStateTearOff {
 }
 
 // ignore: unused_element
-const $UserState = _$UserStateTearOff();
+const $CurrentUserState = _$CurrentUserStateTearOff();
 
-mixin _$UserState {
-  UserModel get userModel;
+mixin _$CurrentUserState {
+  UserModel get currentUserModel;
   bool get isNameValid;
   bool get isLocationValid;
   bool get isSubmitting;
@@ -44,14 +44,15 @@ mixin _$UserState {
   bool get isFailure;
   String get info;
 
-  $UserStateCopyWith<UserState> get copyWith;
+  $CurrentUserStateCopyWith<CurrentUserState> get copyWith;
 }
 
-abstract class $UserStateCopyWith<$Res> {
-  factory $UserStateCopyWith(UserState value, $Res Function(UserState) then) =
-      _$UserStateCopyWithImpl<$Res>;
+abstract class $CurrentUserStateCopyWith<$Res> {
+  factory $CurrentUserStateCopyWith(
+          CurrentUserState value, $Res Function(CurrentUserState) then) =
+      _$CurrentUserStateCopyWithImpl<$Res>;
   $Res call(
-      {UserModel userModel,
+      {UserModel currentUserModel,
       bool isNameValid,
       bool isLocationValid,
       bool isSubmitting,
@@ -60,16 +61,17 @@ abstract class $UserStateCopyWith<$Res> {
       String info});
 }
 
-class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
-  _$UserStateCopyWithImpl(this._value, this._then);
+class _$CurrentUserStateCopyWithImpl<$Res>
+    implements $CurrentUserStateCopyWith<$Res> {
+  _$CurrentUserStateCopyWithImpl(this._value, this._then);
 
-  final UserState _value;
+  final CurrentUserState _value;
   // ignore: unused_field
-  final $Res Function(UserState) _then;
+  final $Res Function(CurrentUserState) _then;
 
   @override
   $Res call({
-    Object userModel = freezed,
+    Object currentUserModel = freezed,
     Object isNameValid = freezed,
     Object isLocationValid = freezed,
     Object isSubmitting = freezed,
@@ -78,8 +80,9 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      userModel:
-          userModel == freezed ? _value.userModel : userModel as UserModel,
+      currentUserModel: currentUserModel == freezed
+          ? _value.currentUserModel
+          : currentUserModel as UserModel,
       isNameValid:
           isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
       isLocationValid: isLocationValid == freezed
@@ -94,13 +97,14 @@ class _$UserStateCopyWithImpl<$Res> implements $UserStateCopyWith<$Res> {
   }
 }
 
-abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
-  factory _$UserStateCopyWith(
-          _UserState value, $Res Function(_UserState) then) =
-      __$UserStateCopyWithImpl<$Res>;
+abstract class _$CurrentUserStateCopyWith<$Res>
+    implements $CurrentUserStateCopyWith<$Res> {
+  factory _$CurrentUserStateCopyWith(
+          _CurrentUserState value, $Res Function(_CurrentUserState) then) =
+      __$CurrentUserStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {UserModel userModel,
+      {UserModel currentUserModel,
       bool isNameValid,
       bool isLocationValid,
       bool isSubmitting,
@@ -109,17 +113,19 @@ abstract class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Res> {
       String info});
 }
 
-class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
-    implements _$UserStateCopyWith<$Res> {
-  __$UserStateCopyWithImpl(_UserState _value, $Res Function(_UserState) _then)
-      : super(_value, (v) => _then(v as _UserState));
+class __$CurrentUserStateCopyWithImpl<$Res>
+    extends _$CurrentUserStateCopyWithImpl<$Res>
+    implements _$CurrentUserStateCopyWith<$Res> {
+  __$CurrentUserStateCopyWithImpl(
+      _CurrentUserState _value, $Res Function(_CurrentUserState) _then)
+      : super(_value, (v) => _then(v as _CurrentUserState));
 
   @override
-  _UserState get _value => super._value as _UserState;
+  _CurrentUserState get _value => super._value as _CurrentUserState;
 
   @override
   $Res call({
-    Object userModel = freezed,
+    Object currentUserModel = freezed,
     Object isNameValid = freezed,
     Object isLocationValid = freezed,
     Object isSubmitting = freezed,
@@ -127,9 +133,10 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
     Object isFailure = freezed,
     Object info = freezed,
   }) {
-    return _then(_UserState(
-      userModel:
-          userModel == freezed ? _value.userModel : userModel as UserModel,
+    return _then(_CurrentUserState(
+      currentUserModel: currentUserModel == freezed
+          ? _value.currentUserModel
+          : currentUserModel as UserModel,
       isNameValid:
           isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
       isLocationValid: isLocationValid == freezed
@@ -144,16 +151,16 @@ class __$UserStateCopyWithImpl<$Res> extends _$UserStateCopyWithImpl<$Res>
   }
 }
 
-class _$_UserState extends _UserState {
-  const _$_UserState(
-      {@required this.userModel,
+class _$_CurrentUserState extends _CurrentUserState {
+  const _$_CurrentUserState(
+      {@required this.currentUserModel,
       @required this.isNameValid,
       @required this.isLocationValid,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(userModel != null),
+      : assert(currentUserModel != null),
         assert(isNameValid != null),
         assert(isLocationValid != null),
         assert(isSubmitting != null),
@@ -163,7 +170,7 @@ class _$_UserState extends _UserState {
         super._();
 
   @override
-  final UserModel userModel;
+  final UserModel currentUserModel;
   @override
   final bool isNameValid;
   @override
@@ -179,16 +186,16 @@ class _$_UserState extends _UserState {
 
   @override
   String toString() {
-    return 'UserState(userModel: $userModel, isNameValid: $isNameValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'CurrentUserState(currentUserModel: $currentUserModel, isNameValid: $isNameValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _UserState &&
-            (identical(other.userModel, userModel) ||
+        (other is _CurrentUserState &&
+            (identical(other.currentUserModel, currentUserModel) ||
                 const DeepCollectionEquality()
-                    .equals(other.userModel, userModel)) &&
+                    .equals(other.currentUserModel, currentUserModel)) &&
             (identical(other.isNameValid, isNameValid) ||
                 const DeepCollectionEquality()
                     .equals(other.isNameValid, isNameValid)) &&
@@ -211,7 +218,7 @@ class _$_UserState extends _UserState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(userModel) ^
+      const DeepCollectionEquality().hash(currentUserModel) ^
       const DeepCollectionEquality().hash(isNameValid) ^
       const DeepCollectionEquality().hash(isLocationValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
@@ -220,23 +227,23 @@ class _$_UserState extends _UserState {
       const DeepCollectionEquality().hash(info);
 
   @override
-  _$UserStateCopyWith<_UserState> get copyWith =>
-      __$UserStateCopyWithImpl<_UserState>(this, _$identity);
+  _$CurrentUserStateCopyWith<_CurrentUserState> get copyWith =>
+      __$CurrentUserStateCopyWithImpl<_CurrentUserState>(this, _$identity);
 }
 
-abstract class _UserState extends UserState {
-  const _UserState._() : super._();
-  const factory _UserState(
-      {@required UserModel userModel,
+abstract class _CurrentUserState extends CurrentUserState {
+  const _CurrentUserState._() : super._();
+  const factory _CurrentUserState(
+      {@required UserModel currentUserModel,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
-      @required String info}) = _$_UserState;
+      @required String info}) = _$_CurrentUserState;
 
   @override
-  UserModel get userModel;
+  UserModel get currentUserModel;
   @override
   bool get isNameValid;
   @override
@@ -250,5 +257,5 @@ abstract class _UserState extends UserState {
   @override
   String get info;
   @override
-  _$UserStateCopyWith<_UserState> get copyWith;
+  _$CurrentUserStateCopyWith<_CurrentUserState> get copyWith;
 }

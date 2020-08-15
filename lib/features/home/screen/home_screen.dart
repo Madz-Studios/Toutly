@@ -2,11 +2,9 @@ import 'dart:io';
 
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
 import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/search_util.dart';
@@ -30,7 +28,8 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
         title: Padding(
           padding: EdgeInsets.symmetric(
-              horizontal: appSizeConfig.safeBlockHorizontal * 5),
+            horizontal: appSizeConfig.safeBlockHorizontal * 5,
+          ),
           child: BlocBuilder<SearchConfigBloc, SearchConfigState>(
             builder: (_, searchConfigState) {
               return Row(
@@ -75,61 +74,49 @@ class HomeScreen extends StatelessWidget {
           // Touch and fold the keyboard
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: BlocBuilder<UserBloc, UserState>(
-          builder: (_, userState) {
-            return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-              builder: (remoteConfigContext, remoteConfigState) {
-                return BlocBuilder<LocationBloc, LocationState>(
-                  builder: (_, locationState) {
-                    return BlocBuilder<SearchBloc, SearchState>(
-                      builder: (_, searchState) => searchState.map(
-                        empty: (e) {
-                          return Container();
-                        },
-                        loading: (e) {
-                          if (Platform.isIOS) {
-                            return Center(
-                              child: CupertinoActivityIndicator(),
-                            );
-                          } else {
-                            return Center(
-                              child: CircularProgressIndicator(),
-                            );
-                          }
-                        },
-                        loaded: (e) {
-                          AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
-
-                          if (algoliaQuerySnapshot.empty) {
-                            return Center(
-                              child: Text(
-                                'There is no items being bartered in your area.',
-                              ),
-                            );
-                          } else {
-                            return BarterItemFeed(
-                              algoliaQuerySnapshot: algoliaQuerySnapshot,
-                            );
-                          }
-                        },
-                        failure: (e) {
-                          debugPrint(e.toString());
-                          return Center(
-                            child: Text(
-                              'Error: ${e.info}',
-                              style: TextStyle(
-                                color: Colors.red,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    );
-                  },
+        child: BlocBuilder<SearchBloc, SearchState>(
+          builder: (_, searchState) => searchState.map(
+            empty: (e) {
+              return Container();
+            },
+            loading: (e) {
+              if (Platform.isIOS) {
+                return Center(
+                  child: CupertinoActivityIndicator(),
                 );
-              },
-            );
-          },
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+            },
+            loaded: (e) {
+              AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
+
+              if (algoliaQuerySnapshot.empty) {
+                return Center(
+                  child: Text(
+                    'There is no items being bartered in your area.',
+                  ),
+                );
+              } else {
+                return BarterItemFeed(
+                  algoliaQuerySnapshot: algoliaQuerySnapshot,
+                );
+              }
+            },
+            failure: (e) {
+              debugPrint(e.toString());
+              return Center(
+                child: Text(
+                  'Error: ${e.info}',
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ),
     );

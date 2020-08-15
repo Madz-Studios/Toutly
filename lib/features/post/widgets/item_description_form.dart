@@ -1,9 +1,8 @@
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -272,25 +271,26 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
             ),
-            BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-              builder: (context, remoteConfigDataState) {
-                return BlocBuilder<UserBloc, UserState>(
-                  builder: (context, userState) {
-                    UserModel currentUser = userState.userModel;
-                    _geoLocation = currentUser.geoLocation;
-                    _geoHash = currentUser.geoHash;
-                    _locationController.text = currentUser.address;
+            BlocBuilder<CurrentUserCubit, CurrentUserState>(
+              builder: (context, currentUserState) {
+                if (currentUserState.isSuccess) {
+                  UserModel currentUser = currentUserState.currentUserModel;
+                  _geoLocation = currentUser.geoLocation;
+                  _geoHash = currentUser.geoHash;
+                  _locationController.text = currentUser.address;
 
-                    return IgnorePointer(
-                      child: PostItemTextFieldForm(
-                        description: 'Location',
-                        controller: _locationController,
-                        readOnly: true,
-                        maxLength: 100,
-                      ),
-                    );
-                  },
-                );
+                  return IgnorePointer(
+                    child: PostItemTextFieldForm(
+                      title: '',
+                      description: 'Location',
+                      controller: _locationController,
+                      readOnly: true,
+                      maxLength: 100,
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
               },
             ),
             SizedBox(

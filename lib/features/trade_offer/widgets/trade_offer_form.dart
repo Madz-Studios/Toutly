@@ -1,6 +1,5 @@
+import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
 import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
 import 'package:Toutly/features/trade_offer/widgets/trade_barter_item_card.dart';
@@ -15,14 +14,6 @@ import 'select_item_to_trade.dart';
 import 'trade_message_area.dart';
 
 class TradeOfferForm extends StatefulWidget {
-  final UserModel currentUser;
-  final UserModel barterUser; // user that barter the item
-  final BarterModel barterItem; //item that is being bartered
-  TradeOfferForm({
-    @required this.currentUser,
-    @required this.barterItem,
-    @required this.barterUser,
-  });
   @override
   _TradeOfferFormState createState() => _TradeOfferFormState();
 }
@@ -42,9 +33,6 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
     if (_messageController.text.isNotEmpty) {
       _tradeOfferBloc.add(
         TradeOfferEvent.submitButtonOfferPressed(
-          barterItem: widget.barterItem,
-          barterUser: widget.barterUser,
-          currentUser: widget.currentUser,
           message: _messageController.text,
         ),
       );
@@ -122,7 +110,7 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2,
             ),
-            TradeBarterItemCard(widget.barterItem),
+            TradeBarterItemCard(),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 4,
             ),
@@ -163,8 +151,23 @@ class _TradeOfferFormState extends State<TradeOfferForm> {
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 4,
               ),
-              child: ProfileWithRating(
-                user: widget.barterUser,
+              child: BlocBuilder<OtherUserCubit, OtherUserState>(
+                builder: (_, otherUserState) {
+                  if (otherUserState.isSuccess) {
+                    return ProfileWithRating(otherUserState.otherUserModel);
+                  } else if (otherUserState.isFailure) {
+                    return Center(
+                      child: Text(
+                        'Error: ${otherUserState.info}',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                    );
+                  } else {
+                    return Container();
+                  }
+                },
               ),
             ),
             SizedBox(
