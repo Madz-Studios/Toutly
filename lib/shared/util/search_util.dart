@@ -1,9 +1,9 @@
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:flutter/foundation.dart';
 
 class SearchUtil {
-  final _searchBloc = getIt<SearchBloc>();
+  final _searchCubit = getIt<SearchCubit>();
 
   void searchSubmit({
     @required String searchText,
@@ -14,18 +14,16 @@ class SearchUtil {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
   }) {
-    debugPrint('_searchSubmit searchText = $searchText');
+    debugPrint('SearchUtil _searchSubmit searchText = $searchText');
 
-    _searchBloc.add(
-      SearchEvent.search(
-        algoliaAppId: algoliaAppId,
-        algoliaSearchApiKey: algoliaSearchApiKey,
-        latitude: latitude,
-        longitude: longitude,
-        searchText: searchText,
-        category: category,
-        postedWithin: postedWithin,
-      ),
+    _searchCubit.search(
+      algoliaAppId: algoliaAppId,
+      algoliaSearchApiKey: algoliaSearchApiKey,
+      latitude: latitude,
+      longitude: longitude,
+      searchText: searchText,
+      category: category,
+      postedWithin: postedWithin,
     );
   }
 }

@@ -1,6 +1,6 @@
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -24,7 +24,7 @@ class SearchFilterScreen extends StatefulWidget {
 }
 
 class _SearchFilterScreenState extends State<SearchFilterScreen> {
-  final _searchBloc = getIt<SearchBloc>();
+  final _searchCubit = getIt<SearchCubit>();
   final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   String _defaultCategoryValue;
@@ -69,19 +69,17 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       latitude: latitude,
       longitude: longitude,
     );
-    _searchBloc.add(
-      SearchEvent.search(
-        searchText: widget.searchText,
-        category:
-            _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
-        postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
-            ? ''
-            : _selectedPostedWithin,
-        algoliaAppId: algoliaAppId,
-        algoliaSearchApiKey: algoliaSearchApiKey,
-        latitude: latitude,
-        longitude: longitude,
-      ),
+    _searchCubit.search(
+      searchText: widget.searchText,
+      category:
+          _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
+      postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
+          ? ''
+          : _selectedPostedWithin,
+      algoliaAppId: algoliaAppId,
+      algoliaSearchApiKey: algoliaSearchApiKey,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 

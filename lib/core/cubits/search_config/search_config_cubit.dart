@@ -65,10 +65,4 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
       longitude: longitude,
     ));
   }
-
-  clearSearchText() {
-    emit(state.copyWith(
-      searchText: '',
-    ));
-  }
 }

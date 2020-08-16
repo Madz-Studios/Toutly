@@ -1,12 +1,12 @@
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
@@ -29,7 +29,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _authCubit = getIt<AuthCubit>();
   final _locationCubit = getIt<LocationCubit>();
-  final _searchBloc = getIt<SearchBloc>();
+  final _searchCubit = getIt<SearchCubit>();
   final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   final _nameController = TextEditingController();
@@ -78,16 +78,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _searchConfigCubit.updateLatLng(
         locationState.geoPoint.latitude, locationState.geoPoint.longitude);
 
-    _searchBloc.add(
-      SearchEvent.search(
-        algoliaAppId: searchConfigState.algoliaAppId,
-        algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-        latitude: locationState.geoPoint.latitude,
-        longitude: locationState.geoPoint.longitude,
-        searchText: searchConfigState.searchText,
-        category: searchConfigState.category,
-        postedWithin: searchConfigState.postedWithin,
-      ),
+    _searchCubit.search(
+      algoliaAppId: searchConfigState.algoliaAppId,
+      algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
+      latitude: locationState.geoPoint.latitude,
+      longitude: locationState.geoPoint.longitude,
+      searchText: searchConfigState.searchText,
+      category: searchConfigState.category,
+      postedWithin: searchConfigState.postedWithin,
     );
 
     Navigator.pop(context);

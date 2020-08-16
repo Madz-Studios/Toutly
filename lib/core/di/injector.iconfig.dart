@@ -31,8 +31,8 @@ import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:uuid/uuid.dart';
@@ -124,8 +124,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerFactory<RemoteConfig>(() => remoteConfig);
   g.registerLazySingleton<RemoteConfigCubit>(
       () => RemoteConfigCubit(g<RemoteConfig>()));
-  g.registerLazySingleton<SearchBloc>(() => SearchBloc());
   g.registerLazySingleton<SearchConfigCubit>(() => SearchConfigCubit());
+  g.registerLazySingleton<SearchCubit>(() => SearchCubit(g<Geolocator>()));
   final sharedPreferences = await injectableModule.sharedPreferences;
   g.registerFactory<SharedPreferences>(() => sharedPreferences);
   g.registerLazySingleton<SingleBarterItemOtherUserCubit>(

@@ -1,12 +1,11 @@
-import 'dart:io';
-
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
 import 'package:algolia/algolia.dart';
 import 'package:flutter/cupertino.dart';
@@ -75,24 +74,11 @@ class HomeScreen extends StatelessWidget {
           // Touch and fold the keyboard
           FocusScope.of(context).requestFocus(FocusNode());
         },
-        child: BlocBuilder<SearchBloc, SearchState>(
-          builder: (_, searchState) => searchState.map(
-            empty: (e) {
-              return Container();
-            },
-            loading: (e) {
-              if (Platform.isIOS) {
-                return Center(
-                  child: CupertinoActivityIndicator(),
-                );
-              } else {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-            },
-            loaded: (e) {
-              AlgoliaQuerySnapshot algoliaQuerySnapshot = e.data;
+        child: BlocBuilder<SearchCubit, SearchState>(
+          builder: (_, searchState) {
+            if (searchState.isSuccess) {
+              AlgoliaQuerySnapshot algoliaQuerySnapshot =
+                  searchState.algoliaQuerySnapshot;
 
               if (algoliaQuerySnapshot.empty) {
                 return Center(
@@ -105,19 +91,10 @@ class HomeScreen extends StatelessWidget {
                   algoliaQuerySnapshot: algoliaQuerySnapshot,
                 );
               }
-            },
-            failure: (e) {
-              debugPrint(e.toString());
-              return Center(
-                child: Text(
-                  'Error: ${e.info}',
-                  style: TextStyle(
-                    color: Colors.red,
-                  ),
-                ),
-              );
-            },
-          ),
+            } else {
+              return LoadingOrErrorWidgetUtil(searchState.info);
+            }
+          },
         ),
       ),
     );

@@ -14,7 +14,7 @@ abstract class LocationState with _$LocationState {
   factory LocationState.empty() => LocationState(
         geoPoint: GeoPoint(0, 0),
         placeMark: Placemark(),
-        isSubmitting: true,
+        isSubmitting: false,
         isSuccess: false,
         isFailure: false,
         info: '',

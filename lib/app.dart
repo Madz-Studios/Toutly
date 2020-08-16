@@ -7,6 +7,7 @@ import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -16,7 +17,6 @@ import 'package:Toutly/features/authentication/screen/authentication_screen.dart
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -110,6 +110,11 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<RemoteConfigCubit>(),
         ),
 
+        /// Search Cubit
+        BlocProvider<SearchCubit>(
+          create: (BuildContext context) => getIt<SearchCubit>(),
+        ),
+
         /// CUBITS REGISTRATION END
 
         ///SCREENS BLOC
@@ -123,11 +128,6 @@ class App extends StatelessWidget {
         /// View Barter Item Bloc
         BlocProvider<ViewBarterItemBloc>(
           create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
-        ),
-
-        /// Search Bloc
-        BlocProvider<SearchBloc>(
-          create: (BuildContext context) => getIt<SearchBloc>(),
         ),
 
         /// Messages Bloc

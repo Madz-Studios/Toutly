@@ -16,7 +16,7 @@ abstract class RemoteConfigState with _$RemoteConfigState {
         firebaseApiKey: '',
         algoliaAppId: '',
         algoliaSearchApiKey: '',
-        isSubmitting: true,
+        isSubmitting: false,
         isSuccess: false,
         isFailure: false,
         info: '',
