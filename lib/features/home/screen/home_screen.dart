@@ -1,13 +1,21 @@
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
+import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
+import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/features/home/widgets/likes_panel.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
+import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
+import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
+import 'package:Toutly/shared/widgets/profile_with_rating.dart';
 import 'package:algolia/algolia.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -87,7 +95,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                return BarterItemFeed(
+                return _BarterItemFeed(
                   algoliaQuerySnapshot: algoliaQuerySnapshot,
                 );
               }
@@ -97,6 +105,178 @@ class HomeScreen extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class _BarterItemFeed extends StatelessWidget {
+  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
+  final AlgoliaQuerySnapshot algoliaQuerySnapshot;
+  _BarterItemFeed({
+    this.algoliaQuerySnapshot,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        children: algoliaQuerySnapshot.hits
+            .map((e) => _itemTitle(e, context))
+            .toList(),
+      ),
+    );
+  }
+
+  Widget _itemTitle(AlgoliaObjectSnapshot snap, BuildContext context) {
+    final algoliaBarterModel = AlgoliaBarterModel.fromJson(snap.data);
+
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        // Touch and fold the keyboard
+        FocusScope.of(context).requestFocus(FocusNode());
+        _gotoViewBarterItem(
+          context,
+          algoliaBarterModel,
+        );
+      },
+      child: _BarterItem(
+        algoliaBarter: algoliaBarterModel,
+      ),
+    );
+  }
+
+  _gotoViewBarterItem(
+      BuildContext context, AlgoliaBarterModel algoliaBarterModel) {
+    final barter = BarterModel.fromJson(algoliaBarterModel.toJson());
+
+    _viewBarterItemBloc.add(
+      ViewBarterItemEvent.viewBarterItem(barter),
+    );
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ViewBarterItemScreen(
+          isDialog: false,
+        ),
+        fullscreenDialog: true,
+      ),
+    );
+  }
+}
+
+class _BarterItem extends StatelessWidget {
+  final _otherUserCubit = getIt<OtherUserCubit>();
+  _BarterItem({
+    @required this.algoliaBarter,
+  });
+
+  final AlgoliaBarterModel algoliaBarter;
+
+  @override
+  Widget build(BuildContext context) {
+    final appSizeConfig = AppSizeConfig(context);
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: appSizeConfig.blockSizeVertical * 1,
+      ),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                left: appSizeConfig.blockSizeHorizontal * 5,
+                top: appSizeConfig.blockSizeVertical * 2.5,
+              ),
+              child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
+                builder: (_, currentUserState) {
+                  final currentUser = currentUserState.currentUserModel;
+                  if (currentUser.userId == algoliaBarter.userId) {
+                    return ProfileWithRating(currentUser);
+                  } else {
+                    _otherUserCubit.getOtherUser(algoliaBarter.userId);
+                    return BlocBuilder<OtherUserCubit, OtherUserState>(
+                      builder: (_, otherUserState) {
+                        if (otherUserState.isSuccess) {
+                          return ProfileWithRating(
+                              otherUserState.otherUserModel);
+                        } else {
+                          return ProfileWithRating(null);
+                        }
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
+            SizedBox(
+              height: appSizeConfig.blockSizeVertical * 2.5,
+            ),
+            Stack(
+              children: [
+                CachedNetworkImage(
+                  imageUrl: algoliaBarter.photosUrl[0],
+                  placeholder: (context, url) => Container(),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
+                Align(
+                  alignment: Alignment.topRight,
+                  child: LikesPanel(
+                    itemId: algoliaBarter.itemId,
+                  ),
+                )
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                left: appSizeConfig.blockSizeHorizontal * 2.5,
+                right: appSizeConfig.blockSizeHorizontal * 2.5,
+                bottom: appSizeConfig.blockSizeVertical * 2.5,
+                top: appSizeConfig.blockSizeVertical * 2.5,
+              ),
+              child: _BarterItemDescription(algoliaBarter),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _BarterItemDescription extends StatelessWidget {
+  final AlgoliaBarterModel algoliaBarterModel;
+
+  _BarterItemDescription(this.algoliaBarterModel);
+
+  @override
+  Widget build(BuildContext context) {
+    final appSizeConfig = AppSizeConfig(context);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '${algoliaBarterModel.title}',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 16,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+        SizedBox(
+          height: appSizeConfig.blockSizeVertical * 1.5,
+        ),
+        Text(
+          '${algoliaBarterModel.description}',
+          style: TextStyle(
+            fontWeight: FontWeight.w200,
+            fontSize: 12,
+          ),
+          overflow: TextOverflow.ellipsis,
+        ),
+      ],
     );
   }
 }
