@@ -76,7 +76,6 @@ class AuthenticationScreen extends StatelessWidget {
                         builder: (_, locationState) {
                           if (locationState.isSuccess) {
                             if (locationState.isSuccess) {
-                              _navCubit.goToHomeScreen();
                               return NavigationScreen();
                             } else {
                               return ScaffoldLoadingOrErrorWidgetUtil(

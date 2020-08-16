@@ -14,7 +14,10 @@ class SearchUtil {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
   }) {
-    debugPrint('SearchUtil _searchSubmit searchText = $searchText');
+    debugPrint(
+        '''SearchUtil _searchSubmit searchText = $searchText  category = $category  '
+        postedWithin = $postedWithin  algoliaAppId = $algoliaAppId algoliaSearchApiKey = $algoliaSearchApiKey 
+            'latitude = $latitude longitude = $longitude''');
 
     _searchCubit.search(
       algoliaAppId: algoliaAppId,

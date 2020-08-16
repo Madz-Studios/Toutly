@@ -74,7 +74,9 @@ class App extends StatelessWidget {
 
         /// start the authorization check
         BlocProvider<AuthCubit>(
-            create: (BuildContext context) => getIt<AuthCubit>()),
+          create: (BuildContext context) =>
+              getIt<AuthCubit>()..authCheckRequested(),
+        ),
 
         BlocProvider<AppleSignCubit>(
           create: (BuildContext context) => getIt<AppleSignCubit>(),
