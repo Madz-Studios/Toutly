@@ -18,95 +18,102 @@ class SignInScreen extends StatelessWidget {
               horizontal: appSizeConfig.blockSizeHorizontal * 5,
               vertical: appSizeConfig.blockSizeHorizontal * 5,
             ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/logos/toutly_logo.svg',
-                  width: appSizeConfig.blockSizeHorizontal * 15,
-                  height: appSizeConfig.blockSizeVertical * 15,
-                ),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 5,
-                ),
-                Text(
-                  'Welcome!',
-                  style: TextStyle(
-                    fontFamily: 'SFCompactRounded',
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w500,
-                    fontSize: 24.0,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                // Touch and fold the keyboard
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    'assets/logos/toutly_logo.svg',
+                    width: appSizeConfig.blockSizeHorizontal * 15,
+                    height: appSizeConfig.blockSizeVertical * 15,
                   ),
-                ),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 1.5,
-                ),
-                Text(
-                  'Sign in to your account!',
-                  style: TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 16.0,
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 5,
                   ),
-                ),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 2.5,
-                ),
-                SignInForm(),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 2.5,
-                ),
-                Text(
-                  'Forgot password?',
-                  style: TextStyle(
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w400,
-                    fontSize: 14.0,
-                    color: Color(0XFF098AE8),
-                  ),
-                ),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 2.5,
-                ),
-                SocialAccountPanel(),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 2.5,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      "Don't have an account? ",
-                      style: TextStyle(
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.normal,
-                        fontSize: 14.0,
-                        color: Color(0XFFA4A4A4),
-                      ),
+                  Text(
+                    'Welcome!',
+                    style: TextStyle(
+                      fontFamily: 'SFCompactRounded',
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 24.0,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        ///clear forms and reset state.
-                        Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) {
-                            return SignUpScreen();
-                          }),
-                        );
-                      },
-                      child: Text(
-                        "Sign up",
+                  ),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 1.5,
+                  ),
+                  Text(
+                    'Sign in to your account!',
+                    style: TextStyle(
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 2.5,
+                  ),
+                  SignInForm(),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 2.5,
+                  ),
+                  Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 14.0,
+                      color: Color(0XFF098AE8),
+                    ),
+                  ),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 2.5,
+                  ),
+                  SocialAccountPanel(),
+                  SizedBox(
+                    height: appSizeConfig.safeBlockVertical * 2.5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Don't have an account? ",
                         style: TextStyle(
                           fontStyle: FontStyle.normal,
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.normal,
                           fontSize: 14.0,
-                          color: kPrimaryColor,
+                          color: Color(0XFFA4A4A4),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                      GestureDetector(
+                        onTap: () {
+                          ///clear forms and reset state.
+                          Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) {
+                              return SignUpScreen();
+                            }),
+                          );
+                        },
+                        child: Text(
+                          "Sign up",
+                          style: TextStyle(
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14.0,
+                            color: kPrimaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

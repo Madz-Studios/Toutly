@@ -1,13 +1,25 @@
-import 'package:Toutly/core/cubits/barter_item/barter_cubit.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
-import 'package:Toutly/features/trade_offer/bloc/trade_offer_bloc.dart';
-import 'package:Toutly/shared/bloc/barter/barter_bloc.dart';
-import 'package:Toutly/shared/bloc/likes/likes_bloc.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
-import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
+import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
+import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/features/authentication/screen/authentication_screen.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +30,7 @@ import 'package:google_map_location_picker/generated/i18n.dart'
     as location_picker;
 import 'package:google_map_location_picker/generated/i18n.dart';
 
-import 'core/di/injector.dart';
-import 'features/authentication/bloc/authentication_bloc.dart';
-import 'features/authentication/screen/authentication_screen.dart';
-import 'features/navigation/bloc/navigation_bloc.dart';
-import 'features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'flavors.dart';
-import 'shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
-import 'shared/bloc/sign/sign_bloc.dart';
-import 'shared/bloc/user/user_bloc.dart';
 
 class App extends StatelessWidget {
   final analytics = FirebaseAnalytics();
@@ -39,96 +43,101 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        ///
-        ///SCREENS BLOC
-        ///
+        /// CUBITS REGISTRATION START
 
-        /// Authentication Bloc
-        BlocProvider<AuthenticationBloc>(
-          create: (BuildContext context) => getIt<AuthenticationBloc>(),
+        BlocProvider<CurrentUserCubit>(
+          create: (BuildContext context) => getIt<CurrentUserCubit>(),
         ),
 
-        /// Sign Bloc
-        BlocProvider<SignBloc>(
-          create: (BuildContext context) => getIt<SignBloc>(),
+        BlocProvider<OtherUserCubit>(
+          create: (BuildContext context) => getIt<OtherUserCubit>(),
         ),
 
-        /// Navigation Bloc
-        BlocProvider<NavigationBloc>(
-          create: (BuildContext context) => getIt<NavigationBloc>()
-            ..add(
-              NavigationEvent.goToHomeScreenEvent(),
-            ),
+        BlocProvider<PublicListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<PublicListBarterModelCurrentUserCubit>(),
         ),
 
-        /// Post Bloc
-        BlocProvider<PostBloc>(
-          create: (BuildContext context) => getIt<PostBloc>(),
+        BlocProvider<LikesCurrentUserCubit>(
+          create: (BuildContext context) => getIt<LikesCurrentUserCubit>(),
         ),
 
-        /// View Barter Item Bloc
-        BlocProvider<ViewBarterItemBloc>(
-          create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
+        BlocProvider<SingleBarterItemOtherUserCubit>(
+          create: (BuildContext context) =>
+              getIt<SingleBarterItemOtherUserCubit>(),
         ),
 
-        /// Barter Items Bloc
-        BlocProvider<BarterBloc>(
-          create: (BuildContext context) => getIt<BarterBloc>(),
+        BlocProvider<MakeOfferCubit>(
+          create: (BuildContext context) => getIt<MakeOfferCubit>(),
         ),
 
-        BlocProvider<BarterCubit>(
-          create: (BuildContext context) => getIt<BarterCubit>(),
+        BlocProvider<SignCubit>(
+          create: (BuildContext context) => getIt<SignCubit>(),
         ),
 
-        /// TradeOffer Bloc
-        BlocProvider<TradeOfferBloc>(
-          create: (BuildContext context) => getIt<TradeOfferBloc>(),
+        /// start the authorization check
+        BlocProvider<AuthCubit>(
+          create: (BuildContext context) =>
+              getIt<AuthCubit>()..authCheckRequested(),
         ),
 
-        ///
-        /// UTILS BLOC
-        ///
-
-        /// Apple Sign In Bloc
-        BlocProvider<AppleSignInBloc>(
-          create: (BuildContext context) => getIt<AppleSignInBloc>()
-            ..add(AppleSignInEvent.checkIfAppleIsAvailable()),
+        BlocProvider<AppleSignCubit>(
+          create: (BuildContext context) => getIt<AppleSignCubit>(),
         ),
 
-        /// Remote Config Data Bloc
-        BlocProvider<RemoteConfigDataBloc>(
-          create: (BuildContext context) => getIt<RemoteConfigDataBloc>(),
+        BlocProvider<LocationCubit>(
+          create: (BuildContext context) => getIt<LocationCubit>(),
         ),
 
-        /// Location Bloc
-        BlocProvider<LocationBloc>(
-          create: (BuildContext context) => getIt<LocationBloc>(),
+        BlocProvider<SearchConfigCubit>(
+          create: (BuildContext context) => getIt<SearchConfigCubit>(),
         ),
 
-        /// User Bloc
-        BlocProvider<UserBloc>(
-          create: (BuildContext context) => getIt<UserBloc>(),
+        BlocProvider<NavigationCubit>(
+          create: (BuildContext context) => getIt<NavigationCubit>(),
         ),
 
-        /// Search Bloc
-        BlocProvider<SearchBloc>(
-          create: (BuildContext context) => getIt<SearchBloc>(),
+        BlocProvider<RemoteConfigCubit>(
+          create: (BuildContext context) => getIt<RemoteConfigCubit>(),
         ),
 
-        /// Likes Bloc
-        BlocProvider<LikesBloc>(
-          create: (BuildContext context) => getIt<LikesBloc>(),
+        BlocProvider<SearchCubit>(
+          create: (BuildContext context) => getIt<SearchCubit>(),
         ),
 
-        /// Search Config Bloc
-        BlocProvider<SearchConfigBloc>(
-          create: (BuildContext context) => getIt<SearchConfigBloc>(),
+        BlocProvider<PostBarterCubit>(
+          create: (BuildContext context) => getIt<PostBarterCubit>(),
         ),
 
-        /// Messages Bloc
-        BlocProvider<MessagesBloc>(
-          create: (BuildContext context) => getIt<MessagesBloc>(),
+        BlocProvider<DeleteBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<DeleteBarterModelCurrentUserCubit>(),
         ),
+
+        BlocProvider<AllListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<AllListBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<PrivateListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<PrivateListBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<PublicListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<PublicListBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<OfferMessageCubit>(
+          create: (BuildContext context) => getIt<OfferMessageCubit>(),
+        ),
+
+        BlocProvider<BarterMessageCubit>(
+          create: (BuildContext context) => getIt<BarterMessageCubit>(),
+        ),
+
+        /// CUBITS REGISTRATION END
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: env == Flavor.DEV.toString() ? true : false,

@@ -31,7 +31,6 @@ class SignTextFormField extends StatelessWidget {
       ),
       keyboardType: textInputType,
       validator: validator,
-      autovalidate: true,
       decoration: InputDecoration(
         filled: true,
         fillColor: Color(0XFFF7F7F8),

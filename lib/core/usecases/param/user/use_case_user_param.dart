@@ -1,5 +1,6 @@
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'use_case_user_param.freezed.dart';
 
@@ -28,6 +29,14 @@ abstract class UseCaseUserParamUserId with _$UseCaseUserParamUserId {
 abstract class UseCaseUserParamUserModel with _$UseCaseUserParamUserModel {
   const factory UseCaseUserParamUserModel.init(UserModel userModel) =
       UseCaseUserParamModelInit;
+}
+
+@freezed
+abstract class UseCaseUserParamUserModelWithPickedFile
+    with _$UseCaseUserParamUserModelWithPickedFile {
+  const factory UseCaseUserParamUserModelWithPickedFile.init(
+          PickedFile pickedFile, UserModel userModel) =
+      UseCaseUserParamUserModelWithPickedFileInit;
 }
 
 @freezed

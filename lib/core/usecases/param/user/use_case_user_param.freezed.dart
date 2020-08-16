@@ -486,6 +486,153 @@ abstract class UseCaseUserParamModelInit implements UseCaseUserParamUserModel {
   $UseCaseUserParamModelInitCopyWith<UseCaseUserParamModelInit> get copyWith;
 }
 
+class _$UseCaseUserParamUserModelWithPickedFileTearOff {
+  const _$UseCaseUserParamUserModelWithPickedFileTearOff();
+
+  UseCaseUserParamUserModelWithPickedFileInit init(
+      PickedFile pickedFile, UserModel userModel) {
+    return UseCaseUserParamUserModelWithPickedFileInit(
+      pickedFile,
+      userModel,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserParamUserModelWithPickedFile =
+    _$UseCaseUserParamUserModelWithPickedFileTearOff();
+
+mixin _$UseCaseUserParamUserModelWithPickedFile {
+  PickedFile get pickedFile;
+  UserModel get userModel;
+
+  $UseCaseUserParamUserModelWithPickedFileCopyWith<
+      UseCaseUserParamUserModelWithPickedFile> get copyWith;
+}
+
+abstract class $UseCaseUserParamUserModelWithPickedFileCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelWithPickedFileCopyWith(
+          UseCaseUserParamUserModelWithPickedFile value,
+          $Res Function(UseCaseUserParamUserModelWithPickedFile) then) =
+      _$UseCaseUserParamUserModelWithPickedFileCopyWithImpl<$Res>;
+  $Res call({PickedFile pickedFile, UserModel userModel});
+}
+
+class _$UseCaseUserParamUserModelWithPickedFileCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelWithPickedFileCopyWith<$Res> {
+  _$UseCaseUserParamUserModelWithPickedFileCopyWithImpl(
+      this._value, this._then);
+
+  final UseCaseUserParamUserModelWithPickedFile _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserParamUserModelWithPickedFile) _then;
+
+  @override
+  $Res call({
+    Object pickedFile = freezed,
+    Object userModel = freezed,
+  }) {
+    return _then(_value.copyWith(
+      pickedFile:
+          pickedFile == freezed ? _value.pickedFile : pickedFile as PickedFile,
+      userModel:
+          userModel == freezed ? _value.userModel : userModel as UserModel,
+    ));
+  }
+}
+
+abstract class $UseCaseUserParamUserModelWithPickedFileInitCopyWith<$Res>
+    implements $UseCaseUserParamUserModelWithPickedFileCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelWithPickedFileInitCopyWith(
+          UseCaseUserParamUserModelWithPickedFileInit value,
+          $Res Function(UseCaseUserParamUserModelWithPickedFileInit) then) =
+      _$UseCaseUserParamUserModelWithPickedFileInitCopyWithImpl<$Res>;
+  @override
+  $Res call({PickedFile pickedFile, UserModel userModel});
+}
+
+class _$UseCaseUserParamUserModelWithPickedFileInitCopyWithImpl<$Res>
+    extends _$UseCaseUserParamUserModelWithPickedFileCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelWithPickedFileInitCopyWith<$Res> {
+  _$UseCaseUserParamUserModelWithPickedFileInitCopyWithImpl(
+      UseCaseUserParamUserModelWithPickedFileInit _value,
+      $Res Function(UseCaseUserParamUserModelWithPickedFileInit) _then)
+      : super(_value,
+            (v) => _then(v as UseCaseUserParamUserModelWithPickedFileInit));
+
+  @override
+  UseCaseUserParamUserModelWithPickedFileInit get _value =>
+      super._value as UseCaseUserParamUserModelWithPickedFileInit;
+
+  @override
+  $Res call({
+    Object pickedFile = freezed,
+    Object userModel = freezed,
+  }) {
+    return _then(UseCaseUserParamUserModelWithPickedFileInit(
+      pickedFile == freezed ? _value.pickedFile : pickedFile as PickedFile,
+      userModel == freezed ? _value.userModel : userModel as UserModel,
+    ));
+  }
+}
+
+class _$UseCaseUserParamUserModelWithPickedFileInit
+    implements UseCaseUserParamUserModelWithPickedFileInit {
+  const _$UseCaseUserParamUserModelWithPickedFileInit(
+      this.pickedFile, this.userModel)
+      : assert(pickedFile != null),
+        assert(userModel != null);
+
+  @override
+  final PickedFile pickedFile;
+  @override
+  final UserModel userModel;
+
+  @override
+  String toString() {
+    return 'UseCaseUserParamUserModelWithPickedFile.init(pickedFile: $pickedFile, userModel: $userModel)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserParamUserModelWithPickedFileInit &&
+            (identical(other.pickedFile, pickedFile) ||
+                const DeepCollectionEquality()
+                    .equals(other.pickedFile, pickedFile)) &&
+            (identical(other.userModel, userModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.userModel, userModel)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(pickedFile) ^
+      const DeepCollectionEquality().hash(userModel);
+
+  @override
+  $UseCaseUserParamUserModelWithPickedFileInitCopyWith<
+          UseCaseUserParamUserModelWithPickedFileInit>
+      get copyWith => _$UseCaseUserParamUserModelWithPickedFileInitCopyWithImpl<
+          UseCaseUserParamUserModelWithPickedFileInit>(this, _$identity);
+}
+
+abstract class UseCaseUserParamUserModelWithPickedFileInit
+    implements UseCaseUserParamUserModelWithPickedFile {
+  const factory UseCaseUserParamUserModelWithPickedFileInit(
+          PickedFile pickedFile, UserModel userModel) =
+      _$UseCaseUserParamUserModelWithPickedFileInit;
+
+  @override
+  PickedFile get pickedFile;
+  @override
+  UserModel get userModel;
+  @override
+  $UseCaseUserParamUserModelWithPickedFileInitCopyWith<
+      UseCaseUserParamUserModelWithPickedFileInit> get copyWith;
+}
+
 class _$UseCaseUserParamUserModelWithItemIdTearOff {
   const _$UseCaseUserParamUserModelWithItemIdTearOff();
 

@@ -1,7 +1,6 @@
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
-import 'package:Toutly/shared/bloc/search/search_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -25,8 +24,8 @@ class SearchFilterScreen extends StatefulWidget {
 }
 
 class _SearchFilterScreenState extends State<SearchFilterScreen> {
-  final _searchBloc = getIt<SearchBloc>();
-  final _searchConfig = getIt<SearchConfigBloc>();
+  final _searchCubit = getIt<SearchCubit>();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   String _defaultCategoryValue;
   String _defaultPostedWithinValue;
@@ -53,37 +52,34 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     }
   }
 
-  void applyFilter({
-    @required double latitude,
-    @required double longitude,
-    @required String algoliaAppId,
-    @required String algoliaSearchApiKey,
-  }) {
-    _searchConfig.add(
-      SearchConfigEvent.setConfig(
-        searchText: widget.searchText,
-        category:
-            _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
-        postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
-            ? ''
-            : _selectedPostedWithin,
-        latitude: latitude,
-        longitude: longitude,
-      ),
+  void applyFilter(
+      {@required double latitude,
+      @required double longitude,
+      @required String algoliaAppId,
+      @required String algoliaSearchApiKey}) {
+    _searchConfigCubit.setConfig(
+      searchText: widget.searchText,
+      category:
+          _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
+      postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
+          ? ''
+          : _selectedPostedWithin,
+      algoliaAppId: algoliaAppId,
+      algoliaSearchApiKey: algoliaSearchApiKey,
+      latitude: latitude,
+      longitude: longitude,
     );
-    _searchBloc.add(
-      SearchEvent.search(
-        searchText: widget.searchText,
-        category:
-            _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
-        postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
-            ? ''
-            : _selectedPostedWithin,
-        algoliaAppId: algoliaAppId,
-        algoliaSearchApiKey: algoliaSearchApiKey,
-        latitude: latitude,
-        longitude: longitude,
-      ),
+    _searchCubit.search(
+      searchText: widget.searchText,
+      category:
+          _selectedCategory == _defaultCategoryValue ? '' : _selectedCategory,
+      postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
+          ? ''
+          : _selectedPostedWithin,
+      algoliaAppId: algoliaAppId,
+      algoliaSearchApiKey: algoliaSearchApiKey,
+      latitude: latitude,
+      longitude: longitude,
     );
   }
 
@@ -181,95 +177,90 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           )
         ],
       ),
-      body: BlocBuilder<SearchConfigBloc, SearchConfigState>(
+      body: BlocBuilder<SearchConfigCubit, SearchConfigState>(
         builder: (_, searchConfigState) {
           String stateCategory = searchConfigState.category;
           String statePostedWithin = searchConfigState.postedWithin;
+          String algoliaAppId = searchConfigState.algoliaAppId;
+          String algoliaSearchApiKey = searchConfigState.algoliaSearchApiKey;
           double latitude = searchConfigState.latitude;
           double longitude = searchConfigState.longitude;
-          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (_, remoteConfigState) {
-              String algoliaAppId = remoteConfigState.algoliaAppId;
-              String algoliaSearchApiKey =
-                  remoteConfigState.algoliaSearchApiKey;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: _buildDropDownCategories(stateCategory),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Posted within',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 1.5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: _buildDropDownCategories(stateCategory),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Posted within',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 1.5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: _buildDropDownPostedWithin(statePostedWithin),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 10,
-                      right: appSizeConfig.safeBlockHorizontal * 20,
-                      left: appSizeConfig.safeBlockHorizontal * 20,
-                    ),
-                    child: ActionButton(
-                      title: 'Apply',
-                      onPressed: () {
-                        applyFilter(
-                          latitude: latitude,
-                          longitude: longitude,
-                          algoliaAppId: algoliaAppId,
-                          algoliaSearchApiKey: algoliaSearchApiKey,
-                        );
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: _buildDropDownPostedWithin(statePostedWithin),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 10,
+                  right: appSizeConfig.safeBlockHorizontal * 20,
+                  left: appSizeConfig.safeBlockHorizontal * 20,
+                ),
+                child: ActionButton(
+                  title: 'Apply',
+                  onPressed: () {
+                    applyFilter(
+                      latitude: latitude,
+                      longitude: longitude,
+                      algoliaAppId: algoliaAppId,
+                      algoliaSearchApiKey: algoliaSearchApiKey,
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

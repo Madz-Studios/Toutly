@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -17,7 +18,7 @@ class SelectProfilePhoto extends StatefulWidget {
 }
 
 class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
-  final _userBloc = getIt<UserBloc>();
+  final _currentUserCubit = getIt<CurrentUserCubit>();
 
   final ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
@@ -62,6 +63,7 @@ class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
         widget.userModel,
       );
     } catch (e) {
+      AppSettings.openLocationSettings();
       setState(() {
         _pickImageError = e;
       });
@@ -120,12 +122,8 @@ class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
     return null;
   }
 
-  void updateProfilePicture(PickedFile pickedFile, UserModel userModel) {
-    _userBloc.add(
-      UserEvent.updateCurrentLoggedInUserProfilePicture(
-        pickedFile: pickedFile,
-        userModel: userModel,
-      ),
-    );
+  void updateProfilePicture(PickedFile pickedFile, UserModel currentUser) {
+    _currentUserCubit.updateCurrentLoggedInUserProfilePicture(
+        pickedFile, currentUser);
   }
 }

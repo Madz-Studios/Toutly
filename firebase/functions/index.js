@@ -131,7 +131,7 @@ app.get("/", (req, res) => {
 exports.getSearchKey = functions.https.onRequest(app);
 // [END get_algolia_user_token]
 
-//[START - Automated firestore backup]
+//[START - Automated firestore backup - Toutly Production]
 
 const firestore = require("@google-cloud/firestore");
 const firebaseClient = new firestore.v1.FirestoreAdminClient();

@@ -1,27 +1,28 @@
+import 'dart:io';
+
+import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/navigation/bloc/navigation_bloc.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
-import 'package:Toutly/features/post/widgets/item_description_form.dart';
+import 'package:Toutly/features/post/widgets/post_barter_form.dart';
 import 'package:Toutly/features/post/widgets/select_photos.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostScreen extends StatelessWidget {
-  final _postBloc = getIt<PostBloc>();
-  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
-  final _navBloc = getIt<NavigationBloc>();
+  final _postBarterCubit = getIt<PostBarterCubit>();
+  final _navCubit = getIt<NavigationCubit>();
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
 
-    return BlocConsumer<PostBloc, PostState>(
+    return BlocConsumer<PostBarterCubit, PostBarterState>(
       listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -51,7 +52,9 @@ class PostScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Posting...'),
-                    CircularProgressIndicator(),
+                    Platform.isIOS
+                        ? CupertinoActivityIndicator()
+                        : CircularProgressIndicator(),
                   ],
                 ),
               ),
@@ -73,8 +76,8 @@ class PostScreen extends StatelessWidget {
             );
 
           ///clear the photo list for the next post
-          _postBloc.add(PostEvent.clearPhotoList());
-          _navBloc.add(NavigationEvent.goToUserProfileScreenEvent());
+          _postBarterCubit.reset();
+          _navCubit.goToUserProfileScreen();
           _gotToPreviewBarterItem(state.barterModel, context);
         }
       },
@@ -95,7 +98,7 @@ class PostScreen extends StatelessWidget {
                     _buildSelectedPhotosSection(
                       appSizeConfig,
                     ),
-                    ItemDescriptionForm(),
+                    PostBarterForm(),
                   ],
                 ),
               ),
@@ -155,14 +158,12 @@ class PostScreen extends StatelessWidget {
 
   void _gotToPreviewBarterItem(BarterModel barterModel, BuildContext context) {
     /// preview barter item posted
-    _viewBarterItemBloc.add(
-      ViewBarterItemEvent.viewBarterItem(barterModel),
-    );
 
     Navigator.push<void>(
       context,
       MaterialPageRoute(
         builder: (context) => ViewBarterItemScreen(
+          barterModel: barterModel,
           isDialog: true,
         ),
         fullscreenDialog: true,

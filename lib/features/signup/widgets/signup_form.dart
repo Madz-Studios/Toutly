@@ -1,14 +1,16 @@
+import 'dart:io';
+
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
-import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// a login form
 class SignUpForm extends StatefulWidget {
   State<SignUpForm> createState() => _SignUpFormState();
 }
@@ -18,8 +20,8 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
-  final _authenticationBloc = getIt<AuthenticationBloc>();
-  final _signUpBloc = getIt<SignBloc>();
+  final _authCubit = getIt<AuthCubit>();
+  final _signUpCubit = getIt<SignCubit>();
 
   @override
   void initState() {
@@ -43,21 +45,15 @@ class _SignUpFormState extends State<SignUpForm> {
       _nameController.text.isNotEmpty;
 
   void _onEmailChanged() {
-    _signUpBloc.add(
-      SignEvent.emailChanged(email: _emailController.text),
-    );
+    _signUpCubit.emailChanged(_emailController.text);
   }
 
   void _onPasswordChanged() {
-    _signUpBloc.add(
-      SignEvent.passwordChanged(password: _passwordController.text),
-    );
+    _signUpCubit.passwordChanged(_passwordController.text);
   }
 
   void _onNameChanged() {
-    _signUpBloc.add(
-      SignEvent.nameChanged(name: _nameController.text),
-    );
+    _signUpCubit.nameChanged(_nameController.text);
   }
 
   bool isSignUpButtonEnabled(SignState state) {
@@ -65,19 +61,17 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void _onFormSubmitted() {
-    _signUpBloc.add(
-      SignEvent.signUpWithNameEmailPasswordPressed(
-        email: _emailController.text,
-        password: _passwordController.text,
-        name: _nameController.text,
-      ),
+    _signUpCubit.signUpWithNameEmailPasswordPressed(
+      _nameController.text,
+      _emailController.text,
+      _passwordController.text,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<SignBloc, SignState>(
+    return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -107,14 +101,16 @@ class _SignUpFormState extends State<SignUpForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Signing Up...'),
-                    CircularProgressIndicator(),
+                    Platform.isIOS
+                        ? CupertinoActivityIndicator()
+                        : CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
         }
         if (state.isSuccess) {
-          _authenticationBloc.add(AuthenticationEvent.signedIn());
+          _authCubit.signedIn();
           Navigator.of(context).pop();
         }
       },

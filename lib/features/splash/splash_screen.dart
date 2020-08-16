@@ -1,11 +1,11 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashScreen extends StatelessWidget {
-  final _authenticationBloc = getIt<AuthenticationBloc>();
+  final _authCubit = getIt<AuthCubit>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -23,8 +23,8 @@ class SplashScreen extends StatelessWidget {
   }
 
   Future<void> executeAfterBuild() async {
-    Future.delayed(const Duration(seconds: 3), () {
-      _authenticationBloc.add(AuthenticationEvent.authCheckRequested());
+    Future.delayed(const Duration(seconds: 2), () {
+      _authCubit.authCheckRequested();
     });
   }
 }

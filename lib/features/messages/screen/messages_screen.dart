@@ -1,8 +1,11 @@
-import 'package:Toutly/features/messages/tabs/barters_tab.dart';
-import 'package:Toutly/features/messages/tabs/offers_tabs.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/features/messages/tabs/barter_messages_tab.dart';
+import 'package:Toutly/features/messages/tabs/offer_messages_tab.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MessagesScreen extends StatelessWidget {
   @override
@@ -37,11 +40,20 @@ class MessagesScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: TabBarView(
-              children: <Widget>[
-                BartersTab(),
-                OffersTab(),
-              ],
+            child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
+              builder: (_, currentUserState) {
+                if (currentUserState.isSuccess) {
+                  final currentUser = currentUserState.currentUserModel;
+                  return TabBarView(
+                    children: <Widget>[
+                      BarterMessagesTab(currentUser.userId),
+                      OfferMessagesTab(currentUser.userId),
+                    ],
+                  );
+                } else {
+                  return LoadingOrErrorWidgetUtil(currentUserState.info);
+                }
+              },
             ),
           ),
         ],

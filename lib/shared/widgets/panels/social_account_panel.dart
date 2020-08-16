@@ -1,5 +1,6 @@
-import 'package:Toutly/shared/bloc/apple_sign_in/apple_sign_in_bloc.dart';
-import 'package:Toutly/shared/bloc/sign/sign_bloc.dart';
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
+import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
+import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/social_sign_button.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class SocialAccountPanel extends StatelessWidget {
+  final _signCubit = getIt<SignCubit>();
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -77,7 +80,7 @@ class SocialAccountPanel extends StatelessWidget {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 2.5,
             ),
-            BlocBuilder<AppleSignInBloc, AppleSignInState>(builder: (_, state) {
+            BlocBuilder<AppleSignCubit, AppleSignState>(builder: (_, state) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
@@ -85,7 +88,9 @@ class SocialAccountPanel extends StatelessWidget {
                     flex: state.isAppleSignInAvailable ? 1 : 2,
                   ),
                   SocialSignButton(
-                    signEvent: SignEvent.signInWithFacebookPressed(),
+                    onPressed: () {
+                      _signCubit.signInWithFacebookPressed();
+                    },
                     icon: Icon(
                       Ionicons.logo_facebook,
                       color: Color(0XFF0D8CF1),
@@ -94,7 +99,9 @@ class SocialAccountPanel extends StatelessWidget {
                   ),
                   Spacer(),
                   SocialSignButton(
-                    signEvent: SignEvent.signInWithGooglePressed(),
+                    onPressed: () {
+                      _signCubit.signInWithGooglePressed();
+                    },
                     icon: Icon(
                       Ionicons.logo_google,
                       color: Color(0XFFD44940),
@@ -105,7 +112,9 @@ class SocialAccountPanel extends StatelessWidget {
                   Visibility(
                     visible: state.isAppleSignInAvailable,
                     child: SocialSignButton(
-                      signEvent: SignEvent.signInWithApplePressed(),
+                      onPressed: () {
+                        _signCubit.signInWithApplePressed();
+                      },
                       icon: Icon(
                         Ionicons.logo_apple,
                         color: Colors.black,

@@ -1,82 +1,109 @@
+import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/authentication/bloc/authentication_bloc.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
 import 'package:Toutly/features/signin/screen/signin_screen.dart';
-import 'package:Toutly/features/splash/splash_screen.dart';
-import 'package:Toutly/shared/bloc/location/location_bloc.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
-import 'package:Toutly/shared/bloc/search_config/search_config_bloc.dart';
-import 'package:Toutly/shared/bloc/user/user_bloc.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
-  final _locationBloc = getIt<LocationBloc>();
-  final _remoteConfigBloc = getIt<RemoteConfigDataBloc>();
-  final _userBloc = getIt<UserBloc>();
-  final _searchConfigBloc = getIt<SearchConfigBloc>();
+  final _locationCubit = getIt<LocationCubit>();
+  final _remoteConfigCubit = getIt<RemoteConfigCubit>();
+  final _currentUserCubit = getIt<CurrentUserCubit>();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
+  final _appleSignCubit = getIt<AppleSignCubit>();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthenticationBloc, AuthenticationState>(
-      builder: (context, state) => state.map(
-        initial: (value) => SplashScreen(),
-        unauthenticated: (value) => SignInScreen(),
-        authenticated: (value) {
-          _remoteConfigBloc.add(RemoteConfigDataEvent.loadConfigData());
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, authState) {
+        if (authState.isAuth) {
+          _currentUserCubit.getCurrentLoggedInUser();
+          _remoteConfigCubit.getConfigData();
+          _locationCubit.getInitialUserLocation();
+          return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+            builder: (_, currentUserState) {
+              if (currentUserState.isSuccess) {
+                return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
+                  builder: (_, remoteConfigState) {
+                    if (remoteConfigState.isSuccess) {
+                      return BlocConsumer<LocationCubit, LocationState>(
+                        listener: (_, locationState) {
+                          if (locationState.isSuccess) {
+                            final currentUser =
+                                currentUserState.currentUserModel;
+                            currentUser.geoLocation = locationState.geoPoint;
+                            currentUser.address =
+                                "${locationState.placeMark.subLocality}, "
+                                "${locationState.placeMark.locality}";
 
-          _userBloc.add(UserEvent.getCurrentLoggedInUser());
+                            _currentUserCubit
+                                .updateCurrentLoggedInUser(currentUser);
 
-          _locationBloc.add(LocationEvent.getInitialUserLocation());
-          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (_, remoteConfigState) {
-              return BlocConsumer<LocationBloc, LocationState>(
-                listener: (_, locationState) {
-                  if (locationState.isSuccess) {
-                    _searchConfigBloc.add(
-                      SearchConfigEvent.setConfig(
-                        searchText: '',
-                        category: '',
-                        postedWithin: '',
-                        latitude: locationState.geoPoint.latitude,
-                        longitude: locationState.geoPoint.longitude,
-                      ),
-                    );
+                            _searchConfigCubit.setConfig(
+                              searchText: '',
+                              category: '',
+                              postedWithin: '',
+                              algoliaAppId: remoteConfigState.algoliaAppId,
+                              algoliaSearchApiKey:
+                                  remoteConfigState.algoliaSearchApiKey,
+                              latitude: locationState.geoPoint.latitude,
+                              longitude: locationState.geoPoint.longitude,
+                            );
 
-                    SearchUtil().searchSubmit(
-                      searchText: '',
-                      category: '',
-                      postedWithin: '',
-                      latitude: locationState.geoPoint.latitude,
-                      longitude: locationState.geoPoint.longitude,
-                      algoliaSearchApiKey:
-                          remoteConfigState.algoliaSearchApiKey,
-                      algoliaAppId: remoteConfigState.algoliaAppId,
-                    );
-                  }
-                },
-                builder: (_, locationState) {
-                  return BlocBuilder<UserBloc, UserState>(
-                    builder: (_, userState) {
-                      UserModel currentUser = userState.userModel;
-
-                      return BlocConsumer<SearchConfigBloc, SearchConfigState>(
-                        listener: (_, searchConfigState) {},
-                        builder: (_, searchConfigState) {
-                          return NavigationScreen();
+                            SearchUtil().searchSubmit(
+                              searchText: '',
+                              category: '',
+                              postedWithin: '',
+                              algoliaSearchApiKey:
+                                  remoteConfigState.algoliaSearchApiKey,
+                              algoliaAppId: remoteConfigState.algoliaAppId,
+                              latitude: locationState.geoPoint.latitude,
+                              longitude: locationState.geoPoint.longitude,
+                            );
+                          }
+                        },
+                        builder: (_, locationState) {
+                          if (locationState.isSuccess) {
+                            if (locationState.isSuccess) {
+                              return NavigationScreen();
+                            } else {
+                              return ScaffoldLoadingOrErrorWidgetUtil(
+                                currentUserState.info,
+                              );
+                            }
+                          } else {
+                            return ScaffoldLoadingOrErrorWidgetUtil(
+                                locationState.info);
+                          }
                         },
                       );
-                    },
-                  );
-                },
-              );
+                    } else {
+                      return ScaffoldLoadingOrErrorWidgetUtil(
+                          remoteConfigState.info);
+                    }
+                  },
+                );
+              } else {
+                return ScaffoldLoadingOrErrorWidgetUtil(currentUserState.info);
+              }
             },
           );
-        },
-      ),
+        } else if (!authState.isAuth) {
+          _appleSignCubit.checkIfAppleIsAvailable();
+          return SignInScreen();
+        } else {
+          return ScaffoldLoadingOrErrorWidgetUtil(authState.info);
+        }
+      },
     );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreBarterRepository {
@@ -9,7 +10,9 @@ abstract class FirestoreBarterRepository {
 
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
-//  Stream<QuerySnapshot> getFutureAllBarterItemsUsingUserId(String userId);
+  Stream<QuerySnapshot> getPrivateBarterItemsUsingUserId(String userId);
+
+  Stream<QuerySnapshot> getPublicBarterItemsUsingUserId(String userId);
 
   Future<List<BarterModel>> getFutureAllLikesBarterItemsUsingItemIdList(
       List<String> itemIds);
@@ -24,13 +27,15 @@ abstract class FirestoreBarterRepository {
 @Injectable(as: FirestoreBarterRepository)
 @lazySingleton
 class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
-  FirestoreBarterRepositoryImpl({
-    @required this.firestore,
-  });
+  FirestoreBarterRepositoryImpl(
+    this.firestore,
+    this.firebaseStorage,
+  );
 
   static const limit = 10;
 
   final Firestore firestore;
+  final FirebaseStorage firebaseStorage;
 
   /// Create a barter item in barter firestore collection using [documentID]
   @override
@@ -50,11 +55,62 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final String barterCollection =
         FirestoreCollectionNames.barterItemsCollection;
 
-    final query = firestore
-        .collection(barterCollection)
-        .where('userId', isEqualTo: userId)
-        .orderBy('dateCreated', descending: true)
-        .snapshots();
+    Stream<QuerySnapshot> query;
+    try {
+      query = firestore
+          .collection(barterCollection)
+          .where('userId', isEqualTo: userId)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+
+    return query;
+  }
+
+  /// Get "Public" barter item in barter firestore collection using [userId].
+  @override
+  Stream<QuerySnapshot> getPublicBarterItemsUsingUserId(String userId) {
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
+
+    Stream<QuerySnapshot> query;
+
+    try {
+      query = firestore
+          .collection(barterCollection)
+          .where('userId', isEqualTo: userId)
+          .where('publicAccess', isEqualTo: true)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+
+    return query;
+  }
+
+  /// Get "Private" barter item in barter firestore collection using [userId].
+  @override
+  Stream<QuerySnapshot> getPrivateBarterItemsUsingUserId(String userId) {
+    Stream<QuerySnapshot> query;
+    try {
+      query = firestore
+          .collection(FirestoreCollectionNames.barterItemsCollection)
+          .where('userId', isEqualTo: userId)
+          .where('publicAccess', isEqualTo: false)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
 
     return query;
   }
@@ -97,11 +153,14 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Delete a barter item in barter firestore collection using [itemId].
   @override
   Future<void> deleteBarterItem(BarterModel barterModel) async {
-    final String barterCollection =
-        FirestoreCollectionNames.barterItemsCollection;
+    //delete all the photos in cloud storage related to the barter item being deleted.
+    for (String photoUrl in barterModel.photosUrl) {
+      final storageRef = await firebaseStorage.getReferenceFromUrl(photoUrl);
+      storageRef.delete();
+    }
 
     await firestore
-        .collection(barterCollection)
+        .collection(FirestoreCollectionNames.barterItemsCollection)
         .document(barterModel.itemId)
         .delete();
   }
