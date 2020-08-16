@@ -1,6 +1,5 @@
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -184,91 +183,86 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
         builder: (_, searchConfigState) {
           String stateCategory = searchConfigState.category;
           String statePostedWithin = searchConfigState.postedWithin;
+          String algoliaAppId = searchConfigState.algoliaAppId;
+          String algoliaSearchApiKey = searchConfigState.algoliaSearchApiKey;
           double latitude = searchConfigState.latitude;
           double longitude = searchConfigState.longitude;
-          return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-            builder: (_, remoteConfigState) {
-              String algoliaAppId = remoteConfigState.algoliaAppId;
-              String algoliaSearchApiKey =
-                  remoteConfigState.algoliaSearchApiKey;
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Categories',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Categories',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: _buildDropDownCategories(stateCategory),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Posted within',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 1.5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: _buildDropDownCategories(stateCategory),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: Row(
-                      children: [
-                        Text(
-                          'Posted within',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                          ),
-                          textAlign: TextAlign.left,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 1.5,
-                      right: appSizeConfig.safeBlockHorizontal * 5,
-                      left: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: _buildDropDownPostedWithin(statePostedWithin),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      top: appSizeConfig.safeBlockVertical * 10,
-                      right: appSizeConfig.safeBlockHorizontal * 20,
-                      left: appSizeConfig.safeBlockHorizontal * 20,
-                    ),
-                    child: ActionButton(
-                      title: 'Apply',
-                      onPressed: () {
-                        applyFilter(
-                          latitude: latitude,
-                          longitude: longitude,
-                          algoliaAppId: algoliaAppId,
-                          algoliaSearchApiKey: algoliaSearchApiKey,
-                        );
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
-                ],
-              );
-            },
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: _buildDropDownPostedWithin(statePostedWithin),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 10,
+                  right: appSizeConfig.safeBlockHorizontal * 20,
+                  left: appSizeConfig.safeBlockHorizontal * 20,
+                ),
+                child: ActionButton(
+                  title: 'Apply',
+                  onPressed: () {
+                    applyFilter(
+                      latitude: latitude,
+                      longitude: longitude,
+                      algoliaAppId: algoliaAppId,
+                      algoliaSearchApiKey: algoliaSearchApiKey,
+                    );
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
           );
         },
       ),

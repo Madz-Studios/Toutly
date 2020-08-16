@@ -6,6 +6,7 @@ import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.d
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -15,7 +16,6 @@ import 'package:Toutly/features/authentication/screen/authentication_screen.dart
 import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
@@ -81,12 +81,14 @@ class App extends StatelessWidget {
 
         /// Auth Cubit
         BlocProvider<AuthCubit>(
-          create: (BuildContext context) => getIt<AuthCubit>(),
+          create: (BuildContext context) =>
+              getIt<AuthCubit>()..authCheckRequested(),
         ),
 
         /// Apple Sign Cubit
         BlocProvider<AppleSignCubit>(
-            create: (BuildContext context) => getIt<AppleSignCubit>()),
+          create: (BuildContext context) => getIt<AppleSignCubit>(),
+        ),
 
         /// Location Bloc
         BlocProvider<LocationCubit>(
@@ -100,7 +102,13 @@ class App extends StatelessWidget {
 
         /// Navigation Cubit
         BlocProvider<NavigationCubit>(
-            create: (BuildContext context) => getIt<NavigationCubit>()),
+          create: (BuildContext context) => getIt<NavigationCubit>(),
+        ),
+
+        /// Remote Config Cubit
+        BlocProvider<RemoteConfigCubit>(
+          create: (BuildContext context) => getIt<RemoteConfigCubit>(),
+        ),
 
         /// CUBITS REGISTRATION END
 
@@ -115,11 +123,6 @@ class App extends StatelessWidget {
         /// View Barter Item Bloc
         BlocProvider<ViewBarterItemBloc>(
           create: (BuildContext context) => getIt<ViewBarterItemBloc>(),
-        ),
-
-        /// Remote Config Data Bloc
-        BlocProvider<RemoteConfigDataBloc>(
-          create: (BuildContext context) => getIt<RemoteConfigDataBloc>(),
         ),
 
         /// Search Bloc

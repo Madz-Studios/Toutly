@@ -1,11 +1,11 @@
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -233,48 +233,52 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Widget _buildAddressForm(BuildContext context) {
-    return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
+    return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
       builder: (_, remoteConfigDataState) {
-        return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-          builder: (_, currentUserState) {
-            if (currentUserState.isSuccess) {
-              return InkWell(
-                onTap: () {
-                  _locationCubit.getInitialUserLocation();
-                  _getLocation(
-                    context,
-                    currentUserState.currentUserModel,
-                    remoteConfigDataState,
-                  );
-                },
-                child: IgnorePointer(
-                  child: SignTextFormField(
-                    controller: _addressController,
-                    textInputType: TextInputType.text,
-                    validator: (_) {
-                      return !currentUserState.isLocationValid
-                          ? 'Invalid Location'
-                          : null;
-                    },
-                    hintText: "Address",
-                    obscureText: false,
+        if (remoteConfigDataState.isSuccess) {
+          return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+            builder: (_, currentUserState) {
+              if (currentUserState.isSuccess) {
+                return InkWell(
+                  onTap: () {
+                    _locationCubit.getInitialUserLocation();
+                    _getLocation(
+                      context,
+                      currentUserState.currentUserModel,
+                      remoteConfigDataState,
+                    );
+                  },
+                  child: IgnorePointer(
+                    child: SignTextFormField(
+                      controller: _addressController,
+                      textInputType: TextInputType.text,
+                      validator: (_) {
+                        return !currentUserState.isLocationValid
+                            ? 'Invalid Location'
+                            : null;
+                      },
+                      hintText: "Address",
+                      obscureText: false,
+                    ),
                   ),
-                ),
-              );
-            } else {
-              return LoadingOrErrorWidgetUtil(currentUserState.info);
-            }
-          },
-        );
+                );
+              } else {
+                return LoadingOrErrorWidgetUtil(currentUserState.info);
+              }
+            },
+          );
+        } else {
+          return LoadingOrErrorWidgetUtil(remoteConfigDataState.info);
+        }
       },
     );
   }
 
   _getLocation(BuildContext context, UserModel currentUser,
-      RemoteConfigDataState remoteConfigDataState) async {
+      RemoteConfigState remoteConfigState) async {
     LocationResult result = await showLocationPicker(
       context,
-      remoteConfigDataState.firebaseApiKey,
+      remoteConfigState.firebaseApiKey,
       initialCenter: LatLng(
         currentUser.geoLocation?.latitude,
         currentUser.geoLocation?.longitude,

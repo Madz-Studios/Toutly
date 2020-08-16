@@ -4,7 +4,6 @@ import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/widgets/barter_item_feed.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -142,76 +141,71 @@ class __SearchTextFieldState extends State<_SearchTextField> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RemoteConfigDataBloc, RemoteConfigDataState>(
-      builder: (_, remoteConfigState) {
-        return BlocBuilder<SearchConfigCubit, SearchConfigState>(
-          builder: (_, searchConfigState) {
-            _searchController.text = searchConfigState.searchText;
-            return TextField(
-              controller: _searchController,
-              textInputAction: TextInputAction.search,
-              onSubmitted: (searchText) {
+    return BlocBuilder<SearchConfigCubit, SearchConfigState>(
+      builder: (_, searchConfigState) {
+        _searchController.text = searchConfigState.searchText;
+        return TextField(
+          controller: _searchController,
+          textInputAction: TextInputAction.search,
+          onSubmitted: (searchText) {
+            SearchUtil().searchSubmit(
+              searchText: searchText,
+              category: searchConfigState.category,
+              postedWithin: searchConfigState.postedWithin,
+              latitude: searchConfigState.latitude,
+              longitude: searchConfigState.longitude,
+              algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
+              algoliaAppId: searchConfigState.algoliaAppId,
+            );
+
+            _searchConfigCubit.updateSearchText(_searchController.text);
+          },
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Color(0XFFF7F7F8),
+            hintText: 'Search',
+            hintStyle: TextStyle(
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0,
+              color: Color(0XFFB5B5B5),
+            ),
+            isDense: true,
+            // Added this
+            contentPadding: EdgeInsets.all(8),
+            // Added this
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.clear,
+                color: Colors.grey,
+              ),
+              onPressed: () {
+                _searchController.clear();
                 SearchUtil().searchSubmit(
-                  searchText: searchText,
+                  searchText: '',
                   category: searchConfigState.category,
                   postedWithin: searchConfigState.postedWithin,
                   latitude: searchConfigState.latitude,
                   longitude: searchConfigState.longitude,
-                  algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-                  algoliaAppId: remoteConfigState.algoliaAppId,
+                  algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
+                  algoliaAppId: searchConfigState.algoliaAppId,
                 );
-
-                _searchConfigCubit.updateSearchText(_searchController.text);
+                _searchConfigCubit.updateSearchText('');
               },
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Color(0XFFF7F7F8),
-                hintText: 'Search',
-                hintStyle: TextStyle(
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.w500,
-                  fontSize: 16.0,
-                  color: Color(0XFFB5B5B5),
-                ),
-                isDense: true,
-                // Added this
-                contentPadding: EdgeInsets.all(8),
-                // Added this
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.grey,
-                  ),
-                  onPressed: () {
-                    _searchController.clear();
-                    SearchUtil().searchSubmit(
-                      searchText: '',
-                      category: searchConfigState.category,
-                      postedWithin: searchConfigState.postedWithin,
-                      latitude: searchConfigState.latitude,
-                      longitude: searchConfigState.longitude,
-                      algoliaSearchApiKey:
-                          remoteConfigState.algoliaSearchApiKey,
-                      algoliaAppId: remoteConfigState.algoliaAppId,
-                    );
-                    _searchConfigCubit.updateSearchText('');
-                  },
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.transparent),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: kPrimaryColor),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(8.0),
-                  ),
-                ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
               ),
-            );
-          },
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: kPrimaryColor),
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
+              ),
+            ),
+          ),
         );
       },
     );

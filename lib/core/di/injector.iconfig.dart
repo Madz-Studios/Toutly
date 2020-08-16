@@ -30,7 +30,7 @@ import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:Toutly/shared/bloc/remote_config_data/remote_config_data_bloc.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/shared/bloc/search/search_bloc.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -122,8 +122,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
   final remoteConfig = await injectableModule.remoteConfig;
   g.registerFactory<RemoteConfig>(() => remoteConfig);
-  g.registerLazySingleton<RemoteConfigDataBloc>(
-      () => RemoteConfigDataBloc(g<RemoteConfig>()));
+  g.registerLazySingleton<RemoteConfigCubit>(
+      () => RemoteConfigCubit(g<RemoteConfig>()));
   g.registerLazySingleton<SearchBloc>(() => SearchBloc());
   g.registerLazySingleton<SearchConfigCubit>(() => SearchConfigCubit());
   final sharedPreferences = await injectableModule.sharedPreferences;
