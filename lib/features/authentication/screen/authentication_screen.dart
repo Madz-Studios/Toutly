@@ -79,22 +79,24 @@ class AuthenticationScreen extends StatelessWidget {
                               _navCubit.goToHomeScreen();
                               return NavigationScreen();
                             } else {
-                              return LoadingOrErrorWidgetUtil(
+                              return ScaffoldLoadingOrErrorWidgetUtil(
                                 currentUserState.info,
                               );
                             }
                           } else {
-                            return LoadingOrErrorWidgetUtil(locationState.info);
+                            return ScaffoldLoadingOrErrorWidgetUtil(
+                                locationState.info);
                           }
                         },
                       );
                     } else {
-                      return LoadingOrErrorWidgetUtil(remoteConfigState.info);
+                      return ScaffoldLoadingOrErrorWidgetUtil(
+                          remoteConfigState.info);
                     }
                   },
                 );
               } else {
-                return LoadingOrErrorWidgetUtil(currentUserState.info);
+                return ScaffoldLoadingOrErrorWidgetUtil(currentUserState.info);
               }
             },
           );
@@ -102,7 +104,7 @@ class AuthenticationScreen extends StatelessWidget {
           _appleSignCubit.checkIfAppleIsAvailable();
           return SignInScreen();
         } else {
-          return LoadingOrErrorWidgetUtil(authState.info);
+          return ScaffoldLoadingOrErrorWidgetUtil(authState.info);
         }
       },
     );

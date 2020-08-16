@@ -37,6 +37,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
@@ -49,13 +50,12 @@ import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
-import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
@@ -76,8 +76,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       FirestoreBarterConversationTextRepositoryImpl(firestore: g<Firestore>()));
   g.registerFactory<FirestoreBarterMessageRepository>(
       () => FirestoreBarterMessageRepositoryImpl(firestore: g<Firestore>()));
-  g.registerFactory<FirestoreBarterRepository>(
-      () => FirestoreBarterRepositoryImpl(firestore: g<Firestore>()));
+  g.registerFactory<FirestoreBarterRepository>(() =>
+      FirestoreBarterRepositoryImpl(g<Firestore>(), g<FirebaseStorage>()));
   g.registerLazySingleton<FirestoreCreateBarterConversationTextUseCase>(() =>
       FirestoreCreateBarterConversationTextUseCase(
           firestoreBarterConversationTextRepository:
@@ -132,6 +132,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
       () => SingleBarterItemOtherUserCubit());
   g.registerLazySingleton<Uuid>(() => injectableModule.uuid);
   g.registerLazySingleton<Validators>(() => injectableModule.validators);
+  g.registerLazySingleton<DeleteBarterModelCurrentUserCubit>(() =>
+      DeleteBarterModelCurrentUserCubit(g<FirestoreDeleteBarterItemUseCase>()));
   g.registerFactory<FirebaseAuthUserRepository>(
       () => FirebaseAuthUserRepositoryImpl(
             firebaseAuth: g<FirebaseAuth>(),
@@ -208,11 +210,6 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<FirestoreCreateUserUseCase>(),
         g<FirestoreGetUserUseCase>(),
         g<Validators>(),
-      ));
-  g.registerLazySingleton<ViewBarterItemBloc>(() => ViewBarterItemBloc(
-        g<FirebaseGetUserUseCase>(),
-        g<FirestoreDeleteBarterItemUseCase>(),
-        g<FirestoreGetUserUseCase>(),
       ));
   g.registerLazySingleton<AuthCubit>(() => AuthCubit(
         g<FirebaseIsSignedInUserUseCase>(),

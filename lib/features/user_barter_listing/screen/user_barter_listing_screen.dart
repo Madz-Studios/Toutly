@@ -1,10 +1,8 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
-import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/user_barter_listing/widgets/user_barter_item.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,8 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserBarterListingScreen extends StatelessWidget {
-  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -83,14 +79,11 @@ class UserBarterListingScreen extends StatelessWidget {
                     final barterModel = userBarterItems[index];
                     return GestureDetector(
                       onTap: () {
-                        _viewBarterItemBloc.add(
-                          ViewBarterItemEvent.viewBarterItem(barterModel),
-                        );
-
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ViewBarterItemScreen(
+                              barterModel: barterModel,
                               isDialog: true,
                             ),
                             fullscreenDialog: true,

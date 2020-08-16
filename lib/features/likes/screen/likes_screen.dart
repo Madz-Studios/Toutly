@@ -5,7 +5,6 @@ import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/user_barter_listing/widgets/user_barter_item.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LikesScreen extends StatelessWidget {
-  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final _otherUserCubit = getIt<OtherUserCubit>();
 
   final _likesCurrentUserCubit = getIt<LikesCurrentUserCubit>();
@@ -127,16 +125,11 @@ class LikesScreen extends StatelessWidget {
   void onItemTapped(barterModel, BuildContext context) {
     _otherUserCubit.getOtherUser(barterModel.userId);
 
-    _viewBarterItemBloc.add(
-      ViewBarterItemEvent.viewBarterItem(
-        barterModel,
-      ),
-    );
-
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ViewBarterItemScreen(
+          barterModel: barterModel,
           isDialog: true,
         ),
         fullscreenDialog: true,

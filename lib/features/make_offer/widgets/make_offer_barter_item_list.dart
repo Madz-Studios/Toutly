@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';

@@ -147,7 +147,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
   }
 
-  Column _buildEditProfileForm(
+  Widget _buildEditProfileForm(
       AppSizeConfig appSizeConfig, BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -155,63 +155,68 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       children: [
         BlocBuilder<CurrentUserCubit, CurrentUserState>(
           builder: (_, currentUserState) {
-            if (currentUserState.isSuccess) {
-              final currentUser = currentUserState.currentUserModel;
-              return Column(
-                children: [
-                  SizedBox(
-                    height: appSizeConfig.safeBlockVertical * 2,
-                  ),
-                  SelectProfilePhoto(currentUser),
-                  SizedBox(
-                    height: appSizeConfig.safeBlockVertical * 3,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: SignTextFormField(
-                      controller: _nameController,
-                      textInputType: TextInputType.text,
-                      validator: (_) {
-                        return !currentUserState.isNameValid
-                            ? 'Invalid Name'
-                            : null;
-                      },
-                      hintText: "Name",
-                      obscureText: false,
-                    ),
-                  ),
-                  SizedBox(
-                    height: appSizeConfig.safeBlockVertical * 3,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: SignTextFormField(
-                      controller: _emailController,
-                      hintText: 'Email',
-                      textInputType: TextInputType.text,
-                      obscureText: false,
-                      enabled: false,
-                    ),
-                  ),
-                  SizedBox(
-                    height: appSizeConfig.safeBlockVertical * 3,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                    ),
-                    child: _buildAddressForm(context),
-                  ),
-                ],
-              );
-            } else {
-              return LoadingOrErrorWidgetUtil(currentUserState.info);
-            }
+            final currentUser = currentUserState.currentUserModel;
+            return _buildEditProfileContent(
+                appSizeConfig, currentUserState, currentUser, context);
           },
+        ),
+      ],
+    );
+  }
+
+  Column _buildEditProfileContent(
+      AppSizeConfig appSizeConfig,
+      CurrentUserState currentUserState,
+      UserModel currentUser,
+      BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(
+          height: appSizeConfig.safeBlockVertical * 2,
+        ),
+        currentUserState.isSuccess
+            ? SelectProfilePhoto(currentUser)
+            : LoadingOrErrorWidgetUtil(currentUserState.info),
+        SizedBox(
+          height: appSizeConfig.safeBlockVertical * 3,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.safeBlockHorizontal * 5,
+          ),
+          child: SignTextFormField(
+            controller: _nameController,
+            textInputType: TextInputType.text,
+            validator: (_) {
+              return !currentUserState.isNameValid ? 'Invalid Name' : null;
+            },
+            hintText: "Name",
+            obscureText: false,
+          ),
+        ),
+        SizedBox(
+          height: appSizeConfig.safeBlockVertical * 3,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.safeBlockHorizontal * 5,
+          ),
+          child: SignTextFormField(
+            controller: _emailController,
+            hintText: 'Email',
+            textInputType: TextInputType.text,
+            obscureText: false,
+            enabled: false,
+          ),
+        ),
+        SizedBox(
+          height: appSizeConfig.safeBlockVertical * 3,
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.safeBlockHorizontal * 5,
+          ),
+          child: _buildAddressForm(context),
         ),
         Padding(
           padding: EdgeInsets.symmetric(
@@ -236,33 +241,29 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         if (remoteConfigDataState.isSuccess) {
           return BlocBuilder<CurrentUserCubit, CurrentUserState>(
             builder: (_, currentUserState) {
-              if (currentUserState.isSuccess) {
-                return InkWell(
-                  onTap: () {
-                    _locationCubit.getInitialUserLocation();
-                    _getLocation(
-                      context,
-                      currentUserState.currentUserModel,
-                      remoteConfigDataState,
-                    );
-                  },
-                  child: IgnorePointer(
-                    child: SignTextFormField(
-                      controller: _addressController,
-                      textInputType: TextInputType.text,
-                      validator: (_) {
-                        return !currentUserState.isLocationValid
-                            ? 'Invalid Location'
-                            : null;
-                      },
-                      hintText: "Address",
-                      obscureText: false,
-                    ),
+              return InkWell(
+                onTap: () {
+                  _locationCubit.getInitialUserLocation();
+                  _getLocation(
+                    context,
+                    currentUserState.currentUserModel,
+                    remoteConfigDataState,
+                  );
+                },
+                child: IgnorePointer(
+                  child: SignTextFormField(
+                    controller: _addressController,
+                    textInputType: TextInputType.text,
+                    validator: (_) {
+                      return !currentUserState.isLocationValid
+                          ? 'Invalid Location'
+                          : null;
+                    },
+                    hintText: "Address",
+                    obscureText: false,
                   ),
-                );
-              } else {
-                return LoadingOrErrorWidgetUtil(currentUserState.info);
-              }
+                ),
+              );
             },
           );
         } else {

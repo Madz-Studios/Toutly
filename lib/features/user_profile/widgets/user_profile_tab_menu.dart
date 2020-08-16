@@ -1,4 +1,4 @@
-import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/user_barter_listing/screen/user_barter_listing_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';

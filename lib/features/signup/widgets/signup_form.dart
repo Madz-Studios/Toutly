@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -5,6 +7,7 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -98,7 +101,9 @@ class _SignUpFormState extends State<SignUpForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Signing Up...'),
-                    CircularProgressIndicator(),
+                    Platform.isIOS
+                        ? CupertinoActivityIndicator()
+                        : CircularProgressIndicator(),
                   ],
                 ),
               ),

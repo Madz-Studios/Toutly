@@ -9,6 +9,34 @@ class LoadingOrErrorWidgetUtil extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (errorString.isNotEmpty) {
+      return Center(
+        child: Text(
+          'Error: $errorString',
+          style: TextStyle(
+            color: Colors.red,
+          ),
+        ),
+      );
+    } else {
+      if (Platform.isIOS) {
+        return Center(
+          child: CupertinoActivityIndicator(),
+        );
+      } else {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      }
+    }
+  }
+}
+
+class ScaffoldLoadingOrErrorWidgetUtil extends StatelessWidget {
+  final String errorString;
+  ScaffoldLoadingOrErrorWidgetUtil(this.errorString);
+  @override
+  Widget build(BuildContext context) {
+    if (errorString.isNotEmpty) {
       return Scaffold(
         body: Center(
           child: Text(

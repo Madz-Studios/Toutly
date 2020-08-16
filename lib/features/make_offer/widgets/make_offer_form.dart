@@ -1,4 +1,4 @@
-import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';

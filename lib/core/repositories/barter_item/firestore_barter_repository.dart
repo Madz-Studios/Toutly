@@ -1,7 +1,7 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreBarterRepository {
@@ -22,13 +22,15 @@ abstract class FirestoreBarterRepository {
 @Injectable(as: FirestoreBarterRepository)
 @lazySingleton
 class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
-  FirestoreBarterRepositoryImpl({
-    @required this.firestore,
-  });
+  FirestoreBarterRepositoryImpl(
+    this.firestore,
+    this.firebaseStorage,
+  );
 
   static const limit = 10;
 
   final Firestore firestore;
+  final FirebaseStorage firebaseStorage;
 
   /// Create a barter item in barter firestore collection using [documentID]
   @override
@@ -95,11 +97,14 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Delete a barter item in barter firestore collection using [itemId].
   @override
   Future<void> deleteBarterItem(BarterModel barterModel) async {
-    final String barterCollection =
-        FirestoreCollectionNames.barterItemsCollection;
+    //delete all the photos in cloud storage related to the barter item being deleted.
+    for (String photoUrl in barterModel.photosUrl) {
+      final storageRef = await firebaseStorage.getReferenceFromUrl(photoUrl);
+      storageRef.delete();
+    }
 
     await firestore
-        .collection(barterCollection)
+        .collection(FirestoreCollectionNames.barterItemsCollection)
         .document(barterModel.itemId)
         .delete();
   }

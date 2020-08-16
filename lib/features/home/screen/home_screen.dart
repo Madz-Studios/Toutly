@@ -7,7 +7,6 @@ import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/home/widgets/likes_panel.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
-import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -110,7 +109,6 @@ class HomeScreen extends StatelessWidget {
 }
 
 class _BarterItemFeed extends StatelessWidget {
-  final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final AlgoliaQuerySnapshot algoliaQuerySnapshot;
   _BarterItemFeed({
     this.algoliaQuerySnapshot,
@@ -148,16 +146,13 @@ class _BarterItemFeed extends StatelessWidget {
 
   _gotoViewBarterItem(
       BuildContext context, AlgoliaBarterModel algoliaBarterModel) {
-    final barter = BarterModel.fromJson(algoliaBarterModel.toJson());
-
-    _viewBarterItemBloc.add(
-      ViewBarterItemEvent.viewBarterItem(barter),
-    );
+    final barterModel = BarterModel.fromJson(algoliaBarterModel.toJson());
 
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) => ViewBarterItemScreen(
+          barterModel: barterModel,
           isDialog: false,
         ),
         fullscreenDialog: true,

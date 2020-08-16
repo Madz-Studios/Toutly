@@ -65,6 +65,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
       emit(CurrentUserState.failure(platFormException.message));
+    } on Exception catch (e) {
+      emit(CurrentUserState.failure(e.toString()));
     }
   }
 
@@ -72,6 +74,14 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       PickedFile pickedFile, UserModel currentUser) async {
     emit(CurrentUserState.loading());
     try {
+      /// delete the previous profile photo in cloud storage
+
+      if (currentUser.photoUrl != null) {
+        final storageRef =
+            await firebaseStorage.getReferenceFromUrl(currentUser.photoUrl);
+        storageRef.delete();
+      }
+
       ///Upload profile picture in google storage
       final StorageReference storageReference =
           firebaseStorage.ref().child(uuid.v1());
@@ -95,6 +105,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
       emit(CurrentUserState.failure(platFormException.message));
+    } on Exception catch (e) {
+      emit(CurrentUserState.failure(e.toString()));
     }
   }
 
@@ -107,6 +119,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       emit(CurrentUserState.success(currentUser));
     } on PlatformException catch (platFormException) {
       emit(CurrentUserState.failure(platFormException.message));
+    } on Exception catch (e) {
+      emit(CurrentUserState.failure(e.toString()));
     }
   }
 }

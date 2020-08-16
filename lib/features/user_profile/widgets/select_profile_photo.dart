@@ -5,6 +5,7 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -62,6 +63,7 @@ class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
         widget.userModel,
       );
     } catch (e) {
+      AppSettings.openLocationSettings();
       setState(() {
         _pickImageError = e;
       });
