@@ -5,6 +5,8 @@ import 'package:Toutly/core/cubits/barter_item/current_user/list/private/private
 import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
@@ -18,7 +20,6 @@ import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/authentication/screen/authentication_screen.dart';
-import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
@@ -128,12 +129,15 @@ class App extends StatelessWidget {
               getIt<PublicListBarterModelCurrentUserCubit>(),
         ),
 
-        /// CUBITS REGISTRATION END
-
-        /// Messages Bloc
-        BlocProvider<MessagesBloc>(
-          create: (BuildContext context) => getIt<MessagesBloc>(),
+        BlocProvider<OfferMessageCubit>(
+          create: (BuildContext context) => getIt<OfferMessageCubit>(),
         ),
+
+        BlocProvider<BarterMessageCubit>(
+          create: (BuildContext context) => getIt<BarterMessageCubit>(),
+        ),
+
+        /// CUBITS REGISTRATION END
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: env == Flavor.DEV.toString() ? true : false,

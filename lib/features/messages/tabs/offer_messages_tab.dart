@@ -1,30 +1,45 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/conversation/screen/conversation_screen.dart';
-import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class OffersTab extends StatelessWidget {
-  final _messagesBloc = getIt<MessagesBloc>();
+class OfferMessagesTab extends StatefulWidget {
+  OfferMessagesTab(this.userId);
+
+  final String userId;
+
+  @override
+  _OfferMessagesTabState createState() => _OfferMessagesTabState();
+}
+
+class _OfferMessagesTabState extends State<OfferMessagesTab> {
+  final _offerMessagesCubit = getIt<OfferMessageCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+    _offerMessagesCubit.getOfferMessages(
+      widget.userId,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-      builder: (_, currentUserState) {
-        if (currentUserState.isSuccess) {
-          final currentUser = currentUserState.currentUserModel;
+    return BlocBuilder<OfferMessageCubit, OfferMessageState>(
+      builder: (_, offerMessageState) {
+        if (offerMessageState.isSuccess) {
           return StreamBuilder<QuerySnapshot>(
-            stream: _messagesBloc.getAllUserOfferMessages(
-              currentUser.userId,
-            ),
+            stream: offerMessageState.offerMessages,
             builder: (_, snapshot) {
               if (!snapshot.hasData) {
                 if (Platform.isIOS) {
@@ -79,7 +94,7 @@ class OffersTab extends StatelessWidget {
             },
           );
         } else {
-          return Container();
+          return LoadingOrErrorWidgetUtil(offerMessageState.info);
         }
       },
     );

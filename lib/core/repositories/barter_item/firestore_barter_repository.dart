@@ -2,6 +2,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/services.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreBarterRepository {
@@ -54,11 +55,18 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final String barterCollection =
         FirestoreCollectionNames.barterItemsCollection;
 
-    final query = firestore
-        .collection(barterCollection)
-        .where('userId', isEqualTo: userId)
-        .orderBy('dateCreated', descending: true)
-        .snapshots();
+    Stream<QuerySnapshot> query;
+    try {
+      query = firestore
+          .collection(barterCollection)
+          .where('userId', isEqualTo: userId)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
 
     return query;
   }
@@ -69,12 +77,20 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final String barterCollection =
         FirestoreCollectionNames.barterItemsCollection;
 
-    final query = firestore
-        .collection(barterCollection)
-        .where('userId', isEqualTo: userId)
-        .where('publicAccess', isEqualTo: true)
-        .orderBy('dateCreated', descending: true)
-        .snapshots();
+    Stream<QuerySnapshot> query;
+
+    try {
+      query = firestore
+          .collection(barterCollection)
+          .where('userId', isEqualTo: userId)
+          .where('publicAccess', isEqualTo: true)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
 
     return query;
   }
@@ -82,15 +98,19 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   /// Get "Private" barter item in barter firestore collection using [userId].
   @override
   Stream<QuerySnapshot> getPrivateBarterItemsUsingUserId(String userId) {
-    final String barterCollection =
-        FirestoreCollectionNames.barterItemsCollection;
-
-    final query = firestore
-        .collection(barterCollection)
-        .where('userId', isEqualTo: userId)
-        .where('publicAccess', isEqualTo: false)
-        .orderBy('dateCreated', descending: true)
-        .snapshots();
+    Stream<QuerySnapshot> query;
+    try {
+      query = firestore
+          .collection(FirestoreCollectionNames.barterItemsCollection)
+          .where('userId', isEqualTo: userId)
+          .where('publicAccess', isEqualTo: false)
+          .orderBy('dateCreated', descending: true)
+          .snapshots();
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
 
     return query;
   }

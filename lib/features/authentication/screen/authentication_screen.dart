@@ -1,7 +1,6 @@
 import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
-import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -16,7 +15,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
-  final _navCubit = getIt<NavigationCubit>();
   final _locationCubit = getIt<LocationCubit>();
   final _remoteConfigCubit = getIt<RemoteConfigCubit>();
   final _currentUserCubit = getIt<CurrentUserCubit>();

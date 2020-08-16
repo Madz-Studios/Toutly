@@ -29,8 +29,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
-import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
@@ -41,6 +41,7 @@ import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_oth
 import 'package:uuid/uuid.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
@@ -126,10 +127,9 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<LikesCurrentUserCubit>(() => LikesCurrentUserCubit(
       g<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>()));
   g.registerLazySingleton<LocationCubit>(() => LocationCubit(g<Geolocator>()));
-  g.registerLazySingleton<MessagesBloc>(() => MessagesBloc(
-      g<FirestoreGetAllBarterMessagesUseCase>(),
-      g<FirestoreGetAllOfferMessagesUseCase>()));
   g.registerLazySingleton<NavigationCubit>(() => NavigationCubit());
+  g.registerLazySingleton<OfferMessageCubit>(
+      () => OfferMessageCubit(g<FirestoreGetAllOfferMessagesUseCase>()));
   g.registerLazySingleton<PublicListBarterModelCurrentUserCubit>(() =>
       PublicListBarterModelCurrentUserCubit(
           g<FirestoreGetPublicBarterItemsUsingUserIdUseCase>()));
@@ -148,6 +148,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
   g.registerLazySingleton<AllListBarterModelCurrentUserCubit>(() =>
       AllListBarterModelCurrentUserCubit(
           g<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  g.registerLazySingleton<BarterMessageCubit>(
+      () => BarterMessageCubit(g<FirestoreGetAllBarterMessagesUseCase>()));
   g.registerLazySingleton<DeleteBarterModelCurrentUserCubit>(() =>
       DeleteBarterModelCurrentUserCubit(g<FirestoreDeleteBarterItemUseCase>()));
   g.registerFactory<FirebaseAuthUserRepository>(
