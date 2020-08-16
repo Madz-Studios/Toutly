@@ -1,8 +1,8 @@
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
-import 'package:Toutly/features/post/widgets/item_description_form.dart';
+import 'package:Toutly/features/post/widgets/post_barter_form.dart';
 import 'package:Toutly/features/post/widgets/select_photos.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostScreen extends StatelessWidget {
-  final _postBloc = getIt<PostBloc>();
+  final _postBarterCubit = getIt<PostBarterCubit>();
   final _viewBarterItemBloc = getIt<ViewBarterItemBloc>();
   final _navCubit = getIt<NavigationCubit>();
 
@@ -21,7 +21,7 @@ class PostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
 
-    return BlocConsumer<PostBloc, PostState>(
+    return BlocConsumer<PostBarterCubit, PostBarterState>(
       listener: (context, state) {
         if (state.isFailure) {
           Scaffold.of(context)
@@ -73,7 +73,7 @@ class PostScreen extends StatelessWidget {
             );
 
           ///clear the photo list for the next post
-          _postBloc.add(PostEvent.clearPhotoList());
+          _postBarterCubit.reset();
           _navCubit.goToUserProfileScreen();
           _gotToPreviewBarterItem(state.barterModel, context);
         }
@@ -95,7 +95,7 @@ class PostScreen extends StatelessWidget {
                     _buildSelectedPhotosSection(
                       appSizeConfig,
                     ),
-                    ItemDescriptionForm(),
+                    PostBarterForm(),
                   ],
                 ),
               ),

@@ -1,8 +1,7 @@
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
-import 'package:Toutly/features/post/widgets/post_item_textfield_form.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -11,13 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ItemDescriptionForm extends StatefulWidget {
+class PostBarterForm extends StatefulWidget {
   @override
-  _ItemDescriptionFormState createState() => _ItemDescriptionFormState();
+  _PostBarterFormState createState() => _PostBarterFormState();
 }
 
-class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
-  final _postBloc = getIt<PostBloc>();
+class _PostBarterFormState extends State<PostBarterForm> {
+  final _postBarterCubit = getIt<PostBarterCubit>();
 
   final _titleController = TextEditingController();
   final _descriptionController = TextEditingController();
@@ -52,27 +51,27 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   }
 
   void _onTitleChanged() {
-    _postBloc.add(PostEvent.titleChanged(
-      title: _titleController.text,
-    ));
+    _postBarterCubit.titleChanged(
+      _titleController.text,
+    );
   }
 
   void _onDescriptionChanged() {
-    _postBloc.add(PostEvent.descriptionChanged(
-      description: _descriptionController.text,
-    ));
+    _postBarterCubit.descriptionChanged(
+      _descriptionController.text,
+    );
   }
 
   void _onPreferredItemChanged() {
-    _postBloc.add(PostEvent.preferredItemChanged(
-      preferredItem: _preferredItemController.text,
-    ));
+    _postBarterCubit.preferredItemChanged(
+      _preferredItemController.text,
+    );
   }
 
   void _onLocationChanged() {
-    _postBloc.add(PostEvent.locationChanged(
-      location: _locationController.text,
-    ));
+    _postBarterCubit.locationChanged(
+      _locationController.text,
+    );
   }
 
   bool get isPopulated =>
@@ -82,22 +81,20 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
       _locationController.text.isNotEmpty &&
       _locationController.text.isNotEmpty;
 
-  bool isPostButtonEnabled(PostState state) {
+  bool isPostButtonEnabled(PostBarterState state) {
     return state.isPostFormValid && isPopulated && !state.isSubmitting;
   }
 
   void _onFormSubmitted() {
-    _postBloc.add(
-      PostEvent.postButtonPressed(
-        address: _locationController.text,
-        category: _selectedCategory,
-        description: _descriptionController.text,
-        preferredItem: _preferredItemController.text,
-        geoLocation: _geoLocation,
-        geoHash: _geoHash,
-        title: _titleController.text,
-        privacy: _selectedPrivacy,
-      ),
+    _postBarterCubit.postButtonPressed(
+      address: _locationController.text,
+      category: _selectedCategory,
+      description: _descriptionController.text,
+      preferredItem: _preferredItemController.text,
+      geoLocation: _geoLocation,
+      geoHash: _geoHash,
+      title: _titleController.text,
+      privacy: _selectedPrivacy,
     );
   }
 
@@ -149,9 +146,9 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<PostBloc, PostState>(
-      listener: (context, state) {
-        if (state.isSuccess) {
+    return BlocConsumer<PostBarterCubit, PostBarterState>(
+      listener: (context, postBarterState) {
+        if (postBarterState.isSuccess) {
           _clearForm();
         }
       },
@@ -241,7 +238,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 3,
             ),
-            PostItemTextFieldForm(
+            _PostItemTextField(
               title: 'Title',
               description: 'Describe what you are bartering in a few words',
               controller: _titleController,
@@ -251,7 +248,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
             ),
-            PostItemTextFieldForm(
+            _PostItemTextField(
               title: 'Description',
               description: 'Describe what you are bartering in detail',
               controller: _descriptionController,
@@ -261,7 +258,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
             ),
-            PostItemTextFieldForm(
+            _PostItemTextField(
               title: 'Preferred Item',
               description: 'Describe what you want in return',
               controller: _preferredItemController,
@@ -280,7 +277,7 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
                   _locationController.text = currentUser.address;
 
                   return IgnorePointer(
-                    child: PostItemTextFieldForm(
+                    child: _PostItemTextField(
                       title: '',
                       description: 'Location',
                       controller: _locationController,
@@ -317,6 +314,99 @@ class _ItemDescriptionFormState extends State<ItemDescriptionForm> {
           ],
         );
       },
+    );
+  }
+}
+
+class _PostItemTextField extends StatelessWidget {
+  final String title;
+  final String description;
+  final TextEditingController controller;
+  final bool readOnly;
+  final int maxLength;
+
+  _PostItemTextField({
+    @required this.title,
+    @required this.description,
+    @required this.controller,
+    @required this.readOnly,
+    @required this.maxLength,
+  });
+  @override
+  Widget build(BuildContext context) {
+    final appSizeConfig = AppSizeConfig(context);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Padding(
+          padding: EdgeInsets.only(
+            left: appSizeConfig.blockSizeHorizontal * 2.5,
+            top: appSizeConfig.blockSizeVertical * 1,
+          ),
+          child: Text(
+            description,
+            style: GoogleFonts.roboto(
+              fontSize: 12,
+              color: Color(0XFF949494),
+            ),
+          ),
+        ),
+        SizedBox(
+          height: appSizeConfig.blockSizeVertical * 1,
+        ),
+        TextFormField(
+          readOnly: readOnly,
+          controller: controller,
+          keyboardType: TextInputType.text,
+          maxLength: maxLength,
+          textAlign: TextAlign.left,
+          style: GoogleFonts.roboto(
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w500,
+            fontSize: 16.0,
+          ),
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: Color(0XFFF7F7F8),
+            hintText: title,
+            hintStyle: TextStyle(
+              fontStyle: FontStyle.normal,
+              fontWeight: FontWeight.w500,
+              fontSize: 16.0,
+              color: Color(0XFFB5B5B5),
+            ),
+            labelText: title,
+            suffixText: controller.text.length >= 4 ? '' : '*',
+            suffixStyle: TextStyle(
+              fontWeight: FontWeight.w500,
+              fontSize: 18,
+              color: Colors.red,
+            ),
+            suffixIcon: !readOnly
+                ? Icon(
+                    Icons.lock,
+                    color: Colors.transparent,
+                  )
+                : Icon(
+                    Icons.lock,
+                    color: Colors.red,
+                  ),
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(color: Colors.transparent),
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: kPrimaryColor),
+              borderRadius: BorderRadius.all(
+                Radius.circular(8.0),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

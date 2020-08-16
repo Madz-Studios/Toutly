@@ -1,9 +1,9 @@
-part of 'post_bloc.dart';
+part of 'post_barter_cubit.dart';
 
 @freezed
-abstract class PostState implements _$PostState {
-  const PostState._();
-  const factory PostState({
+abstract class PostBarterState implements _$PostBarterState {
+  const PostBarterState._();
+  const factory PostBarterState({
     @required BarterModel barterModel,
     @required Map<String, PickedFile> pickedFileList,
     @required bool isTitleValid,
@@ -14,9 +14,9 @@ abstract class PostState implements _$PostState {
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
-  }) = _PostState;
+  }) = _PostBarterState;
 
-  factory PostState.empty() => PostState(
+  factory PostBarterState.empty() => PostBarterState(
         barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
@@ -29,7 +29,8 @@ abstract class PostState implements _$PostState {
         info: '',
       );
 
-  factory PostState.loading(Map<String, PickedFile> pickedFiles) => PostState(
+  factory PostBarterState.loading(Map<String, PickedFile> pickedFiles) =>
+      PostBarterState(
         barterModel: BarterModel(),
         pickedFileList: pickedFiles,
         isTitleValid: true,
@@ -42,7 +43,7 @@ abstract class PostState implements _$PostState {
         info: '',
       );
 
-  factory PostState.failure({@required String info}) => PostState(
+  factory PostBarterState.failure({@required String info}) => PostBarterState(
         barterModel: BarterModel(),
         pickedFileList: Map<String, PickedFile>(),
         isTitleValid: true,
@@ -55,12 +56,12 @@ abstract class PostState implements _$PostState {
         info: info,
       );
 
-  factory PostState.success({
+  factory PostBarterState.success({
     @required String info,
     @required BarterModel barterModel,
     @required Map<String, PickedFile> pickedFileList,
   }) =>
-      PostState(
+      PostBarterState(
         barterModel: barterModel,
         pickedFileList: pickedFileList,
         isTitleValid: true,

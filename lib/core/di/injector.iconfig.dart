@@ -53,7 +53,7 @@ import 'package:Toutly/core/cubits/barter_item/current_user/list_barter_model_cu
 import 'package:Toutly/core/repositories/local/local_shared_pref_repository.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
@@ -191,7 +191,7 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Uuid>(),
         g<Validators>(),
       ));
-  g.registerLazySingleton<PostBloc>(() => PostBloc(
+  g.registerLazySingleton<PostBarterCubit>(() => PostBarterCubit(
         g<FirebaseStorage>(),
         g<Uuid>(),
         g<Validators>(),

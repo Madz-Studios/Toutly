@@ -20,14 +20,14 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   goToPostScreen() {
-    emit( NavigationState.postScreen(AppNavigationIndex.postIndex));
+    emit(NavigationState.postBarterScreen(AppNavigationIndex.postIndex));
   }
 
   goToUserProfileScreen() {
-    emit( NavigationState.userProfile(AppNavigationIndex.useProfileIndex));
+    emit(NavigationState.userProfile(AppNavigationIndex.useProfileIndex));
   }
 
   goToInboxScreen() {
-    emit( NavigationState.inboxScreen(AppNavigationIndex.inboxIndex));
+    emit(NavigationState.inboxScreen(AppNavigationIndex.inboxIndex));
   }
 }

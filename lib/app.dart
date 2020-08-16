@@ -6,6 +6,7 @@ import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.d
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
@@ -14,7 +15,6 @@ import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/authentication/screen/authentication_screen.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/features/view_barter_item/bloc/view_barter_item_bloc.dart';
 import 'package:Toutly/shared/bloc/messages/messages_bloc.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -42,88 +42,71 @@ class App extends StatelessWidget {
       providers: [
         /// CUBITS REGISTRATION START
 
-        /// Current User Cubit
         BlocProvider<CurrentUserCubit>(
           create: (BuildContext context) => getIt<CurrentUserCubit>(),
         ),
 
-        /// Other User Cubit
         BlocProvider<OtherUserCubit>(
           create: (BuildContext context) => getIt<OtherUserCubit>(),
         ),
 
-        ///Barter Items Cubit
         BlocProvider<ListBarterModelCurrentUserCubit>(
           create: (BuildContext context) =>
               getIt<ListBarterModelCurrentUserCubit>(),
         ),
 
-        /// Likes CurrentUser Cubit
         BlocProvider<LikesCurrentUserCubit>(
           create: (BuildContext context) => getIt<LikesCurrentUserCubit>(),
         ),
 
-        /// Single Other User Barter Item Cubit
         BlocProvider<SingleBarterItemOtherUserCubit>(
           create: (BuildContext context) =>
               getIt<SingleBarterItemOtherUserCubit>(),
         ),
 
-        /// Make Offer Cubit
         BlocProvider<MakeOfferCubit>(
           create: (BuildContext context) => getIt<MakeOfferCubit>(),
         ),
 
-        /// Sign Cubit
         BlocProvider<SignCubit>(
           create: (BuildContext context) => getIt<SignCubit>(),
         ),
 
-        /// Auth Cubit
+        /// start the authorization check
         BlocProvider<AuthCubit>(
           create: (BuildContext context) =>
               getIt<AuthCubit>()..authCheckRequested(),
         ),
 
-        /// Apple Sign Cubit
         BlocProvider<AppleSignCubit>(
           create: (BuildContext context) => getIt<AppleSignCubit>(),
         ),
 
-        /// Location Bloc
         BlocProvider<LocationCubit>(
           create: (BuildContext context) => getIt<LocationCubit>(),
         ),
 
-        /// Search Config Cubit
         BlocProvider<SearchConfigCubit>(
           create: (BuildContext context) => getIt<SearchConfigCubit>(),
         ),
 
-        /// Navigation Cubit
         BlocProvider<NavigationCubit>(
           create: (BuildContext context) => getIt<NavigationCubit>(),
         ),
 
-        /// Remote Config Cubit
         BlocProvider<RemoteConfigCubit>(
           create: (BuildContext context) => getIt<RemoteConfigCubit>(),
         ),
 
-        /// Search Cubit
         BlocProvider<SearchCubit>(
           create: (BuildContext context) => getIt<SearchCubit>(),
         ),
 
-        /// CUBITS REGISTRATION END
-
-        ///SCREENS BLOC
-        ///
-
-        /// Post Bloc
-        BlocProvider<PostBloc>(
-          create: (BuildContext context) => getIt<PostBloc>(),
+        BlocProvider<PostBarterCubit>(
+          create: (BuildContext context) => getIt<PostBarterCubit>(),
         ),
+
+        /// CUBITS REGISTRATION END
 
         /// View Barter Item Bloc
         BlocProvider<ViewBarterItemBloc>(

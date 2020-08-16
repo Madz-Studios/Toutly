@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/post/bloc/post_bloc.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:app_settings/app_settings.dart';
@@ -15,7 +15,7 @@ class SelectPhotos extends StatefulWidget {
 }
 
 class _SelectPhotosState extends State<SelectPhotos> {
-  final _postBloc = getIt<PostBloc>();
+  final _postBarterCubit = getIt<PostBarterCubit>();
 
   final ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
@@ -24,7 +24,7 @@ class _SelectPhotosState extends State<SelectPhotos> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<PostBloc, PostState>(
+    return BlocConsumer<PostBarterCubit, PostBarterState>(
       listener: (context, state) {
         if (state.isSuccess) {
           setState(() {
@@ -225,16 +225,14 @@ class _SelectPhotosState extends State<SelectPhotos> {
   }
 
   void _addPhotoToList() {
-    _postBloc.add(PostEvent.addPhotoToList(
-      path: _imageFile.path,
-      pickedFile: _imageFile,
-    ));
+    _postBarterCubit.addPhotoToList(
+      _imageFile,
+    );
   }
 
   void _removePhotoToList() {
-    _postBloc.add(PostEvent.removePhotoFromList(
-      path: _imageFile.path,
-      pickedFile: _imageFile,
-    ));
+    _postBarterCubit.removePhotoFromList(
+      _imageFile,
+    );
   }
 }

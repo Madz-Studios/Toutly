@@ -24,7 +24,7 @@ class _$NavigationStateTearOff {
     );
   }
 
-  NavigationStatePostItemScreen postScreen(int index) {
+  NavigationStatePostItemScreen postBarterScreen(int index) {
     return NavigationStatePostItemScreen(
       index,
     );
@@ -53,7 +53,7 @@ mixin _$NavigationState {
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   });
@@ -61,7 +61,7 @@ mixin _$NavigationState {
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
@@ -70,7 +70,7 @@ mixin _$NavigationState {
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   });
@@ -78,7 +78,7 @@ mixin _$NavigationState {
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
@@ -175,13 +175,13 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return homeScreen(index);
@@ -192,7 +192,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
@@ -209,13 +209,13 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return homeScreen(this);
@@ -226,7 +226,7 @@ class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
@@ -313,13 +313,13 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return likesScreen(index);
@@ -330,7 +330,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
@@ -347,13 +347,13 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return likesScreen(this);
@@ -364,7 +364,7 @@ class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
@@ -428,7 +428,7 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
 
   @override
   String toString() {
-    return 'NavigationState.postScreen(index: $index)';
+    return 'NavigationState.postBarterScreen(index: $index)';
   }
 
   @override
@@ -453,16 +453,16 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
-    return postScreen(index);
+    return postBarterScreen(index);
   }
 
   @override
@@ -470,14 +470,14 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (postScreen != null) {
-      return postScreen(index);
+    if (postBarterScreen != null) {
+      return postBarterScreen(index);
     }
     return orElse();
   }
@@ -487,16 +487,16 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
-    return postScreen(this);
+    return postBarterScreen(this);
   }
 
   @override
@@ -504,14 +504,14 @@ class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
   }) {
     assert(orElse != null);
-    if (postScreen != null) {
-      return postScreen(this);
+    if (postBarterScreen != null) {
+      return postBarterScreen(this);
     }
     return orElse();
   }
@@ -596,13 +596,13 @@ class _$NavigationStateUserBarterListingcreen
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return userProfile(index);
@@ -613,7 +613,7 @@ class _$NavigationStateUserBarterListingcreen
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
@@ -630,13 +630,13 @@ class _$NavigationStateUserBarterListingcreen
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return userProfile(this);
@@ -647,7 +647,7 @@ class _$NavigationStateUserBarterListingcreen
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),
@@ -736,13 +736,13 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
   Result when<Result extends Object>({
     @required Result homeScreen(int index),
     @required Result likesScreen(int index),
-    @required Result postScreen(int index),
+    @required Result postBarterScreen(int index),
     @required Result userProfile(int index),
     @required Result inboxScreen(int index),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return inboxScreen(index);
@@ -753,7 +753,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
   Result maybeWhen<Result extends Object>({
     Result homeScreen(int index),
     Result likesScreen(int index),
-    Result postScreen(int index),
+    Result postBarterScreen(int index),
     Result userProfile(int index),
     Result inboxScreen(int index),
     @required Result orElse(),
@@ -770,13 +770,13 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
   Result map<Result extends Object>({
     @required Result homeScreen(NavigationStateHomeScreen value),
     @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postScreen(NavigationStatePostItemScreen value),
+    @required Result postBarterScreen(NavigationStatePostItemScreen value),
     @required Result userProfile(NavigationStateUserBarterListingcreen value),
     @required Result inboxScreen(NavigationStateInboxScreen value),
   }) {
     assert(homeScreen != null);
     assert(likesScreen != null);
-    assert(postScreen != null);
+    assert(postBarterScreen != null);
     assert(userProfile != null);
     assert(inboxScreen != null);
     return inboxScreen(this);
@@ -787,7 +787,7 @@ class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
   Result maybeMap<Result extends Object>({
     Result homeScreen(NavigationStateHomeScreen value),
     Result likesScreen(NavigationStateSearchScreen value),
-    Result postScreen(NavigationStatePostItemScreen value),
+    Result postBarterScreen(NavigationStatePostItemScreen value),
     Result userProfile(NavigationStateUserBarterListingcreen value),
     Result inboxScreen(NavigationStateInboxScreen value),
     @required Result orElse(),

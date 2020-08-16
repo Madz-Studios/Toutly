@@ -6,7 +6,7 @@ abstract class NavigationState with _$NavigationState {
       NavigationStateHomeScreen;
   const factory NavigationState.likesScreen(int index) =
       NavigationStateSearchScreen;
-  const factory NavigationState.postScreen(int index) =
+  const factory NavigationState.postBarterScreen(int index) =
       NavigationStatePostItemScreen;
   const factory NavigationState.userProfile(int index) =
       NavigationStateUserBarterListingcreen;
