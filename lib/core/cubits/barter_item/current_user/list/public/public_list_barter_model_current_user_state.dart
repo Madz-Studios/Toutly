@@ -1,18 +1,18 @@
-part of 'list_barter_model_current_user_cubit.dart';
+part of 'public_list_barter_model_current_user_cubit.dart';
 
 @freezed
-abstract class ListBarterModelCurrentUserState
-    with _$ListBarterModelCurrentUserState {
-  const factory ListBarterModelCurrentUserState({
+abstract class PublicListBarterModelCurrentUserState
+    with _$PublicListBarterModelCurrentUserState {
+  const factory PublicListBarterModelCurrentUserState({
     @required Stream<QuerySnapshot> userBarterItems,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
     @required String info,
-  }) = _ListBarterModelCurrentUserState;
+  }) = _PublicListBarterModelCurrentUserState;
 
-  factory ListBarterModelCurrentUserState.empty() =>
-      ListBarterModelCurrentUserState(
+  factory PublicListBarterModelCurrentUserState.empty() =>
+      PublicListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
@@ -20,8 +20,8 @@ abstract class ListBarterModelCurrentUserState
         info: '',
       );
 
-  factory ListBarterModelCurrentUserState.loading() =>
-      ListBarterModelCurrentUserState(
+  factory PublicListBarterModelCurrentUserState.loading() =>
+      PublicListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: true,
         isSuccess: false,
@@ -29,8 +29,9 @@ abstract class ListBarterModelCurrentUserState
         info: '',
       );
 
-  factory ListBarterModelCurrentUserState.failure({@required String info}) =>
-      ListBarterModelCurrentUserState(
+  factory PublicListBarterModelCurrentUserState.failure(
+          {@required String info}) =>
+      PublicListBarterModelCurrentUserState(
         userBarterItems: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
@@ -38,10 +39,10 @@ abstract class ListBarterModelCurrentUserState
         info: info,
       );
 
-  factory ListBarterModelCurrentUserState.success(
+  factory PublicListBarterModelCurrentUserState.success(
           {@required Stream<QuerySnapshot> userBarterItems,
           @required String info}) =>
-      ListBarterModelCurrentUserState(
+      PublicListBarterModelCurrentUserState(
         userBarterItems: userBarterItems,
         isSubmitting: false,
         isSuccess: true,

@@ -1,6 +1,8 @@
 import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
-import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
@@ -50,9 +52,9 @@ class App extends StatelessWidget {
           create: (BuildContext context) => getIt<OtherUserCubit>(),
         ),
 
-        BlocProvider<ListBarterModelCurrentUserCubit>(
+        BlocProvider<PublicListBarterModelCurrentUserCubit>(
           create: (BuildContext context) =>
-              getIt<ListBarterModelCurrentUserCubit>(),
+              getIt<PublicListBarterModelCurrentUserCubit>(),
         ),
 
         BlocProvider<LikesCurrentUserCubit>(
@@ -109,6 +111,21 @@ class App extends StatelessWidget {
         BlocProvider<DeleteBarterModelCurrentUserCubit>(
           create: (BuildContext context) =>
               getIt<DeleteBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<AllListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<AllListBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<PrivateListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<PrivateListBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<PublicListBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<PublicListBarterModelCurrentUserCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

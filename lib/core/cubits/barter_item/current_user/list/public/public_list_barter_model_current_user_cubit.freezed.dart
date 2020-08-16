@@ -1,7 +1,7 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
 
-part of 'list_barter_model_current_user_cubit.dart';
+part of 'public_list_barter_model_current_user_cubit.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -9,16 +9,16 @@ part of 'list_barter_model_current_user_cubit.dart';
 
 T _$identity<T>(T value) => value;
 
-class _$ListBarterModelCurrentUserStateTearOff {
-  const _$ListBarterModelCurrentUserStateTearOff();
+class _$PublicListBarterModelCurrentUserStateTearOff {
+  const _$PublicListBarterModelCurrentUserStateTearOff();
 
-  _ListBarterModelCurrentUserState call(
+  _PublicListBarterModelCurrentUserState call(
       {@required Stream<QuerySnapshot> userBarterItems,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
-    return _ListBarterModelCurrentUserState(
+    return _PublicListBarterModelCurrentUserState(
       userBarterItems: userBarterItems,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
@@ -29,25 +29,25 @@ class _$ListBarterModelCurrentUserStateTearOff {
 }
 
 // ignore: unused_element
-const $ListBarterModelCurrentUserState =
-    _$ListBarterModelCurrentUserStateTearOff();
+const $PublicListBarterModelCurrentUserState =
+    _$PublicListBarterModelCurrentUserStateTearOff();
 
-mixin _$ListBarterModelCurrentUserState {
+mixin _$PublicListBarterModelCurrentUserState {
   Stream<QuerySnapshot> get userBarterItems;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
   String get info;
 
-  $ListBarterModelCurrentUserStateCopyWith<ListBarterModelCurrentUserState>
-      get copyWith;
+  $PublicListBarterModelCurrentUserStateCopyWith<
+      PublicListBarterModelCurrentUserState> get copyWith;
 }
 
-abstract class $ListBarterModelCurrentUserStateCopyWith<$Res> {
-  factory $ListBarterModelCurrentUserStateCopyWith(
-          ListBarterModelCurrentUserState value,
-          $Res Function(ListBarterModelCurrentUserState) then) =
-      _$ListBarterModelCurrentUserStateCopyWithImpl<$Res>;
+abstract class $PublicListBarterModelCurrentUserStateCopyWith<$Res> {
+  factory $PublicListBarterModelCurrentUserStateCopyWith(
+          PublicListBarterModelCurrentUserState value,
+          $Res Function(PublicListBarterModelCurrentUserState) then) =
+      _$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>;
   $Res call(
       {Stream<QuerySnapshot> userBarterItems,
       bool isSubmitting,
@@ -56,13 +56,13 @@ abstract class $ListBarterModelCurrentUserStateCopyWith<$Res> {
       String info});
 }
 
-class _$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
-    implements $ListBarterModelCurrentUserStateCopyWith<$Res> {
-  _$ListBarterModelCurrentUserStateCopyWithImpl(this._value, this._then);
+class _$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>
+    implements $PublicListBarterModelCurrentUserStateCopyWith<$Res> {
+  _$PublicListBarterModelCurrentUserStateCopyWithImpl(this._value, this._then);
 
-  final ListBarterModelCurrentUserState _value;
+  final PublicListBarterModelCurrentUserState _value;
   // ignore: unused_field
-  final $Res Function(ListBarterModelCurrentUserState) _then;
+  final $Res Function(PublicListBarterModelCurrentUserState) _then;
 
   @override
   $Res call({
@@ -85,12 +85,12 @@ class _$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
   }
 }
 
-abstract class _$ListBarterModelCurrentUserStateCopyWith<$Res>
-    implements $ListBarterModelCurrentUserStateCopyWith<$Res> {
-  factory _$ListBarterModelCurrentUserStateCopyWith(
-          _ListBarterModelCurrentUserState value,
-          $Res Function(_ListBarterModelCurrentUserState) then) =
-      __$ListBarterModelCurrentUserStateCopyWithImpl<$Res>;
+abstract class _$PublicListBarterModelCurrentUserStateCopyWith<$Res>
+    implements $PublicListBarterModelCurrentUserStateCopyWith<$Res> {
+  factory _$PublicListBarterModelCurrentUserStateCopyWith(
+          _PublicListBarterModelCurrentUserState value,
+          $Res Function(_PublicListBarterModelCurrentUserState) then) =
+      __$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>;
   @override
   $Res call(
       {Stream<QuerySnapshot> userBarterItems,
@@ -100,17 +100,18 @@ abstract class _$ListBarterModelCurrentUserStateCopyWith<$Res>
       String info});
 }
 
-class __$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
-    extends _$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
-    implements _$ListBarterModelCurrentUserStateCopyWith<$Res> {
-  __$ListBarterModelCurrentUserStateCopyWithImpl(
-      _ListBarterModelCurrentUserState _value,
-      $Res Function(_ListBarterModelCurrentUserState) _then)
-      : super(_value, (v) => _then(v as _ListBarterModelCurrentUserState));
+class __$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>
+    extends _$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>
+    implements _$PublicListBarterModelCurrentUserStateCopyWith<$Res> {
+  __$PublicListBarterModelCurrentUserStateCopyWithImpl(
+      _PublicListBarterModelCurrentUserState _value,
+      $Res Function(_PublicListBarterModelCurrentUserState) _then)
+      : super(
+            _value, (v) => _then(v as _PublicListBarterModelCurrentUserState));
 
   @override
-  _ListBarterModelCurrentUserState get _value =>
-      super._value as _ListBarterModelCurrentUserState;
+  _PublicListBarterModelCurrentUserState get _value =>
+      super._value as _PublicListBarterModelCurrentUserState;
 
   @override
   $Res call({
@@ -120,7 +121,7 @@ class __$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
     Object isFailure = freezed,
     Object info = freezed,
   }) {
-    return _then(_ListBarterModelCurrentUserState(
+    return _then(_PublicListBarterModelCurrentUserState(
       userBarterItems: userBarterItems == freezed
           ? _value.userBarterItems
           : userBarterItems as Stream<QuerySnapshot>,
@@ -133,9 +134,9 @@ class __$ListBarterModelCurrentUserStateCopyWithImpl<$Res>
   }
 }
 
-class _$_ListBarterModelCurrentUserState
-    implements _ListBarterModelCurrentUserState {
-  const _$_ListBarterModelCurrentUserState(
+class _$_PublicListBarterModelCurrentUserState
+    implements _PublicListBarterModelCurrentUserState {
+  const _$_PublicListBarterModelCurrentUserState(
       {@required this.userBarterItems,
       @required this.isSubmitting,
       @required this.isSuccess,
@@ -160,13 +161,13 @@ class _$_ListBarterModelCurrentUserState
 
   @override
   String toString() {
-    return 'ListBarterModelCurrentUserState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'PublicListBarterModelCurrentUserState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is _ListBarterModelCurrentUserState &&
+        (other is _PublicListBarterModelCurrentUserState &&
             (identical(other.userBarterItems, userBarterItems) ||
                 const DeepCollectionEquality()
                     .equals(other.userBarterItems, userBarterItems)) &&
@@ -193,19 +194,20 @@ class _$_ListBarterModelCurrentUserState
       const DeepCollectionEquality().hash(info);
 
   @override
-  _$ListBarterModelCurrentUserStateCopyWith<_ListBarterModelCurrentUserState>
-      get copyWith => __$ListBarterModelCurrentUserStateCopyWithImpl<
-          _ListBarterModelCurrentUserState>(this, _$identity);
+  _$PublicListBarterModelCurrentUserStateCopyWith<
+          _PublicListBarterModelCurrentUserState>
+      get copyWith => __$PublicListBarterModelCurrentUserStateCopyWithImpl<
+          _PublicListBarterModelCurrentUserState>(this, _$identity);
 }
 
-abstract class _ListBarterModelCurrentUserState
-    implements ListBarterModelCurrentUserState {
-  const factory _ListBarterModelCurrentUserState(
+abstract class _PublicListBarterModelCurrentUserState
+    implements PublicListBarterModelCurrentUserState {
+  const factory _PublicListBarterModelCurrentUserState(
       {@required Stream<QuerySnapshot> userBarterItems,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
-      @required String info}) = _$_ListBarterModelCurrentUserState;
+      @required String info}) = _$_PublicListBarterModelCurrentUserState;
 
   @override
   Stream<QuerySnapshot> get userBarterItems;
@@ -218,6 +220,6 @@ abstract class _ListBarterModelCurrentUserState
   @override
   String get info;
   @override
-  _$ListBarterModelCurrentUserStateCopyWith<_ListBarterModelCurrentUserState>
-      get copyWith;
+  _$PublicListBarterModelCurrentUserStateCopyWith<
+      _PublicListBarterModelCurrentUserState> get copyWith;
 }

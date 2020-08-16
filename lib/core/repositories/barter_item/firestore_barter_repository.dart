@@ -9,6 +9,10 @@ abstract class FirestoreBarterRepository {
 
   Stream<QuerySnapshot> getAllBarterItemsUsingUserId(String userId);
 
+  Stream<QuerySnapshot> getPrivateBarterItemsUsingUserId(String userId);
+
+  Stream<QuerySnapshot> getPublicBarterItemsUsingUserId(String userId);
+
   Future<List<BarterModel>> getFutureAllLikesBarterItemsUsingItemIdList(
       List<String> itemIds);
 
@@ -53,6 +57,38 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     final query = firestore
         .collection(barterCollection)
         .where('userId', isEqualTo: userId)
+        .orderBy('dateCreated', descending: true)
+        .snapshots();
+
+    return query;
+  }
+
+  /// Get "Public" barter item in barter firestore collection using [userId].
+  @override
+  Stream<QuerySnapshot> getPublicBarterItemsUsingUserId(String userId) {
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
+
+    final query = firestore
+        .collection(barterCollection)
+        .where('userId', isEqualTo: userId)
+        .where('publicAccess', isEqualTo: true)
+        .orderBy('dateCreated', descending: true)
+        .snapshots();
+
+    return query;
+  }
+
+  /// Get "Private" barter item in barter firestore collection using [userId].
+  @override
+  Stream<QuerySnapshot> getPrivateBarterItemsUsingUserId(String userId) {
+    final String barterCollection =
+        FirestoreCollectionNames.barterItemsCollection;
+
+    final query = firestore
+        .collection(barterCollection)
+        .where('userId', isEqualTo: userId)
+        .where('publicAccess', isEqualTo: false)
         .orderBy('dateCreated', descending: true)
         .snapshots();
 

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
@@ -21,11 +21,11 @@ class MakeOfferBarterItemList extends StatelessWidget {
     final appSizeConfig = AppSizeConfig(context);
     return SafeArea(
       child: Container(
-        child: BlocBuilder<ListBarterModelCurrentUserCubit,
-            ListBarterModelCurrentUserState>(
-          builder: (context, barterState) {
+        child: BlocBuilder<AllListBarterModelCurrentUserCubit,
+            AllListBarterModelCurrentUserState>(
+          builder: (context, allListBarterModelCurrentUserState) {
             return StreamBuilder(
-              stream: barterState.userBarterItems,
+              stream: allListBarterModelCurrentUserState.userBarterItems,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
                   if (Platform.isIOS) {

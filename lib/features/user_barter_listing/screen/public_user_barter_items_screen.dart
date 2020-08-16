@@ -1,6 +1,7 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/user_barter_listing/widgets/user_barter_item.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
@@ -10,7 +11,23 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserBarterListingScreen extends StatelessWidget {
+class PublicUserBarterItemsScreen extends StatefulWidget {
+  final String userId;
+  PublicUserBarterItemsScreen(this.userId);
+  @override
+  _PublicUserBarterItemsScreenState createState() =>
+      _PublicUserBarterItemsScreenState();
+}
+
+class _PublicUserBarterItemsScreenState
+    extends State<PublicUserBarterItemsScreen> {
+  final _publicBarterCubit = getIt<PublicListBarterModelCurrentUserCubit>();
+  @override
+  void initState() {
+    super.initState();
+    _publicBarterCubit.getCurrentUserPublicBarterItems(widget.userId);
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -26,12 +43,12 @@ class UserBarterListingScreen extends StatelessWidget {
   }
 
   Widget _buildUserBarterItems(AppSizeConfig appSizeConfig) {
-    return BlocBuilder<ListBarterModelCurrentUserCubit,
-        ListBarterModelCurrentUserState>(
-      builder: (_, listBarterModelCurrentUserState) {
-        if (listBarterModelCurrentUserState.isSuccess) {
+    return BlocBuilder<PublicListBarterModelCurrentUserCubit,
+        PublicListBarterModelCurrentUserState>(
+      builder: (_, publicListBarterModelCurrentUserState) {
+        if (publicListBarterModelCurrentUserState.isSuccess) {
           return StreamBuilder(
-            stream: listBarterModelCurrentUserState.userBarterItems,
+            stream: publicListBarterModelCurrentUserState.userBarterItems,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
                 if (Platform.isIOS) {

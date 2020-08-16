@@ -1,24 +1,13 @@
-import 'package:Toutly/core/cubits/barter_item/current_user/list/list_barter_model_current_user_cubit.dart';
-import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/features/user_barter_listing/screen/user_barter_listing_screen.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
+import 'package:Toutly/features/user_barter_listing/screen/private_user_barter_items_screen.dart';
+import 'package:Toutly/features/user_barter_listing/screen/public_user_barter_items_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class UserProfileTabMenu extends StatefulWidget {
-  @override
-  _UserProfileTabMenuState createState() => _UserProfileTabMenuState();
-}
-
-class _UserProfileTabMenuState extends State<UserProfileTabMenu> {
-  final _barterItemCurrentUserCubit = getIt<ListBarterModelCurrentUserCubit>();
-
-  @override
-  void initState() {
-    super.initState();
-    _barterItemCurrentUserCubit.getCurrentUserBarterItems();
-  }
-
+class UserProfileTabMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -52,16 +41,21 @@ class _UserProfileTabMenuState extends State<UserProfileTabMenu> {
                 ],
               ),
             ),
-            Expanded(
-              child: TabBarView(
-                children: <Widget>[
-                  UserBarterListingScreen(),
-                  Placeholder(
-                    color: Colors.red,
-                  ),
-                ],
-              ),
-            ),
+            Expanded(child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
+              builder: (_, currentUserState) {
+                if (currentUserState.isSuccess) {
+                  final currentUser = currentUserState.currentUserModel;
+                  return TabBarView(
+                    children: <Widget>[
+                      PublicUserBarterItemsScreen(currentUser.userId),
+                      PrivateUserBarterItemsScreen(currentUser.userId),
+                    ],
+                  );
+                } else {
+                  return LoadingOrErrorWidgetUtil(currentUserState.info);
+                }
+              },
+            )),
           ],
         ),
       ),
