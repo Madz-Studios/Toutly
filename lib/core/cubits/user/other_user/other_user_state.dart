@@ -3,7 +3,6 @@ part of 'other_user_cubit.dart';
 @freezed
 abstract class OtherUserState with _$OtherUserState {
   const factory OtherUserState({
-    @required UserModel otherUserModel,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -11,7 +10,6 @@ abstract class OtherUserState with _$OtherUserState {
   }) = _OtherUserState;
 
   factory OtherUserState.empty() => OtherUserState(
-        otherUserModel: UserModel(),
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -19,7 +17,6 @@ abstract class OtherUserState with _$OtherUserState {
       );
 
   factory OtherUserState.loading() => OtherUserState(
-        otherUserModel: UserModel(),
         isSubmitting: true,
         isSuccess: false,
         isFailure: false,
@@ -27,15 +24,13 @@ abstract class OtherUserState with _$OtherUserState {
       );
 
   factory OtherUserState.failure(String info) => OtherUserState(
-        otherUserModel: UserModel(),
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
         info: info,
       );
 
-  factory OtherUserState.success(UserModel otherUserModel) => OtherUserState(
-        otherUserModel: otherUserModel,
+  factory OtherUserState.success() => OtherUserState(
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,

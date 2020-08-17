@@ -38,7 +38,7 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<BarterMessageCubit, BarterMessageState>(
       builder: (_, barterMessageState) {
-        if(barterMessageState.isSuccess) {
+        if (barterMessageState.isSuccess) {
           return StreamBuilder<QuerySnapshot>(
             stream: barterMessageState.barterMessages,
             builder: (_, snapshot) {
@@ -68,7 +68,7 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
                   List<_MessageBarterItem> messageItems = [];
                   for (final message in messagesDocs) {
                     final barterMessageModel =
-                    BarterMessageModel.fromJson(message.data);
+                        BarterMessageModel.fromJson(message.data);
                     messageItems.add(
                       _MessageBarterItem(barterMessageModel),
                     );
@@ -97,7 +97,6 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
         } else {
           return LoadingOrErrorWidgetUtil(barterMessageState.info);
         }
-
       },
     );
   }
@@ -117,73 +116,80 @@ class _MessageBarterItem extends StatelessWidget {
       },
       child: FutureBuilder(
         future: _otherUserCubit.getOtherUser(barterMessageModel.userOffer),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return Center();
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                'Error: ${snapshot.error}',
-                style: TextStyle(
-                  color: Colors.red,
-                ),
-              ),
-            );
-          } else {
-            UserModel barterUser = snapshot.data;
-            return Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: appSizeConfig.blockSizeHorizontal * 2,
-                        vertical: appSizeConfig.blockSizeVertical * 2,
-                      ),
-                      child: CircleAvatar(
-                        backgroundImage: barterUser.photoUrl == null ||
-                                barterUser.photoUrl.isEmpty
-                            ? AssetImage(
-                                'assets/images/profile_placeholder.png',
-                              )
-                            : NetworkImage(barterUser.photoUrl),
-                      ),
-                    ),
-                    Flexible(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            '${barterUser.name}',
-                            style: TextStyle(
-                              fontSize: 14.0,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            '${barterMessageModel.lastMessageText}',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.blockSizeHorizontal * 5,
-                  ),
-                  child: Divider(),
-                ),
-              ],
-            );
+        builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return LoadingOrErrorWidgetUtil('');
+              break;
+            case ConnectionState.done:
+              if (snapshot.hasError)
+                return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+              else {
+                UserModel otherUserModel = snapshot.data;
+                return _buildOtherUserProfileMessage(
+                    appSizeConfig, otherUserModel);
+              }
+              break;
+            default:
+              debugPrint("Snapshot " + snapshot.toString());
+              return Container();
           }
         },
       ),
+    );
+  }
+
+  Column _buildOtherUserProfileMessage(
+      AppSizeConfig appSizeConfig, UserModel barterUser) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                vertical: appSizeConfig.blockSizeVertical * 2,
+              ),
+              child: CircleAvatar(
+                backgroundImage:
+                    barterUser.photoUrl == null || barterUser.photoUrl.isEmpty
+                        ? AssetImage(
+                            'assets/images/profile_placeholder.png',
+                          )
+                        : NetworkImage(barterUser.photoUrl),
+              ),
+            ),
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(
+                    '${barterUser.name}',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  Text(
+                    '${barterMessageModel.lastMessageText}',
+                    style: TextStyle(
+                      fontSize: 12.0,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: appSizeConfig.blockSizeHorizontal * 5,
+          ),
+          child: Divider(),
+        ),
+      ],
     );
   }
 
