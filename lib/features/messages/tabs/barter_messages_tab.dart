@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -42,55 +40,18 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
           return StreamBuilder<QuerySnapshot>(
             stream: barterMessageState.barterMessages,
             builder: (_, snapshot) {
-              if (!snapshot.hasData) {
-                if (Platform.isIOS) {
-                  return Center(
-                    child: CupertinoActivityIndicator(),
-                  );
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              } else if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'Error: ${snapshot.error}',
-                    style: TextStyle(
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-              } else {
-                final messagesDocs = snapshot.data.documents;
-
-                if (messagesDocs.isNotEmpty) {
-                  List<_MessageBarterItem> messageItems = [];
-                  for (final message in messagesDocs) {
-                    final barterMessageModel =
-                        BarterMessageModel.fromJson(message.data);
-                    messageItems.add(
-                      _MessageBarterItem(barterMessageModel),
-                    );
+              switch (snapshot.connectionState) {
+                case ConnectionState.waiting:
+                  return LoadingOrErrorWidgetUtil('');
+                case ConnectionState.done:
+                  if (snapshot.hasError) {
+                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                  } else {
+                    return _buildMessages(snapshot);
                   }
-
-                  return SingleChildScrollView(
-                    child: Column(
-                      children: messageItems,
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'You have currently no messages',
-                        ),
-                      ],
-                    ),
-                  );
-                }
+                  break;
+                default:
+                  return _buildMessages(snapshot);
               }
             },
           );
@@ -99,6 +60,36 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
         }
       },
     );
+  }
+
+  Widget _buildMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
+    final messagesDocs = snapshot.data.documents;
+
+    if (messagesDocs.isNotEmpty) {
+      List<_MessageBarterItem> messageItems = [];
+      for (final message in messagesDocs) {
+        final barterMessageModel = BarterMessageModel.fromJson(message.data);
+        messageItems.add(
+          _MessageBarterItem(barterMessageModel),
+        );
+      }
+      return SingleChildScrollView(
+        child: Column(
+          children: messageItems,
+        ),
+      );
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'You have currently no messages',
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
 
@@ -120,7 +111,6 @@ class _MessageBarterItem extends StatelessWidget {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
               return LoadingOrErrorWidgetUtil('');
-              break;
             case ConnectionState.done:
               if (snapshot.hasError)
                 return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');

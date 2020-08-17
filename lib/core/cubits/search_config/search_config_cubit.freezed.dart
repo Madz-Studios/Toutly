@@ -19,7 +19,11 @@ class _$SearchConfigStateTearOff {
       @required double latitude,
       @required double longitude,
       @required String algoliaAppId,
-      @required String algoliaSearchApiKey}) {
+      @required String algoliaSearchApiKey,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      String info}) {
     return _SearchConfigState(
       searchText: searchText,
       category: category,
@@ -28,6 +32,10 @@ class _$SearchConfigStateTearOff {
       longitude: longitude,
       algoliaAppId: algoliaAppId,
       algoliaSearchApiKey: algoliaSearchApiKey,
+      isSubmitting: isSubmitting,
+      isSuccess: isSuccess,
+      isFailure: isFailure,
+      info: info,
     );
   }
 }
@@ -43,6 +51,10 @@ mixin _$SearchConfigState {
   double get longitude;
   String get algoliaAppId;
   String get algoliaSearchApiKey;
+  bool get isSubmitting;
+  bool get isSuccess;
+  bool get isFailure;
+  String get info;
 
   $SearchConfigStateCopyWith<SearchConfigState> get copyWith;
 }
@@ -58,7 +70,11 @@ abstract class $SearchConfigStateCopyWith<$Res> {
       double latitude,
       double longitude,
       String algoliaAppId,
-      String algoliaSearchApiKey});
+      String algoliaSearchApiKey,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
 }
 
 class _$SearchConfigStateCopyWithImpl<$Res>
@@ -78,6 +94,10 @@ class _$SearchConfigStateCopyWithImpl<$Res>
     Object longitude = freezed,
     Object algoliaAppId = freezed,
     Object algoliaSearchApiKey = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
   }) {
     return _then(_value.copyWith(
       searchText:
@@ -94,6 +114,11 @@ class _$SearchConfigStateCopyWithImpl<$Res>
       algoliaSearchApiKey: algoliaSearchApiKey == freezed
           ? _value.algoliaSearchApiKey
           : algoliaSearchApiKey as String,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
     ));
   }
 }
@@ -111,7 +136,11 @@ abstract class _$SearchConfigStateCopyWith<$Res>
       double latitude,
       double longitude,
       String algoliaAppId,
-      String algoliaSearchApiKey});
+      String algoliaSearchApiKey,
+      bool isSubmitting,
+      bool isSuccess,
+      bool isFailure,
+      String info});
 }
 
 class __$SearchConfigStateCopyWithImpl<$Res>
@@ -133,6 +162,10 @@ class __$SearchConfigStateCopyWithImpl<$Res>
     Object longitude = freezed,
     Object algoliaAppId = freezed,
     Object algoliaSearchApiKey = freezed,
+    Object isSubmitting = freezed,
+    Object isSuccess = freezed,
+    Object isFailure = freezed,
+    Object info = freezed,
   }) {
     return _then(_SearchConfigState(
       searchText:
@@ -149,6 +182,11 @@ class __$SearchConfigStateCopyWithImpl<$Res>
       algoliaSearchApiKey: algoliaSearchApiKey == freezed
           ? _value.algoliaSearchApiKey
           : algoliaSearchApiKey as String,
+      isSubmitting:
+          isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
+      isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
+      isFailure: isFailure == freezed ? _value.isFailure : isFailure as bool,
+      info: info == freezed ? _value.info : info as String,
     ));
   }
 }
@@ -161,14 +199,21 @@ class _$_SearchConfigState implements _SearchConfigState {
       @required this.latitude,
       @required this.longitude,
       @required this.algoliaAppId,
-      @required this.algoliaSearchApiKey})
+      @required this.algoliaSearchApiKey,
+      @required this.isSubmitting,
+      @required this.isSuccess,
+      @required this.isFailure,
+      this.info})
       : assert(searchText != null),
         assert(category != null),
         assert(postedWithin != null),
         assert(latitude != null),
         assert(longitude != null),
         assert(algoliaAppId != null),
-        assert(algoliaSearchApiKey != null);
+        assert(algoliaSearchApiKey != null),
+        assert(isSubmitting != null),
+        assert(isSuccess != null),
+        assert(isFailure != null);
 
   @override
   final String searchText;
@@ -184,10 +229,18 @@ class _$_SearchConfigState implements _SearchConfigState {
   final String algoliaAppId;
   @override
   final String algoliaSearchApiKey;
+  @override
+  final bool isSubmitting;
+  @override
+  final bool isSuccess;
+  @override
+  final bool isFailure;
+  @override
+  final String info;
 
   @override
   String toString() {
-    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, latitude: $latitude, longitude: $longitude, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey)';
+    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, latitude: $latitude, longitude: $longitude, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -214,7 +267,18 @@ class _$_SearchConfigState implements _SearchConfigState {
                     .equals(other.algoliaAppId, algoliaAppId)) &&
             (identical(other.algoliaSearchApiKey, algoliaSearchApiKey) ||
                 const DeepCollectionEquality()
-                    .equals(other.algoliaSearchApiKey, algoliaSearchApiKey)));
+                    .equals(other.algoliaSearchApiKey, algoliaSearchApiKey)) &&
+            (identical(other.isSubmitting, isSubmitting) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSubmitting, isSubmitting)) &&
+            (identical(other.isSuccess, isSuccess) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSuccess, isSuccess)) &&
+            (identical(other.isFailure, isFailure) ||
+                const DeepCollectionEquality()
+                    .equals(other.isFailure, isFailure)) &&
+            (identical(other.info, info) ||
+                const DeepCollectionEquality().equals(other.info, info)));
   }
 
   @override
@@ -226,7 +290,11 @@ class _$_SearchConfigState implements _SearchConfigState {
       const DeepCollectionEquality().hash(latitude) ^
       const DeepCollectionEquality().hash(longitude) ^
       const DeepCollectionEquality().hash(algoliaAppId) ^
-      const DeepCollectionEquality().hash(algoliaSearchApiKey);
+      const DeepCollectionEquality().hash(algoliaSearchApiKey) ^
+      const DeepCollectionEquality().hash(isSubmitting) ^
+      const DeepCollectionEquality().hash(isSuccess) ^
+      const DeepCollectionEquality().hash(isFailure) ^
+      const DeepCollectionEquality().hash(info);
 
   @override
   _$SearchConfigStateCopyWith<_SearchConfigState> get copyWith =>
@@ -241,7 +309,11 @@ abstract class _SearchConfigState implements SearchConfigState {
       @required double latitude,
       @required double longitude,
       @required String algoliaAppId,
-      @required String algoliaSearchApiKey}) = _$_SearchConfigState;
+      @required String algoliaSearchApiKey,
+      @required bool isSubmitting,
+      @required bool isSuccess,
+      @required bool isFailure,
+      String info}) = _$_SearchConfigState;
 
   @override
   String get searchText;
@@ -257,6 +329,14 @@ abstract class _SearchConfigState implements SearchConfigState {
   String get algoliaAppId;
   @override
   String get algoliaSearchApiKey;
+  @override
+  bool get isSubmitting;
+  @override
+  bool get isSuccess;
+  @override
+  bool get isFailure;
+  @override
+  String get info;
   @override
   _$SearchConfigStateCopyWith<_SearchConfigState> get copyWith;
 }

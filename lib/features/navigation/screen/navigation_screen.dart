@@ -1,5 +1,9 @@
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/likes/screen/likes_screen.dart';
@@ -9,13 +13,69 @@ import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// Main screen, loads after authentication screen
-class NavigationScreen extends StatelessWidget {
+class NavigationScreen extends StatefulWidget {
+  final LocationState locationState;
+  final RemoteConfigState remoteConfigState;
+  final CurrentUserState currentUserState;
+
+  NavigationScreen(
+    this.locationState,
+    this.remoteConfigState,
+    this.currentUserState,
+  );
+
+  @override
+  _NavigationScreenState createState() => _NavigationScreenState();
+}
+
+class _NavigationScreenState extends State<NavigationScreen> {
   final _postBarterCubit = getIt<PostBarterCubit>();
+
+  final _currentUserCubit = getIt<CurrentUserCubit>();
+
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
+
+
+  @override
+  void initState() {
+    super.initState();
+
+    ///update current user using the values of location
+    final currentUser = widget.currentUserState.currentUserModel;
+    currentUser.geoLocation = widget.locationState.geoPoint;
+    currentUser.address = "${widget.locationState.placeMark.subLocality}, "
+        "${widget.locationState.placeMark.locality}";
+
+    _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+
+    ///update search config from the values of remote config and location
+    _searchConfigCubit.setConfig(
+      searchText: '',
+      category: '',
+      postedWithin: '',
+      algoliaAppId: widget.remoteConfigState.algoliaAppId,
+      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
+      latitude: widget.locationState.geoPoint.latitude,
+      longitude: widget.locationState.geoPoint.longitude,
+    );
+
+    ///initial search
+    SearchUtil().searchSubmit(
+      searchText: '',
+      category: '',
+      postedWithin: '',
+      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
+      algoliaAppId: widget.remoteConfigState.algoliaAppId,
+      latitude: widget.locationState.geoPoint.latitude,
+      longitude: widget.locationState.geoPoint.longitude,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ part 'search_config_state.dart';
 
 @lazySingleton
 class SearchConfigCubit extends Cubit<SearchConfigState> {
-  SearchConfigCubit() : super(SearchConfigState.init());
+  SearchConfigCubit() : super(SearchConfigState.empty());
 
   setConfig({
     @required String searchText,
@@ -18,7 +18,9 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
     @required double latitude,
     @required double longitude,
   }) {
-    emit(SearchConfigState.setConfigData(
+    emit(SearchConfigState.loading());
+
+    emit(SearchConfigState.success(
       searchText: searchText,
       category: category,
       postedWithin: postedWithin,
