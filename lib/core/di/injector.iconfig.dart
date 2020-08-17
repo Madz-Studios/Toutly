@@ -197,14 +197,8 @@ Future<void> $initGetIt(GetIt g, {String environment}) async {
         g<Validators>(),
         g<Uuid>(),
       ));
-  g.registerLazySingleton<OtherUserCubit>(() => OtherUserCubit(
-        g<FirebaseGetUserUseCase>(),
-        g<FirestoreGetUserUseCase>(),
-        g<FirestoreUpdateUserUseCase>(),
-        g<FirebaseStorage>(),
-        g<Uuid>(),
-        g<Validators>(),
-      ));
+  g.registerLazySingleton<OtherUserCubit>(
+      () => OtherUserCubit(g<FirestoreGetUserUseCase>()));
   g.registerLazySingleton<PostBarterCubit>(() => PostBarterCubit(
         g<FirebaseStorage>(),
         g<Uuid>(),

@@ -13,13 +13,11 @@ class _$OtherUserStateTearOff {
   const _$OtherUserStateTearOff();
 
   _OtherUserState call(
-      {@required UserModel otherUserModel,
-      @required bool isSubmitting,
+      {@required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
     return _OtherUserState(
-      otherUserModel: otherUserModel,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -32,7 +30,6 @@ class _$OtherUserStateTearOff {
 const $OtherUserState = _$OtherUserStateTearOff();
 
 mixin _$OtherUserState {
-  UserModel get otherUserModel;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -45,12 +42,7 @@ abstract class $OtherUserStateCopyWith<$Res> {
   factory $OtherUserStateCopyWith(
           OtherUserState value, $Res Function(OtherUserState) then) =
       _$OtherUserStateCopyWithImpl<$Res>;
-  $Res call(
-      {UserModel otherUserModel,
-      bool isSubmitting,
-      bool isSuccess,
-      bool isFailure,
-      String info});
+  $Res call({bool isSubmitting, bool isSuccess, bool isFailure, String info});
 }
 
 class _$OtherUserStateCopyWithImpl<$Res>
@@ -63,16 +55,12 @@ class _$OtherUserStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object otherUserModel = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      otherUserModel: otherUserModel == freezed
-          ? _value.otherUserModel
-          : otherUserModel as UserModel,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -88,12 +76,7 @@ abstract class _$OtherUserStateCopyWith<$Res>
           _OtherUserState value, $Res Function(_OtherUserState) then) =
       __$OtherUserStateCopyWithImpl<$Res>;
   @override
-  $Res call(
-      {UserModel otherUserModel,
-      bool isSubmitting,
-      bool isSuccess,
-      bool isFailure,
-      String info});
+  $Res call({bool isSubmitting, bool isSuccess, bool isFailure, String info});
 }
 
 class __$OtherUserStateCopyWithImpl<$Res>
@@ -108,16 +91,12 @@ class __$OtherUserStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object otherUserModel = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
     return _then(_OtherUserState(
-      otherUserModel: otherUserModel == freezed
-          ? _value.otherUserModel
-          : otherUserModel as UserModel,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -129,19 +108,15 @@ class __$OtherUserStateCopyWithImpl<$Res>
 
 class _$_OtherUserState implements _OtherUserState {
   const _$_OtherUserState(
-      {@required this.otherUserModel,
-      @required this.isSubmitting,
+      {@required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(otherUserModel != null),
-        assert(isSubmitting != null),
+      : assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
         assert(info != null);
 
-  @override
-  final UserModel otherUserModel;
   @override
   final bool isSubmitting;
   @override
@@ -153,16 +128,13 @@ class _$_OtherUserState implements _OtherUserState {
 
   @override
   String toString() {
-    return 'OtherUserState(otherUserModel: $otherUserModel, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'OtherUserState(isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _OtherUserState &&
-            (identical(other.otherUserModel, otherUserModel) ||
-                const DeepCollectionEquality()
-                    .equals(other.otherUserModel, otherUserModel)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -179,7 +151,6 @@ class _$_OtherUserState implements _OtherUserState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(otherUserModel) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
@@ -192,14 +163,11 @@ class _$_OtherUserState implements _OtherUserState {
 
 abstract class _OtherUserState implements OtherUserState {
   const factory _OtherUserState(
-      {@required UserModel otherUserModel,
-      @required bool isSubmitting,
+      {@required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) = _$_OtherUserState;
 
-  @override
-  UserModel get otherUserModel;
   @override
   bool get isSubmitting;
   @override

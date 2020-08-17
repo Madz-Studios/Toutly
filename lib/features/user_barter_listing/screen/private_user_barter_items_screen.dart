@@ -51,6 +51,7 @@ class _PrivateUserBarterItemsScreenState
           return StreamBuilder(
             stream: privateListBarterModelCurrentUserState.userBarterItems,
             builder: (context, snapshot) {
+              ///TODO: fixed should stop loading when there is no data
               if (!snapshot.hasData) {
                 if (Platform.isIOS) {
                   return Center(

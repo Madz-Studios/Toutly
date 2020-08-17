@@ -10,6 +10,7 @@ import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_card.d
 import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_list.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
   final _navCubit = getIt<NavigationCubit>();
   final _makeOfferCubit = getIt<MakeOfferCubit>();
   final _messageController = TextEditingController();
+  final _otherUserCubit = getIt<OtherUserCubit>();
 
   @override
   void initState() {
@@ -191,21 +193,27 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                 padding: EdgeInsets.symmetric(
                   horizontal: appSizeConfig.blockSizeHorizontal * 4,
                 ),
-                child: BlocBuilder<OtherUserCubit, OtherUserState>(
-                  builder: (_, otherUserState) {
-                    if (otherUserState.isSuccess) {
-                      return ProfileWithRating(otherUserState.otherUserModel);
-                    } else if (otherUserState.isFailure) {
-                      return Center(
-                        child: Text(
-                          'Error: ${otherUserState.info}',
-                          style: TextStyle(
-                            color: Colors.red,
-                          ),
-                        ),
-                      );
-                    } else {
-                      return Container();
+                child: FutureBuilder(
+                  future: _otherUserCubit
+                      .getOtherUser(widget.otherUserBarterModel.userId),
+                  builder: (BuildContext context,
+                      AsyncSnapshot<UserModel> snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.waiting:
+                        return LoadingOrErrorWidgetUtil('');
+                        break;
+                      case ConnectionState.done:
+                        if (snapshot.hasError)
+                          return LoadingOrErrorWidgetUtil(
+                              'Error: ${snapshot.error}');
+                        else {
+                          UserModel otherUserModel = snapshot.data;
+                          return ProfileWithRating(otherUserModel);
+                        }
+                        break;
+                      default:
+                        debugPrint("Snapshot " + snapshot.toString());
+                        return Container();
                     }
                   },
                 ),

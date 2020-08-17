@@ -5,6 +5,7 @@ import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/home/widgets/likes_panel.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
@@ -192,14 +193,27 @@ class _BarterItem extends StatelessWidget {
                   if (currentUser.userId == algoliaBarter.userId) {
                     return ProfileWithRating(currentUser);
                   } else {
-                    _otherUserCubit.getOtherUser(algoliaBarter.userId);
-                    return BlocBuilder<OtherUserCubit, OtherUserState>(
-                      builder: (_, otherUserState) {
-                        if (otherUserState.isSuccess) {
-                          return ProfileWithRating(
-                              otherUserState.otherUserModel);
-                        } else {
-                          return ProfileWithRating(null);
+                    return FutureBuilder(
+                      future:
+                          _otherUserCubit.getOtherUser(algoliaBarter.userId),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<UserModel> snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return LoadingOrErrorWidgetUtil('');
+                            break;
+                          case ConnectionState.done:
+                            if (snapshot.hasError)
+                              return LoadingOrErrorWidgetUtil(
+                                  'Error: ${snapshot.error}');
+                            else {
+                              UserModel otherUserModel = snapshot.data;
+                              return ProfileWithRating(otherUserModel);
+                            }
+                            break;
+                          default:
+                            debugPrint("Snapshot " + snapshot.toString());
+                            return Container();
                         }
                       },
                     );

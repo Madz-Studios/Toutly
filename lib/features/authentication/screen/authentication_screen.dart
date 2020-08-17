@@ -31,70 +31,61 @@ class AuthenticationScreen extends StatelessWidget {
           _locationCubit.getInitialUserLocation();
           return BlocBuilder<CurrentUserCubit, CurrentUserState>(
             builder: (_, currentUserState) {
-              if (currentUserState.isSuccess) {
-                return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
-                  builder: (_, remoteConfigState) {
-                    if (remoteConfigState.isSuccess) {
-                      return BlocConsumer<LocationCubit, LocationState>(
-                        listener: (_, locationState) {
-                          if (locationState.isSuccess) {
-                            final currentUser =
-                                currentUserState.currentUserModel;
-                            currentUser.geoLocation = locationState.geoPoint;
-                            currentUser.address =
-                                "${locationState.placeMark.subLocality}, "
-                                "${locationState.placeMark.locality}";
+              return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
+                builder: (_, remoteConfigState) {
+                  return BlocConsumer<LocationCubit, LocationState>(
+                    listener: (_, locationState) {
+                      if (currentUserState.isSuccess &&
+                          remoteConfigState.isSuccess &&
+                          locationState.isSuccess) {
+                        ///update current user using the values of location
+                        final currentUser = currentUserState.currentUserModel;
+                        currentUser.geoLocation = locationState.geoPoint;
+                        currentUser.address =
+                            "${locationState.placeMark.subLocality}, "
+                            "${locationState.placeMark.locality}";
 
-                            _currentUserCubit
-                                .updateCurrentLoggedInUser(currentUser);
+                        _currentUserCubit
+                            .updateCurrentLoggedInUser(currentUser);
 
-                            _searchConfigCubit.setConfig(
-                              searchText: '',
-                              category: '',
-                              postedWithin: '',
-                              algoliaAppId: remoteConfigState.algoliaAppId,
-                              algoliaSearchApiKey:
-                                  remoteConfigState.algoliaSearchApiKey,
-                              latitude: locationState.geoPoint.latitude,
-                              longitude: locationState.geoPoint.longitude,
-                            );
+                        ///update search config from the values of remote config and location
+                        _searchConfigCubit.setConfig(
+                          searchText: '',
+                          category: '',
+                          postedWithin: '',
+                          algoliaAppId: remoteConfigState.algoliaAppId,
+                          algoliaSearchApiKey:
+                              remoteConfigState.algoliaSearchApiKey,
+                          latitude: locationState.geoPoint.latitude,
+                          longitude: locationState.geoPoint.longitude,
+                        );
 
-                            SearchUtil().searchSubmit(
-                              searchText: '',
-                              category: '',
-                              postedWithin: '',
-                              algoliaSearchApiKey:
-                                  remoteConfigState.algoliaSearchApiKey,
-                              algoliaAppId: remoteConfigState.algoliaAppId,
-                              latitude: locationState.geoPoint.latitude,
-                              longitude: locationState.geoPoint.longitude,
-                            );
-                          }
-                        },
-                        builder: (_, locationState) {
-                          if (locationState.isSuccess) {
-                            if (locationState.isSuccess) {
-                              return NavigationScreen();
-                            } else {
-                              return ScaffoldLoadingOrErrorWidgetUtil(
-                                currentUserState.info,
-                              );
-                            }
-                          } else {
-                            return ScaffoldLoadingOrErrorWidgetUtil(
-                                locationState.info);
-                          }
-                        },
-                      );
-                    } else {
-                      return ScaffoldLoadingOrErrorWidgetUtil(
-                          remoteConfigState.info);
-                    }
-                  },
-                );
-              } else {
-                return ScaffoldLoadingOrErrorWidgetUtil(currentUserState.info);
-              }
+                        ///initial search
+                        SearchUtil().searchSubmit(
+                          searchText: '',
+                          category: '',
+                          postedWithin: '',
+                          algoliaSearchApiKey:
+                              remoteConfigState.algoliaSearchApiKey,
+                          algoliaAppId: remoteConfigState.algoliaAppId,
+                          latitude: locationState.geoPoint.latitude,
+                          longitude: locationState.geoPoint.longitude,
+                        );
+                      }
+                    },
+                    builder: (_, locationState) {
+                      if (currentUserState.isSuccess &&
+                          remoteConfigState.isSuccess &&
+                          locationState.isSuccess) {
+                        return NavigationScreen();
+                      } else {
+                        return ScaffoldLoadingOrErrorWidgetUtil(
+                            locationState.info);
+                      }
+                    },
+                  );
+                },
+              );
             },
           );
         } else if (!authState.isAuth) {
