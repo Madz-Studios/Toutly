@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 @lazySingleton
 class FirebaseSignOutUserUseCase
-    implements UseCaseFirebase<void, UseCaseNoParam> {
+    implements UseCaseFirebaseFuture<void, UseCaseNoParam> {
   final FirebaseAuthUserRepository firebaseAuthUserRepository;
 
   FirebaseSignOutUserUseCase({

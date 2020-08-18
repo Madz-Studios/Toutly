@@ -21,15 +21,15 @@ class FirestoreBarterMessageRepositoryImpl
     @required this.firestore,
   });
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   @override
   Future<void> createBarterMessage(
       BarterMessageModel barterMessageModel) async {
     await firestore
         .collection(FirestoreCollectionNames.barterMessagesCollection)
-        .document(barterMessageModel.barterMessageId)
-        .setData(barterMessageModel.toJson());
+        .doc(barterMessageModel.barterMessageId)
+        .set(barterMessageModel.toJson());
   }
 
   /// Get all the messages that you offered to a bartered items.

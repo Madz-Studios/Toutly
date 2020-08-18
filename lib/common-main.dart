@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,10 @@ void commonMain(String env) async {
   /// Register all the models and services before the app starts
   /// Important!!!! use await keyword for configureDependencies();
   await configureDependencies();
+
+  ///To initialize FlutterFire, call the initializeApp method on the Firebase class:
+  ///
+  await Firebase.initializeApp();
 
   Bloc.observer = SimpleBlocDelegate();
 

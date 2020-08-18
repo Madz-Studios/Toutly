@@ -55,8 +55,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   getCurrentLoggedInUser() async {
     emit(CurrentUserState.loading());
     try {
-      final firebaseUser =
-          await firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
       final currentUser = await firestoreGetUserUseCase.call(
         UseCaseUserParamUserId.init(firebaseUser.uid),

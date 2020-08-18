@@ -50,9 +50,9 @@ class MakeOfferBarterItemList extends StatelessWidget {
                   QuerySnapshot querySnapshot = snapshot.data;
 
                   List<BarterModel> userBarterItems = [];
-                  for (final document in querySnapshot.documents) {
+                  for (final document in querySnapshot.docs) {
                     BarterModel barterModel =
-                        BarterModel.fromJson(document.data);
+                        BarterModel.fromJson(document.data());
                     userBarterItems.add(barterModel);
                   }
 

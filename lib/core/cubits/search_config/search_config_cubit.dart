@@ -20,15 +20,17 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
   }) {
     emit(SearchConfigState.loading());
 
-    emit(SearchConfigState.success(
-      searchText: searchText,
-      category: category,
-      postedWithin: postedWithin,
-      algoliaAppId: algoliaAppId,
-      algoliaSearchApiKey: algoliaSearchApiKey,
-      latitude: latitude,
-      longitude: longitude,
-    ));
+    emit(
+      SearchConfigState.success(
+          searchText: searchText,
+          category: category,
+          postedWithin: postedWithin,
+          algoliaAppId: algoliaAppId,
+          algoliaSearchApiKey: algoliaSearchApiKey,
+          latitude: latitude,
+          longitude: longitude,
+          info: 'Success'),
+    );
   }
 
   updateSearchText(String searchText) {

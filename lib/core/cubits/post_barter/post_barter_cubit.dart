@@ -47,7 +47,7 @@ class PostBarterCubit extends Cubit<PostBarterState> {
     @required String privacy,
   }) async {
     try {
-      final firebaseUser = await firebaseGetUserUseCase.call(
+      final firebaseUser = firebaseGetUserUseCase.call(
         UseCaseNoParam.init(),
       );
 

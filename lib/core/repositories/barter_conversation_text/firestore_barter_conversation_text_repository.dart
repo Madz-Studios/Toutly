@@ -17,14 +17,14 @@ class FirestoreBarterConversationTextRepositoryImpl
     @required this.firestore,
   });
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   @override
   Future<void> createBarterConversationText(String messageId,
       BarterConversationTextModel barterConversationTextModel) async {
     await firestore
         .collection(FirestoreCollectionNames.barterMessagesCollection)
-        .document(messageId)
+        .doc(messageId)
         .collection(FirestoreCollectionNames.barterConversationCollection)
         .add(barterConversationTextModel.toJson());
   }

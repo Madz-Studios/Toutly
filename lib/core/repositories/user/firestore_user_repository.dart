@@ -12,7 +12,7 @@ abstract class FirestoreUserRepository {
 @Injectable(as: FirestoreUserRepository)
 @lazySingleton
 class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
 
   FirestoreUserRepositoryImpl(
     this.firestore,
@@ -21,18 +21,18 @@ class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
   Future<void> createUser(UserModel user) async {
     await firestore
         .collection(FirestoreCollectionNames.userCollection)
-        .document(user.userId)
-        .setData(user.toJson());
+        .doc(user.userId)
+        .set(user.toJson());
   }
 
   @override
   Future<UserModel> getUserUsingUserId(String userId) async {
     final userData = await firestore
         .collection(FirestoreCollectionNames.userCollection)
-        .document(userId)
+        .doc(userId)
         .get();
     if (userData.exists) {
-      return UserModel.fromJson(userData.data);
+      return UserModel.fromJson(userData.data());
     }
     return null;
   }
@@ -41,7 +41,7 @@ class FirestoreUserRepositoryImpl extends FirestoreUserRepository {
   Future<void> updateUserUsingUserModel(UserModel user) async {
     await firestore
         .collection(FirestoreCollectionNames.userCollection)
-        .document(user.userId)
-        .updateData(user.toJson());
+        .doc(user.userId)
+        .update(user.toJson());
   }
 }

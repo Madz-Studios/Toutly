@@ -10,11 +10,11 @@ abstract class UseCaseFirestoreQuery<Type, Params> {
   Type call(Params params);
 }
 
-abstract class UseCaseFirebase<Type, Params> {
+abstract class UseCaseFirebaseFuture<Type, Params> {
   Future<Type> call(Params params);
 }
 
-abstract class UseCaseFirebaseUser<Type, Params> {
+abstract class UseCaseFirebase<Type, Params> {
   Type call(Params params);
 }
 

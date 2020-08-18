@@ -39,20 +39,26 @@ class _OfferMessagesTabState extends State<OfferMessagesTab> {
           return StreamBuilder<QuerySnapshot>(
             stream: offerMessageState.offerMessages,
             builder: (_, snapshot) {
+              debugPrint("OfferMessagesTab Snapshot " + snapshot.toString());
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return LoadingOrErrorWidgetUtil('');
                   break;
                 case ConnectionState.done:
-                  if (snapshot.hasError)
+                  if (snapshot.hasError) {
+                    debugPrint('Error: ${snapshot.error}');
                     return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  else {
+                  } else {
                     return _buildMessages(snapshot);
                   }
                   break;
                 default:
-                  debugPrint("Snapshot " + snapshot.toString());
-                  return _buildMessages(snapshot);
+                  if (snapshot.hasError) {
+                    debugPrint('Error: ${snapshot.error}');
+                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                  } else {
+                    return _buildMessages(snapshot);
+                  }
               }
             },
           );
@@ -64,12 +70,12 @@ class _OfferMessagesTabState extends State<OfferMessagesTab> {
   }
 
   Widget _buildMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
-    final messagesDocs = snapshot.data.documents;
+    final messagesDocs = snapshot.data.docs;
 
     if (messagesDocs.isNotEmpty) {
       List<_MessageOfferItem> messageItems = [];
       for (final message in messagesDocs) {
-        final barterMessageModel = BarterMessageModel.fromJson(message.data);
+        final barterMessageModel = BarterMessageModel.fromJson(message.data());
         messageItems.add(
           _MessageOfferItem(barterMessageModel),
         );

@@ -34,7 +34,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
   static const limit = 10;
 
-  final Firestore firestore;
+  final FirebaseFirestore firestore;
   final FirebaseStorage firebaseStorage;
 
   /// Create a barter item in barter firestore collection using [documentID]
@@ -45,8 +45,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
     await firestore
         .collection(barterCollection)
-        .document(barterModel.itemId)
-        .setData(barterModel.toJson());
+        .doc(barterModel.itemId)
+        .set(barterModel.toJson());
   }
 
   /// Get "ALL" barter item in barter firestore collection using [userId].
@@ -146,8 +146,8 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
     await firestore
         .collection(barterCollection)
-        .document(barterModel.itemId)
-        .updateData(barterModel.toJson());
+        .doc(barterModel.itemId)
+        .update(barterModel.toJson());
   }
 
   /// Delete a barter item in barter firestore collection using [itemId].
@@ -161,7 +161,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
 
     await firestore
         .collection(FirestoreCollectionNames.barterItemsCollection)
-        .document(barterModel.itemId)
+        .doc(barterModel.itemId)
         .delete();
   }
 
@@ -174,11 +174,14 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
         .collection(barterCollection)
         .where('itemId', isEqualTo: itemId)
         .orderBy('dateCreated', descending: true)
-        .getDocuments();
+        .get();
 
-    final barterModel = BarterModel.fromJson(barterItem.documents[0].data);
+    if (barterItem.docs.isNotEmpty) {
+      final barterModel = BarterModel.fromJson(barterItem.docs[0].data());
 
-    return barterModel;
+      return barterModel;
+    }
+    return Future.value();
   }
 
   @override
@@ -191,11 +194,11 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
           .collection(FirestoreCollectionNames.barterItemsCollection)
           .where('itemId', isEqualTo: itemId)
           .orderBy('dateCreated', descending: true)
-          .getDocuments();
+          .get();
 
-      if (barterItems.documents.isNotEmpty) {
-        for (final item in barterItems.documents) {
-          final barterModel = BarterModel.fromJson(item.data);
+      if (barterItems.docs.isNotEmpty) {
+        for (final item in barterItems.docs) {
+          final barterModel = BarterModel.fromJson(item.data());
 
           listBarterItems.add(barterModel);
         }

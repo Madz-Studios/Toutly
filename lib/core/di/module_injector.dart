@@ -32,7 +32,7 @@ abstract class InjectableModule {
   FacebookLogin get facebookLogin => FacebookLogin();
 
   @lazySingleton
-  Firestore get firestore => Firestore.instance;
+  FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
 
   @lazySingleton
   Geolocator get geoLocator => Geolocator()..forceAndroidLocationManager;

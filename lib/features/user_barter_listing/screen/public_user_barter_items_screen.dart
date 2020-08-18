@@ -49,6 +49,8 @@ class _PublicUserBarterItemsScreenState
           return StreamBuilder<QuerySnapshot>(
             stream: publicListBarterModelCurrentUserState.userBarterItems,
             builder: (_, snapshot) {
+              debugPrint("PublicUserBarterItemsScreen Snapshot " +
+                  snapshot.toString());
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
                   return LoadingOrErrorWidgetUtil('');
@@ -56,45 +58,15 @@ class _PublicUserBarterItemsScreenState
                   if (snapshot.hasError)
                     return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
                   else {
-                    QuerySnapshot querySnapshot = snapshot.data;
-
-                    List<BarterModel> userBarterItems = [];
-                    for (final document in querySnapshot.documents) {
-                      BarterModel barterModel =
-                          BarterModel.fromJson(document.data);
-                      userBarterItems.add(barterModel);
-                    }
-
-                    if (userBarterItems.length == 0) {
-                      return Center(
-                        child: Text(
-                          'You have no items here.',
-                        ),
-                      );
-                    }
-                    return _buildUserBarterItemsView(
-                        userBarterItems, appSizeConfig);
+                    return _buildUserBarterItemsView(snapshot, appSizeConfig);
                   }
                   break;
                 default:
-                  QuerySnapshot querySnapshot = snapshot.data;
-
-                  List<BarterModel> userBarterItems = [];
-                  for (final document in querySnapshot.documents) {
-                    BarterModel barterModel =
-                        BarterModel.fromJson(document.data);
-                    userBarterItems.add(barterModel);
+                  if (snapshot.hasError)
+                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                  else {
+                    return _buildUserBarterItemsView(snapshot, appSizeConfig);
                   }
-
-                  if (userBarterItems.length == 0) {
-                    return Center(
-                      child: Text(
-                        'You have no items here.',
-                      ),
-                    );
-                  }
-                  return _buildUserBarterItemsView(
-                      userBarterItems, appSizeConfig);
               }
             },
           );
@@ -105,35 +77,49 @@ class _PublicUserBarterItemsScreenState
     );
   }
 
-  GridView _buildUserBarterItemsView(
-      List<BarterModel> userBarterItems, AppSizeConfig appSizeConfig) {
-    return GridView.builder(
-      itemCount: userBarterItems.length,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
-        mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
-      ),
-      itemBuilder: (context, index) {
-        final barterModel = userBarterItems[index];
-        return GestureDetector(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ViewBarterItemScreen(
-                  barterModel: barterModel,
-                  isDialog: true,
+  Widget _buildUserBarterItemsView(
+      AsyncSnapshot<QuerySnapshot> snapshot, AppSizeConfig appSizeConfig) {
+    if (snapshot.data != null && snapshot.data.docs.isNotEmpty) {
+      List<BarterModel> userBarterItems = [];
+      for (final document in snapshot.data.docs) {
+        BarterModel barterModel = BarterModel.fromJson(document.data());
+        userBarterItems.add(barterModel);
+      }
+
+      return GridView.builder(
+        itemCount: userBarterItems.length,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: appSizeConfig.blockSizeHorizontal * 1.5,
+          mainAxisSpacing: appSizeConfig.blockSizeVertical * 1.5,
+        ),
+        itemBuilder: (context, index) {
+          final barterModel = userBarterItems[index];
+          return GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewBarterItemScreen(
+                    barterModel: barterModel,
+                    isDialog: true,
+                  ),
+                  fullscreenDialog: true,
                 ),
-                fullscreenDialog: true,
-              ),
-            );
-          },
-          child: GridTile(
-            child: UserBarterItem(barterModel),
-          ),
-        );
-      },
-    );
+              );
+            },
+            child: GridTile(
+              child: UserBarterItem(barterModel),
+            ),
+          );
+        },
+      );
+    } else {
+      return Center(
+        child: Text(
+          'You have no items here.',
+        ),
+      );
+    }
   }
 }

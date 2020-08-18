@@ -14,7 +14,7 @@ class FirebaseIsSignedInUserUseCase
   });
 
   @override
-  Future<bool> call(UseCaseNoParam params) async {
-    return await firebaseAuthUserRepository.isSignedIn();
+  bool call(UseCaseNoParam params) {
+    return firebaseAuthUserRepository.isSignedIn();
   }
 }

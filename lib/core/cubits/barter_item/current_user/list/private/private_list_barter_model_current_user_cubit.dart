@@ -1,4 +1,3 @@
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_get_private_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,13 +12,10 @@ part 'private_list_barter_model_current_user_state.dart';
 @lazySingleton
 class PrivateListBarterModelCurrentUserCubit
     extends Cubit<PrivateListBarterModelCurrentUserState> {
-  final FirebaseGetUserUseCase firebaseGetUserUseCase;
-
   final FirestoreGetPrivateBarterItemsUsingUserIdUseCase
       firestoreGetPrivateBarterItemsUsingUserIdUseCase;
 
   PrivateListBarterModelCurrentUserCubit(
-    this.firebaseGetUserUseCase,
     this.firestoreGetPrivateBarterItemsUsingUserIdUseCase,
   ) : super(PrivateListBarterModelCurrentUserState.empty());
 

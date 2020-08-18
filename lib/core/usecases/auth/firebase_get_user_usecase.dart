@@ -6,8 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:meta/meta.dart';
 
 @lazySingleton
-class FirebaseGetUserUseCase
-    implements UseCaseFirebase<FirebaseUser, UseCaseNoParam> {
+class FirebaseGetUserUseCase implements UseCaseFirebase<User, UseCaseNoParam> {
   final FirebaseAuthUserRepository firebaseAuthUserRepository;
 
   FirebaseGetUserUseCase({
@@ -15,7 +14,7 @@ class FirebaseGetUserUseCase
   });
 
   @override
-  Future<FirebaseUser> call(UseCaseNoParam params) async {
-    return await firebaseAuthUserRepository.getUser();
+  User call(UseCaseNoParam params) {
+    return firebaseAuthUserRepository.getUser();
   }
 }

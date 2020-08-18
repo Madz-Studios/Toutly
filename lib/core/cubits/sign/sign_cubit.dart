@@ -90,7 +90,7 @@ class SignCubit extends Cubit<SignState> {
         ),
       );
 
-      final user = await firebaseGetUserUseCase(UseCaseNoParam.init());
+      final user = firebaseGetUserUseCase(UseCaseNoParam.init());
 
       UserModel userModel = UserModel(
         userId: user.uid,
@@ -163,8 +163,7 @@ class SignCubit extends Cubit<SignState> {
   }
 
   void _createNewUserForSocialSignIn() async {
-    final firebaseUser =
-        await firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
     final userStore = await firestoreGetUserUseCase
         .call(UseCaseUserParamUserId.init(firebaseUser.uid));
 

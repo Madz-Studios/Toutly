@@ -29,10 +29,10 @@ abstract class FirebaseAuthUserRepository {
   Future<void> signOut();
 
   ///Check if a user is signed in or not.
-  Future<bool> isSignedIn();
+  bool isSignedIn();
 
   ///Get the current logged in firebase user
-  Future<FirebaseUser> getUser();
+  User getUser();
 }
 
 @Injectable(as: FirebaseAuthUserRepository)
@@ -59,7 +59,7 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
     try {
       final googleUser = await googleSignIn.signIn();
       final googleAuth = await googleUser.authentication;
-      final credential = GoogleAuthProvider.getCredential(
+      final credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
@@ -90,14 +90,14 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
       FacebookPermission.publicProfile,
       FacebookPermission.email,
     ]);
-    AuthCredential credential;
+    FacebookAuthCredential credential;
 
     switch (result.status) {
       case FacebookLoginStatus.Success:
         final FacebookAccessToken accessToken = result.accessToken;
 
-        credential = FacebookAuthProvider.getCredential(
-          accessToken: accessToken.token,
+        credential = FacebookAuthProvider.credential(
+          accessToken.token,
         );
         break;
       case FacebookLoginStatus.Cancel:
@@ -133,9 +133,9 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
       ],
     );
 
-    final oAuthProvider = OAuthProvider(providerId: 'apple.com');
+    final oAuthProvider = OAuthProvider('apple.com');
 
-    AuthCredential credential = oAuthProvider.getCredential(
+    AuthCredential credential = oAuthProvider.credential(
       idToken: appleIdCredential.identityToken,
       accessToken: appleIdCredential.authorizationCode,
     );
@@ -151,7 +151,7 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
 
   Future<AuthCredential> getEmailPasswordCredential(
       String email, String password) async {
-    final credential = EmailAuthProvider.getCredential(
+    final credential = EmailAuthProvider.credential(
       email: email,
       password: password,
     );
@@ -177,13 +177,13 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
   }
 
   ///Check if a user is signed in or not.
-  Future<bool> isSignedIn() async {
-    final currentUser = await firebaseAuth.currentUser();
+  bool isSignedIn() {
+    final currentUser = firebaseAuth.currentUser;
     return currentUser != null;
   }
 
   @override
-  Future<FirebaseUser> getUser() async {
-    return (await firebaseAuth.currentUser());
+  User getUser() {
+    return firebaseAuth.currentUser;
   }
 }

@@ -46,7 +46,8 @@ class App extends StatelessWidget {
         /// CUBITS REGISTRATION START
 
         BlocProvider<CurrentUserCubit>(
-          create: (BuildContext context) => getIt<CurrentUserCubit>(),
+          create: (BuildContext context) =>
+              getIt<CurrentUserCubit>()..getCurrentLoggedInUser(),
         ),
 
         BlocProvider<OtherUserCubit>(
@@ -86,7 +87,8 @@ class App extends StatelessWidget {
         ),
 
         BlocProvider<LocationCubit>(
-          create: (BuildContext context) => getIt<LocationCubit>(),
+          create: (BuildContext context) =>
+              getIt<LocationCubit>()..getInitialUserLocation(),
         ),
 
         BlocProvider<SearchConfigCubit>(
@@ -98,7 +100,8 @@ class App extends StatelessWidget {
         ),
 
         BlocProvider<RemoteConfigCubit>(
-          create: (BuildContext context) => getIt<RemoteConfigCubit>(),
+          create: (BuildContext context) =>
+              getIt<RemoteConfigCubit>()..getConfigData(),
         ),
 
         BlocProvider<SearchCubit>(

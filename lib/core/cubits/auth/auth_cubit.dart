@@ -21,10 +21,10 @@ class AuthCubit extends Cubit<AuthState> {
     this.firestoreGetUserUseCase,
   ) : super(AuthState.empty());
 
-  authCheckRequested() async {
+  authCheckRequested() {
     emit(AuthState.loading());
     final isSignedIn =
-        await firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
+        firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
     if (isSignedIn) {
       emit(AuthState.authenticated('User Authenticated'));
     } else {
