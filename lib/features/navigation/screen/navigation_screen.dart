@@ -1,5 +1,9 @@
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/likes/screen/likes_screen.dart';
@@ -9,25 +13,88 @@ import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// Main screen, loads after authentication screen
-class NavigationScreen extends StatelessWidget {
+class NavigationScreen extends StatefulWidget {
+  final LocationState locationState;
+  final RemoteConfigState remoteConfigState;
+  final CurrentUserState currentUserState;
+
+  NavigationScreen({
+    @required this.currentUserState,
+    @required this.locationState,
+    @required this.remoteConfigState,
+  });
+
+  @override
+  _NavigationScreenState createState() => _NavigationScreenState();
+}
+
+class _NavigationScreenState extends State<NavigationScreen> {
+  final _currentUserCubit = getIt<CurrentUserCubit>();
+
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
+
   final _postBarterCubit = getIt<PostBarterCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    debugPrint('NavigationScreen initState called!');
+    final currentUser = widget.currentUserState.currentUserModel;
+
+    ///update current user using the values of location
+    currentUser.geoLocation = widget.locationState.geoPoint;
+    currentUser.address = "${widget.locationState.placeMark.subLocality}, "
+        "${widget.locationState.placeMark.locality}";
+
+    _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+
+    ///update search config from the values of remote config and location
+    _searchConfigCubit.setConfig(
+      searchText: '',
+      category: '',
+      postedWithin: '',
+      algoliaAppId: widget.remoteConfigState.algoliaAppId,
+      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
+      latitude: widget.locationState.geoPoint.latitude,
+      longitude: widget.locationState.geoPoint.longitude,
+    );
+
+    ///initial search
+    SearchUtil().searchSubmit(
+      searchText: '',
+      category: '',
+      postedWithin: '',
+      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
+      algoliaAppId: widget.remoteConfigState.algoliaAppId,
+      latitude: widget.locationState.geoPoint.latitude,
+      longitude: widget.locationState.geoPoint.longitude,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+
+    return buildNavigationBuilder(appSizeConfig);
+  }
+
+  BlocBuilder<NavigationCubit, NavigationState> buildNavigationBuilder(
+      AppSizeConfig appSizeConfig) {
     return BlocBuilder<NavigationCubit, NavigationState>(
-      builder: (context, state) => state.map(
-        homeScreen: (_) {
+      builder: (context, state) {
+        if (state.isHomeScreen) {
           return _buildNoAppBarSingleViewScreen(
             HomeScreen(),
             state.index,
           );
-        },
-        likesScreen: (_) {
+        } else if (state.isSavedScreen) {
           return _buildSingleViewScreen(
             _CustomAppBar(
               appSizeConfig: appSizeConfig,
@@ -36,8 +103,7 @@ class NavigationScreen extends StatelessWidget {
             LikesScreen(),
             state.index,
           );
-        },
-        postBarterScreen: (_) {
+        } else if (state.isPostBarterScreen) {
           _postBarterCubit.reset();
           return _buildSingleViewScreen(
             _CustomAppBar(
@@ -47,14 +113,7 @@ class NavigationScreen extends StatelessWidget {
             PostScreen(),
             state.index,
           );
-        },
-        userProfile: (_) {
-          return _buildNoAppBarSingleViewScreen(
-            UserProfileScreen(),
-            state.index,
-          );
-        },
-        inboxScreen: (_) {
+        } else if (state.isMessagesScreen) {
           return _buildSingleViewScreen(
             _CustomAppBar(
               appSizeConfig: appSizeConfig,
@@ -63,8 +122,13 @@ class NavigationScreen extends StatelessWidget {
             MessagesScreen(),
             state.index,
           );
-        },
-      ),
+        } else {
+          return _buildNoAppBarSingleViewScreen(
+            UserProfileScreen(),
+            state.index,
+          );
+        }
+      },
     );
   }
 
@@ -182,11 +246,11 @@ class _NavigationBar extends StatelessWidget {
     if (index == AppNavigationIndex.postIndex) {
       _navigationCubit.goToPostScreen();
     }
+    if (index == AppNavigationIndex.messagesIndex) {
+      _navigationCubit.goToInboxScreen();
+    }
     if (index == AppNavigationIndex.useProfileIndex) {
       _navigationCubit.goToUserProfileScreen();
-    }
-    if (index == AppNavigationIndex.inboxIndex) {
-      _navigationCubit.goToInboxScreen();
     }
   }
 }

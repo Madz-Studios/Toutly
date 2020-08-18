@@ -16,7 +16,7 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   goToLikesScreen() {
-    emit(NavigationState.likesScreen(AppNavigationIndex.searchIndex));
+    emit(NavigationState.savedScreen(AppNavigationIndex.searchIndex));
   }
 
   goToPostScreen() {
@@ -28,6 +28,6 @@ class NavigationCubit extends Cubit<NavigationState> {
   }
 
   goToInboxScreen() {
-    emit(NavigationState.inboxScreen(AppNavigationIndex.inboxIndex));
+    emit(NavigationState.messagesScreen(AppNavigationIndex.messagesIndex));
   }
 }

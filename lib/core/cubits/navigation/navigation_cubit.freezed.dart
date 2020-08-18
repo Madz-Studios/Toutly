@@ -12,33 +12,20 @@ T _$identity<T>(T value) => value;
 class _$NavigationStateTearOff {
   const _$NavigationStateTearOff();
 
-  NavigationStateHomeScreen homeScreen(int index) {
-    return NavigationStateHomeScreen(
-      index,
-    );
-  }
-
-  NavigationStateSearchScreen likesScreen(int index) {
-    return NavigationStateSearchScreen(
-      index,
-    );
-  }
-
-  NavigationStatePostItemScreen postBarterScreen(int index) {
-    return NavigationStatePostItemScreen(
-      index,
-    );
-  }
-
-  NavigationStateUserBarterListingcreen userProfile(int index) {
-    return NavigationStateUserBarterListingcreen(
-      index,
-    );
-  }
-
-  NavigationStateInboxScreen inboxScreen(int index) {
-    return NavigationStateInboxScreen(
-      index,
+  _NavigationState call(
+      {@required bool isHomeScreen,
+      @required bool isSavedScreen,
+      @required bool isPostBarterScreen,
+      @required bool isMessagesScreen,
+      @required bool isUserProfileScreen,
+      @required int index}) {
+    return _NavigationState(
+      isHomeScreen: isHomeScreen,
+      isSavedScreen: isSavedScreen,
+      isPostBarterScreen: isPostBarterScreen,
+      isMessagesScreen: isMessagesScreen,
+      isUserProfileScreen: isUserProfileScreen,
+      index: index,
     );
   }
 }
@@ -47,42 +34,12 @@ class _$NavigationStateTearOff {
 const $NavigationState = _$NavigationStateTearOff();
 
 mixin _$NavigationState {
+  bool get isHomeScreen;
+  bool get isSavedScreen;
+  bool get isPostBarterScreen;
+  bool get isMessagesScreen;
+  bool get isUserProfileScreen;
   int get index;
-
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  });
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  });
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  });
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  });
 
   $NavigationStateCopyWith<NavigationState> get copyWith;
 }
@@ -91,7 +48,13 @@ abstract class $NavigationStateCopyWith<$Res> {
   factory $NavigationStateCopyWith(
           NavigationState value, $Res Function(NavigationState) then) =
       _$NavigationStateCopyWithImpl<$Res>;
-  $Res call({int index});
+  $Res call(
+      {bool isHomeScreen,
+      bool isSavedScreen,
+      bool isPostBarterScreen,
+      bool isMessagesScreen,
+      bool isUserProfileScreen,
+      int index});
 }
 
 class _$NavigationStateCopyWithImpl<$Res>
@@ -104,708 +67,179 @@ class _$NavigationStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object isHomeScreen = freezed,
+    Object isSavedScreen = freezed,
+    Object isPostBarterScreen = freezed,
+    Object isMessagesScreen = freezed,
+    Object isUserProfileScreen = freezed,
     Object index = freezed,
   }) {
     return _then(_value.copyWith(
+      isHomeScreen:
+          isHomeScreen == freezed ? _value.isHomeScreen : isHomeScreen as bool,
+      isSavedScreen: isSavedScreen == freezed
+          ? _value.isSavedScreen
+          : isSavedScreen as bool,
+      isPostBarterScreen: isPostBarterScreen == freezed
+          ? _value.isPostBarterScreen
+          : isPostBarterScreen as bool,
+      isMessagesScreen: isMessagesScreen == freezed
+          ? _value.isMessagesScreen
+          : isMessagesScreen as bool,
+      isUserProfileScreen: isUserProfileScreen == freezed
+          ? _value.isUserProfileScreen
+          : isUserProfileScreen as bool,
       index: index == freezed ? _value.index : index as int,
     ));
   }
 }
 
-abstract class $NavigationStateHomeScreenCopyWith<$Res>
+abstract class _$NavigationStateCopyWith<$Res>
     implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateHomeScreenCopyWith(NavigationStateHomeScreen value,
-          $Res Function(NavigationStateHomeScreen) then) =
-      _$NavigationStateHomeScreenCopyWithImpl<$Res>;
+  factory _$NavigationStateCopyWith(
+          _NavigationState value, $Res Function(_NavigationState) then) =
+      __$NavigationStateCopyWithImpl<$Res>;
   @override
-  $Res call({int index});
+  $Res call(
+      {bool isHomeScreen,
+      bool isSavedScreen,
+      bool isPostBarterScreen,
+      bool isMessagesScreen,
+      bool isUserProfileScreen,
+      int index});
 }
 
-class _$NavigationStateHomeScreenCopyWithImpl<$Res>
+class __$NavigationStateCopyWithImpl<$Res>
     extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateHomeScreenCopyWith<$Res> {
-  _$NavigationStateHomeScreenCopyWithImpl(NavigationStateHomeScreen _value,
-      $Res Function(NavigationStateHomeScreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateHomeScreen));
+    implements _$NavigationStateCopyWith<$Res> {
+  __$NavigationStateCopyWithImpl(
+      _NavigationState _value, $Res Function(_NavigationState) _then)
+      : super(_value, (v) => _then(v as _NavigationState));
 
   @override
-  NavigationStateHomeScreen get _value =>
-      super._value as NavigationStateHomeScreen;
+  _NavigationState get _value => super._value as _NavigationState;
 
   @override
   $Res call({
+    Object isHomeScreen = freezed,
+    Object isSavedScreen = freezed,
+    Object isPostBarterScreen = freezed,
+    Object isMessagesScreen = freezed,
+    Object isUserProfileScreen = freezed,
     Object index = freezed,
   }) {
-    return _then(NavigationStateHomeScreen(
-      index == freezed ? _value.index : index as int,
+    return _then(_NavigationState(
+      isHomeScreen:
+          isHomeScreen == freezed ? _value.isHomeScreen : isHomeScreen as bool,
+      isSavedScreen: isSavedScreen == freezed
+          ? _value.isSavedScreen
+          : isSavedScreen as bool,
+      isPostBarterScreen: isPostBarterScreen == freezed
+          ? _value.isPostBarterScreen
+          : isPostBarterScreen as bool,
+      isMessagesScreen: isMessagesScreen == freezed
+          ? _value.isMessagesScreen
+          : isMessagesScreen as bool,
+      isUserProfileScreen: isUserProfileScreen == freezed
+          ? _value.isUserProfileScreen
+          : isUserProfileScreen as bool,
+      index: index == freezed ? _value.index : index as int,
     ));
   }
 }
 
-class _$NavigationStateHomeScreen implements NavigationStateHomeScreen {
-  const _$NavigationStateHomeScreen(this.index) : assert(index != null);
+class _$_NavigationState implements _NavigationState {
+  const _$_NavigationState(
+      {@required this.isHomeScreen,
+      @required this.isSavedScreen,
+      @required this.isPostBarterScreen,
+      @required this.isMessagesScreen,
+      @required this.isUserProfileScreen,
+      @required this.index})
+      : assert(isHomeScreen != null),
+        assert(isSavedScreen != null),
+        assert(isPostBarterScreen != null),
+        assert(isMessagesScreen != null),
+        assert(isUserProfileScreen != null),
+        assert(index != null);
 
+  @override
+  final bool isHomeScreen;
+  @override
+  final bool isSavedScreen;
+  @override
+  final bool isPostBarterScreen;
+  @override
+  final bool isMessagesScreen;
+  @override
+  final bool isUserProfileScreen;
   @override
   final int index;
 
   @override
   String toString() {
-    return 'NavigationState.homeScreen(index: $index)';
+    return 'NavigationState(isHomeScreen: $isHomeScreen, isSavedScreen: $isSavedScreen, isPostBarterScreen: $isPostBarterScreen, isMessagesScreen: $isMessagesScreen, isUserProfileScreen: $isUserProfileScreen, index: $index)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is NavigationStateHomeScreen &&
+        (other is _NavigationState &&
+            (identical(other.isHomeScreen, isHomeScreen) ||
+                const DeepCollectionEquality()
+                    .equals(other.isHomeScreen, isHomeScreen)) &&
+            (identical(other.isSavedScreen, isSavedScreen) ||
+                const DeepCollectionEquality()
+                    .equals(other.isSavedScreen, isSavedScreen)) &&
+            (identical(other.isPostBarterScreen, isPostBarterScreen) ||
+                const DeepCollectionEquality()
+                    .equals(other.isPostBarterScreen, isPostBarterScreen)) &&
+            (identical(other.isMessagesScreen, isMessagesScreen) ||
+                const DeepCollectionEquality()
+                    .equals(other.isMessagesScreen, isMessagesScreen)) &&
+            (identical(other.isUserProfileScreen, isUserProfileScreen) ||
+                const DeepCollectionEquality()
+                    .equals(other.isUserProfileScreen, isUserProfileScreen)) &&
             (identical(other.index, index) ||
                 const DeepCollectionEquality().equals(other.index, index)));
   }
 
   @override
   int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(isHomeScreen) ^
+      const DeepCollectionEquality().hash(isSavedScreen) ^
+      const DeepCollectionEquality().hash(isPostBarterScreen) ^
+      const DeepCollectionEquality().hash(isMessagesScreen) ^
+      const DeepCollectionEquality().hash(isUserProfileScreen) ^
+      const DeepCollectionEquality().hash(index);
 
   @override
-  $NavigationStateHomeScreenCopyWith<NavigationStateHomeScreen> get copyWith =>
-      _$NavigationStateHomeScreenCopyWithImpl<NavigationStateHomeScreen>(
-          this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return homeScreen(index);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (homeScreen != null) {
-      return homeScreen(index);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return homeScreen(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (homeScreen != null) {
-      return homeScreen(this);
-    }
-    return orElse();
-  }
+  _$NavigationStateCopyWith<_NavigationState> get copyWith =>
+      __$NavigationStateCopyWithImpl<_NavigationState>(this, _$identity);
 }
 
-abstract class NavigationStateHomeScreen implements NavigationState {
-  const factory NavigationStateHomeScreen(int index) =
-      _$NavigationStateHomeScreen;
+abstract class _NavigationState implements NavigationState {
+  const factory _NavigationState(
+      {@required bool isHomeScreen,
+      @required bool isSavedScreen,
+      @required bool isPostBarterScreen,
+      @required bool isMessagesScreen,
+      @required bool isUserProfileScreen,
+      @required int index}) = _$_NavigationState;
 
+  @override
+  bool get isHomeScreen;
+  @override
+  bool get isSavedScreen;
+  @override
+  bool get isPostBarterScreen;
+  @override
+  bool get isMessagesScreen;
+  @override
+  bool get isUserProfileScreen;
   @override
   int get index;
   @override
-  $NavigationStateHomeScreenCopyWith<NavigationStateHomeScreen> get copyWith;
-}
-
-abstract class $NavigationStateSearchScreenCopyWith<$Res>
-    implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateSearchScreenCopyWith(
-          NavigationStateSearchScreen value,
-          $Res Function(NavigationStateSearchScreen) then) =
-      _$NavigationStateSearchScreenCopyWithImpl<$Res>;
-  @override
-  $Res call({int index});
-}
-
-class _$NavigationStateSearchScreenCopyWithImpl<$Res>
-    extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateSearchScreenCopyWith<$Res> {
-  _$NavigationStateSearchScreenCopyWithImpl(NavigationStateSearchScreen _value,
-      $Res Function(NavigationStateSearchScreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateSearchScreen));
-
-  @override
-  NavigationStateSearchScreen get _value =>
-      super._value as NavigationStateSearchScreen;
-
-  @override
-  $Res call({
-    Object index = freezed,
-  }) {
-    return _then(NavigationStateSearchScreen(
-      index == freezed ? _value.index : index as int,
-    ));
-  }
-}
-
-class _$NavigationStateSearchScreen implements NavigationStateSearchScreen {
-  const _$NavigationStateSearchScreen(this.index) : assert(index != null);
-
-  @override
-  final int index;
-
-  @override
-  String toString() {
-    return 'NavigationState.likesScreen(index: $index)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is NavigationStateSearchScreen &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
-
-  @override
-  $NavigationStateSearchScreenCopyWith<NavigationStateSearchScreen>
-      get copyWith => _$NavigationStateSearchScreenCopyWithImpl<
-          NavigationStateSearchScreen>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return likesScreen(index);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (likesScreen != null) {
-      return likesScreen(index);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return likesScreen(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (likesScreen != null) {
-      return likesScreen(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NavigationStateSearchScreen implements NavigationState {
-  const factory NavigationStateSearchScreen(int index) =
-      _$NavigationStateSearchScreen;
-
-  @override
-  int get index;
-  @override
-  $NavigationStateSearchScreenCopyWith<NavigationStateSearchScreen>
-      get copyWith;
-}
-
-abstract class $NavigationStatePostItemScreenCopyWith<$Res>
-    implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStatePostItemScreenCopyWith(
-          NavigationStatePostItemScreen value,
-          $Res Function(NavigationStatePostItemScreen) then) =
-      _$NavigationStatePostItemScreenCopyWithImpl<$Res>;
-  @override
-  $Res call({int index});
-}
-
-class _$NavigationStatePostItemScreenCopyWithImpl<$Res>
-    extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStatePostItemScreenCopyWith<$Res> {
-  _$NavigationStatePostItemScreenCopyWithImpl(
-      NavigationStatePostItemScreen _value,
-      $Res Function(NavigationStatePostItemScreen) _then)
-      : super(_value, (v) => _then(v as NavigationStatePostItemScreen));
-
-  @override
-  NavigationStatePostItemScreen get _value =>
-      super._value as NavigationStatePostItemScreen;
-
-  @override
-  $Res call({
-    Object index = freezed,
-  }) {
-    return _then(NavigationStatePostItemScreen(
-      index == freezed ? _value.index : index as int,
-    ));
-  }
-}
-
-class _$NavigationStatePostItemScreen implements NavigationStatePostItemScreen {
-  const _$NavigationStatePostItemScreen(this.index) : assert(index != null);
-
-  @override
-  final int index;
-
-  @override
-  String toString() {
-    return 'NavigationState.postBarterScreen(index: $index)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is NavigationStatePostItemScreen &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
-
-  @override
-  $NavigationStatePostItemScreenCopyWith<NavigationStatePostItemScreen>
-      get copyWith => _$NavigationStatePostItemScreenCopyWithImpl<
-          NavigationStatePostItemScreen>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return postBarterScreen(index);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (postBarterScreen != null) {
-      return postBarterScreen(index);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return postBarterScreen(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (postBarterScreen != null) {
-      return postBarterScreen(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NavigationStatePostItemScreen implements NavigationState {
-  const factory NavigationStatePostItemScreen(int index) =
-      _$NavigationStatePostItemScreen;
-
-  @override
-  int get index;
-  @override
-  $NavigationStatePostItemScreenCopyWith<NavigationStatePostItemScreen>
-      get copyWith;
-}
-
-abstract class $NavigationStateUserBarterListingcreenCopyWith<$Res>
-    implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateUserBarterListingcreenCopyWith(
-          NavigationStateUserBarterListingcreen value,
-          $Res Function(NavigationStateUserBarterListingcreen) then) =
-      _$NavigationStateUserBarterListingcreenCopyWithImpl<$Res>;
-  @override
-  $Res call({int index});
-}
-
-class _$NavigationStateUserBarterListingcreenCopyWithImpl<$Res>
-    extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateUserBarterListingcreenCopyWith<$Res> {
-  _$NavigationStateUserBarterListingcreenCopyWithImpl(
-      NavigationStateUserBarterListingcreen _value,
-      $Res Function(NavigationStateUserBarterListingcreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateUserBarterListingcreen));
-
-  @override
-  NavigationStateUserBarterListingcreen get _value =>
-      super._value as NavigationStateUserBarterListingcreen;
-
-  @override
-  $Res call({
-    Object index = freezed,
-  }) {
-    return _then(NavigationStateUserBarterListingcreen(
-      index == freezed ? _value.index : index as int,
-    ));
-  }
-}
-
-class _$NavigationStateUserBarterListingcreen
-    implements NavigationStateUserBarterListingcreen {
-  const _$NavigationStateUserBarterListingcreen(this.index)
-      : assert(index != null);
-
-  @override
-  final int index;
-
-  @override
-  String toString() {
-    return 'NavigationState.userProfile(index: $index)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is NavigationStateUserBarterListingcreen &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
-
-  @override
-  $NavigationStateUserBarterListingcreenCopyWith<
-          NavigationStateUserBarterListingcreen>
-      get copyWith => _$NavigationStateUserBarterListingcreenCopyWithImpl<
-          NavigationStateUserBarterListingcreen>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return userProfile(index);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (userProfile != null) {
-      return userProfile(index);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return userProfile(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (userProfile != null) {
-      return userProfile(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NavigationStateUserBarterListingcreen
-    implements NavigationState {
-  const factory NavigationStateUserBarterListingcreen(int index) =
-      _$NavigationStateUserBarterListingcreen;
-
-  @override
-  int get index;
-  @override
-  $NavigationStateUserBarterListingcreenCopyWith<
-      NavigationStateUserBarterListingcreen> get copyWith;
-}
-
-abstract class $NavigationStateInboxScreenCopyWith<$Res>
-    implements $NavigationStateCopyWith<$Res> {
-  factory $NavigationStateInboxScreenCopyWith(NavigationStateInboxScreen value,
-          $Res Function(NavigationStateInboxScreen) then) =
-      _$NavigationStateInboxScreenCopyWithImpl<$Res>;
-  @override
-  $Res call({int index});
-}
-
-class _$NavigationStateInboxScreenCopyWithImpl<$Res>
-    extends _$NavigationStateCopyWithImpl<$Res>
-    implements $NavigationStateInboxScreenCopyWith<$Res> {
-  _$NavigationStateInboxScreenCopyWithImpl(NavigationStateInboxScreen _value,
-      $Res Function(NavigationStateInboxScreen) _then)
-      : super(_value, (v) => _then(v as NavigationStateInboxScreen));
-
-  @override
-  NavigationStateInboxScreen get _value =>
-      super._value as NavigationStateInboxScreen;
-
-  @override
-  $Res call({
-    Object index = freezed,
-  }) {
-    return _then(NavigationStateInboxScreen(
-      index == freezed ? _value.index : index as int,
-    ));
-  }
-}
-
-class _$NavigationStateInboxScreen implements NavigationStateInboxScreen {
-  const _$NavigationStateInboxScreen(this.index) : assert(index != null);
-
-  @override
-  final int index;
-
-  @override
-  String toString() {
-    return 'NavigationState.inboxScreen(index: $index)';
-  }
-
-  @override
-  bool operator ==(dynamic other) {
-    return identical(this, other) ||
-        (other is NavigationStateInboxScreen &&
-            (identical(other.index, index) ||
-                const DeepCollectionEquality().equals(other.index, index)));
-  }
-
-  @override
-  int get hashCode =>
-      runtimeType.hashCode ^ const DeepCollectionEquality().hash(index);
-
-  @override
-  $NavigationStateInboxScreenCopyWith<NavigationStateInboxScreen>
-      get copyWith =>
-          _$NavigationStateInboxScreenCopyWithImpl<NavigationStateInboxScreen>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  Result when<Result extends Object>({
-    @required Result homeScreen(int index),
-    @required Result likesScreen(int index),
-    @required Result postBarterScreen(int index),
-    @required Result userProfile(int index),
-    @required Result inboxScreen(int index),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return inboxScreen(index);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeWhen<Result extends Object>({
-    Result homeScreen(int index),
-    Result likesScreen(int index),
-    Result postBarterScreen(int index),
-    Result userProfile(int index),
-    Result inboxScreen(int index),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (inboxScreen != null) {
-      return inboxScreen(index);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  Result map<Result extends Object>({
-    @required Result homeScreen(NavigationStateHomeScreen value),
-    @required Result likesScreen(NavigationStateSearchScreen value),
-    @required Result postBarterScreen(NavigationStatePostItemScreen value),
-    @required Result userProfile(NavigationStateUserBarterListingcreen value),
-    @required Result inboxScreen(NavigationStateInboxScreen value),
-  }) {
-    assert(homeScreen != null);
-    assert(likesScreen != null);
-    assert(postBarterScreen != null);
-    assert(userProfile != null);
-    assert(inboxScreen != null);
-    return inboxScreen(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  Result maybeMap<Result extends Object>({
-    Result homeScreen(NavigationStateHomeScreen value),
-    Result likesScreen(NavigationStateSearchScreen value),
-    Result postBarterScreen(NavigationStatePostItemScreen value),
-    Result userProfile(NavigationStateUserBarterListingcreen value),
-    Result inboxScreen(NavigationStateInboxScreen value),
-    @required Result orElse(),
-  }) {
-    assert(orElse != null);
-    if (inboxScreen != null) {
-      return inboxScreen(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class NavigationStateInboxScreen implements NavigationState {
-  const factory NavigationStateInboxScreen(int index) =
-      _$NavigationStateInboxScreen;
-
-  @override
-  int get index;
-  @override
-  $NavigationStateInboxScreenCopyWith<NavigationStateInboxScreen> get copyWith;
+  _$NavigationStateCopyWith<_NavigationState> get copyWith;
 }
