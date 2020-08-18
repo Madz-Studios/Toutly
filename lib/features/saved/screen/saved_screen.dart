@@ -11,7 +11,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LikesScreen extends StatelessWidget {
+class SavedScreen extends StatelessWidget {
   final _otherUserCubit = getIt<OtherUserCubit>();
 
   final _likesCurrentUserCubit = getIt<LikesCurrentUserCubit>();

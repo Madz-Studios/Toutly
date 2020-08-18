@@ -6,9 +6,9 @@ import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
-import 'package:Toutly/features/likes/screen/likes_screen.dart';
 import 'package:Toutly/features/messages/screen/messages_screen.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
+import 'package:Toutly/features/saved/screen/saved_screen.dart';
 import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
@@ -98,9 +98,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
           return _buildSingleViewScreen(
             _CustomAppBar(
               appSizeConfig: appSizeConfig,
-              title: 'Likes',
+              title: 'Saved',
             ),
-            LikesScreen(),
+            SavedScreen(),
             state.index,
           );
         } else if (state.isPostBarterScreen) {
@@ -185,13 +185,13 @@ class _NavigationBar extends StatelessWidget {
           ),
         ),
         BottomNavigationBarItem(
-          title: Text('Likes'),
+          title: Text('Saved'),
           icon: SvgPicture.asset(
-            'assets/icons/unpressed-likes.svg',
+            'assets/icons/unpressed-saved.svg',
             height: appSizeConfig.blockSizeVertical * 3,
           ),
           activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-likes.svg',
+            'assets/icons/unpressed-saved.svg',
             height: appSizeConfig.blockSizeVertical * 3,
             color: kPrimaryColor,
           ),
