@@ -27,12 +27,12 @@ class LikesPanel extends StatelessWidget {
           return IconButton(
             icon: _isLiked
                 ? SvgPicture.asset(
-                    'assets/icons/likes.svg',
+                    'assets/icons/saved.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
                     color: Colors.red,
                   )
                 : SvgPicture.asset(
-                    'assets/icons/likes.svg',
+                    'assets/icons/saved.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
                     color: Colors.white,
                   ),
