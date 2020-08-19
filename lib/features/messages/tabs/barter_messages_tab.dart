@@ -36,34 +36,30 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<BarterMessageCubit, BarterMessageState>(
       builder: (_, barterMessageState) {
-        if (barterMessageState.isSuccess) {
-          return StreamBuilder<QuerySnapshot>(
-            stream: barterMessageState.barterMessages,
-            builder: (_, snapshot) {
-              debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    debugPrint('Error: ${snapshot.error}');
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  } else {
-                    return _buildMessages(snapshot);
-                  }
-                  break;
-                default:
-                  if (snapshot.hasError) {
-                    debugPrint('Error: ${snapshot.error}');
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  } else {
-                    return _buildMessages(snapshot);
-                  }
-              }
-            },
-          );
-        } else {
-          return LoadingOrErrorWidgetUtil(barterMessageState.info);
-        }
+        return StreamBuilder<QuerySnapshot>(
+          stream: barterMessageState.barterMessages,
+          builder: (_, snapshot) {
+            debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.done:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildMessages(snapshot);
+                }
+                break;
+              default:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildMessages(snapshot);
+                }
+            }
+          },
+        );
       },
     );
   }
@@ -115,8 +111,6 @@ class _MessageBarterItem extends StatelessWidget {
         future: _otherUserCubit.getOtherUser(barterMessageModel.userOffer),
         builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
           switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return LoadingOrErrorWidgetUtil('');
             case ConnectionState.done:
               if (snapshot.hasError)
                 return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
@@ -139,46 +133,48 @@ class _MessageBarterItem extends StatelessWidget {
       AppSizeConfig appSizeConfig, UserModel barterUser) {
     return Column(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.blockSizeHorizontal * 2,
-                vertical: appSizeConfig.blockSizeVertical * 2,
-              ),
-              child: CircleAvatar(
-                backgroundImage:
-                    barterUser.photoUrl == null || barterUser.photoUrl.isEmpty
-                        ? AssetImage(
-                            'assets/images/profile_placeholder.png',
-                          )
-                        : NetworkImage(barterUser.photoUrl),
-              ),
-            ),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+        barterUser != null
+            ? Row(
                 children: [
-                  Text(
-                    '${barterUser.name}',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                      vertical: appSizeConfig.blockSizeVertical * 2,
+                    ),
+                    child: CircleAvatar(
+                      backgroundImage: barterUser.photoUrl == null ||
+                              barterUser.photoUrl.isEmpty
+                          ? AssetImage(
+                              'assets/images/profile_placeholder.png',
+                            )
+                          : NetworkImage(barterUser.photoUrl),
                     ),
                   ),
-                  Text(
-                    '${barterMessageModel.lastMessageText}',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.normal,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          '${barterUser.name}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${barterMessageModel.lastMessageText}',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
-              ),
-            ),
-          ],
-        ),
+              )
+            : Container(),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: appSizeConfig.blockSizeHorizontal * 5,

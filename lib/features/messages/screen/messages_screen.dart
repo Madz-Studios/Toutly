@@ -30,10 +30,10 @@ class MessagesScreen extends StatelessWidget {
               indicatorColor: kPrimaryColor,
               tabs: [
                 Tab(
-                  text: 'Barters',
+                  text: 'Offers',
                 ),
                 Tab(
-                  text: 'Offers',
+                  text: 'Barters',
                 ),
               ],
             ),
@@ -44,8 +44,8 @@ class MessagesScreen extends StatelessWidget {
                 final currentUser = currentUserState.currentUserModel;
                 return TabBarView(
                   children: <Widget>[
-                    BarterMessagesTab(currentUser.userId),
                     OfferMessagesTab(currentUser.userId),
+                    BarterMessagesTab(currentUser.userId),
                   ],
                 );
               },

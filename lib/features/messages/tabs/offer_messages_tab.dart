@@ -35,36 +35,29 @@ class _OfferMessagesTabState extends State<OfferMessagesTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<OfferMessageCubit, OfferMessageState>(
       builder: (_, offerMessageState) {
-        if (offerMessageState.isSuccess) {
-          return StreamBuilder<QuerySnapshot>(
-            stream: offerMessageState.offerMessages,
-            builder: (_, snapshot) {
-              debugPrint("OfferMessagesTab Snapshot " + snapshot.toString());
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                  return LoadingOrErrorWidgetUtil('');
-                  break;
-                case ConnectionState.done:
-                  if (snapshot.hasError) {
-                    debugPrint('Error: ${snapshot.error}');
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  } else {
-                    return _buildMessages(snapshot);
-                  }
-                  break;
-                default:
-                  if (snapshot.hasError) {
-                    debugPrint('Error: ${snapshot.error}');
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  } else {
-                    return _buildMessages(snapshot);
-                  }
-              }
-            },
-          );
-        } else {
-          return LoadingOrErrorWidgetUtil(offerMessageState.info);
-        }
+        return StreamBuilder<QuerySnapshot>(
+          stream: offerMessageState.offerMessages,
+          builder: (_, snapshot) {
+            debugPrint("OfferMessagesTab Snapshot " + snapshot.toString());
+            switch (snapshot.connectionState) {
+              case ConnectionState.done:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildMessages(snapshot);
+                }
+                break;
+              default:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildMessages(snapshot);
+                }
+            }
+          },
+        );
       },
     );
   }
@@ -113,28 +106,32 @@ class _MessageOfferItem extends StatelessWidget {
       onTap: () {
         _onTappedMessageItem(context);
       },
-      child: FutureBuilder(
-        future: _otherUserCubit.getOtherUser(barterMessageModel.userBarter),
-        builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return LoadingOrErrorWidgetUtil('');
-              break;
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-              else {
-                UserModel otherUserModel = snapshot.data;
-                return _buildOtherUserProfileMessage(
-                    appSizeConfig, otherUserModel);
-              }
-              break;
-            default:
-              debugPrint("Snapshot " + snapshot.toString());
-              return Container();
-          }
-        },
-      ),
+      child: barterMessageModel != null
+          ? FutureBuilder(
+              future:
+                  _otherUserCubit.getOtherUser(barterMessageModel.userBarter),
+              builder:
+                  (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                  case ConnectionState.done:
+                    if (snapshot.hasError)
+                      return LoadingOrErrorWidgetUtil(
+                          'Error: ${snapshot.error}');
+                    else {
+                      UserModel otherUserModel = snapshot.data;
+                      return _buildOtherUserProfileMessage(
+                          appSizeConfig, otherUserModel);
+                    }
+                    break;
+                  default:
+                    UserModel otherUserModel = snapshot.data;
+                    return _buildOtherUserProfileMessage(
+                        appSizeConfig, otherUserModel);
+                }
+              },
+            )
+          : Container(),
     );
   }
 
@@ -142,46 +139,47 @@ class _MessageOfferItem extends StatelessWidget {
       AppSizeConfig appSizeConfig, UserModel barterUser) {
     return Column(
       children: [
-        Row(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-                vertical: appSizeConfig.blockSizeVertical * 2,
-              ),
-              child: CircleAvatar(
-                backgroundImage:
-                    barterUser.photoUrl == null || barterUser.photoUrl.isEmpty
-                        ? AssetImage(
-                            'assets/images/profile_placeholder.png',
-                          )
-                        : NetworkImage(barterUser.photoUrl),
-              ),
-            ),
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+        barterUser != null
+            ? Row(
                 children: [
-                  Text(
-                    '${barterUser.name}',
-                    style: TextStyle(
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.bold,
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+                      vertical: appSizeConfig.blockSizeVertical * 2,
+                    ),
+                    child: CircleAvatar(
+                      backgroundImage: barterUser.photoUrl != null
+                          ? NetworkImage(barterUser.photoUrl ?? '')
+                          : AssetImage(
+                              'assets/images/profile_placeholder.png',
+                            ),
                     ),
                   ),
-                  Text(
-                    '${barterMessageModel.lastMessageText}',
-                    style: TextStyle(
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.normal,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          '${barterUser.name ?? ''}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          '${barterMessageModel.lastMessageText ?? ''}',
+                          style: TextStyle(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.normal,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
                     ),
-                    overflow: TextOverflow.ellipsis,
                   ),
                 ],
-              ),
-            ),
-          ],
-        ),
+              )
+            : Container(),
         Padding(
           padding: EdgeInsets.symmetric(
             horizontal: appSizeConfig.blockSizeHorizontal * 5,
