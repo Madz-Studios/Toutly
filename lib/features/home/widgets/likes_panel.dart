@@ -21,30 +21,26 @@ class LikesPanel extends StatelessWidget {
     bool _isLiked;
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (_, currentUserState) {
-        if (currentUserState.isSuccess) {
-          final currentUser = currentUserState.currentUserModel;
-          _isLiked = currentUser.barterLikesList?.contains(itemId) ?? false;
-          return IconButton(
-            icon: _isLiked
-                ? SvgPicture.asset(
-                    'assets/icons/saved.svg',
-                    height: appSizeConfig.blockSizeVertical * 3,
-                    color: Colors.red,
-                  )
-                : SvgPicture.asset(
-                    'assets/icons/saved.svg',
-                    height: appSizeConfig.blockSizeVertical * 3,
-                    color: Colors.white,
-                  ),
-            onPressed: () {
-              _isLiked = !_isLiked;
-              debugPrint('onPress liked = $_isLiked');
-              updateUserLikes(_isLiked, currentUser);
-            },
-          );
-        } else {
-          return Container();
-        }
+        final currentUser = currentUserState.currentUserModel;
+        _isLiked = currentUser.barterLikesList?.contains(itemId) ?? false;
+        return IconButton(
+          icon: _isLiked
+              ? SvgPicture.asset(
+                  'assets/icons/saved.svg',
+                  height: appSizeConfig.blockSizeVertical * 3,
+                  color: Colors.red,
+                )
+              : SvgPicture.asset(
+                  'assets/icons/saved.svg',
+                  height: appSizeConfig.blockSizeVertical * 3,
+                  color: Colors.white,
+                ),
+          onPressed: () {
+            _isLiked = !_isLiked;
+            debugPrint('onPress liked = $_isLiked');
+            updateUserLikes(_isLiked, currentUser);
+          },
+        );
       },
     );
   }

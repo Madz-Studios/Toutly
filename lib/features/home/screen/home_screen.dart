@@ -200,8 +200,6 @@ class _BarterItem extends StatelessWidget {
                           AsyncSnapshot<UserModel> snapshot) {
                         switch (snapshot.connectionState) {
                           case ConnectionState.waiting:
-                            return LoadingOrErrorWidgetUtil('');
-                            break;
                           case ConnectionState.done:
                             if (snapshot.hasError)
                               return LoadingOrErrorWidgetUtil(

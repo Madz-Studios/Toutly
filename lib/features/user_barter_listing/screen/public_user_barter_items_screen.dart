@@ -53,7 +53,6 @@ class _PublicUserBarterItemsScreenState
                   snapshot.toString());
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return LoadingOrErrorWidgetUtil('');
                 case ConnectionState.done:
                   if (snapshot.hasError)
                     return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');

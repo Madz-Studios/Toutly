@@ -43,7 +43,6 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
               debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
               switch (snapshot.connectionState) {
                 case ConnectionState.waiting:
-                  return LoadingOrErrorWidgetUtil('');
                 case ConnectionState.done:
                   if (snapshot.hasError) {
                     debugPrint('Error: ${snapshot.error}');
@@ -70,9 +69,9 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
   }
 
   Widget _buildMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
-    final messagesDocs = snapshot.data.docs;
+    if (snapshot.data != null && snapshot.data.docs.isNotEmpty) {
+      final messagesDocs = snapshot.data.docs;
 
-    if (messagesDocs.isNotEmpty) {
       List<_MessageBarterItem> messageItems = [];
       for (final message in messagesDocs) {
         final barterMessageModel = BarterMessageModel.fromJson(message.data());

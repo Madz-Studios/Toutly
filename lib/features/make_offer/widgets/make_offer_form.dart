@@ -200,8 +200,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                       AsyncSnapshot<UserModel> snapshot) {
                     switch (snapshot.connectionState) {
                       case ConnectionState.waiting:
-                        return LoadingOrErrorWidgetUtil('');
-                        break;
                       case ConnectionState.done:
                         if (snapshot.hasError)
                           return LoadingOrErrorWidgetUtil(
@@ -347,75 +345,71 @@ class _SelectItemToTrade extends StatelessWidget {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (_, currentUserState) {
-        if (currentUserState.isSuccess) {
-          final currentUser = currentUserState.currentUserModel;
-          return Container(
-            height: appSizeConfig.blockSizeVertical * 7.5,
-            width: appSizeConfig.blockSizeHorizontal * 17.5,
-            decoration: BoxDecoration(
-              border: Border.all(
-                color: Color(0XFFB4B4B4),
-              ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(
-                  8.0,
-                ),
+        final currentUser = currentUserState.currentUserModel;
+        return Container(
+          height: appSizeConfig.blockSizeVertical * 7.5,
+          width: appSizeConfig.blockSizeHorizontal * 17.5,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: Color(0XFFB4B4B4),
+            ),
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                8.0,
               ),
             ),
-            child: barterModel == null
-                ? IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Color(0XFFB4B4B4),
-                      size: appSizeConfig.blockSizeVertical * 4,
-                    ),
-                    onPressed: () {
-                      _showAddBarterBottomSheet(currentUser, context);
-                    },
-                  )
-                : ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        8.0,
-                      ),
-                    ),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                8.0,
-                              ),
-                            ),
-                            image: DecorationImage(
-                              image: NetworkImage(
-                                barterModel?.photosUrl[0] ?? '',
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: GestureDetector(
-                            child: Icon(
-                              Icons.remove_circle,
-                              color: Color(0XFFB4B4B4),
-                            ),
-                            onTap: () {
-                              _makeOfferCubit.removeItemToOffer(barterModel);
-                            },
-                          ),
-                        ),
-                      ],
+          ),
+          child: barterModel == null
+              ? IconButton(
+                  icon: Icon(
+                    Icons.add,
+                    color: Color(0XFFB4B4B4),
+                    size: appSizeConfig.blockSizeVertical * 4,
+                  ),
+                  onPressed: () {
+                    _showAddBarterBottomSheet(currentUser, context);
+                  },
+                )
+              : ClipRRect(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(
+                      8.0,
                     ),
                   ),
-          );
-        } else {
-          return Container();
-        }
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(
+                              8.0,
+                            ),
+                          ),
+                          image: DecorationImage(
+                            image: NetworkImage(
+                              barterModel?.photosUrl[0] ?? '',
+                            ),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: GestureDetector(
+                          child: Icon(
+                            Icons.remove_circle,
+                            color: Color(0XFFB4B4B4),
+                          ),
+                          onTap: () {
+                            _makeOfferCubit.removeItemToOffer(barterModel);
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+        );
       },
     );
   }

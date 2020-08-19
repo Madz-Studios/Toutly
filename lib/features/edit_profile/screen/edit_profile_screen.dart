@@ -174,9 +174,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         SizedBox(
           height: appSizeConfig.safeBlockVertical * 2,
         ),
-        currentUserState.isSuccess
-            ? SelectProfilePhoto(currentUser)
-            : LoadingOrErrorWidgetUtil(currentUserState.info),
+        SelectProfilePhoto(currentUser),
         SizedBox(
           height: appSizeConfig.safeBlockVertical * 3,
         ),

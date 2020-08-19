@@ -70,9 +70,8 @@ class _OfferMessagesTabState extends State<OfferMessagesTab> {
   }
 
   Widget _buildMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
-    final messagesDocs = snapshot.data.docs;
-
-    if (messagesDocs.isNotEmpty) {
+    if (snapshot.data != null && snapshot.data.docs.isNotEmpty) {
+      final messagesDocs = snapshot.data.docs;
       List<_MessageOfferItem> messageItems = [];
       for (final message in messagesDocs) {
         final barterMessageModel = BarterMessageModel.fromJson(message.data());
