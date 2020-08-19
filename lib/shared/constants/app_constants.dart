@@ -34,8 +34,8 @@ class AppConstants {
   ];
 
   static const List<String> privacyList = [
-    'Public',
-    'Private',
+    'Yes',
+    'No',
   ];
 
   static const List<String> filterByTimeList = [
