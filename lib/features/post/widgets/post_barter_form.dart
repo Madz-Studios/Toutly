@@ -220,7 +220,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
                   fontSize: 16.0,
                   color: Color(0XFFB5B5B5),
                 ),
-                labelText: 'Privacy',
+                labelText: 'Searchable',
                 enabledBorder: OutlineInputBorder(
                   borderSide: const BorderSide(color: Colors.transparent),
                   borderRadius: BorderRadius.all(
@@ -243,7 +243,8 @@ class _PostBarterFormState extends State<PostBarterForm> {
               description: 'Describe what you are bartering in a few words',
               controller: _titleController,
               readOnly: false,
-              maxLength: 100,
+              maxLength: 50,
+              maxLines: 1,
             ),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
@@ -254,6 +255,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
               controller: _descriptionController,
               readOnly: false,
               maxLength: 200,
+              maxLines: 4,
             ),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
@@ -264,6 +266,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
               controller: _preferredItemController,
               readOnly: false,
               maxLength: 100,
+              maxLines: 2,
             ),
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
@@ -283,6 +286,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
                       controller: _locationController,
                       readOnly: true,
                       maxLength: 100,
+                      maxLines: 1,
                     ),
                   );
                 } else {
@@ -324,6 +328,7 @@ class _PostItemTextField extends StatelessWidget {
   final TextEditingController controller;
   final bool readOnly;
   final int maxLength;
+  final int maxLines;
 
   _PostItemTextField({
     @required this.title,
@@ -331,6 +336,7 @@ class _PostItemTextField extends StatelessWidget {
     @required this.controller,
     @required this.readOnly,
     @required this.maxLength,
+    @required this.maxLines,
   });
   @override
   Widget build(BuildContext context) {
@@ -358,8 +364,9 @@ class _PostItemTextField extends StatelessWidget {
         TextFormField(
           readOnly: readOnly,
           controller: controller,
-          keyboardType: TextInputType.text,
+          keyboardType: TextInputType.multiline,
           maxLength: maxLength,
+          maxLines: maxLines,
           textAlign: TextAlign.left,
           style: GoogleFonts.roboto(
             fontStyle: FontStyle.normal,
