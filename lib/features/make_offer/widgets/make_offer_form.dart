@@ -199,7 +199,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                   builder: (BuildContext context,
                       AsyncSnapshot<UserModel> snapshot) {
                     switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
                       case ConnectionState.done:
                         if (snapshot.hasError)
                           return LoadingOrErrorWidgetUtil(

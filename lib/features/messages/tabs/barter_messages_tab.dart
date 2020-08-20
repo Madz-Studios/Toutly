@@ -3,7 +3,7 @@ import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/conversation/screen/conversation_screen.dart';
+import 'package:Toutly/features/conversation/screen/conversation_barter_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -41,7 +41,6 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
           builder: (_, snapshot) {
             debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
             switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
               case ConnectionState.done:
                 if (snapshot.hasError) {
                   debugPrint('Error: ${snapshot.error}');
@@ -103,94 +102,94 @@ class _MessageBarterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+    return FutureBuilder(
+      future: _otherUserCubit.getOtherUser(barterMessageModel.userOffer),
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            if (snapshot.hasError)
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            else {
+              UserModel otherUserModel = snapshot.data;
+              return _buildOtherUserProfileMessage(
+                  context, appSizeConfig, otherUserModel);
+            }
+            break;
+          default:
+            debugPrint("Snapshot " + snapshot.toString());
+            return Container();
+        }
+      },
+    );
+  }
+
+  Widget _buildOtherUserProfileMessage(
+      BuildContext context, AppSizeConfig appSizeConfig, UserModel barterUser) {
     return GestureDetector(
       onTap: () {
-        _onTappedMessageItem(context);
+        _onTappedMessageItem(context, barterUser);
       },
-      child: FutureBuilder(
-        future: _otherUserCubit.getOtherUser(barterMessageModel.userOffer),
-        builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              if (snapshot.hasError)
-                return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-              else {
-                UserModel otherUserModel = snapshot.data;
-                return _buildOtherUserProfileMessage(
-                    appSizeConfig, otherUserModel);
-              }
-              break;
-            default:
-              debugPrint("Snapshot " + snapshot.toString());
-              return Container();
-          }
-        },
+      child: Column(
+        children: [
+          barterUser != null
+              ? Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                        vertical: appSizeConfig.blockSizeVertical * 2,
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: barterUser.photoUrl == null ||
+                                barterUser.photoUrl.isEmpty
+                            ? AssetImage(
+                                'assets/images/profile_placeholder.png',
+                              )
+                            : NetworkImage(barterUser.photoUrl),
+                      ),
+                    ),
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            '${barterUser.name}',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          Text(
+                            '${barterMessageModel.lastMessageText}',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              : Container(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: appSizeConfig.blockSizeHorizontal * 5,
+            ),
+            child: Divider(),
+          ),
+        ],
       ),
     );
   }
 
-  Column _buildOtherUserProfileMessage(
-      AppSizeConfig appSizeConfig, UserModel barterUser) {
-    return Column(
-      children: [
-        barterUser != null
-            ? Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: appSizeConfig.blockSizeHorizontal * 2,
-                      vertical: appSizeConfig.blockSizeVertical * 2,
-                    ),
-                    child: CircleAvatar(
-                      backgroundImage: barterUser.photoUrl == null ||
-                              barterUser.photoUrl.isEmpty
-                          ? AssetImage(
-                              'assets/images/profile_placeholder.png',
-                            )
-                          : NetworkImage(barterUser.photoUrl),
-                    ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          '${barterUser.name}',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '${barterMessageModel.lastMessageText}',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.normal,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              )
-            : Container(),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.blockSizeHorizontal * 5,
-          ),
-          child: Divider(),
-        ),
-      ],
-    );
-  }
-
-  void _onTappedMessageItem(BuildContext context) {
-    debugPrint('Message item tapped');
+  void _onTappedMessageItem(BuildContext context, UserModel barterUser) {
+    debugPrint('_onTappedMessageItem');
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
-        return ConversationScreen();
+        return ConversationBarterScreen(barterMessageModel, barterUser);
       }),
     );
   }
