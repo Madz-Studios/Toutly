@@ -99,107 +99,116 @@ class ConversationBarterScreen extends StatelessWidget {
   Widget _buildFutureOfferItems(AppSizeConfig appSizeConfig) {
     _barterItemCubit.getBarterItem(barterMessageModel.barterItemId);
     _offerItemCubit.getOfferItems(barterMessageModel.barterOfferItems);
-    return BlocBuilder<OfferItemsCubit, OfferItemsState>(
-      builder: (context, offerItemsState) {
-        if (offerItemsState.isSuccess) {
-          List<Widget> offeredItems = [];
-          for (BarterModel barterModel in offerItemsState.offerItems) {
-            offeredItems.add(
-              Row(
-                children: [
-                  Flexible(
-                    flex: 1,
-                    child: Container(
-                      margin: EdgeInsets.all(5.0),
-                      height: appSizeConfig.blockSizeVertical * 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(
-                            8.0,
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: appSizeConfig.blockSizeVertical * 1.5,
+          horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
+        ),
+        child: BlocBuilder<OfferItemsCubit, OfferItemsState>(
+          builder: (context, offerItemsState) {
+            if (offerItemsState.isSuccess) {
+              List<Widget> offeredItems = [];
+              for (BarterModel barterModel in offerItemsState.offerItems) {
+                offeredItems.add(
+                  Row(
+                    children: [
+                      Flexible(
+                        flex: 1,
+                        child: Container(
+                          margin: EdgeInsets.all(5.0),
+                          height: appSizeConfig.blockSizeVertical * 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                8.0,
+                              ),
+                            ),
+                            image: DecorationImage(
+                              image: NetworkImage(
+                                barterModel.photosUrl[0],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
-                        image: DecorationImage(
-                          image: NetworkImage(
-                            barterModel.photosUrl[0],
+                      ),
+                      Flexible(
+                        flex: 2,
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                            vertical: appSizeConfig.blockSizeVertical * 1.0,
+                            horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
                           ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-                  Flexible(
-                    flex: 2,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(
-                        vertical: appSizeConfig.blockSizeVertical * 1.0,
-                        horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
-                      ),
-                      child: Container(
-                        height: appSizeConfig.blockSizeVertical * 7.5,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              '${barterModel.title}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 16.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(
-                              height: appSizeConfig.blockSizeVertical * 0.5,
-                            ),
-                            Text(
-                              '${barterModel.title}',
-                              style: TextStyle(
-                                fontWeight: FontWeight.normal,
-                                fontSize: 12.0,
-                              ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            SizedBox(
-                              height: appSizeConfig.blockSizeVertical * 0.5,
-                            ),
-                            GestureDetector(
-                              child: Text(
-                                "view details",
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                  color: Colors.blue,
-                                  fontSize: 12,
-                                ),
-                              ),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ViewBarterItemScreen(
-                                      barterModel: barterModel,
-                                      isDialog: false,
-                                      showMakeOfferButton: false,
-                                    ),
-                                    fullscreenDialog: true,
+                          child: Container(
+                            height: appSizeConfig.blockSizeVertical * 7.5,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(
+                                  '${barterModel.title}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 16.0,
                                   ),
-                                );
-                              },
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(
+                                  height: appSizeConfig.blockSizeVertical * 0.5,
+                                ),
+                                Text(
+                                  '${barterModel.title}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 12.0,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                SizedBox(
+                                  height: appSizeConfig.blockSizeVertical * 0.5,
+                                ),
+                                GestureDetector(
+                                  child: Text(
+                                    "view details",
+                                    style: TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      color: Colors.blue,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewBarterItemScreen(
+                                          barterModel: barterModel,
+                                          isDialog: false,
+                                          showMakeOfferButton: false,
+                                        ),
+                                        fullscreenDialog: true,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-          return Column(
-            children: offeredItems,
-          );
-        }
-        return Container();
-      },
+                );
+              }
+              return Column(
+                children: offeredItems,
+              );
+            }
+            return Container();
+          },
+        ),
+      ),
     );
   }
 
@@ -227,111 +236,122 @@ class ConversationBarterScreen extends StatelessWidget {
 
   Widget _buildFutureBarterItem(AppSizeConfig appSizeConfig) {
     _barterItemCubit.getBarterItem(barterMessageModel.barterItemId);
-    return BlocBuilder<BarterItemsCubit, BarterItemsState>(
-      builder: (context, barterItemsState) {
-        if (barterItemsState.isSuccess) {
-          final barterModel = barterItemsState.barterItem;
-          return barterModel != null
-              ? Row(
-                  children: [
-                    Flexible(
-                      flex: 1,
-                      child: Container(
-                        margin: EdgeInsets.all(5.0),
-                        height: appSizeConfig.blockSizeVertical * 10,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(
-                              8.0,
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+          vertical: appSizeConfig.blockSizeVertical * 1.5,
+          horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
+        ),
+        child: BlocBuilder<BarterItemsCubit, BarterItemsState>(
+          builder: (context, barterItemsState) {
+            if (barterItemsState.isSuccess) {
+              final barterModel = barterItemsState.barterItem;
+              return barterModel != null
+                  ? Row(
+                      children: [
+                        Flexible(
+                          flex: 1,
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            height: appSizeConfig.blockSizeVertical * 10,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(
+                                  8.0,
+                                ),
+                              ),
+                              image: DecorationImage(
+                                image: NetworkImage(
+                                  barterModel.photosUrl[0],
+                                ),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              barterModel.photosUrl[0],
+                        ),
+                        Flexible(
+                          flex: 2,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: appSizeConfig.blockSizeVertical * 1.0,
+                              horizontal:
+                                  appSizeConfig.blockSizeHorizontal * 1.5,
                             ),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      flex: 2,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: appSizeConfig.blockSizeVertical * 1.0,
-                          horizontal: appSizeConfig.blockSizeHorizontal * 1.5,
-                        ),
-                        child: Container(
-                          height: appSizeConfig.blockSizeVertical * 7.5,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              Text(
-                                '${barterModel.title}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                height: appSizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              Text(
-                                '${barterModel.title}',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.normal,
-                                  fontSize: 12.0,
-                                ),
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                              SizedBox(
-                                height: appSizeConfig.blockSizeVertical * 0.5,
-                              ),
-                              GestureDetector(
-                                child: Text(
-                                  "view details",
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                    color: Colors.blue,
-                                    fontSize: 12,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          ViewBarterItemScreen(
-                                        barterModel: barterModel,
-                                        isDialog: false,
-                                        showMakeOfferButton: false,
-                                      ),
-                                      fullscreenDialog: true,
+                            child: Container(
+                              height: appSizeConfig.blockSizeVertical * 7.5,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    '${barterModel.title}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 16.0,
                                     ),
-                                  );
-                                },
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        appSizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  Text(
+                                    '${barterModel.title}',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 12.0,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  SizedBox(
+                                    height:
+                                        appSizeConfig.blockSizeVertical * 0.5,
+                                  ),
+                                  GestureDetector(
+                                    child: Text(
+                                      "view details",
+                                      style: TextStyle(
+                                        decoration: TextDecoration.underline,
+                                        color: Colors.blue,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewBarterItemScreen(
+                                            barterModel: barterModel,
+                                            isDialog: false,
+                                            showMakeOfferButton: false,
+                                          ),
+                                          fullscreenDialog: true,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
+                      ],
+                    )
+                  : Center(
+                      child: Text(
+                        'Item is no longer available.',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.red,
+                        ),
                       ),
-                    ),
-                  ],
-                )
-              : Center(
-                  child: Text(
-                    'Item is no longer available.',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.red,
-                    ),
-                  ),
-                );
-        }
-        return Container();
-      },
+                    );
+            }
+            return Container();
+          },
+        ),
+      ),
     );
   }
 }
