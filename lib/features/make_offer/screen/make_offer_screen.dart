@@ -1,7 +1,6 @@
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
-import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/make_offer/widgets/make_offer_form.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -13,7 +12,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MakeOfferScreen extends StatelessWidget {
   final _makeOfferCubit = getIt<MakeOfferCubit>();
-  final _otherUserCubit = getIt<OtherUserCubit>();
 
   @override
   Widget build(BuildContext context) {

@@ -3,7 +3,7 @@ import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/features/conversation/screen/conversation_screen.dart';
+import 'package:Toutly/features/conversation/screen/conversation_offer_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -102,100 +102,94 @@ class _MessageOfferItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+    return FutureBuilder(
+      future: _otherUserCubit.getOtherUser(barterMessageModel.userBarter),
+      builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            if (snapshot.hasError)
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            else {
+              UserModel otherUserModel = snapshot.data;
+              return _buildOtherUserProfileMessage(
+                  context, appSizeConfig, otherUserModel);
+            }
+            break;
+          default:
+            UserModel otherUserModel = snapshot.data;
+            return _buildOtherUserProfileMessage(
+                context, appSizeConfig, otherUserModel);
+        }
+      },
+    );
+  }
+
+  Widget _buildOtherUserProfileMessage(
+      BuildContext context, AppSizeConfig appSizeConfig, UserModel barterUser) {
     return GestureDetector(
       onTap: () {
-        _onTappedMessageItem(context);
+        _onTappedMessageItem(context, barterUser);
       },
-      child: barterMessageModel != null
-          ? FutureBuilder(
-              future:
-                  _otherUserCubit.getOtherUser(barterMessageModel.userBarter),
-              builder:
-                  (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                  case ConnectionState.done:
-                    if (snapshot.hasError)
-                      return LoadingOrErrorWidgetUtil(
-                          'Error: ${snapshot.error}');
-                    else {
-                      UserModel otherUserModel = snapshot.data;
-                      return _buildOtherUserProfileMessage(
-                          appSizeConfig, otherUserModel);
-                    }
-                    break;
-                  default:
-                    UserModel otherUserModel = snapshot.data;
-                    return _buildOtherUserProfileMessage(
-                        appSizeConfig, otherUserModel);
-                }
-              },
-            )
-          : Container(),
-    );
-  }
-
-  Column _buildOtherUserProfileMessage(
-      AppSizeConfig appSizeConfig, UserModel barterUser) {
-    return Column(
-      children: [
-        barterUser != null
-            ? Row(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-                      vertical: appSizeConfig.blockSizeVertical * 2,
+      child: Column(
+        children: [
+          barterUser != null
+              ? Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+                        vertical: appSizeConfig.blockSizeVertical * 2,
+                      ),
+                      child: CircleAvatar(
+                        backgroundImage: barterUser.photoUrl != null
+                            ? NetworkImage(barterUser.photoUrl ?? '')
+                            : AssetImage(
+                                'assets/images/profile_placeholder.png',
+                              ),
+                      ),
                     ),
-                    child: CircleAvatar(
-                      backgroundImage: barterUser.photoUrl != null
-                          ? NetworkImage(barterUser.photoUrl ?? '')
-                          : AssetImage(
-                              'assets/images/profile_placeholder.png',
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            '${barterUser.name ?? ''}',
+                            style: TextStyle(
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.bold,
                             ),
-                    ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          '${barterUser.name ?? ''}',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.bold,
                           ),
-                        ),
-                        Text(
-                          '${barterMessageModel.lastMessageText ?? ''}',
-                          style: TextStyle(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.normal,
+                          Text(
+                            '${barterMessageModel.lastMessageText ?? ''}',
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.normal,
+                            ),
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              )
-            : Container(),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.blockSizeHorizontal * 5,
+                  ],
+                )
+              : Container(),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: appSizeConfig.blockSizeHorizontal * 5,
+            ),
+            child: Divider(),
           ),
-          child: Divider(),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  void _onTappedMessageItem(BuildContext context) {
+  void _onTappedMessageItem(BuildContext context, UserModel barterUser) {
     debugPrint('Message item tapped');
 
     Navigator.of(context).push(
       MaterialPageRoute(builder: (context) {
-        return ConversationScreen();
+        return ConversationOfferScreen(barterMessageModel, barterUser);
       }),
     );
   }

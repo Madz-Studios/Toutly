@@ -14,7 +14,7 @@ abstract class FirestoreBarterRepository {
 
   Stream<QuerySnapshot> getPublicBarterItemsUsingUserId(String userId);
 
-  Future<List<BarterModel>> getFutureAllLikesBarterItemsUsingItemIdList(
+  Future<List<BarterModel>> getFutureAllBarterItemsUsingItemIdList(
       List<String> itemIds);
 
   Future<void> updateBarterItem(BarterModel barterModel);
@@ -31,8 +31,6 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     this.firestore,
     this.firebaseStorage,
   );
-
-  static const limit = 10;
 
   final FirebaseFirestore firestore;
   final FirebaseStorage firebaseStorage;
@@ -115,29 +113,6 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     return query;
   }
 
-//  @override
-//  Future<List<BarterModel>> getFutureAllBarterItemsUsingUserId(
-//      String userId) async {
-//    final String barterCollection =
-//        FirestoreCollectionNames.barterItemsCollection;
-//
-//    final barterItems = await firestore
-//        .collection(barterCollection)
-//        .where('userId', isEqualTo: userId)
-//        .orderBy('dateCreated', descending: true)
-//        .getDocuments();
-//
-//    List<BarterModel> listBarterItems = [];
-//    if (barterItems.documents.isNotEmpty) {
-//      for (final item in barterItems.documents) {
-//        final barterModel = BarterModel.fromJson(item.data);
-//
-//        listBarterItems.add(barterModel);
-//      }
-//    }
-//    return listBarterItems;
-//  }
-
   /// Update a barter item in barter firestore collection using [itemId].
   @override
   Future<void> updateBarterItem(BarterModel barterModel) async {
@@ -185,7 +160,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   }
 
   @override
-  Future<List<BarterModel>> getFutureAllLikesBarterItemsUsingItemIdList(
+  Future<List<BarterModel>> getFutureAllBarterItemsUsingItemIdList(
       List<String> itemIds) async {
     List<BarterModel> listBarterItems = [];
 

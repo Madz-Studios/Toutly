@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
-import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
@@ -20,7 +19,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ViewBarterItemScreen extends StatelessWidget {
   final _currentUserCubit = getIt<CurrentUserCubit>();
-  final _otherUserCubit = getIt<OtherUserCubit>();
   final _deleteBarterModelCurrentUserCubit =
       getIt<DeleteBarterModelCurrentUserCubit>();
 
@@ -30,9 +28,11 @@ class ViewBarterItemScreen extends StatelessWidget {
   ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
   final bool isDialog;
   final BarterModel barterModel;
+  final bool showMakeOfferButton; // hide/show make an offer button
   ViewBarterItemScreen({
     @required this.isDialog,
     @required this.barterModel,
+    this.showMakeOfferButton = true,
   });
   @override
   Widget build(BuildContext context) {
@@ -221,12 +221,14 @@ class ViewBarterItemScreen extends StatelessWidget {
     if (currentUser?.userId == barterModel?.userId) {
       return Container();
     } else {
-      return ActionButton(
-        title: 'Make an offer',
-        onPressed: () {
-          _makeOfferPressed(context, barterModel);
-        },
-      );
+      return showMakeOfferButton
+          ? ActionButton(
+              title: 'Make an offer',
+              onPressed: () {
+                _makeOfferPressed(context, barterModel);
+              },
+            )
+          : Container();
     }
   }
 
@@ -335,7 +337,5 @@ class ViewBarterItemScreen extends StatelessWidget {
 
     _singleBarterItemOtherUserCubit
         .setOtherUserSingleBarterItem(otherUserBarterModel);
-
-    _otherUserCubit.getOtherUser(otherUserBarterModel.userId);
   }
 }

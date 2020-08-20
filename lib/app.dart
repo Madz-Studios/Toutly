@@ -6,8 +6,9 @@ import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_l
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
-import 'package:Toutly/core/cubits/likes/current_user/likes_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
@@ -30,6 +31,7 @@ import 'package:google_map_location_picker/generated/i18n.dart'
     as location_picker;
 import 'package:google_map_location_picker/generated/i18n.dart';
 
+import 'core/cubits/saved/current_user/saved_barter_items_cubit.dart';
 import 'flavors.dart';
 
 class App extends StatelessWidget {
@@ -58,8 +60,8 @@ class App extends StatelessWidget {
               getIt<PublicListBarterModelCurrentUserCubit>(),
         ),
 
-        BlocProvider<LikesCurrentUserCubit>(
-          create: (BuildContext context) => getIt<LikesCurrentUserCubit>(),
+        BlocProvider<SavedBarterItemCubit>(
+          create: (BuildContext context) => getIt<SavedBarterItemCubit>(),
         ),
 
         BlocProvider<SingleBarterItemOtherUserCubit>(
@@ -135,6 +137,22 @@ class App extends StatelessWidget {
 
         BlocProvider<BarterMessageCubit>(
           create: (BuildContext context) => getIt<BarterMessageCubit>(),
+        ),
+
+        BlocProvider<BarterMessageCubit>(
+          create: (BuildContext context) => getIt<BarterMessageCubit>(),
+        ),
+
+        BlocProvider<BarterItemsCubit>(
+          create: (BuildContext context) => getIt<BarterItemsCubit>(),
+        ),
+
+        BlocProvider<BarterItemsCubit>(
+          create: (BuildContext context) => getIt<BarterItemsCubit>(),
+        ),
+
+        BlocProvider<OfferItemsCubit>(
+          create: (BuildContext context) => getIt<OfferItemsCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

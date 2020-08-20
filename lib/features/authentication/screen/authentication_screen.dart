@@ -35,6 +35,10 @@ class AuthenticationScreen extends StatelessWidget {
                 builder: (_, remoteConfigState) {
                   return BlocBuilder<CurrentUserCubit, CurrentUserState>(
                     builder: (_, currentUserState) {
+                      debugPrint('currentUserState = ${currentUserState.info}');
+                      debugPrint(
+                          'remoteConfigState = ${remoteConfigState.info}');
+                      debugPrint('locationState = ${locationState.info}');
                       if (locationState.isSuccess &&
                           remoteConfigState.isSuccess &&
                           currentUserState.isSuccess) {

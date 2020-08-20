@@ -19,6 +19,7 @@ import 'package:uuid/uuid.dart';
 import '../cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import '../cubits/apple_sign/apple_sign_cubit.dart';
 import '../cubits/auth/auth_cubit.dart';
+import '../cubits/barter_messages/barter/items/barter_items_cubit.dart';
 import '../cubits/barter_messages/barter/barter_message_cubit.dart';
 import '../cubits/user/current_user/current_user_cubit.dart';
 import '../cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
@@ -39,9 +40,11 @@ import '../usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import '../usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
 import '../usecases/user/firestore_create_user_usecase.dart';
 import '../usecases/barter_item/firestore_delete_barter_item_use_case.dart';
+import '../usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
+import '../usecases/barter_messages/items/firestore_get_all_user_offer_items_use_case.dart';
 import '../usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import '../usecases/barter_item/firestore_get_private_barter_items_using_user_id.dart';
 import '../usecases/barter_item/firestore_get_public_barter_items_using_user_id.dart';
@@ -50,7 +53,6 @@ import '../usecases/barter_item/firestore_update_barter_item_use_case.dart';
 import '../usecases/user/firestore_update_user_usecase.dart';
 import '../repositories/user/firestore_user_repository.dart';
 import 'module_injector.dart';
-import '../cubits/likes/current_user/likes_current_user_cubit.dart';
 import '../usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
 import '../usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
 import '../usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_longitude_usecase.dart';
@@ -59,12 +61,14 @@ import '../repositories/local/local_shared_pref_repository.dart';
 import '../cubits/location/location_cubit.dart';
 import '../cubits/make_offer/make_offer_cubit.dart';
 import '../cubits/navigation/navigation_cubit.dart';
+import '../cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import '../cubits/barter_messages/offer/offer_message_cubit.dart';
 import '../cubits/user/other_user/other_user_cubit.dart';
 import '../cubits/post_barter/post_barter_cubit.dart';
 import '../cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
 import '../cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
 import '../cubits/remote_config/remote_config_cubit.dart';
+import '../cubits/saved/current_user/saved_barter_items_cubit.dart';
 import '../cubits/search_config/search_config_cubit.dart';
 import '../cubits/search/search_cubit.dart';
 import '../cubits/sign/sign_cubit.dart';
@@ -108,6 +112,9 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<FirestoreDeleteBarterItemUseCase>(() =>
       FirestoreDeleteBarterItemUseCase(
           firestoreBarterRepository: get<FirestoreBarterRepository>()));
+  gh.lazySingleton<FirestoreGetAllBarterItemsUseCase>(() =>
+      FirestoreGetAllBarterItemsUseCase(
+          firestoreBarterRepository: get<FirestoreBarterRepository>()));
   gh.lazySingleton<FirestoreGetAllBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: get<FirestoreBarterRepository>()));
@@ -118,6 +125,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllLikesBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: get<FirestoreBarterRepository>()));
+  gh.lazySingleton<FirestoreGetAllOfferItemsUseCase>(
+      () => FirestoreGetAllOfferItemsUseCase(get<FirestoreBarterRepository>()));
   gh.lazySingleton<FirestoreGetAllOfferMessagesUseCase>(() =>
       FirestoreGetAllOfferMessagesUseCase(
           firestoreBarterMessagesRepository:
@@ -135,10 +144,10 @@ Future<GetIt> $initGetIt(
       () => FirestoreUserRepositoryImpl(get<FirebaseFirestore>()));
   gh.lazySingleton<Geolocator>(() => injectableModule.geoLocator);
   gh.lazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
-  gh.lazySingleton<LikesCurrentUserCubit>(() => LikesCurrentUserCubit(
-      get<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>()));
   gh.lazySingleton<LocationCubit>(() => LocationCubit(get<Geolocator>()));
   gh.lazySingleton<NavigationCubit>(() => NavigationCubit());
+  gh.lazySingleton<OfferItemsCubit>(
+      () => OfferItemsCubit(get<FirestoreGetAllOfferItemsUseCase>()));
   gh.lazySingleton<OfferMessageCubit>(
       () => OfferMessageCubit(get<FirestoreGetAllOfferMessagesUseCase>()));
   gh.lazySingleton<PrivateListBarterModelCurrentUserCubit>(() =>
@@ -151,6 +160,8 @@ Future<GetIt> $initGetIt(
   gh.factory<RemoteConfig>(() => remoteConfig);
   gh.lazySingleton<RemoteConfigCubit>(
       () => RemoteConfigCubit(get<RemoteConfig>()));
+  gh.lazySingleton<SavedBarterItemCubit>(() => SavedBarterItemCubit(
+      get<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>()));
   gh.lazySingleton<SearchConfigCubit>(() => SearchConfigCubit());
   gh.lazySingleton<SearchCubit>(() => SearchCubit(get<Geolocator>()));
   final sharedPreferences = await injectableModule.sharedPreferences;
@@ -162,6 +173,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<AllListBarterModelCurrentUserCubit>(() =>
       AllListBarterModelCurrentUserCubit(
           get<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
+  gh.lazySingleton<BarterItemsCubit>(
+      () => BarterItemsCubit(get<FirestoreGetAllBarterItemsUseCase>()));
   gh.lazySingleton<BarterMessageCubit>(
       () => BarterMessageCubit(get<FirestoreGetAllBarterMessagesUseCase>()));
   gh.lazySingleton<DeleteBarterModelCurrentUserCubit>(() =>

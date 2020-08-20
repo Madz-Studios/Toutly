@@ -6,27 +6,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
-part 'likes_current_user_cubit.freezed.dart';
-part 'likes_current_user_state.dart';
+part 'saved_barter_items_cubit.freezed.dart';
+part 'saved_barter_items_state.dart';
 
 @lazySingleton
-class LikesCurrentUserCubit extends Cubit<LikesCurrentUserState> {
+class SavedBarterItemCubit extends Cubit<SavedBarterItemsState> {
   final FirestoreGetAllLikesBarterItemsUsingUserIdUseCase
       firestoreGetAllLikesBarterItemsUsingUserIdUseCase;
 
-  LikesCurrentUserCubit(
+  SavedBarterItemCubit(
     this.firestoreGetAllLikesBarterItemsUsingUserIdUseCase,
-  ) : super(LikesCurrentUserState.empty());
+  ) : super(SavedBarterItemsState.empty());
 
-  getCurrentUserLikesBarterItems(List<String> itemIds) {
+  getCurrentUserLikesBarterItems(List<String> itemIds) async {
     try {
-      emit(LikesCurrentUserState.loading());
-      final listings = firestoreGetAllLikesBarterItemsUsingUserIdUseCase.call(
-        UseCaseUserIdWithItemIdListParam.init(itemIds),
+      emit(SavedBarterItemsState.loading());
+      final listings =
+          await firestoreGetAllLikesBarterItemsUsingUserIdUseCase.call(
+        UseCaseItemIdListParam.init(itemIds),
       );
-      emit(LikesCurrentUserState.success(listings: listings, info: 'Success'));
+      emit(SavedBarterItemsState.success(listings: listings, info: 'Success'));
     } on PlatformException catch (platformException) {
-      emit(LikesCurrentUserState.failure(info: platformException.message));
+      emit(SavedBarterItemsState.failure(info: platformException.message));
     }
   }
 }

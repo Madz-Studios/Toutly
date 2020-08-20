@@ -241,42 +241,151 @@ abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
   $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith;
 }
 
-class _$UseCaseUserIdWithItemIdListParamTearOff {
-  const _$UseCaseUserIdWithItemIdListParamTearOff();
+class _$UseCaseItemIdParamTearOff {
+  const _$UseCaseItemIdParamTearOff();
 
-  UseCaseUserIdWithItemIdListParamInit init(List<String> itemIds) {
-    return UseCaseUserIdWithItemIdListParamInit(
+  UseCaseItemIdParamInit init(String itemId) {
+    return UseCaseItemIdParamInit(
+      itemId,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseItemIdParam = _$UseCaseItemIdParamTearOff();
+
+mixin _$UseCaseItemIdParam {
+  String get itemId;
+
+  $UseCaseItemIdParamCopyWith<UseCaseItemIdParam> get copyWith;
+}
+
+abstract class $UseCaseItemIdParamCopyWith<$Res> {
+  factory $UseCaseItemIdParamCopyWith(
+          UseCaseItemIdParam value, $Res Function(UseCaseItemIdParam) then) =
+      _$UseCaseItemIdParamCopyWithImpl<$Res>;
+  $Res call({String itemId});
+}
+
+class _$UseCaseItemIdParamCopyWithImpl<$Res>
+    implements $UseCaseItemIdParamCopyWith<$Res> {
+  _$UseCaseItemIdParamCopyWithImpl(this._value, this._then);
+
+  final UseCaseItemIdParam _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseItemIdParam) _then;
+
+  @override
+  $Res call({
+    Object itemId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      itemId: itemId == freezed ? _value.itemId : itemId as String,
+    ));
+  }
+}
+
+abstract class $UseCaseItemIdParamInitCopyWith<$Res>
+    implements $UseCaseItemIdParamCopyWith<$Res> {
+  factory $UseCaseItemIdParamInitCopyWith(UseCaseItemIdParamInit value,
+          $Res Function(UseCaseItemIdParamInit) then) =
+      _$UseCaseItemIdParamInitCopyWithImpl<$Res>;
+  @override
+  $Res call({String itemId});
+}
+
+class _$UseCaseItemIdParamInitCopyWithImpl<$Res>
+    extends _$UseCaseItemIdParamCopyWithImpl<$Res>
+    implements $UseCaseItemIdParamInitCopyWith<$Res> {
+  _$UseCaseItemIdParamInitCopyWithImpl(UseCaseItemIdParamInit _value,
+      $Res Function(UseCaseItemIdParamInit) _then)
+      : super(_value, (v) => _then(v as UseCaseItemIdParamInit));
+
+  @override
+  UseCaseItemIdParamInit get _value => super._value as UseCaseItemIdParamInit;
+
+  @override
+  $Res call({
+    Object itemId = freezed,
+  }) {
+    return _then(UseCaseItemIdParamInit(
+      itemId == freezed ? _value.itemId : itemId as String,
+    ));
+  }
+}
+
+class _$UseCaseItemIdParamInit implements UseCaseItemIdParamInit {
+  const _$UseCaseItemIdParamInit(this.itemId) : assert(itemId != null);
+
+  @override
+  final String itemId;
+
+  @override
+  String toString() {
+    return 'UseCaseItemIdParam.init(itemId: $itemId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseItemIdParamInit &&
+            (identical(other.itemId, itemId) ||
+                const DeepCollectionEquality().equals(other.itemId, itemId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(itemId);
+
+  @override
+  $UseCaseItemIdParamInitCopyWith<UseCaseItemIdParamInit> get copyWith =>
+      _$UseCaseItemIdParamInitCopyWithImpl<UseCaseItemIdParamInit>(
+          this, _$identity);
+}
+
+abstract class UseCaseItemIdParamInit implements UseCaseItemIdParam {
+  const factory UseCaseItemIdParamInit(String itemId) =
+      _$UseCaseItemIdParamInit;
+
+  @override
+  String get itemId;
+  @override
+  $UseCaseItemIdParamInitCopyWith<UseCaseItemIdParamInit> get copyWith;
+}
+
+class _$UseCaseItemIdListParamTearOff {
+  const _$UseCaseItemIdListParamTearOff();
+
+  UseCaseItemIdListParamInit init(List<String> itemIds) {
+    return UseCaseItemIdListParamInit(
       itemIds,
     );
   }
 }
 
 // ignore: unused_element
-const $UseCaseUserIdWithItemIdListParam =
-    _$UseCaseUserIdWithItemIdListParamTearOff();
+const $UseCaseItemIdListParam = _$UseCaseItemIdListParamTearOff();
 
-mixin _$UseCaseUserIdWithItemIdListParam {
+mixin _$UseCaseItemIdListParam {
   List<String> get itemIds;
 
-  $UseCaseUserIdWithItemIdListParamCopyWith<UseCaseUserIdWithItemIdListParam>
-      get copyWith;
+  $UseCaseItemIdListParamCopyWith<UseCaseItemIdListParam> get copyWith;
 }
 
-abstract class $UseCaseUserIdWithItemIdListParamCopyWith<$Res> {
-  factory $UseCaseUserIdWithItemIdListParamCopyWith(
-          UseCaseUserIdWithItemIdListParam value,
-          $Res Function(UseCaseUserIdWithItemIdListParam) then) =
-      _$UseCaseUserIdWithItemIdListParamCopyWithImpl<$Res>;
+abstract class $UseCaseItemIdListParamCopyWith<$Res> {
+  factory $UseCaseItemIdListParamCopyWith(UseCaseItemIdListParam value,
+          $Res Function(UseCaseItemIdListParam) then) =
+      _$UseCaseItemIdListParamCopyWithImpl<$Res>;
   $Res call({List<String> itemIds});
 }
 
-class _$UseCaseUserIdWithItemIdListParamCopyWithImpl<$Res>
-    implements $UseCaseUserIdWithItemIdListParamCopyWith<$Res> {
-  _$UseCaseUserIdWithItemIdListParamCopyWithImpl(this._value, this._then);
+class _$UseCaseItemIdListParamCopyWithImpl<$Res>
+    implements $UseCaseItemIdListParamCopyWith<$Res> {
+  _$UseCaseItemIdListParamCopyWithImpl(this._value, this._then);
 
-  final UseCaseUserIdWithItemIdListParam _value;
+  final UseCaseItemIdListParam _value;
   // ignore: unused_field
-  final $Res Function(UseCaseUserIdWithItemIdListParam) _then;
+  final $Res Function(UseCaseItemIdListParam) _then;
 
   @override
   $Res call({
@@ -288,55 +397,51 @@ class _$UseCaseUserIdWithItemIdListParamCopyWithImpl<$Res>
   }
 }
 
-abstract class $UseCaseUserIdWithItemIdListParamInitCopyWith<$Res>
-    implements $UseCaseUserIdWithItemIdListParamCopyWith<$Res> {
-  factory $UseCaseUserIdWithItemIdListParamInitCopyWith(
-          UseCaseUserIdWithItemIdListParamInit value,
-          $Res Function(UseCaseUserIdWithItemIdListParamInit) then) =
-      _$UseCaseUserIdWithItemIdListParamInitCopyWithImpl<$Res>;
+abstract class $UseCaseItemIdListParamInitCopyWith<$Res>
+    implements $UseCaseItemIdListParamCopyWith<$Res> {
+  factory $UseCaseItemIdListParamInitCopyWith(UseCaseItemIdListParamInit value,
+          $Res Function(UseCaseItemIdListParamInit) then) =
+      _$UseCaseItemIdListParamInitCopyWithImpl<$Res>;
   @override
   $Res call({List<String> itemIds});
 }
 
-class _$UseCaseUserIdWithItemIdListParamInitCopyWithImpl<$Res>
-    extends _$UseCaseUserIdWithItemIdListParamCopyWithImpl<$Res>
-    implements $UseCaseUserIdWithItemIdListParamInitCopyWith<$Res> {
-  _$UseCaseUserIdWithItemIdListParamInitCopyWithImpl(
-      UseCaseUserIdWithItemIdListParamInit _value,
-      $Res Function(UseCaseUserIdWithItemIdListParamInit) _then)
-      : super(_value, (v) => _then(v as UseCaseUserIdWithItemIdListParamInit));
+class _$UseCaseItemIdListParamInitCopyWithImpl<$Res>
+    extends _$UseCaseItemIdListParamCopyWithImpl<$Res>
+    implements $UseCaseItemIdListParamInitCopyWith<$Res> {
+  _$UseCaseItemIdListParamInitCopyWithImpl(UseCaseItemIdListParamInit _value,
+      $Res Function(UseCaseItemIdListParamInit) _then)
+      : super(_value, (v) => _then(v as UseCaseItemIdListParamInit));
 
   @override
-  UseCaseUserIdWithItemIdListParamInit get _value =>
-      super._value as UseCaseUserIdWithItemIdListParamInit;
+  UseCaseItemIdListParamInit get _value =>
+      super._value as UseCaseItemIdListParamInit;
 
   @override
   $Res call({
     Object itemIds = freezed,
   }) {
-    return _then(UseCaseUserIdWithItemIdListParamInit(
+    return _then(UseCaseItemIdListParamInit(
       itemIds == freezed ? _value.itemIds : itemIds as List<String>,
     ));
   }
 }
 
-class _$UseCaseUserIdWithItemIdListParamInit
-    implements UseCaseUserIdWithItemIdListParamInit {
-  const _$UseCaseUserIdWithItemIdListParamInit(this.itemIds)
-      : assert(itemIds != null);
+class _$UseCaseItemIdListParamInit implements UseCaseItemIdListParamInit {
+  const _$UseCaseItemIdListParamInit(this.itemIds) : assert(itemIds != null);
 
   @override
   final List<String> itemIds;
 
   @override
   String toString() {
-    return 'UseCaseUserIdWithItemIdListParam.init(itemIds: $itemIds)';
+    return 'UseCaseItemIdListParam.init(itemIds: $itemIds)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other is UseCaseUserIdWithItemIdListParamInit &&
+        (other is UseCaseItemIdListParamInit &&
             (identical(other.itemIds, itemIds) ||
                 const DeepCollectionEquality().equals(other.itemIds, itemIds)));
   }
@@ -346,20 +451,18 @@ class _$UseCaseUserIdWithItemIdListParamInit
       runtimeType.hashCode ^ const DeepCollectionEquality().hash(itemIds);
 
   @override
-  $UseCaseUserIdWithItemIdListParamInitCopyWith<
-          UseCaseUserIdWithItemIdListParamInit>
-      get copyWith => _$UseCaseUserIdWithItemIdListParamInitCopyWithImpl<
-          UseCaseUserIdWithItemIdListParamInit>(this, _$identity);
+  $UseCaseItemIdListParamInitCopyWith<UseCaseItemIdListParamInit>
+      get copyWith =>
+          _$UseCaseItemIdListParamInitCopyWithImpl<UseCaseItemIdListParamInit>(
+              this, _$identity);
 }
 
-abstract class UseCaseUserIdWithItemIdListParamInit
-    implements UseCaseUserIdWithItemIdListParam {
-  const factory UseCaseUserIdWithItemIdListParamInit(List<String> itemIds) =
-      _$UseCaseUserIdWithItemIdListParamInit;
+abstract class UseCaseItemIdListParamInit implements UseCaseItemIdListParam {
+  const factory UseCaseItemIdListParamInit(List<String> itemIds) =
+      _$UseCaseItemIdListParamInit;
 
   @override
   List<String> get itemIds;
   @override
-  $UseCaseUserIdWithItemIdListParamInitCopyWith<
-      UseCaseUserIdWithItemIdListParamInit> get copyWith;
+  $UseCaseItemIdListParamInitCopyWith<UseCaseItemIdListParamInit> get copyWith;
 }

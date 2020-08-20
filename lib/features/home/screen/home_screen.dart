@@ -199,7 +199,6 @@ class _BarterItem extends StatelessWidget {
                       builder: (BuildContext context,
                           AsyncSnapshot<UserModel> snapshot) {
                         switch (snapshot.connectionState) {
-                          case ConnectionState.waiting:
                           case ConnectionState.done:
                             if (snapshot.hasError)
                               return LoadingOrErrorWidgetUtil(

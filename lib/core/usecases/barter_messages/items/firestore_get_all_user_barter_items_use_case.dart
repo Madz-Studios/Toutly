@@ -5,17 +5,14 @@ import 'package:Toutly/core/usecases/param/usecase.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class FirestoreGetAllLikesBarterItemsUsingUserIdUseCase
-    implements UseCaseFirestoreQuery<void, UseCaseItemIdListParam> {
+class FirestoreGetAllBarterItemsUseCase
+    implements UseCaseFirestoreQuery<void, UseCaseItemIdParam> {
   final FirestoreBarterRepository firestoreBarterRepository;
 
-  FirestoreGetAllLikesBarterItemsUsingUserIdUseCase(
-      {this.firestoreBarterRepository});
+  FirestoreGetAllBarterItemsUseCase({this.firestoreBarterRepository});
 
   @override
-  Future<List<BarterModel>> call(UseCaseItemIdListParam params) {
-    return firestoreBarterRepository.getFutureAllBarterItemsUsingItemIdList(
-      params.itemIds,
-    );
+  Future<BarterModel> call(UseCaseItemIdParam params) {
+    return firestoreBarterRepository.getBarterUsingItemId(params.itemId);
   }
 }
