@@ -13,6 +13,7 @@ import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
+import 'package:Toutly/shared/widgets/saved_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -136,7 +137,20 @@ class ViewBarterItemScreen extends StatelessWidget {
       children: [
         Flexible(
           flex: 1,
-          child: CarouselSliderCustom(barterModel.photosUrl ?? []),
+          child: Stack(
+            children: [
+              CarouselSliderCustom(barterModel.photosUrl ?? []),
+              if (barterModel.userId != currentUser.userId)
+                Align(
+                  alignment: Alignment.topRight,
+                  child: SavedPanel(
+                    itemId: barterModel.itemId,
+                  ),
+                )
+              else
+                Container(),
+            ],
+          ),
         ),
         Flexible(
           flex: 1,
