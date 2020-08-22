@@ -25,7 +25,7 @@ class _PrivateUserBarterItemsScreenState
   @override
   void initState() {
     super.initState();
-    _privateBarterCubit.getCurrentUserPrivateBarterItems(widget.userId);
+    _privateBarterCubit.getCurrentUserPrivateBarterItems(widget.userId ?? '');
   }
 
   @override
