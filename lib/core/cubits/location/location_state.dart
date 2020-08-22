@@ -29,7 +29,7 @@ abstract class LocationState with _$LocationState {
         info: '',
       );
 
-  factory LocationState.failure(String info) => LocationState(
+  factory LocationState.failure({String info}) => LocationState(
         geoPoint: GeoPoint(0, 0),
         placeMark: Placemark(),
         isSubmitting: false,

@@ -11,6 +11,7 @@ import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:bloc/bloc.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -104,6 +105,10 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully registered'));
     } on PlatformException catch (platformException) {
       emit(SignState.failure(info: platformException.message));
+    } on FirebaseAuthException catch (e) {
+      emit(SignState.failure(info: e.message));
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
     }
   }
 
@@ -119,6 +124,10 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
+    } on FirebaseAuthException catch (e) {
+      emit(SignState.failure(info: e.message));
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
     }
   }
 
@@ -131,6 +140,10 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
+    } on FirebaseAuthException catch (e) {
+      emit(SignState.failure(info: e.message));
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
     }
   }
 
@@ -145,6 +158,10 @@ class SignCubit extends Cubit<SignState> {
       if (platFormException.code != 'ERROR_ABORTED_BY_USER') {
         emit(SignState.failure(info: platFormException.message));
       }
+    } on FirebaseAuthException catch (e) {
+      emit(SignState.failure(info: e.message));
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
     }
   }
 
@@ -159,6 +176,10 @@ class SignCubit extends Cubit<SignState> {
       if (platFormException.code != 'ERROR_ABORTED_BY_USER') {
         emit(SignState.failure(info: platFormException.message));
       }
+    } on FirebaseAuthException catch (e) {
+      emit(SignState.failure(info: e.message));
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
     }
   }
 

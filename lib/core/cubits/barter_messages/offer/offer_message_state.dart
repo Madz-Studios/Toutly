@@ -26,7 +26,7 @@ abstract class OfferMessageState with _$OfferMessageState {
         info: '',
       );
 
-  factory OfferMessageState.failure(String info) => OfferMessageState(
+  factory OfferMessageState.failure({String info}) => OfferMessageState(
         offerMessages: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,

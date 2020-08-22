@@ -28,6 +28,8 @@ class SavedBarterItemCubit extends Cubit<SavedBarterItemsState> {
       emit(SavedBarterItemsState.success(listings: listings, info: 'Success'));
     } on PlatformException catch (platformException) {
       emit(SavedBarterItemsState.failure(info: platformException.message));
+    } on Exception catch (e) {
+      emit(SavedBarterItemsState.failure(info: e.toString()));
     }
   }
 }

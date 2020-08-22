@@ -25,7 +25,9 @@ class OfferItemsCubit extends Cubit<OfferItemsState> {
       );
       emit(OfferItemsState.success(offerItems: offerItems, info: 'Success'));
     } on PlatformException catch (platformException) {
-      emit(OfferItemsState.failure(platformException.message));
+      emit(OfferItemsState.failure(info: platformException.message));
+    } on Exception catch (e) {
+      emit(OfferItemsState.failure(info: e.toString()));
     }
   }
 }

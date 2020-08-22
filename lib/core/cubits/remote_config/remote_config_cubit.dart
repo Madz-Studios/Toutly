@@ -45,7 +45,9 @@ class RemoteConfigCubit extends Cubit<RemoteConfigState> {
         info: 'Remote Config Success',
       ));
     } on PlatformException catch (platFormException) {
-      emit(RemoteConfigState.failure(platFormException.message));
+      emit(RemoteConfigState.failure(info: platFormException.message));
+    } on Exception catch (e) {
+      emit(RemoteConfigState.failure(info: e.toString()));
     }
   }
 }

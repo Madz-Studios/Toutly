@@ -59,7 +59,9 @@ class SearchCubit extends Cubit<SearchState> {
         info: 'Success',
       ));
     } on PlatformException catch (platFormException) {
-      emit(SearchState.failure(platFormException.message));
+      emit(SearchState.failure(info: platFormException.message));
+    } on Exception catch (e) {
+      emit(SearchState.failure(info: e.toString()));
     }
   }
 

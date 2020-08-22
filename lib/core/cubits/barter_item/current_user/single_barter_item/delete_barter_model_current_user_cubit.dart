@@ -27,8 +27,10 @@ class DeleteBarterModelCurrentUserCubit
       );
       emit(DeleteBarterModelCurrentUserState.success('Delete Success'));
     } on PlatformException catch (platformException) {
-      emit(
-          DeleteBarterModelCurrentUserState.failure(platformException.message));
+      emit(DeleteBarterModelCurrentUserState.failure(
+          info: platformException.message));
+    } on Exception catch (e) {
+      emit(DeleteBarterModelCurrentUserState.failure(info: e.toString()));
     }
   }
 }

@@ -26,7 +26,7 @@ abstract class BarterItemsState with _$BarterItemsState {
         info: '',
       );
 
-  factory BarterItemsState.failure(String info) => BarterItemsState(
+  factory BarterItemsState.failure({String info}) => BarterItemsState(
         barterItem: BarterModel(),
         isSubmitting: false,
         isSuccess: false,

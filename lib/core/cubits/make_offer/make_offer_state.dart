@@ -21,7 +21,7 @@ abstract class MakeOfferState implements _$MakeOfferState {
         info: '',
       );
 
-  factory MakeOfferState.failure(String info) => MakeOfferState(
+  factory MakeOfferState.failure({String info}) => MakeOfferState(
         pickedBarterItems: Map<String, BarterModel>(),
         isMessageValid: true,
         isSubmitting: false,

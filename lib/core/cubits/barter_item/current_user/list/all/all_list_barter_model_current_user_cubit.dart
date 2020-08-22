@@ -30,6 +30,8 @@ class AllListBarterModelCurrentUserCubit
     } on PlatformException catch (platformException) {
       emit(AllListBarterModelCurrentUserState.failure(
           info: platformException.message));
+    } on Exception catch (e) {
+      emit(AllListBarterModelCurrentUserState.failure(info: e.toString()));
     }
   }
 }

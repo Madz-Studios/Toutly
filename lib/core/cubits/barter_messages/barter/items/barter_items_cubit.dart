@@ -25,7 +25,9 @@ class BarterItemsCubit extends Cubit<BarterItemsState> {
       );
       emit(BarterItemsState.success(barterItem: barterItem, info: 'Success'));
     } on PlatformException catch (platformException) {
-      emit(BarterItemsState.failure(platformException.message));
+      emit(BarterItemsState.failure(info: platformException.message));
+    } on Exception catch (e) {
+      emit(BarterItemsState.failure(info: e.toString()));
     }
   }
 }

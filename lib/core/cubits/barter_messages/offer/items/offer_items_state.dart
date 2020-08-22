@@ -26,7 +26,7 @@ abstract class OfferItemsState with _$OfferItemsState {
         info: '',
       );
 
-  factory OfferItemsState.failure(String info) => OfferItemsState(
+  factory OfferItemsState.failure({String info}) => OfferItemsState(
         offerItems: [],
         isSubmitting: false,
         isSuccess: false,

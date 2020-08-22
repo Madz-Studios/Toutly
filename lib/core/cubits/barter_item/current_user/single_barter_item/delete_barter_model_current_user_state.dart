@@ -26,7 +26,7 @@ abstract class DeleteBarterModelCurrentUserState
         info: '',
       );
 
-  factory DeleteBarterModelCurrentUserState.failure(String info) =>
+  factory DeleteBarterModelCurrentUserState.failure({String info}) =>
       DeleteBarterModelCurrentUserState(
         isSubmitting: false,
         isSuccess: false,

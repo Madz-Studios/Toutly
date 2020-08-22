@@ -38,13 +38,15 @@ class LocationCubit extends Cubit<LocationState> {
       emit(LocationState.success(
           geoPoint: geoPoint, placeMark: place, info: 'Success'));
     } on PlatformException catch (platFormException) {
-      emit(LocationState.failure(platFormException.message));
+      emit(LocationState.failure(info: platFormException.message));
       if (platFormException.code == 'PERMISSION_DENIED') {
         AppSettings.openLocationSettings();
       } else {
         debugPrint('platFormException code ${platFormException.code}');
         debugPrint('platFormException message ${platFormException.message}');
       }
+    } on Exception catch (e) {
+      emit(LocationState.failure(info: e.toString()));
     }
   }
 
@@ -61,13 +63,15 @@ class LocationCubit extends Cubit<LocationState> {
       emit(LocationState.success(
           geoPoint: geoPoint, placeMark: place, info: 'Success'));
     } on PlatformException catch (platFormException) {
-      emit(LocationState.failure(platFormException.message));
+      emit(LocationState.failure(info: platFormException.message));
       if (platFormException.code == 'PERMISSION_DENIED') {
         AppSettings.openLocationSettings();
       } else {
         debugPrint('platFormException code ${platFormException.code}');
         debugPrint('platFormException message ${platFormException.message}');
       }
+    } on Exception catch (e) {
+      emit(LocationState.failure(info: e.toString()));
     }
   }
 }

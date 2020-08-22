@@ -30,6 +30,8 @@ class PrivateListBarterModelCurrentUserCubit
     } on PlatformException catch (platformException) {
       emit(PrivateListBarterModelCurrentUserState.failure(
           info: platformException.message));
+    } on Exception catch (e) {
+      emit(PrivateListBarterModelCurrentUserState.failure(info: e.toString()));
     }
   }
 }

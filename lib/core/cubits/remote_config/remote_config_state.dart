@@ -32,7 +32,7 @@ abstract class RemoteConfigState with _$RemoteConfigState {
         info: '',
       );
 
-  factory RemoteConfigState.failure(String info) => RemoteConfigState(
+  factory RemoteConfigState.failure({String info}) => RemoteConfigState(
         firebaseApiKey: '',
         algoliaAppId: '',
         algoliaSearchApiKey: '',

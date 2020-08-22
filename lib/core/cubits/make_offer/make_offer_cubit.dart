@@ -113,7 +113,9 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
       emit(MakeOfferState.success('Success'));
     } on PlatformException catch (platFormException) {
-      emit(MakeOfferState.failure(platFormException.message));
+      emit(MakeOfferState.failure(info: platFormException.message));
+    } on Exception catch (e) {
+      emit(MakeOfferState.failure(info: e.toString()));
     }
   }
 }

@@ -26,7 +26,7 @@ abstract class SearchState with _$SearchState {
         info: '',
       );
 
-  factory SearchState.failure(String info) => SearchState(
+  factory SearchState.failure({String info}) => SearchState(
         algoliaQuerySnapshot: AlgoliaQuerySnapshot(),
         isSubmitting: false,
         isSuccess: false,

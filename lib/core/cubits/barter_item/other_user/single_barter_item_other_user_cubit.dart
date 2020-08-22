@@ -22,6 +22,8 @@ class SingleBarterItemOtherUserCubit
     } on PlatformException catch (platformException) {
       emit(SingleBarterItemOtherUserState.failure(
           info: platformException.message));
+    } on Exception catch (e) {
+      emit(SingleBarterItemOtherUserState.failure(info: e.toString()));
     }
   }
 }

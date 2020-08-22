@@ -111,6 +111,8 @@ class PostBarterCubit extends Cubit<PostBarterState> {
       ));
     } on PlatformException catch (platFormException) {
       emit(PostBarterState.failure(info: platFormException.message));
+    } on Exception catch (e) {
+      emit(PostBarterState.failure(info: e.toString()));
     }
   }
 

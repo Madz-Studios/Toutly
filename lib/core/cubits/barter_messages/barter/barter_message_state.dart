@@ -26,7 +26,7 @@ abstract class BarterMessageState with _$BarterMessageState {
         info: '',
       );
 
-  factory BarterMessageState.failure(String info) => BarterMessageState(
+  factory BarterMessageState.failure({String info}) => BarterMessageState(
         barterMessages: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
