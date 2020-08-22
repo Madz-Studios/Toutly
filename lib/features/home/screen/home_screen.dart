@@ -225,7 +225,7 @@ class _BarterItem extends StatelessWidget {
                     children: [
                       Center(
                         child: Container(
-                          height: appSizeConfig.blockSizeVertical * 30,
+                          height: appSizeConfig.blockSizeVertical * 22.5,
                           decoration: BoxDecoration(
                             image: DecorationImage(
                               image: CachedNetworkImageProvider(
