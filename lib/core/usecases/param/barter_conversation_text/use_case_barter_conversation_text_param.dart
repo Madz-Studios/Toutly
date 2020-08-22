@@ -7,7 +7,7 @@ part 'use_case_barter_conversation_text_param.freezed.dart';
 abstract class UseCaseBarterConversationTextModelParam
     with _$UseCaseBarterConversationTextModelParam {
   const factory UseCaseBarterConversationTextModelParam.init({
-    @required String messageId,
+    @required String barterMessageId,
     @required BarterConversationTextModel barterConversationTextModel,
   }) = UseCaseBarterTransactionModelParamInit;
 }

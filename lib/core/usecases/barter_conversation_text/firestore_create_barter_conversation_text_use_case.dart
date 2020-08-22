@@ -14,9 +14,8 @@ class FirestoreCreateBarterConversationTextUseCase
 
   @override
   Future<void> call(UseCaseBarterConversationTextModelParam params) async {
-    await firestoreBarterConversationTextRepository
-        .createBarterConversationText(
-      params.messageId,
+    firestoreBarterConversationTextRepository.createBarterConversationText(
+      params.barterMessageId,
       params.barterConversationTextModel,
     );
   }

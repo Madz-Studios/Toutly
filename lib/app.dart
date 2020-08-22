@@ -7,6 +7,7 @@ import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/d
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/conversation/conversation_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
@@ -153,6 +154,10 @@ class App extends StatelessWidget {
 
         BlocProvider<OfferItemsCubit>(
           create: (BuildContext context) => getIt<OfferItemsCubit>(),
+        ),
+
+        BlocProvider<ConversationCubit>(
+          create: (BuildContext context) => getIt<ConversationCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

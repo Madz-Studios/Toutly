@@ -1,4 +1,6 @@
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
@@ -99,12 +101,19 @@ class _MessageBarterItem extends StatelessWidget {
   _MessageBarterItem(this.barterMessageModel);
   final _otherUserCubit = getIt<OtherUserCubit>();
 
+  final _barterItemCubit = getIt<BarterItemsCubit>();
+  final _offerItemCubit = getIt<OfferItemsCubit>();
+
   @override
   Widget build(BuildContext context) {
+    _barterItemCubit.getBarterItem(barterMessageModel.barterItemId);
+    _offerItemCubit.getOfferItems(barterMessageModel.barterOfferItems);
+
     final appSizeConfig = AppSizeConfig(context);
     return FutureBuilder(
       future: _otherUserCubit.getOtherUser(barterMessageModel.userOffer),
       builder: (BuildContext context, AsyncSnapshot<UserModel> snapshot) {
+        debugPrint("_MessageOfferItem Snapshot " + snapshot.toString());
         switch (snapshot.connectionState) {
           case ConnectionState.done:
             if (snapshot.hasError)
