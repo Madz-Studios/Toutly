@@ -173,24 +173,23 @@ class _BarterItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        vertical: appSizeConfig.blockSizeVertical * 1,
-      ),
-      child: Card(
-        child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
-          builder: (_, currentUserState) {
-            final currentUser = currentUserState.currentUserModel;
-            final bool isCurrentUser =
-                currentUser.userId == algoliaBarter.userId;
-            return Column(
+    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+      builder: (_, currentUserState) {
+        final currentUser = currentUserState.currentUserModel;
+        final bool isCurrentUser = currentUser.userId == algoliaBarter.userId;
+        return Padding(
+          padding: EdgeInsets.symmetric(
+            vertical: appSizeConfig.blockSizeVertical * 1,
+          ),
+          child: Card(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(
-                    left: appSizeConfig.blockSizeHorizontal * 5,
-                    top: appSizeConfig.blockSizeVertical * 2.5,
+                    left: appSizeConfig.blockSizeHorizontal * 3,
+                    top: appSizeConfig.blockSizeVertical * 1,
                   ),
                   child: isCurrentUser
                       ? ProfileWithRating(currentUser)
@@ -201,10 +200,11 @@ class _BarterItem extends StatelessWidget {
                               AsyncSnapshot<UserModel> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.done:
-                                if (snapshot.hasError)
+                                if (snapshot.hasError) {
+                                  debugPrint("Snapshot " + snapshot.toString());
                                   return LoadingOrErrorWidgetUtil(
                                       'Error: ${snapshot.error}');
-                                else {
+                                } else {
                                   UserModel otherUserModel = snapshot.data;
                                   return ProfileWithRating(otherUserModel);
                                 }
@@ -216,41 +216,50 @@ class _BarterItem extends StatelessWidget {
                           },
                         ),
                 ),
-                SizedBox(
-                  height: appSizeConfig.blockSizeVertical * 2.5,
-                ),
-                Stack(
-                  children: [
-                    CachedNetworkImage(
-                      imageUrl: algoliaBarter.photosUrl[0],
-                      placeholder: (context, url) => Container(),
-                      errorWidget: (context, url, error) => Icon(Icons.error),
-                    ),
-                    if (!isCurrentUser)
-                      Align(
-                        alignment: Alignment.topRight,
-                        child: SavedPanel(
-                          itemId: algoliaBarter.itemId,
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                    vertical: appSizeConfig.blockSizeVertical * 1,
+                  ),
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Container(
+                          height: appSizeConfig.blockSizeVertical * 30,
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: CachedNetworkImageProvider(
+                                algoliaBarter.photosUrl[0],
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      )
-                    else
-                      Container(),
-                  ],
+                      ),
+                      if (!isCurrentUser)
+                        Align(
+                          alignment: Alignment.topRight,
+                          child: SavedPanel(
+                            itemId: algoliaBarter.itemId,
+                          ),
+                        )
+                      else
+                        Container(),
+                    ],
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(
-                    left: appSizeConfig.blockSizeHorizontal * 2.5,
-                    right: appSizeConfig.blockSizeHorizontal * 2.5,
-                    bottom: appSizeConfig.blockSizeVertical * 2.5,
-                    top: appSizeConfig.blockSizeVertical * 2.5,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                    vertical: appSizeConfig.blockSizeVertical * 1,
                   ),
                   child: _BarterItemDescription(algoliaBarter),
                 )
               ],
-            );
-          },
-        ),
-      ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
