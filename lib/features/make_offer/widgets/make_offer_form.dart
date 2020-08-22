@@ -125,7 +125,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Submitting offer...'),
-                    CircularProgressIndicator(),
                   ],
                 ),
               ),
@@ -140,6 +139,9 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
         }
       },
       builder: (context, makeOfferState) {
+        if (makeOfferState.isSubmitting) {
+          return LoadingOrErrorWidgetUtil('');
+        }
         return GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () {
