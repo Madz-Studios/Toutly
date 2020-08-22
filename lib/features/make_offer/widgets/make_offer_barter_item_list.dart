@@ -71,7 +71,7 @@ class MakeOfferBarterItemList extends StatelessWidget {
                             ),
                           ),
                           ActionButton(
-                            title: 'Continue',
+                            title: 'Create an item',
                             onPressed: () {
                               Navigator.of(context, rootNavigator: true).pop();
                               Navigator.pop(context);
@@ -112,12 +112,6 @@ class MakeOfferBarterItemList extends StatelessWidget {
                           ),
                           SizedBox(
                             height: appSizeConfig.blockSizeVertical * 4,
-                          ),
-                          ActionButton(
-                            title: 'Continue',
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
                           ),
                         ],
                       ),
