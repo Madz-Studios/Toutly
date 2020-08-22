@@ -43,23 +43,6 @@ class ViewBarterItemScreen extends StatelessWidget {
         if (currentUserState.isSuccess) {
           final currentUser = currentUserState.currentUserModel;
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: Colors.white,
-              leading: BackOrCloseButton(
-                buttonColor: kPrimaryColor,
-                isDialog: isDialog,
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-              actions: [
-                _getDeleteWidget(
-                  context,
-                  currentUser,
-                  barterModel,
-                ),
-              ],
-            ),
             body: BlocConsumer<DeleteBarterModelCurrentUserCubit,
                 DeleteBarterModelCurrentUserState>(
               listener: (context, deleteBarterModelCurrentUserState) {
@@ -141,14 +124,35 @@ class ViewBarterItemScreen extends StatelessWidget {
             children: [
               CarouselSliderCustom(barterModel.photosUrl ?? []),
               if (barterModel.userId != currentUser.userId)
-                Align(
-                  alignment: Alignment.topRight,
-                  child: SavedPanel(
-                    itemId: barterModel.itemId,
+                SafeArea(
+                  child: Align(
+                    alignment: Alignment.topRight,
+                    child: SavedPanel(
+                      itemId: barterModel.itemId,
+                    ),
                   ),
                 )
               else
                 Container(),
+              SafeArea(
+                child: _getDeleteWidget(
+                  context,
+                  currentUser,
+                  barterModel,
+                ),
+              ),
+              SafeArea(
+                child: Align(
+                  alignment: Alignment.topLeft,
+                  child: BackOrCloseButton(
+                    buttonColor: kPrimaryColor,
+                    isDialog: isDialog,
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+              ),
             ],
           ),
         ),
