@@ -21,6 +21,7 @@ import '../cubits/apple_sign/apple_sign_cubit.dart';
 import '../cubits/auth/auth_cubit.dart';
 import '../cubits/barter_messages/barter/items/barter_items_cubit.dart';
 import '../cubits/barter_messages/barter/barter_message_cubit.dart';
+import '../cubits/barter_messages/conversation/conversation_cubit.dart';
 import '../cubits/user/current_user/current_user_cubit.dart';
 import '../cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
 import '../repositories/auth/firebase_auth_user_repository.dart';
@@ -43,6 +44,7 @@ import '../usecases/barter_item/firestore_delete_barter_item_use_case.dart';
 import '../usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
+import '../usecases/barter_conversation_text/firestore_get_all_conversation_from_message_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/items/firestore_get_all_user_offer_items_use_case.dart';
 import '../usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
@@ -122,6 +124,10 @@ Future<GetIt> $initGetIt(
       FirestoreGetAllBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
               get<FirestoreBarterMessageRepository>()));
+  gh.lazySingleton<FirestoreGetAllConversationFromMessagesUseCase>(() =>
+      FirestoreGetAllConversationFromMessagesUseCase(
+          firestoreBarterConversationTextRepository:
+              get<FirestoreBarterConversationTextRepository>()));
   gh.lazySingleton<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>(() =>
       FirestoreGetAllLikesBarterItemsUsingUserIdUseCase(
           firestoreBarterRepository: get<FirestoreBarterRepository>()));
@@ -177,6 +183,9 @@ Future<GetIt> $initGetIt(
       () => BarterItemsCubit(get<FirestoreGetAllBarterItemsUseCase>()));
   gh.lazySingleton<BarterMessageCubit>(
       () => BarterMessageCubit(get<FirestoreGetAllBarterMessagesUseCase>()));
+  gh.lazySingleton<ConversationCubit>(() => ConversationCubit(
+      get<FirestoreGetAllConversationFromMessagesUseCase>(),
+      get<FirestoreCreateBarterConversationTextUseCase>()));
   gh.lazySingleton<DeleteBarterModelCurrentUserCubit>(() =>
       DeleteBarterModelCurrentUserCubit(
           get<FirestoreDeleteBarterItemUseCase>()));

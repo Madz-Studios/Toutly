@@ -14,13 +14,6 @@ class FirestoreGetAllBarterMessagesUseCase
   FirestoreGetAllBarterMessagesUseCase(
       {this.firestoreBarterMessagesRepository});
 
-//  @override
-//  Future<List<BarterMessageModel>> call(
-//      UseCaseAllUserBarterMessagesModelParam params) async {
-//    return await firestoreBarterMessagesRepository
-//        .getAllBarterMessagesUsingUserId(params.userId);
-//  }
-
   @override
   Stream<QuerySnapshot> call(UseCaseAllUserMessagesWithUserIdParam params) {
     return firestoreBarterMessagesRepository

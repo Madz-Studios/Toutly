@@ -281,3 +281,150 @@ abstract class UseCaseAllUserBarterMessagesModelParamInit
   $UseCaseAllUserBarterMessagesModelParamInitCopyWith<
       UseCaseAllUserBarterMessagesModelParamInit> get copyWith;
 }
+
+class _$UseCaseAllConversationFromMessagesWithMessageIdParamTearOff {
+  const _$UseCaseAllConversationFromMessagesWithMessageIdParamTearOff();
+
+  UseCaseAllConversationFromMessagesWithMessageIdParamInit init(
+      {@required String messageId}) {
+    return UseCaseAllConversationFromMessagesWithMessageIdParamInit(
+      messageId: messageId,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseAllConversationFromMessagesWithMessageIdParam =
+    _$UseCaseAllConversationFromMessagesWithMessageIdParamTearOff();
+
+mixin _$UseCaseAllConversationFromMessagesWithMessageIdParam {
+  String get messageId;
+
+  $UseCaseAllConversationFromMessagesWithMessageIdParamCopyWith<
+      UseCaseAllConversationFromMessagesWithMessageIdParam> get copyWith;
+}
+
+abstract class $UseCaseAllConversationFromMessagesWithMessageIdParamCopyWith<
+    $Res> {
+  factory $UseCaseAllConversationFromMessagesWithMessageIdParamCopyWith(
+          UseCaseAllConversationFromMessagesWithMessageIdParam value,
+          $Res Function(UseCaseAllConversationFromMessagesWithMessageIdParam)
+              then) =
+      _$UseCaseAllConversationFromMessagesWithMessageIdParamCopyWithImpl<$Res>;
+  $Res call({String messageId});
+}
+
+class _$UseCaseAllConversationFromMessagesWithMessageIdParamCopyWithImpl<$Res>
+    implements
+        $UseCaseAllConversationFromMessagesWithMessageIdParamCopyWith<$Res> {
+  _$UseCaseAllConversationFromMessagesWithMessageIdParamCopyWithImpl(
+      this._value, this._then);
+
+  final UseCaseAllConversationFromMessagesWithMessageIdParam _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseAllConversationFromMessagesWithMessageIdParam)
+      _then;
+
+  @override
+  $Res call({
+    Object messageId = freezed,
+  }) {
+    return _then(_value.copyWith(
+      messageId: messageId == freezed ? _value.messageId : messageId as String,
+    ));
+  }
+}
+
+abstract class $UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWith<
+        $Res>
+    implements
+        $UseCaseAllConversationFromMessagesWithMessageIdParamCopyWith<$Res> {
+  factory $UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWith(
+          UseCaseAllConversationFromMessagesWithMessageIdParamInit value,
+          $Res Function(
+                  UseCaseAllConversationFromMessagesWithMessageIdParamInit)
+              then) =
+      _$UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWithImpl<
+          $Res>;
+  @override
+  $Res call({String messageId});
+}
+
+class _$UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWithImpl<
+        $Res>
+    extends _$UseCaseAllConversationFromMessagesWithMessageIdParamCopyWithImpl<
+        $Res>
+    implements
+        $UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWith<
+            $Res> {
+  _$UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWithImpl(
+      UseCaseAllConversationFromMessagesWithMessageIdParamInit _value,
+      $Res Function(UseCaseAllConversationFromMessagesWithMessageIdParamInit)
+          _then)
+      : super(
+            _value,
+            (v) => _then(
+                v as UseCaseAllConversationFromMessagesWithMessageIdParamInit));
+
+  @override
+  UseCaseAllConversationFromMessagesWithMessageIdParamInit get _value =>
+      super._value as UseCaseAllConversationFromMessagesWithMessageIdParamInit;
+
+  @override
+  $Res call({
+    Object messageId = freezed,
+  }) {
+    return _then(UseCaseAllConversationFromMessagesWithMessageIdParamInit(
+      messageId: messageId == freezed ? _value.messageId : messageId as String,
+    ));
+  }
+}
+
+class _$UseCaseAllConversationFromMessagesWithMessageIdParamInit
+    implements UseCaseAllConversationFromMessagesWithMessageIdParamInit {
+  const _$UseCaseAllConversationFromMessagesWithMessageIdParamInit(
+      {@required this.messageId})
+      : assert(messageId != null);
+
+  @override
+  final String messageId;
+
+  @override
+  String toString() {
+    return 'UseCaseAllConversationFromMessagesWithMessageIdParam.init(messageId: $messageId)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseAllConversationFromMessagesWithMessageIdParamInit &&
+            (identical(other.messageId, messageId) ||
+                const DeepCollectionEquality()
+                    .equals(other.messageId, messageId)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^ const DeepCollectionEquality().hash(messageId);
+
+  @override
+  $UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWith<
+          UseCaseAllConversationFromMessagesWithMessageIdParamInit>
+      get copyWith =>
+          _$UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWithImpl<
+                  UseCaseAllConversationFromMessagesWithMessageIdParamInit>(
+              this, _$identity);
+}
+
+abstract class UseCaseAllConversationFromMessagesWithMessageIdParamInit
+    implements UseCaseAllConversationFromMessagesWithMessageIdParam {
+  const factory UseCaseAllConversationFromMessagesWithMessageIdParamInit(
+          {@required String messageId}) =
+      _$UseCaseAllConversationFromMessagesWithMessageIdParamInit;
+
+  @override
+  String get messageId;
+  @override
+  $UseCaseAllConversationFromMessagesWithMessageIdParamInitCopyWith<
+      UseCaseAllConversationFromMessagesWithMessageIdParamInit> get copyWith;
+}

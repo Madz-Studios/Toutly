@@ -106,7 +106,7 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
       await firestoreCreateBarterConversationTextUseCase.call(
         UseCaseBarterConversationTextModelParam.init(
-          messageId: barterMessageId,
+          barterMessageId: barterMessageId,
           barterConversationTextModel: barterConversationTextModel,
         ),
       );

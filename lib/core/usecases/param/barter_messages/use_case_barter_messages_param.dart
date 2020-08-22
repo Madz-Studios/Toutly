@@ -19,3 +19,11 @@ abstract class UseCaseAllUserMessagesWithUserIdParam
     @required String userId,
   }) = UseCaseAllUserBarterMessagesModelParamInit;
 }
+
+@freezed
+abstract class UseCaseAllConversationFromMessagesWithMessageIdParam
+    with _$UseCaseAllConversationFromMessagesWithMessageIdParam {
+  const factory UseCaseAllConversationFromMessagesWithMessageIdParam.init({
+    @required String messageId,
+  }) = UseCaseAllConversationFromMessagesWithMessageIdParamInit;
+}
