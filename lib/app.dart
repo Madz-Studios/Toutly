@@ -13,6 +13,7 @@ import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dar
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/password_reset/password_reset_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
@@ -158,6 +159,10 @@ class App extends StatelessWidget {
 
         BlocProvider<ConversationCubit>(
           create: (BuildContext context) => getIt<ConversationCubit>(),
+        ),
+
+        BlocProvider<PasswordResetCubit>(
+          create: (BuildContext context) => getIt<PasswordResetCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

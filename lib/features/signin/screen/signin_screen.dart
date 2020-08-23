@@ -1,3 +1,4 @@
+import 'package:Toutly/features/reset_password/reset_password_screen.dart';
 import 'package:Toutly/features/signin/widgets/signin_form.dart';
 import 'package:Toutly/features/signup/screen/signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -63,13 +64,22 @@ class SignInScreen extends StatelessWidget {
                   SizedBox(
                     height: appSizeConfig.safeBlockVertical * 2.5,
                   ),
-                  Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      fontStyle: FontStyle.normal,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 14.0,
-                      color: Color(0XFF098AE8),
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) {
+                          return ResetPasswordScreen();
+                        }),
+                      );
+                    },
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 14.0,
+                        color: Color(0XFF098AE8),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -93,7 +103,6 @@ class SignInScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          ///clear forms and reset state.
                           Navigator.of(context).push(
                             MaterialPageRoute(builder: (context) {
                               return SignUpScreen();
