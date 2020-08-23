@@ -33,6 +33,8 @@ abstract class FirebaseAuthUserRepository {
 
   ///Get the current logged in firebase user
   User getUser();
+
+  Future<void> sendPasswordResetEmail(String email);
 }
 
 @Injectable(as: FirebaseAuthUserRepository)
@@ -185,5 +187,10 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
   @override
   User getUser() {
     return firebaseAuth.currentUser;
+  }
+
+  @override
+  Future<void> sendPasswordResetEmail(String email) {
+    firebaseAuth.sendPasswordResetEmail(email: email);
   }
 }

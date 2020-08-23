@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Toutly/features/signup/widgets/signup_form.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
 import 'package:flutter/cupertino.dart';
@@ -65,6 +66,7 @@ class SignUpScreen extends StatelessWidget {
               icon: Icon(
                 Platform.isIOS ? CupertinoIcons.back : Icons.arrow_back,
               ),
+              color: kPrimaryColor,
               onPressed: () {
                 Navigator.pop(context);
               },

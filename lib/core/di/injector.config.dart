@@ -27,6 +27,7 @@ import '../cubits/barter_item/current_user/single_barter_item/delete_barter_mode
 import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../usecases/auth/firebase_get_user_usecase.dart';
 import '../usecases/auth/firebase_is_signedin_usecase.dart';
+import '../usecases/auth/firebase_send_reset_password_usecase.dart';
 import '../usecases/auth/firebase_signout_use_case.dart';
 import '../usecases/auth/firebase_signup_usecase.dart';
 import '../usecases/auth/firebase_signin_with_apple_usecase.dart';
@@ -66,6 +67,7 @@ import '../cubits/navigation/navigation_cubit.dart';
 import '../cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import '../cubits/barter_messages/offer/offer_message_cubit.dart';
 import '../cubits/user/other_user/other_user_cubit.dart';
+import '../cubits/password_reset/password_reset_cubit.dart';
 import '../cubits/post_barter/post_barter_cubit.dart';
 import '../cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
 import '../cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
@@ -199,6 +201,9 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<FirebaseIsSignedInUserUseCase>(() =>
       FirebaseIsSignedInUserUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseSendResetPasswordUseCase>(() =>
+      FirebaseSendResetPasswordUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignOutUserUseCase>(() => FirebaseSignOutUserUseCase(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignUpUseCase>(() => FirebaseSignUpUseCase(
@@ -231,6 +236,8 @@ Future<GetIt> $initGetIt(
       ));
   gh.lazySingleton<OtherUserCubit>(
       () => OtherUserCubit(get<FirestoreGetUserUseCase>()));
+  gh.lazySingleton<PasswordResetCubit>(() => PasswordResetCubit(
+      get<FirebaseSendResetPasswordUseCase>(), get<Validators>()));
   gh.lazySingleton<PostBarterCubit>(() => PostBarterCubit(
         get<FirebaseStorage>(),
         get<Uuid>(),
