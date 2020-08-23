@@ -1,20 +1,16 @@
 import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BarterItemCard extends StatelessWidget {
-  final _barterItemCubit = getIt<BarterItemsCubit>();
-
   final String barterItemId;
 
   BarterItemCard({@required this.barterItemId});
 
   @override
   Widget build(BuildContext context) {
-//    _barterItemCubit.getBarterItem(barterItemId);
     final appSizeConfig = AppSizeConfig(context);
     return Card(
       child: Padding(

@@ -1,7 +1,8 @@
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/conversation/widgets/barter_item_card.dart';
-import 'package:Toutly/features/conversation/widgets/chat.dart';
+import 'package:Toutly/features/conversation/widgets/barter_offer_item.dart';
+import 'package:Toutly/features/conversation/widgets/chat_stream.dart';
 import 'package:Toutly/features/conversation/widgets/offer_item_card.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -36,28 +37,34 @@ class ConversationOfferScreen extends StatelessWidget {
           },
           buttonColor: kPrimaryColor,
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.info,
+              color: kPrimaryColor,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BarterOfferItem(
+                    barterMessageModel,
+                    barterUser,
+                  ),
+                  fullscreenDialog: true,
+                ),
+              );
+            },
+          ),
+        ],
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(
-          vertical: appSizeConfig.blockSizeVertical * 1.5,
           horizontal: appSizeConfig.blockSizeHorizontal * 3,
         ),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Card(
-                child: Column(
-                  children: [
-                    _buildBarterItem(appSizeConfig),
-                    _buildOfferItem(appSizeConfig),
-                  ],
-                ),
-              ),
-              Chat(
-                barterMessageId: barterMessageModel.barterMessageId,
-              ),
-            ],
-          ),
+        child: ChatStream(
+          barterMessageModel: barterMessageModel,
+          otherUser: barterUser,
         ),
       ),
     );

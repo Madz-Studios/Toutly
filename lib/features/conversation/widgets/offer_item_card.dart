@@ -1,5 +1,4 @@
 import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
-import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
@@ -7,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OfferItemCard extends StatelessWidget {
-  final _offerItemCubit = getIt<OfferItemsCubit>();
-
   final List<String> offerItems;
 
   OfferItemCard({@required this.offerItems});

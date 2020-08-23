@@ -43,7 +43,7 @@ class FirestoreBarterConversationTextRepositoryImpl
           .collection(FirestoreCollectionNames.barterMessagesCollection)
           .doc(messageId)
           .collection(FirestoreCollectionNames.barterConversationCollection)
-          .orderBy('dateCreated', descending: false)
+          .orderBy('dateCreated', descending: true)
           .snapshots();
     } on PlatformException catch (platformException) {
       throw PlatformException(code: platformException.code);
