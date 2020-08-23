@@ -24,8 +24,6 @@ class ChatStream extends StatefulWidget {
 
 class _ChatStreamState extends State<ChatStream> {
   final _conversationCubit = getIt<ConversationCubit>();
-  final GlobalKey<_ChatStreamState> _chatViewKey =
-      GlobalKey<_ChatStreamState>();
 
   @override
   void initState() {
@@ -61,7 +59,6 @@ class _ChatStreamState extends State<ChatStream> {
                           child: _Conversation(
                             snapshot: streamConversationSnapshot,
                             barterMessageModel: widget.barterMessageModel,
-                            chatViewKey: _chatViewKey,
                             currentUserModel: currentUser,
                             otherUserModel: widget.otherUser,
                           ),
@@ -79,7 +76,6 @@ class _ChatStreamState extends State<ChatStream> {
                           child: _Conversation(
                             snapshot: streamConversationSnapshot,
                             barterMessageModel: widget.barterMessageModel,
-                            chatViewKey: _chatViewKey,
                             currentUserModel: currentUser,
                             otherUserModel: widget.otherUser,
                           ),
@@ -101,13 +97,11 @@ class _ChatStreamState extends State<ChatStream> {
 class _Conversation extends StatelessWidget {
   final AsyncSnapshot<QuerySnapshot> snapshot;
   final BarterMessageModel barterMessageModel;
-  final GlobalKey<_ChatStreamState> chatViewKey;
   final UserModel currentUserModel;
   final UserModel otherUserModel;
   _Conversation({
     @required this.snapshot,
     @required this.barterMessageModel,
-    @required this.chatViewKey,
     @required this.currentUserModel,
     @required this.otherUserModel,
   });
@@ -151,7 +145,6 @@ class _Conversation extends StatelessWidget {
       return _Chat(
         messages: messages,
         barterMessageModel: barterMessageModel,
-        chatViewKey: chatViewKey,
         currentChatUser: currentChatUser,
         currentUserModel: currentUserModel,
       );
@@ -161,35 +154,40 @@ class _Conversation extends StatelessWidget {
   }
 }
 
-class _Chat extends StatelessWidget {
-  final _conversationCubit = getIt<ConversationCubit>();
-
+class _Chat extends StatefulWidget {
   final BarterMessageModel barterMessageModel;
-  final GlobalKey<_ChatStreamState> chatViewKey;
   final UserModel currentUserModel;
   final List<ChatMessage> messages;
   final ChatUser currentChatUser;
   _Chat({
     @required this.barterMessageModel,
     @required this.currentUserModel,
-    @required this.chatViewKey,
     @required this.messages,
     @required this.currentChatUser,
   });
 
   @override
+  __ChatState createState() => __ChatState();
+}
+
+class __ChatState extends State<_Chat> {
+  final _conversationCubit = getIt<ConversationCubit>();
+  final GlobalKey<__ChatState> _chatViewKey = GlobalKey<__ChatState>();
+  GlobalKey<__ChatState> _toolTipKey = GlobalKey<__ChatState>();
+
+  @override
   Widget build(BuildContext context) {
     return DashChat(
-      key: chatViewKey,
+      key: _chatViewKey,
       inverted: true,
       onSend: onSend,
       sendOnEnter: true,
       textInputAction: TextInputAction.send,
-      user: currentChatUser,
+      user: widget.currentChatUser,
       inputDecoration: InputDecoration.collapsed(hintText: "Type a message"),
       dateFormat: DateFormat('yyyy-MMM-dd'),
       timeFormat: DateFormat('HH:mm'),
-      messages: messages,
+      messages: widget.messages,
       showUserAvatar: true,
       showAvatarForEveryMessage: false,
       scrollToBottom: true,
@@ -197,9 +195,7 @@ class _Chat extends StatelessWidget {
       onPressAvatar: (ChatUser user) {
         print("OnPressAvatar: ${user.name}");
       },
-      onLongPressAvatar: (ChatUser user) {
-        print("OnLongPressAvatar: ${user.name}");
-      },
+      onLongPressAvatar: (ChatUser user) {},
       inputMaxLines: 5,
       messageContainerPadding: EdgeInsets.only(left: 5.0, right: 5.0),
       inputTextStyle: TextStyle(fontSize: 14.0),
@@ -212,6 +208,8 @@ class _Chat extends StatelessWidget {
         borderRadius: BorderRadius.circular(50.0),
       ),
       inputCursorColor: kPrimaryColor,
+      shouldShowLoadEarlier: false,
+      showTraillingBeforeSend: true,
       sendButtonBuilder: (onPressed) {
         return IconButton(
           onPressed: onPressed,
@@ -234,7 +232,7 @@ class _Chat extends StatelessWidget {
     debugPrint('${message.toJson()}');
 
     _conversationCubit.sendConversationText(
-      barterMessageId: barterMessageModel.barterMessageId,
+      barterMessageId: widget.barterMessageModel.barterMessageId,
       userId: message.user.uid,
       message: message.text,
     );

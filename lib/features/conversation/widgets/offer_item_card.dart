@@ -12,7 +12,6 @@ class OfferItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-//    _offerItemCubit.getOfferItems(offerItems);
     final appSizeConfig = AppSizeConfig(context);
     return Card(
       child: Padding(

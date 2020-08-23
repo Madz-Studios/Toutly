@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/conversation/widgets/barter_item_card.dart';
@@ -6,6 +7,7 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BarterOfferItem extends StatelessWidget {
   final BarterMessageModel barterMessageModel;
@@ -47,25 +49,30 @@ class BarterOfferItem extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              barterMessageModel.barterOfferItems.length > 1
-                  ? Text(
-                      'Items being offered by ${barterUser.name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    )
-                  : Text(
-                      'Item I want to offer by ${barterUser.name}',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16.0,
-                      ),
-                    ),
-            ],
+          BlocBuilder<CurrentUserCubit, CurrentUserState>(
+            builder: (_, state) {
+              final currentUser = state.currentUserModel;
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  currentUser.userId == barterMessageModel.userBarter
+                      ? Text(
+                          'Item being offered by ${barterUser.name}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        )
+                      : Text(
+                          'Item I want to offer to ${barterUser.name}',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
+                ],
+              );
+            },
           ),
           OfferItemCard(
             offerItems: barterMessageModel.barterOfferItems,
