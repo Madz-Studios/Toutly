@@ -43,7 +43,7 @@ abstract class CurrentUserState implements _$CurrentUserState {
         info: info,
       );
 
-  factory CurrentUserState.success(UserModel currentUserModel) =>
+  factory CurrentUserState.success(UserModel currentUserModel, String info) =>
       CurrentUserState(
         currentUserModel: currentUserModel,
         isNameValid: true,
@@ -51,6 +51,6 @@ abstract class CurrentUserState implements _$CurrentUserState {
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,
-        info: '',
+        info: info,
       );
 }

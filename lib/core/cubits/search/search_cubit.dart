@@ -72,7 +72,12 @@ class SearchCubit extends Cubit<SearchState> {
 
     String dateFilter;
     if (postedWithin.isEmpty) {
-      dateFilter = '';
+      postedWithinDate = DateTime(dateNow.year, dateNow.month - 2, dateNow.day)
+          .millisecondsSinceEpoch; // last 60 days
+
+      double postedInSeconds = postedWithinDate / 1000;
+
+      dateFilter = 'dateUpdated._seconds >= ${postedInSeconds.toInt()}';
     } else if (postedWithin == AppConstants.filterByTimeList[1]) {
       postedWithinDate = DateTime(dateNow.year, dateNow.month, dateNow.day - 1)
           .millisecondsSinceEpoch; // last 24hr

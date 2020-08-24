@@ -46,7 +46,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     super.initState();
 
-    debugPrint('NavigationScreen initState called!');
     final currentUser = widget.currentUserState.currentUserModel;
 
     ///update current user using the values of location
