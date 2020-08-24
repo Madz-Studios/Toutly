@@ -24,6 +24,7 @@ dependencies:
   carousel_slider: ^2.2.1
   bubble: ^1.1.9+1
   dash_chat: ^1.1.14
+  pull_to_refresh: ^1.6.0
 
   #bloc related libs
   flutter_bloc: ^6.0.0

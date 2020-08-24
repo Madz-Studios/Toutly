@@ -53,7 +53,8 @@ class AuthenticationScreen extends StatelessWidget {
                         debugPrint(
                             'remoteConfigState = ${remoteConfigState.info}');
                         debugPrint('locationState = ${locationState.info}');
-                        return ScaffoldLoadingOrErrorWidgetUtil('');
+                        return ScaffoldLoadingOrErrorWidgetUtil(
+                            '${locationState.info}');
                       }
                     },
                   );
