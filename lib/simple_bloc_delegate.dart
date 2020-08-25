@@ -20,4 +20,10 @@ class SimpleBlocDelegate extends BlocObserver {
     super.onTransition(bloc, transition);
     debugPrint(transition.toString());
   }
+
+  @override
+  void onChange(Cubit cubit, Change change) {
+    super.onChange(cubit, change);
+    debugPrint(change.toString());
+  }
 }
