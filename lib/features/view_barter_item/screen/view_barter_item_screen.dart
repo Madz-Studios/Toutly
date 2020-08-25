@@ -1,15 +1,16 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/update/update_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/make_offer/screen/make_offer_screen.dart';
+import 'package:Toutly/features/post/widgets/post_barter_Item_textfield.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
@@ -18,14 +19,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ViewBarterItemScreen extends StatelessWidget {
-  final _currentUserCubit = getIt<CurrentUserCubit>();
-  final _deleteBarterModelCurrentUserCubit =
-      getIt<DeleteBarterModelCurrentUserCubit>();
-
-  final _singleBarterItemOtherUserCubit =
-      getIt<SingleBarterItemOtherUserCubit>();
-
+class ViewBarterItemScreen extends StatefulWidget {
   ///Check if the push screen is a dialog or not, if dialog the close icon will change and can delete item
   final bool isDialog;
   final BarterModel barterModel;
@@ -35,79 +29,114 @@ class ViewBarterItemScreen extends StatelessWidget {
     @required this.barterModel,
     this.showMakeOfferButton = true,
   });
+
+  @override
+  _ViewBarterItemScreenState createState() => _ViewBarterItemScreenState();
+}
+
+class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
+  final _currentUserCubit = getIt<CurrentUserCubit>();
+  final _updateBarterModelCurrentUserCubit =
+      getIt<UpdateBarterModelCurrentUserCubit>();
+
+  final _deleteBarterModelCurrentUserCubit =
+      getIt<DeleteBarterModelCurrentUserCubit>();
+
+  final _singleBarterItemOtherUserCubit =
+      getIt<SingleBarterItemOtherUserCubit>();
+
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _preferredItemController = TextEditingController();
+
+  bool isEdit = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _titleController.text = widget.barterModel.title;
+    _descriptionController.text = widget.barterModel.description;
+    _preferredItemController.text = widget.barterModel.preferredItem;
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _preferredItemController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (context, currentUserState) {
-        if (currentUserState.isSuccess) {
-          final currentUser = currentUserState.currentUserModel;
-          return Scaffold(
-            body: BlocConsumer<DeleteBarterModelCurrentUserCubit,
-                DeleteBarterModelCurrentUserState>(
-              listener: (context, deleteBarterModelCurrentUserState) {
-                if (deleteBarterModelCurrentUserState.isFailure) {
-                  Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                      SnackBar(
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Text(
-                                  '${deleteBarterModelCurrentUserState.info}'),
-                            ),
-                            Icon(Icons.error),
-                          ],
-                        ),
-                        backgroundColor: Colors.red,
+        final currentUser = currentUserState.currentUserModel;
+        return Scaffold(
+          body: BlocConsumer<DeleteBarterModelCurrentUserCubit,
+              DeleteBarterModelCurrentUserState>(
+            listener: (context, deleteBarterModelCurrentUserState) {
+              if (deleteBarterModelCurrentUserState.isFailure) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Text(
+                                '${deleteBarterModelCurrentUserState.info}'),
+                          ),
+                          Icon(Icons.error),
+                        ],
                       ),
-                    );
-                }
-                if (deleteBarterModelCurrentUserState.isSubmitting) {
-                  Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                      SnackBar(
-                        backgroundColor: kPrimaryColor,
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Deleting...'),
-                            Platform.isIOS
-                                ? CupertinoActivityIndicator()
-                                : CircularProgressIndicator(),
-                          ],
-                        ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+              }
+              if (deleteBarterModelCurrentUserState.isSubmitting) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      backgroundColor: kPrimaryColor,
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Deleting...'),
+                          Platform.isIOS
+                              ? CupertinoActivityIndicator()
+                              : CircularProgressIndicator(),
+                        ],
                       ),
-                    );
-                }
-                if (deleteBarterModelCurrentUserState.isSuccess) {
-                  Scaffold.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(
-                      SnackBar(
-                        backgroundColor: kPrimaryColor,
-                        content: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Successfully Deleted'),
-                          ],
-                        ),
+                    ),
+                  );
+              }
+              if (deleteBarterModelCurrentUserState.isSuccess) {
+                Scaffold.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(
+                    SnackBar(
+                      backgroundColor: kPrimaryColor,
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Successfully Deleted'),
+                        ],
                       ),
-                    );
-                }
-              },
-              builder: (context, currentUserState) {
-                return _buildViewBarterContent(
-                    appSizeConfig, context, currentUser);
-              },
-            ),
-          );
-        } else {
-          return LoadingOrErrorWidgetUtil(currentUserState.info);
-        }
+                    ),
+                  );
+              }
+            },
+            builder: (context, currentUserState) {
+              return _buildViewBarterContent(
+                  appSizeConfig, context, currentUser);
+            },
+          ),
+        );
       },
     );
   }
@@ -122,13 +151,13 @@ class ViewBarterItemScreen extends StatelessWidget {
           flex: 1,
           child: Stack(
             children: [
-              CarouselSliderCustom(barterModel.photosUrl ?? []),
-              if (barterModel.userId != currentUser.userId)
+              CarouselSliderCustom(widget.barterModel.photosUrl ?? []),
+              if (widget.barterModel.userId != currentUser.userId)
                 SafeArea(
                   child: Align(
                     alignment: Alignment.topRight,
                     child: SavedPanel(
-                      itemId: barterModel.itemId,
+                      itemId: widget.barterModel.itemId,
                     ),
                   ),
                 )
@@ -138,7 +167,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                 child: _getDeleteWidget(
                   context,
                   currentUser,
-                  barterModel,
+                  widget.barterModel,
                 ),
               ),
               SafeArea(
@@ -146,7 +175,7 @@ class ViewBarterItemScreen extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: BackOrCloseButton(
                     buttonColor: kPrimaryColor,
-                    isDialog: isDialog,
+                    isDialog: widget.isDialog,
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -168,63 +197,91 @@ class ViewBarterItemScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Flexible(
-                        flex: 5,
-                        child: Text(
-                          barterModel.title ?? '',
+                  isEdit
+                      ? PostItemTextField(
+                          title: 'Title',
+                          description:
+                              'Describe what you are bartering in a few words',
+                          controller: _titleController,
+                          readOnly: false,
+                          maxLength: 50,
+                          maxLines: 1,
+                        )
+                      : Text(
+                          widget.barterModel.title ?? '',
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  Text(
-                    barterModel.description ?? '',
-                    style: TextStyle(
-                      fontWeight: FontWeight.w300,
-                      fontSize: 14.0,
-                    ),
-                  ),
+                  isEdit
+                      ? PostItemTextField(
+                          title: 'Description',
+                          description:
+                              'Describe what you are bartering in detail',
+                          controller: _descriptionController,
+                          readOnly: false,
+                          maxLength: 200,
+                          maxLines: 4,
+                        )
+                      : Text(
+                          widget.barterModel.description ?? '',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w300,
+                            fontSize: 14.0,
+                          ),
+                        ),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  Text(
-                    'Preferred Item',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  isEdit
+                      ? PostItemTextField(
+                          title: 'Preferred Item',
+                          description: 'Describe what you want in return',
+                          controller: _preferredItemController,
+                          readOnly: false,
+                          maxLength: 100,
+                          maxLines: 2,
+                        )
+                      : Text(
+                          'Preferred Item',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  Text(barterModel.preferredItem ?? ''),
+                  isEdit
+                      ? Container()
+                      : Text(widget.barterModel.preferredItem ?? ''),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  Text(
-                    'Location',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16.0,
-                    ),
-                  ),
+                  isEdit
+                      ? Container()
+                      : Text(
+                          'Location',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16.0,
+                          ),
+                        ),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  Text(barterModel.address ?? ''),
+                  isEdit ? Container() : Text(widget.barterModel.address ?? ''),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 3,
                   ),
-                  _getActionButton(context, currentUser, barterModel),
+                  _getActionButton(context, currentUser, widget.barterModel),
+                  SizedBox(
+                    height: appSizeConfig.blockSizeVertical * 3,
+                  ),
                 ],
               ),
             ),
@@ -237,9 +294,26 @@ class ViewBarterItemScreen extends StatelessWidget {
   Widget _getActionButton(
       BuildContext context, UserModel currentUser, BarterModel barterModel) {
     if (currentUser?.userId == barterModel?.userId) {
-      return Container();
+      return ActionButton(
+        title: isEdit ? 'Save' : 'Edit',
+        onPressed: () {
+          if (isEdit) {
+            debugPrint(
+                '_updateBarterModelCurrentUserCubit updateBarterItem called!');
+            barterModel.title = _titleController.text;
+            barterModel.description = _descriptionController.text;
+            barterModel.preferredItem = _preferredItemController.text;
+
+            _updateBarterModelCurrentUserCubit.updateBarterItem(barterModel);
+          }
+
+          setState(() {
+            isEdit = !isEdit;
+          });
+        },
+      );
     } else {
-      return showMakeOfferButton
+      return widget.showMakeOfferButton
           ? ActionButton(
               title: 'Make an offer',
               onPressed: () {

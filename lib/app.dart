@@ -3,7 +3,8 @@ import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
-import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/update/update_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
@@ -163,6 +164,11 @@ class App extends StatelessWidget {
 
         BlocProvider<PasswordResetCubit>(
           create: (BuildContext context) => getIt<PasswordResetCubit>(),
+        ),
+
+        BlocProvider<UpdateBarterModelCurrentUserCubit>(
+          create: (BuildContext context) =>
+              getIt<UpdateBarterModelCurrentUserCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

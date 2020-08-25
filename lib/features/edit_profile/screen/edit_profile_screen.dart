@@ -9,7 +9,6 @@ import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/user_profile/widgets/select_profile_photo.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
 import 'package:flutter/material.dart';
@@ -218,7 +217,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
         Padding(
           padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.safeBlockHorizontal * 10,
+            horizontal: appSizeConfig.safeBlockHorizontal * 5,
             vertical: appSizeConfig.safeBlockVertical * 5,
           ),
           child: ActionButton(
@@ -236,37 +235,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget _buildAddressForm(BuildContext context) {
     return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
       builder: (_, remoteConfigDataState) {
-        if (remoteConfigDataState.isSuccess) {
-          return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-            builder: (_, currentUserState) {
-              return InkWell(
-                onTap: () {
-                  _locationCubit.getInitialUserLocation();
-                  _getLocation(
-                    context,
-                    currentUserState.currentUserModel,
-                    remoteConfigDataState,
-                  );
-                },
-                child: IgnorePointer(
-                  child: SignTextFormField(
-                    controller: _addressController,
-                    textInputType: TextInputType.text,
-                    validator: (_) {
-                      return !currentUserState.isLocationValid
-                          ? 'Invalid Location'
-                          : null;
-                    },
-                    hintText: "Address",
-                    obscureText: false,
-                  ),
+        return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+          builder: (_, currentUserState) {
+            return InkWell(
+              onTap: () {
+                _locationCubit.getInitialUserLocation();
+                _getLocation(
+                  context,
+                  currentUserState.currentUserModel,
+                  remoteConfigDataState,
+                );
+              },
+              child: IgnorePointer(
+                child: SignTextFormField(
+                  controller: _addressController,
+                  textInputType: TextInputType.text,
+                  validator: (_) {
+                    return !currentUserState.isLocationValid
+                        ? 'Invalid Location'
+                        : null;
+                  },
+                  hintText: "Address",
+                  obscureText: false,
                 ),
-              );
-            },
-          );
-        } else {
-          return LoadingOrErrorWidgetUtil(remoteConfigDataState.info);
-        }
+              ),
+            );
+          },
+        );
       },
     );
   }
