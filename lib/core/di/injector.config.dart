@@ -23,7 +23,7 @@ import '../cubits/barter_messages/barter/items/barter_items_cubit.dart';
 import '../cubits/barter_messages/barter/barter_message_cubit.dart';
 import '../cubits/barter_messages/conversation/conversation_cubit.dart';
 import '../cubits/user/current_user/current_user_cubit.dart';
-import '../cubits/barter_item/current_user/single_barter_item/delete_barter_model_current_user_cubit.dart';
+import '../cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
 import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../usecases/auth/firebase_get_user_usecase.dart';
 import '../usecases/auth/firebase_is_signedin_usecase.dart';
@@ -77,6 +77,7 @@ import '../cubits/search_config/search_config_cubit.dart';
 import '../cubits/search/search_cubit.dart';
 import '../cubits/sign/sign_cubit.dart';
 import '../cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import '../cubits/barter_item/current_user/single_barter_item/update/update_barter_model_current_user_cubit.dart';
 import '../../shared/util/validators.dart';
 
 /// adds generated dependencies
@@ -176,6 +177,9 @@ Future<GetIt> $initGetIt(
   gh.factory<SharedPreferences>(() => sharedPreferences);
   gh.lazySingleton<SingleBarterItemOtherUserCubit>(
       () => SingleBarterItemOtherUserCubit());
+  gh.lazySingleton<UpdateBarterModelCurrentUserCubit>(() =>
+      UpdateBarterModelCurrentUserCubit(
+          get<FirestoreUpdateBarterItemUseCase>()));
   gh.lazySingleton<Uuid>(() => injectableModule.uuid);
   gh.lazySingleton<Validators>(() => injectableModule.validators);
   gh.lazySingleton<AllListBarterModelCurrentUserCubit>(() =>

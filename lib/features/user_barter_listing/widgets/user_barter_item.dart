@@ -44,6 +44,7 @@ class UserBarterItem extends StatelessWidget {
                   fontSize: 16.0,
                 ),
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           )

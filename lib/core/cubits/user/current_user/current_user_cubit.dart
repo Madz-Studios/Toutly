@@ -5,8 +5,8 @@ import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -61,9 +61,9 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         UseCaseUserParamUserId.init(firebaseUser.uid),
       );
 
-      emit(CurrentUserState.success(currentUser));
-    } on PlatformException catch (platFormException) {
-      emit(CurrentUserState.failure(platFormException.message));
+      emit(CurrentUserState.success(currentUser, 'Success'));
+    } on FirebaseAuthException catch (FirebaseAuthException) {
+      emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
     }
@@ -101,9 +101,9 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         UseCaseUserParamUserModel.init(currentUser),
       );
 
-      emit(CurrentUserState.success(currentUser));
-    } on PlatformException catch (platFormException) {
-      emit(CurrentUserState.failure(platFormException.message));
+      emit(CurrentUserState.success(currentUser, 'Success'));
+    } on FirebaseAuthException catch (FirebaseAuthException) {
+      emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
     }
@@ -115,9 +115,9 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       firestoreUpdateUserUseCase.call(
         UseCaseUserParamUserModel.init(currentUser),
       );
-      emit(CurrentUserState.success(currentUser));
-    } on PlatformException catch (platFormException) {
-      emit(CurrentUserState.failure(platFormException.message));
+      emit(CurrentUserState.success(currentUser, 'Success'));
+    } on FirebaseAuthException catch (FirebaseAuthException) {
+      emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
     }

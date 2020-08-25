@@ -20,6 +20,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -109,20 +110,50 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
-class _BarterItemFeed extends StatelessWidget {
+class _BarterItemFeed extends StatefulWidget {
   final AlgoliaQuerySnapshot algoliaQuerySnapshot;
   _BarterItemFeed({
     this.algoliaQuerySnapshot,
   });
 
   @override
+  __BarterItemFeedState createState() => __BarterItemFeedState();
+}
+
+class __BarterItemFeedState extends State<_BarterItemFeed> {
+  RefreshController _refreshController =
+      RefreshController(initialRefresh: false);
+
+  void _onLoading() async {
+    _refreshController.loadComplete();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: algoliaQuerySnapshot.hits
-            .map((e) => _itemTitle(e, context))
-            .toList(),
-      ),
+    return BlocBuilder<SearchConfigCubit, SearchConfigState>(
+      builder: (_, searchConfigState) {
+        return SmartRefresher(
+          controller: _refreshController,
+          onRefresh: () {
+            SearchUtil().searchSubmit(
+              searchText: searchConfigState.searchText,
+              category: searchConfigState.category,
+              postedWithin: searchConfigState.postedWithin,
+              algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
+              algoliaAppId: searchConfigState.algoliaAppId,
+              latitude: searchConfigState.latitude,
+              longitude: searchConfigState.longitude,
+            );
+            _refreshController.refreshCompleted();
+          },
+          onLoading: _onLoading,
+          child: ListView(
+            children: widget.algoliaQuerySnapshot.hits
+                .map((e) => _itemTitle(e, context))
+                .toList(),
+          ),
+        );
+      },
     );
   }
 

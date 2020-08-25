@@ -2,6 +2,7 @@ import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/features/post/widgets/post_barter_Item_textfield.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -238,7 +239,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 3,
             ),
-            _PostItemTextField(
+            PostItemTextField(
               title: 'Title',
               description: 'Describe what you are bartering in a few words',
               controller: _titleController,
@@ -249,7 +250,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
             ),
-            _PostItemTextField(
+            PostItemTextField(
               title: 'Description',
               description: 'Describe what you are bartering in detail',
               controller: _descriptionController,
@@ -260,7 +261,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
             SizedBox(
               height: appSizeConfig.blockSizeVertical * 1,
             ),
-            _PostItemTextField(
+            PostItemTextField(
               title: 'Preferred Item',
               description: 'Describe what you want in return',
               controller: _preferredItemController,
@@ -280,7 +281,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
                   _locationController.text = currentUser.address;
 
                   return IgnorePointer(
-                    child: _PostItemTextField(
+                    child: PostItemTextField(
                       title: '',
                       description: 'Location',
                       controller: _locationController,
@@ -318,102 +319,6 @@ class _PostBarterFormState extends State<PostBarterForm> {
           ],
         );
       },
-    );
-  }
-}
-
-class _PostItemTextField extends StatelessWidget {
-  final String title;
-  final String description;
-  final TextEditingController controller;
-  final bool readOnly;
-  final int maxLength;
-  final int maxLines;
-
-  _PostItemTextField({
-    @required this.title,
-    @required this.description,
-    @required this.controller,
-    @required this.readOnly,
-    @required this.maxLength,
-    @required this.maxLines,
-  });
-  @override
-  Widget build(BuildContext context) {
-    final appSizeConfig = AppSizeConfig(context);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(
-            left: appSizeConfig.blockSizeHorizontal * 2.5,
-            top: appSizeConfig.blockSizeVertical * 1,
-          ),
-          child: Text(
-            description,
-            style: GoogleFonts.roboto(
-              fontSize: 12,
-              color: Color(0XFF949494),
-            ),
-          ),
-        ),
-        SizedBox(
-          height: appSizeConfig.blockSizeVertical * 1,
-        ),
-        TextFormField(
-          readOnly: readOnly,
-          controller: controller,
-          keyboardType: TextInputType.multiline,
-          maxLength: maxLength,
-          maxLines: maxLines,
-          textAlign: TextAlign.left,
-          style: GoogleFonts.roboto(
-            fontStyle: FontStyle.normal,
-            fontWeight: FontWeight.w500,
-            fontSize: 16.0,
-          ),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Color(0XFFF7F7F8),
-            hintText: title,
-            hintStyle: TextStyle(
-              fontStyle: FontStyle.normal,
-              fontWeight: FontWeight.w500,
-              fontSize: 16.0,
-              color: Color(0XFFB5B5B5),
-            ),
-            labelText: title,
-            suffixText: controller.text.length >= 4 ? '' : '*',
-            suffixStyle: TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 18,
-              color: Colors.red,
-            ),
-            suffixIcon: !readOnly
-                ? Icon(
-                    Icons.lock,
-                    color: Colors.transparent,
-                  )
-                : Icon(
-                    Icons.lock,
-                    color: Colors.red,
-                  ),
-            enabledBorder: OutlineInputBorder(
-              borderSide: const BorderSide(color: Colors.transparent),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8.0),
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: kPrimaryColor),
-              borderRadius: BorderRadius.all(
-                Radius.circular(8.0),
-              ),
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

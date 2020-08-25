@@ -13,6 +13,7 @@ import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +46,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     super.initState();
 
-    debugPrint('NavigationScreen initState called!');
     final currentUser = widget.currentUserState.currentUserModel;
 
     ///update current user using the values of location
@@ -85,49 +85,55 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return buildNavigationBuilder(appSizeConfig);
   }
 
-  BlocBuilder<NavigationCubit, NavigationState> buildNavigationBuilder(
-      AppSizeConfig appSizeConfig) {
-    return BlocBuilder<NavigationCubit, NavigationState>(
-      builder: (context, state) {
-        if (state.isHomeScreen) {
-          return _buildNoAppBarSingleViewScreen(
-            HomeScreen(),
-            state.index,
-          );
-        } else if (state.isSavedScreen) {
-          return _buildSingleViewScreen(
-            _CustomAppBar(
-              appSizeConfig: appSizeConfig,
-              title: 'Saved',
-            ),
-            SavedScreen(),
-            state.index,
-          );
-        } else if (state.isPostBarterScreen) {
-          _postBarterCubit.reset();
-          return _buildSingleViewScreen(
-            _CustomAppBar(
-              appSizeConfig: appSizeConfig,
-              title: 'Barter',
-            ),
-            PostScreen(),
-            state.index,
-          );
-        } else if (state.isMessagesScreen) {
-          return _buildSingleViewScreen(
-            _CustomAppBar(
-              appSizeConfig: appSizeConfig,
-              title: 'Messages',
-            ),
-            MessagesScreen(),
-            state.index,
-          );
-        } else {
-          return _buildNoAppBarSingleViewScreen(
-            UserProfileScreen(),
-            state.index,
+  Widget buildNavigationBuilder(AppSizeConfig appSizeConfig) {
+    return BlocBuilder<LocationCubit, LocationState>(
+      builder: (_, locationState) {
+        if (locationState.isSuccess) {
+          return BlocBuilder<NavigationCubit, NavigationState>(
+            builder: (context, state) {
+              if (state.isHomeScreen) {
+                return _buildNoAppBarSingleViewScreen(
+                  HomeScreen(),
+                  state.index,
+                );
+              } else if (state.isSavedScreen) {
+                return _buildSingleViewScreen(
+                  _CustomAppBar(
+                    appSizeConfig: appSizeConfig,
+                    title: 'Saved',
+                  ),
+                  SavedScreen(),
+                  state.index,
+                );
+              } else if (state.isPostBarterScreen) {
+                _postBarterCubit.reset();
+                return _buildSingleViewScreen(
+                  _CustomAppBar(
+                    appSizeConfig: appSizeConfig,
+                    title: 'Barter',
+                  ),
+                  PostScreen(),
+                  state.index,
+                );
+              } else if (state.isMessagesScreen) {
+                return _buildSingleViewScreen(
+                  _CustomAppBar(
+                    appSizeConfig: appSizeConfig,
+                    title: 'Messages',
+                  ),
+                  MessagesScreen(),
+                  state.index,
+                );
+              } else {
+                return _buildNoAppBarSingleViewScreen(
+                  UserProfileScreen(),
+                  state.index,
+                );
+              }
+            },
           );
         }
+        return ScaffoldLoadingOrErrorWidgetUtil(locationState.info);
       },
     );
   }

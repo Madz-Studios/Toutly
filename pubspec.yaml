@@ -24,6 +24,8 @@ dependencies:
   carousel_slider: ^2.2.1
   bubble: ^1.1.9+1
   dash_chat: ^1.1.14
+  pull_to_refresh: ^1.6.0
+
 
   #bloc related libs
   flutter_bloc: ^6.0.0
@@ -62,6 +64,7 @@ dependencies:
   shared_preferences: ^0.5.8
   uuid: ^2.2.0
   http: ^0.12.2
+  flutter_phoenix: ^0.1.0 # for restarting the app
 
   #fulltext search
   algolia: ^0.1.6+1

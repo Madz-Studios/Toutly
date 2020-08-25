@@ -38,7 +38,7 @@ class LocationCubit extends Cubit<LocationState> {
       emit(LocationState.success(
           geoPoint: geoPoint, placeMark: place, info: 'Success'));
     } on PlatformException catch (platFormException) {
-      emit(LocationState.failure(info: platFormException.message));
+      emit(LocationState.failure(info: platFormException.code));
       if (platFormException.code == 'PERMISSION_DENIED') {
         AppSettings.openLocationSettings();
       } else {

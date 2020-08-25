@@ -2,6 +2,7 @@ import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
@@ -10,6 +11,7 @@ import 'package:Toutly/shared/util/error_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
@@ -21,6 +23,8 @@ class AuthenticationScreen extends StatelessWidget {
 
   final _appleSignCubit = getIt<AppleSignCubit>();
 
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AuthCubit, AuthState>(
@@ -29,7 +33,14 @@ class AuthenticationScreen extends StatelessWidget {
           _locationCubit.getInitialUserLocation();
           _remoteConfigCubit.getConfigData();
           _currentUserCubit.getCurrentLoggedInUser();
-          return BlocBuilder<LocationCubit, LocationState>(
+          return BlocConsumer<LocationCubit, LocationState>(
+            listener: (_, locationState) {
+              if (locationState.isFailure) {
+                if (locationState.info != 'PERMISSION_DENIED') {
+                  Phoenix.rebirth(context);
+                }
+              }
+            },
             builder: (_, locationState) {
               return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
                 builder: (_, remoteConfigState) {
@@ -53,7 +64,8 @@ class AuthenticationScreen extends StatelessWidget {
                         debugPrint(
                             'remoteConfigState = ${remoteConfigState.info}');
                         debugPrint('locationState = ${locationState.info}');
-                        return ScaffoldLoadingOrErrorWidgetUtil('');
+                        return ScaffoldLoadingOrErrorWidgetUtil(
+                            '${locationState.info}');
                       }
                     },
                   );
