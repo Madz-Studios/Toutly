@@ -58,6 +58,10 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
     _titleController.text = widget.barterModel.title;
     _descriptionController.text = widget.barterModel.description;
     _preferredItemController.text = widget.barterModel.preferredItem;
+
+    _titleController.addListener(_onTitleChanged);
+    _descriptionController.addListener(_onDescriptionChanged);
+    _preferredItemController.addListener(_onPreferredItemChanged);
   }
 
   @override
@@ -66,6 +70,49 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
     _titleController.dispose();
     _descriptionController.dispose();
     _preferredItemController.dispose();
+  }
+
+  void _onTitleChanged() {
+    _updateBarterModelCurrentUserCubit.titleChanged(
+      _titleController.text,
+    );
+  }
+
+  void _onDescriptionChanged() {
+    _updateBarterModelCurrentUserCubit.descriptionChanged(
+      _descriptionController.text,
+    );
+  }
+
+  void _onPreferredItemChanged() {
+    _updateBarterModelCurrentUserCubit.preferredItemChanged(
+      _preferredItemController.text,
+    );
+  }
+
+  bool get _isPopulated =>
+      _titleController.text.isNotEmpty &&
+      _descriptionController.text.isNotEmpty &&
+      _preferredItemController.text.isNotEmpty;
+
+  bool _isUpdateButtonEnabled(UpdateBarterModelCurrentUserState state) {
+    return state.isUpdatePostFormValid && _isPopulated && !state.isSubmitting;
+  }
+
+  _onFormSubmitted() {
+    if (isEdit) {
+      debugPrint('_updateBarterModelCurrentUserCubit updateBarterItem called!');
+      widget.barterModel.title = _titleController.text;
+      widget.barterModel.description = _descriptionController.text;
+      widget.barterModel.preferredItem = _preferredItemController.text;
+      widget.barterModel.dateUpdated = DateTime.now();
+
+      _updateBarterModelCurrentUserCubit.updateBarterItem(widget.barterModel);
+    }
+
+    setState(() {
+      isEdit = !isEdit;
+    });
   }
 
   @override
@@ -292,24 +339,18 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
   }
 
   Widget _getActionButton(
-      BuildContext context, UserModel currentUser, BarterModel barterModel) {
+    BuildContext context,
+    UserModel currentUser,
+    BarterModel barterModel,
+  ) {
     if (currentUser?.userId == barterModel?.userId) {
-      return ActionButton(
-        title: isEdit ? 'Save' : 'Edit',
-        onPressed: () {
-          if (isEdit) {
-            debugPrint(
-                '_updateBarterModelCurrentUserCubit updateBarterItem called!');
-            barterModel.title = _titleController.text;
-            barterModel.description = _descriptionController.text;
-            barterModel.preferredItem = _preferredItemController.text;
-
-            _updateBarterModelCurrentUserCubit.updateBarterItem(barterModel);
-          }
-
-          setState(() {
-            isEdit = !isEdit;
-          });
+      return BlocBuilder<UpdateBarterModelCurrentUserCubit,
+          UpdateBarterModelCurrentUserState>(
+        builder: (_, state) {
+          return ActionButton(
+            title: isEdit ? 'Save' : 'Edit',
+            onPressed: _isUpdateButtonEnabled(state) ? _onFormSubmitted : null,
+          );
         },
       );
     } else {

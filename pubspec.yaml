@@ -10,11 +10,22 @@ version: 1.0.0+1
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
+
 dependencies:
   flutter:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+
+#  google_map_location_picker:
+#    git:
+#      url: git://github.com/madz/google_map_location_picker.git
+#      ref: master
+
+#  geolocator:
+#    git:
+#      url: git://github.com/Baseflow/flutter-geolocator.git
+#      ref: federated_plugin/geolocator
 
   #UI libs
   flutter_icons: ^1.1.0
@@ -58,13 +69,14 @@ dependencies:
   app_settings: ^4.0.3
   google_map_location_picker: ^3.3.3
   google_maps_flutter: ^0.5.30
+  #geolocator: ^6.0.0-rc.3
   geolocator: ^5.3.2+2
+  location_permissions: ^3.0.0
   image_picker: ^0.6.7+4
   cached_network_image: ^2.2.0+1
   shared_preferences: ^0.5.8
   uuid: ^2.2.0
   http: ^0.12.2
-  flutter_phoenix: ^0.1.0 # for restarting the app
 
   #fulltext search
   algolia: ^0.1.6+1

@@ -11,12 +11,9 @@ import 'package:Toutly/shared/util/error_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 /// Authentication Screen
 class AuthenticationScreen extends StatelessWidget {
-  final _locationCubit = getIt<LocationCubit>();
-
   final _remoteConfigCubit = getIt<RemoteConfigCubit>();
 
   final _currentUserCubit = getIt<CurrentUserCubit>();
@@ -24,6 +21,8 @@ class AuthenticationScreen extends StatelessWidget {
   final _appleSignCubit = getIt<AppleSignCubit>();
 
   final _searchConfigCubit = getIt<SearchConfigCubit>();
+
+  final _locationCubit = getIt<LocationCubit>();
 
   @override
   Widget build(BuildContext context) {
@@ -33,44 +32,39 @@ class AuthenticationScreen extends StatelessWidget {
           _locationCubit.getInitialUserLocation();
           _remoteConfigCubit.getConfigData();
           _currentUserCubit.getCurrentLoggedInUser();
-          return BlocConsumer<LocationCubit, LocationState>(
-            listener: (_, locationState) {
-              if (locationState.isFailure) {
-                if (locationState.info != 'PERMISSION_DENIED') {
-                  Phoenix.rebirth(context);
-                }
-              }
-            },
-            builder: (_, locationState) {
-              return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
-                builder: (_, remoteConfigState) {
-                  return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-                    builder: (_, currentUserState) {
+          return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
+            builder: (_, remoteConfigState) {
+              if (remoteConfigState.isSuccess) {
+                debugPrint('remoteConfigState = ${remoteConfigState.info}');
+                return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+                  builder: (_, currentUserState) {
+                    if (currentUserState.isSuccess) {
                       debugPrint('currentUserState = ${currentUserState.info}');
-                      debugPrint(
-                          'remoteConfigState = ${remoteConfigState.info}');
-                      debugPrint('locationState = ${locationState.info}');
-                      if (locationState.isSuccess &&
-                          remoteConfigState.isSuccess &&
-                          currentUserState.isSuccess) {
-                        return NavigationScreen(
-                          locationState: locationState,
-                          remoteConfigState: remoteConfigState,
-                          currentUserState: currentUserState,
-                        );
-                      } else {
-                        debugPrint(
-                            'currentUserState = ${currentUserState.info}');
-                        debugPrint(
-                            'remoteConfigState = ${remoteConfigState.info}');
-                        debugPrint('locationState = ${locationState.info}');
-                        return ScaffoldLoadingOrErrorWidgetUtil(
-                            '${locationState.info}');
-                      }
-                    },
-                  );
-                },
-              );
+                      return BlocBuilder<LocationCubit, LocationState>(
+                        builder: (_, locationState) {
+                          if (locationState.isSuccess) {
+                            debugPrint('locationState = ${locationState.info}');
+                            return NavigationScreen(
+                              remoteConfigState,
+                              currentUserState,
+                              locationState,
+                            );
+                          }
+                          debugPrint('locationState = ${locationState.info}');
+                          return ScaffoldLoadingOrErrorWidgetUtil(
+                              '${locationState.info}');
+                        },
+                      );
+                    }
+                    debugPrint('currentUserState = ${currentUserState.info}');
+                    return ScaffoldLoadingOrErrorWidgetUtil(
+                        '${currentUserState.info}');
+                  },
+                );
+              }
+              debugPrint('remoteConfigState = ${remoteConfigState.info}');
+              return ScaffoldLoadingOrErrorWidgetUtil(
+                  '${remoteConfigState.info}');
             },
           );
         } else if (!authState.isAuth) {

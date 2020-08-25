@@ -177,9 +177,6 @@ Future<GetIt> $initGetIt(
   gh.factory<SharedPreferences>(() => sharedPreferences);
   gh.lazySingleton<SingleBarterItemOtherUserCubit>(
       () => SingleBarterItemOtherUserCubit());
-  gh.lazySingleton<UpdateBarterModelCurrentUserCubit>(() =>
-      UpdateBarterModelCurrentUserCubit(
-          get<FirestoreUpdateBarterItemUseCase>()));
   gh.lazySingleton<Uuid>(() => injectableModule.uuid);
   gh.lazySingleton<Validators>(() => injectableModule.validators);
   gh.lazySingleton<AllListBarterModelCurrentUserCubit>(() =>
@@ -260,6 +257,9 @@ Future<GetIt> $initGetIt(
         get<FirestoreGetUserUseCase>(),
         get<Validators>(),
       ));
+  gh.lazySingleton<UpdateBarterModelCurrentUserCubit>(() =>
+      UpdateBarterModelCurrentUserCubit(
+          get<FirestoreUpdateBarterItemUseCase>(), get<Validators>()));
   gh.lazySingleton<AuthCubit>(() => AuthCubit(
         get<FirebaseIsSignedInUserUseCase>(),
         get<FirebaseSignOutUserUseCase>(),

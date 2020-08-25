@@ -13,45 +13,47 @@ import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
+import 'package:app_settings/app_settings.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 /// Main screen, loads after authentication screen
 class NavigationScreen extends StatefulWidget {
-  final LocationState locationState;
   final RemoteConfigState remoteConfigState;
   final CurrentUserState currentUserState;
-
-  NavigationScreen({
-    @required this.currentUserState,
-    @required this.locationState,
-    @required this.remoteConfigState,
-  });
+  final LocationState locationState;
+  NavigationScreen(
+    this.remoteConfigState,
+    this.currentUserState,
+    this.locationState,
+  );
 
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
 
 class _NavigationScreenState extends State<NavigationScreen> {
+  final _postBarterCubit = getIt<PostBarterCubit>();
+
   final _currentUserCubit = getIt<CurrentUserCubit>();
 
   final _searchConfigCubit = getIt<SearchConfigCubit>();
 
-  final _postBarterCubit = getIt<PostBarterCubit>();
-
-  @override
-  void initState() {
-    super.initState();
-
-    final currentUser = widget.currentUserState.currentUserModel;
+  void _updateUserConfig(
+    LocationState locationState,
+    RemoteConfigState remoteConfigState,
+    CurrentUserState currentUserState,
+  ) {
+    final currentUser = currentUserState.currentUserModel;
 
     ///update current user using the values of location
-    currentUser.geoLocation = widget.locationState.geoPoint;
-    currentUser.address = "${widget.locationState.placeMark.subLocality}, "
-        "${widget.locationState.placeMark.locality}";
+    currentUser.geoLocation = locationState.geoPoint;
+    currentUser.address = "${locationState.placeMark.subLocality}, "
+        "${locationState.placeMark.locality}";
 
     _currentUserCubit.updateCurrentLoggedInUser(currentUser);
 
@@ -60,10 +62,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       searchText: '',
       category: '',
       postedWithin: '',
-      algoliaAppId: widget.remoteConfigState.algoliaAppId,
-      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
-      latitude: widget.locationState.geoPoint.latitude,
-      longitude: widget.locationState.geoPoint.longitude,
+      algoliaAppId: remoteConfigState.algoliaAppId,
+      algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
+      latitude: locationState.geoPoint.latitude,
+      longitude: locationState.geoPoint.longitude,
     );
 
     ///initial search
@@ -71,92 +73,170 @@ class _NavigationScreenState extends State<NavigationScreen> {
       searchText: '',
       category: '',
       postedWithin: '',
-      algoliaSearchApiKey: widget.remoteConfigState.algoliaSearchApiKey,
-      algoliaAppId: widget.remoteConfigState.algoliaAppId,
-      latitude: widget.locationState.geoPoint.latitude,
-      longitude: widget.locationState.geoPoint.longitude,
+      algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
+      algoliaAppId: remoteConfigState.algoliaAppId,
+      latitude: locationState.geoPoint.latitude,
+      longitude: locationState.geoPoint.longitude,
+    );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _updateUserConfig(
+      widget.locationState,
+      widget.remoteConfigState,
+      widget.currentUserState,
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-
-    return buildNavigationBuilder(appSizeConfig);
-  }
-
-  Widget buildNavigationBuilder(AppSizeConfig appSizeConfig) {
     return BlocBuilder<LocationCubit, LocationState>(
       builder: (_, locationState) {
-        if (locationState.isSuccess) {
-          return BlocBuilder<NavigationCubit, NavigationState>(
-            builder: (context, state) {
-              if (state.isHomeScreen) {
-                return _buildNoAppBarSingleViewScreen(
-                  HomeScreen(),
-                  state.index,
-                );
-              } else if (state.isSavedScreen) {
-                return _buildSingleViewScreen(
-                  _CustomAppBar(
-                    appSizeConfig: appSizeConfig,
-                    title: 'Saved',
-                  ),
-                  SavedScreen(),
-                  state.index,
-                );
-              } else if (state.isPostBarterScreen) {
-                _postBarterCubit.reset();
-                return _buildSingleViewScreen(
-                  _CustomAppBar(
-                    appSizeConfig: appSizeConfig,
-                    title: 'Barter',
-                  ),
-                  PostScreen(),
-                  state.index,
-                );
-              } else if (state.isMessagesScreen) {
-                return _buildSingleViewScreen(
-                  _CustomAppBar(
-                    appSizeConfig: appSizeConfig,
-                    title: 'Messages',
-                  ),
-                  MessagesScreen(),
-                  state.index,
-                );
-              } else {
-                return _buildNoAppBarSingleViewScreen(
-                  UserProfileScreen(),
-                  state.index,
-                );
-              }
-            },
-          );
-        }
-        return ScaffoldLoadingOrErrorWidgetUtil(locationState.info);
+        return BlocBuilder<NavigationCubit, NavigationState>(
+          builder: (context, state) {
+            if (state.isHomeScreen) {
+              return _buildNoAppBarSingleViewScreen(
+                HomeScreen(),
+                state.index,
+              );
+            } else if (state.isSavedScreen) {
+              return _buildSingleViewScreen(
+                _CustomAppBar(
+                  appSizeConfig: appSizeConfig,
+                  title: 'Saved',
+                ),
+                SavedScreen(),
+                state.index,
+              );
+            } else if (state.isPostBarterScreen) {
+              _postBarterCubit.reset();
+              return _buildSingleViewScreen(
+                _CustomAppBar(
+                  appSizeConfig: appSizeConfig,
+                  title: 'Barter',
+                ),
+                PostScreen(),
+                state.index,
+              );
+            } else if (state.isMessagesScreen) {
+              return _buildSingleViewScreen(
+                _CustomAppBar(
+                  appSizeConfig: appSizeConfig,
+                  title: 'Messages',
+                ),
+                MessagesScreen(),
+                state.index,
+              );
+            } else {
+              return _buildNoAppBarSingleViewScreen(
+                UserProfileScreen(),
+                state.index,
+              );
+            }
+          },
+        );
       },
     );
   }
 
-  Widget _buildNoAppBarSingleViewScreen(Widget screen, int currentIndex) {
-    return Scaffold(
-      body: screen,
-      bottomNavigationBar: _NavigationBar(
-        currentIndex,
-      ),
+  void _showMaterialDialog(BuildContext mainContext) {
+    showDialog(
+      barrierDismissible: false,
+      context: mainContext,
+      builder: (BuildContext subContext) {
+        return AlertDialog(
+          title: Text(
+            "Location permission is denied. Please grant Toutly access to your location.",
+          ),
+          actions: [
+            FlatButton(
+              child: Text(
+                "Yes",
+                style: TextStyle(
+                  color: kPrimaryColor,
+                ),
+              ),
+              onPressed: () {
+                AppSettings.openLocationSettings();
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "Restart",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () {
+//                Navigator.pop(subContext);
+//                SystemNavigator.pop();
+                SystemChannels.platform
+                    .invokeMethod<void>('SystemNavigator.pop');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 
-  Widget _buildSingleViewScreen(
-      Widget appBar, Widget screen, int currentIndex) {
-    return Scaffold(
-      appBar: appBar,
-      body: screen,
-      bottomNavigationBar: _NavigationBar(
-        currentIndex,
-      ),
+  void _showCupertinoDialog(BuildContext mainContext) {
+    showDialog(
+      barrierDismissible: true,
+      context: mainContext,
+      builder: (BuildContext subContext) {
+        return CupertinoAlertDialog(
+          title: Text(
+            "Location permission is denied. Please grant Toutly access to your location then restart the app.",
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              textStyle: TextStyle(
+                color: kPrimaryColor,
+              ),
+              child: Text("Open Location Settings"),
+              onPressed: () {
+                AppSettings.openLocationSettings();
+              },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text(
+                "Restart",
+                style: TextStyle(color: Colors.red),
+              ),
+              onPressed: () async {
+                SystemChannels.platform
+                    .invokeMethod<void>('SystemNavigator.pop');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
+}
+
+Widget _buildNoAppBarSingleViewScreen(Widget screen, int currentIndex) {
+  return Scaffold(
+    body: screen,
+    bottomNavigationBar: _NavigationBar(
+      currentIndex,
+    ),
+  );
+}
+
+Widget _buildSingleViewScreen(Widget appBar, Widget screen, int currentIndex) {
+  return Scaffold(
+    appBar: appBar,
+    body: screen,
+    bottomNavigationBar: _NavigationBar(
+      currentIndex,
+    ),
+  );
 }
 
 class _NavigationBar extends StatelessWidget {
