@@ -13,7 +13,7 @@ class _$CurrentUserStateTearOff {
   const _$CurrentUserStateTearOff();
 
   _CurrentUserState call(
-      {@required UserModel currentUserModel,
+      {UserModel currentUserModel,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,
@@ -153,15 +153,14 @@ class __$CurrentUserStateCopyWithImpl<$Res>
 
 class _$_CurrentUserState extends _CurrentUserState {
   const _$_CurrentUserState(
-      {@required this.currentUserModel,
+      {this.currentUserModel,
       @required this.isNameValid,
       @required this.isLocationValid,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(currentUserModel != null),
-        assert(isNameValid != null),
+      : assert(isNameValid != null),
         assert(isLocationValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
@@ -234,7 +233,7 @@ class _$_CurrentUserState extends _CurrentUserState {
 abstract class _CurrentUserState extends CurrentUserState {
   const _CurrentUserState._() : super._();
   const factory _CurrentUserState(
-      {@required UserModel currentUserModel,
+      {UserModel currentUserModel,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,

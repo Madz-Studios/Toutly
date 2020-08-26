@@ -57,11 +57,15 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     try {
       final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
-      final currentUser = await firestoreGetUserUseCase.call(
-        UseCaseUserParamUserId.init(firebaseUser.uid),
-      );
+      if (firebaseUser != null) {
+        final currentUser = await firestoreGetUserUseCase.call(
+          UseCaseUserParamUserId.init(firebaseUser.uid),
+        );
 
-      emit(CurrentUserState.success(currentUser, 'Success'));
+        emit(CurrentUserState.success(currentUser, 'Success'));
+      } else {
+        emit(CurrentUserState.success(null, 'Success'));
+      }
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {

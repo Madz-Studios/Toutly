@@ -2,7 +2,6 @@ import 'package:Toutly/core/cubits/apple_sign/apple_sign_cubit.dart';
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
-import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/navigation/screen/navigation_screen.dart';
@@ -20,7 +19,7 @@ class AuthenticationScreen extends StatelessWidget {
 
   final _appleSignCubit = getIt<AppleSignCubit>();
 
-  final _searchConfigCubit = getIt<SearchConfigCubit>();
+  final _authCubit = getIt<AuthCubit>();
 
   final _locationCubit = getIt<LocationCubit>();
 
@@ -39,6 +38,9 @@ class AuthenticationScreen extends StatelessWidget {
                 return BlocBuilder<CurrentUserCubit, CurrentUserState>(
                   builder: (_, currentUserState) {
                     if (currentUserState.isSuccess) {
+                      if (currentUserState.currentUserModel == null) {
+                        _authCubit.signedOut();
+                      }
                       debugPrint('currentUserState = ${currentUserState.info}');
                       return BlocBuilder<LocationCubit, LocationState>(
                         builder: (_, locationState) {

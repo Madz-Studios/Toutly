@@ -30,7 +30,8 @@ class FirestoreBarterConversationTextRepositoryImpl
         .collection(FirestoreCollectionNames.barterMessagesCollection)
         .doc(messageId)
         .collection(FirestoreCollectionNames.barterConversationCollection)
-        .add(barterConversationTextModel.toJson());
+        .doc(barterConversationTextModel.id)
+        .set(barterConversationTextModel.toJson());
   }
 
   /// Get all conversation text from the message of the bartered item

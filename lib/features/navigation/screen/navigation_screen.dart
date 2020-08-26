@@ -1,5 +1,8 @@
+import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
@@ -43,6 +46,29 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _searchConfigCubit = getIt<SearchConfigCubit>();
 
+  final _offerMessagesCubit = getIt<OfferMessageCubit>();
+
+  final _barterMessagesCubit = getIt<BarterMessageCubit>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _offerMessagesCubit.getOfferMessages(
+      widget.currentUserState.currentUserModel.userId,
+    );
+
+    _barterMessagesCubit.getBarterMessages(
+      widget.currentUserState.currentUserModel.userId,
+    );
+
+    _updateUserConfig(
+      widget.locationState,
+      widget.remoteConfigState,
+      widget.currentUserState,
+    );
+  }
+
   void _updateUserConfig(
     LocationState locationState,
     RemoteConfigState remoteConfigState,
@@ -50,12 +76,19 @@ class _NavigationScreenState extends State<NavigationScreen> {
   ) {
     final currentUser = currentUserState.currentUserModel;
 
-    ///update current user using the values of location
-    currentUser.geoLocation = locationState.geoPoint;
-    currentUser.address = "${locationState.placeMark.subLocality}, "
-        "${locationState.placeMark.locality}";
+    if (currentUser != null &&
+        locationState.geoPoint != null &&
+        locationState.placeMark != null) {
+      ///update current user using the values of location
 
-    _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+      String subLocality = "${locationState.placeMark.subLocality}, ";
+      String locality = "${locationState.placeMark.locality}";
+      currentUser.address = "$subLocality" "$locality";
+
+      currentUser.geoLocation = locationState.geoPoint;
+
+      _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+    }
 
     ///update search config from the values of remote config and location
     _searchConfigCubit.setConfig(
@@ -64,8 +97,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       postedWithin: '',
       algoliaAppId: remoteConfigState.algoliaAppId,
       algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-      latitude: locationState.geoPoint.latitude,
-      longitude: locationState.geoPoint.longitude,
+      latitude:
+          locationState.geoPoint.latitude ?? 10.333333, //cebu city latitude
+      longitude:
+          locationState.geoPoint.longitude ?? 123.933334, //cebu city longitude
     );
 
     ///initial search
@@ -77,17 +112,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
       algoliaAppId: remoteConfigState.algoliaAppId,
       latitude: locationState.geoPoint.latitude,
       longitude: locationState.geoPoint.longitude,
-    );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-
-    _updateUserConfig(
-      widget.locationState,
-      widget.remoteConfigState,
-      widget.currentUserState,
     );
   }
 
@@ -252,73 +276,83 @@ class _NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BottomNavigationBar(
-      selectedItemColor: kPrimaryColor,
-      type: BottomNavigationBarType.fixed,
-      currentIndex: currentIndex,
-      onTap: _onItemTapped,
-      items: <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          title: Text('Feed'),
-          icon: SvgPicture.asset(
-            'assets/icons/unpressed-home.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-home.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: kPrimaryColor,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Text('Saved'),
-          icon: SvgPicture.asset(
-            'assets/icons/unpressed-saved.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-saved.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: kPrimaryColor,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Text('Barter'),
-          icon: SvgPicture.asset(
-            'assets/icons/add.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/add.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: kPrimaryColor,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Text('Messages'),
-          icon: SvgPicture.asset(
-            'assets/icons/unpressed-chat.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/unpressed-chat.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: kPrimaryColor,
-          ),
-        ),
-        BottomNavigationBarItem(
-          title: Text('Profile'),
-          icon: SvgPicture.asset(
-            'assets/icons/profile.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-          ),
-          activeIcon: SvgPicture.asset(
-            'assets/icons/profile.svg',
-            height: appSizeConfig.blockSizeVertical * 3,
-            color: kPrimaryColor,
-          ),
-        ),
-      ],
+    return BlocBuilder<NotificationCubit, NotificationState>(
+      builder: (_, notificationState) {
+        return BottomNavigationBar(
+          selectedItemColor: kPrimaryColor,
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          onTap: _onItemTapped,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              title: Text('Feed'),
+              icon: SvgPicture.asset(
+                'assets/icons/unpressed-home.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/icons/unpressed-home.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+                color: kPrimaryColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text('Saved'),
+              icon: SvgPicture.asset(
+                'assets/icons/unpressed-saved.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/icons/unpressed-saved.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+                color: kPrimaryColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text('Barter'),
+              icon: SvgPicture.asset(
+                'assets/icons/add.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/icons/add.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+                color: kPrimaryColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text('Messages'),
+              icon: notificationState.hasUnreadMessage
+                  ? SvgPicture.asset(
+                      'assets/icons/chat.svg',
+                      height: appSizeConfig.blockSizeVertical * 3,
+                      color: Colors.red,
+                    )
+                  : SvgPicture.asset(
+                      'assets/icons/unpressed-chat.svg',
+                      height: appSizeConfig.blockSizeVertical * 3,
+                    ),
+              activeIcon: SvgPicture.asset(
+                'assets/icons/unpressed-chat.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+                color: kPrimaryColor,
+              ),
+            ),
+            BottomNavigationBarItem(
+              title: Text('Profile'),
+              icon: SvgPicture.asset(
+                'assets/icons/profile.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+              ),
+              activeIcon: SvgPicture.asset(
+                'assets/icons/profile.svg',
+                height: appSizeConfig.blockSizeVertical * 3,
+                color: kPrimaryColor,
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 

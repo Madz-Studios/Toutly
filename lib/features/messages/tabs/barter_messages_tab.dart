@@ -1,11 +1,14 @@
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
+import 'package:Toutly/core/cubits/barter_messages/conversation/conversation_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
+import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/conversation/screen/conversation_barter_screen.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,15 +26,9 @@ class BarterMessagesTab extends StatefulWidget {
 }
 
 class _BarterMessagesTabState extends State<BarterMessagesTab> {
-  final _barterMessagesCubit = getIt<BarterMessageCubit>();
-
   @override
   void initState() {
     super.initState();
-
-    _barterMessagesCubit.getBarterMessages(
-      widget.userId,
-    );
   }
 
   @override
@@ -43,7 +40,7 @@ class _BarterMessagesTabState extends State<BarterMessagesTab> {
           builder: (_, snapshot) {
             debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
             switch (snapshot.connectionState) {
-              case ConnectionState.done:
+              case ConnectionState.active:
                 if (snapshot.hasError) {
                   debugPrint('Error: ${snapshot.error}');
                   return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
@@ -103,11 +100,17 @@ class _MessageBarterItem extends StatelessWidget {
 
   final _barterItemCubit = getIt<BarterItemsCubit>();
   final _offerItemCubit = getIt<OfferItemsCubit>();
+  final _notificationCubit = getIt<NotificationCubit>();
+  final _conversationCubit = getIt<ConversationCubit>();
 
   @override
   Widget build(BuildContext context) {
     _barterItemCubit.getBarterItem(barterMessageModel.barterItemId);
     _offerItemCubit.getOfferItems(barterMessageModel.barterOfferItems);
+
+    ///check if there is unread message from other user that offer to your bartered item
+    _notificationCubit
+        .hasUnreadBarterMessage(!barterMessageModel.isUserBarterRead);
 
     final appSizeConfig = AppSizeConfig(context);
     return FutureBuilder(
@@ -168,13 +171,34 @@ class _MessageBarterItem extends StatelessWidget {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          Text(
-                            '${barterMessageModel.lastMessageText}',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: FontWeight.normal,
-                            ),
-                            overflow: TextOverflow.ellipsis,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                '${barterMessageModel.lastMessageText ?? ''}',
+                                style: TextStyle(
+                                  fontSize: 12.0,
+                                  fontWeight:
+                                      !barterMessageModel.isUserBarterRead
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                ),
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              if (!barterMessageModel.isUserBarterRead)
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        appSizeConfig.blockSizeHorizontal * 2.0,
+                                  ),
+                                  child: Icon(
+                                    Icons.fiber_manual_record,
+                                    color: kPrimaryColor,
+                                  ),
+                                )
+                              else
+                                Container(),
+                            ],
                           ),
                         ],
                       ),
@@ -200,6 +224,10 @@ class _MessageBarterItem extends StatelessWidget {
       MaterialPageRoute(builder: (context) {
         return ConversationBarterScreen(barterMessageModel, barterUser);
       }),
+    );
+
+    _conversationCubit.messageUserBarterReadUpdate(
+      barterMessageModel: barterMessageModel,
     );
   }
 }
