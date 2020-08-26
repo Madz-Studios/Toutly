@@ -85,7 +85,9 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
         userBarter: otherUserBarterModel.userId,
         userOffer: currentUser.userId,
         isUserBarterRead: false,
-        isUserOfferRead: false,
+
+        ///because it was a user who offer and the one who sent the message
+        isUserOfferRead: true,
         dateCreated: DateTime.now(),
         dateUpdated: DateTime.now(),
         lastMessageText: message,
@@ -93,11 +95,12 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
       await firestoreCreateBarterMessagesUseCase.call(
         UseCaseBarterMessagesModelParam.init(
-            messageId: barterMessageId, barterMessageModel: barterMessageModel),
+            barterMessageModel: barterMessageModel),
       );
 
       BarterConversationTextModel barterConversationTextModel =
           BarterConversationTextModel(
+        id: uuid.v4(),
         text: message,
         userId: currentUser.userId,
         dateCreated: DateTime.now(),

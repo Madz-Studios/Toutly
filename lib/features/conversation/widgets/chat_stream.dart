@@ -131,6 +131,7 @@ class _Conversation extends StatelessWidget {
         }
 
         final message = ChatMessage(
+          id: conversationModel.id,
           text: conversationModel.text,
           createdAt: conversationModel.dateCreated,
           user: conversationModel.userId == currentUserModel.userId
@@ -173,7 +174,6 @@ class _Chat extends StatefulWidget {
 class __ChatState extends State<_Chat> {
   final _conversationCubit = getIt<ConversationCubit>();
   final GlobalKey<__ChatState> _chatViewKey = GlobalKey<__ChatState>();
-  GlobalKey<__ChatState> _toolTipKey = GlobalKey<__ChatState>();
 
   @override
   Widget build(BuildContext context) {
@@ -235,6 +235,7 @@ class __ChatState extends State<_Chat> {
       barterMessageId: widget.barterMessageModel.barterMessageId,
       userId: message.user.uid,
       message: message.text,
+      barterMessageModel: widget.barterMessageModel,
     );
   }
 }

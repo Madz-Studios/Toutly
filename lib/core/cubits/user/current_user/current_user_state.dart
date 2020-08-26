@@ -4,7 +4,7 @@ part of 'current_user_cubit.dart';
 abstract class CurrentUserState implements _$CurrentUserState {
   const CurrentUserState._();
   const factory CurrentUserState({
-    @required UserModel currentUserModel,
+    UserModel currentUserModel,
     @required bool isNameValid,
     @required bool isLocationValid,
     @required bool isSubmitting,

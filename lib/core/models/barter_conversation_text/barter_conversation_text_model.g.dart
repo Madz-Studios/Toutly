@@ -9,6 +9,7 @@ part of 'barter_conversation_text_model.dart';
 BarterConversationTextModel _$BarterConversationTextModelFromJson(
     Map<String, dynamic> json) {
   return BarterConversationTextModel(
+    id: json['id'] as String,
     barterMessageId: json['barterMessageId'] as String,
     userId: json['userId'] as String,
     text: json['text'] as String,
@@ -20,6 +21,7 @@ BarterConversationTextModel _$BarterConversationTextModelFromJson(
 Map<String, dynamic> _$BarterConversationTextModelToJson(
         BarterConversationTextModel instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'barterMessageId': instance.barterMessageId,
       'userId': instance.userId,
       'text': instance.text,

@@ -8,6 +8,8 @@ import 'package:injectable/injectable.dart';
 abstract class FirestoreBarterMessageRepository {
   Future<void> createBarterMessage(BarterMessageModel barterMessageModel);
 
+  Future<void> updateBarterMessage(BarterMessageModel barterMessageModel);
+
   Stream<QuerySnapshot> getStreamAllBarterMessagesUsingUserId(String userId);
 
   Stream<QuerySnapshot> getStreamAllOfferMessagesUsingUserId(String userId);
@@ -30,6 +32,15 @@ class FirestoreBarterMessageRepositoryImpl
         .collection(FirestoreCollectionNames.barterMessagesCollection)
         .doc(barterMessageModel.barterMessageId)
         .set(barterMessageModel.toJson());
+  }
+
+  @override
+  Future<void> updateBarterMessage(
+      BarterMessageModel barterMessageModel) async {
+    await firestore
+        .collection(FirestoreCollectionNames.barterMessagesCollection)
+        .doc(barterMessageModel.barterMessageId)
+        .update(barterMessageModel.toJson());
   }
 
   /// Get all the messages that you offered to a bartered items.

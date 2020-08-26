@@ -14,6 +14,7 @@ import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dar
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
+import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/password_reset/password_reset_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
@@ -169,6 +170,10 @@ class App extends StatelessWidget {
         BlocProvider<UpdateBarterModelCurrentUserCubit>(
           create: (BuildContext context) =>
               getIt<UpdateBarterModelCurrentUserCubit>(),
+        ),
+
+        BlocProvider<NotificationCubit>(
+          create: (BuildContext context) => getIt<NotificationCubit>(),
         ),
 
         /// CUBITS REGISTRATION END

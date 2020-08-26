@@ -7,6 +7,7 @@ part 'barter_conversation_text_model.g.dart';
 
 @JsonSerializable(explicitToJson: true)
 class BarterConversationTextModel {
+  String id;
   String barterMessageId;
   String userId;
   String text;
@@ -15,6 +16,7 @@ class BarterConversationTextModel {
   DateTime dateCreated;
 
   BarterConversationTextModel({
+    this.id,
     this.barterMessageId,
     this.userId,
     this.text,
