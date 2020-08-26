@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -84,37 +86,50 @@ class MakeOfferBarterItemList extends StatelessWidget {
                       ),
                     );
                   } else {
-                    return Padding(
-                      padding: EdgeInsets.all(
-                        appSizeConfig.blockSizeHorizontal * 4,
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Expanded(
-                            child: GridView.builder(
-                              itemCount: userBarterItems.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                crossAxisSpacing:
-                                    appSizeConfig.blockSizeHorizontal * 1.5,
-                                mainAxisSpacing:
-                                    appSizeConfig.blockSizeVertical * 1.5,
+                    return BlocBuilder<MakeOfferCubit, MakeOfferState>(
+                      builder: (_, state) {
+                        return Padding(
+                          padding: EdgeInsets.all(
+                            appSizeConfig.blockSizeHorizontal * 4,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Center(
+                                child: Text(
+                                  '${state.pickedBarterItems.length} item picked',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
                               ),
-                              itemBuilder: (context, index) {
-                                final barterModel = userBarterItems[index];
-                                return GridTile(
-                                  child: MakeOfferBarterItem(barterModel),
-                                );
-                              },
-                            ),
+                              Expanded(
+                                child: GridView.builder(
+                                  itemCount: userBarterItems.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing:
+                                        appSizeConfig.blockSizeHorizontal * 1.5,
+                                    mainAxisSpacing:
+                                        appSizeConfig.blockSizeVertical * 1.5,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    final barterModel = userBarterItems[index];
+                                    return GridTile(
+                                      child: MakeOfferBarterItem(barterModel),
+                                    );
+                                  },
+                                ),
+                              ),
+                              SizedBox(
+                                height: appSizeConfig.blockSizeVertical * 4,
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: appSizeConfig.blockSizeVertical * 4,
-                          ),
-                        ],
-                      ),
+                        );
+                      },
                     );
                   }
                 }

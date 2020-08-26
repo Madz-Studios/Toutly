@@ -135,77 +135,79 @@ class _MessageOfferItem extends StatelessWidget {
       onTap: () {
         _onTappedMessageItem(context, barterUser);
       },
-      child: Column(
-        children: [
-          if (barterUser != null)
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
-                    vertical: appSizeConfig.blockSizeVertical * 2,
-                  ),
-                  child: CircleAvatar(
-                    backgroundImage: barterUser.photoUrl != null
-                        ? NetworkImage(barterUser.photoUrl ?? '')
-                        : AssetImage(
-                            'assets/images/profile_placeholder.png',
-                          ),
-                  ),
-                ),
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        '${barterUser.name ?? ''}',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${barterMessageModel.lastMessageText ?? ''}',
-                            style: TextStyle(
-                              fontSize: 12.0,
-                              fontWeight: !barterMessageModel.isUserOfferRead
-                                  ? FontWeight.bold
-                                  : FontWeight.normal,
+      child: Container(
+        child: Column(
+          children: [
+            if (barterUser != null)
+              Row(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: appSizeConfig.blockSizeHorizontal * 2.5,
+                      vertical: appSizeConfig.blockSizeVertical * 2,
+                    ),
+                    child: CircleAvatar(
+                      backgroundImage: barterUser.photoUrl != null
+                          ? NetworkImage(barterUser.photoUrl ?? '')
+                          : AssetImage(
+                              'assets/images/profile_placeholder.png',
                             ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          if (!barterMessageModel.isUserOfferRead)
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal:
-                                    appSizeConfig.blockSizeHorizontal * 2.0,
-                              ),
-                              child: Icon(
-                                Icons.fiber_manual_record,
-                                color: kPrimaryColor,
-                              ),
-                            )
-                          else
-                            Container(),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ],
-            )
-          else
-            Container(),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: appSizeConfig.blockSizeHorizontal * 5,
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          '${barterUser.name ?? ''}',
+                          style: TextStyle(
+                            fontSize: 14.0,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${barterMessageModel.lastMessageText ?? ''}',
+                              style: TextStyle(
+                                fontSize: 12.0,
+                                fontWeight: !barterMessageModel.isUserOfferRead
+                                    ? FontWeight.bold
+                                    : FontWeight.normal,
+                              ),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            if (!barterMessageModel.isUserOfferRead)
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      appSizeConfig.blockSizeHorizontal * 2.0,
+                                ),
+                                child: Icon(
+                                  Icons.fiber_manual_record,
+                                  color: kPrimaryColor,
+                                ),
+                              )
+                            else
+                              Container(),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            else
+              Container(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 5,
+              ),
+              child: Divider(),
             ),
-            child: Divider(),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
