@@ -23,6 +23,18 @@ class OfferItemCard extends StatelessWidget {
           builder: (context, offerItemsState) {
             if (offerItemsState.isSuccess) {
               List<Widget> offeredItems = [];
+              if (offerItemsState.offerItems.length == 0) {
+                return Center(
+                  child: Text(
+                    'Item is no longer available.',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.red,
+                    ),
+                  ),
+                );
+              }
+
               for (BarterModel barterModel in offerItemsState.offerItems) {
                 offeredItems.add(
                   GestureDetector(
