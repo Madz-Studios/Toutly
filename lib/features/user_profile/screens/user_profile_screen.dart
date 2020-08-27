@@ -18,11 +18,20 @@ class UserProfileScreen extends StatelessWidget {
           final currentUser = currentUserState.currentUserModel;
           return Scaffold(
             appBar: PreferredSize(
-              preferredSize:
-                  Size.fromHeight(appSizeConfig.blockSizeVertical * 5.5),
+              preferredSize: Size.fromHeight(
+                appSizeConfig.blockSizeVertical * 7.5,
+              ),
               child: AppBar(
                 backgroundColor: kPrimaryColor,
-                title: Text('Profile'),
+                centerTitle: true,
+                title: Text(
+                  'Profile',
+                  style: TextStyle(
+                    fontStyle: FontStyle.normal,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 22,
+                  ),
+                ),
                 actions: [
                   IconButton(
                     icon: Icon(

@@ -28,7 +28,9 @@ class HomeScreen extends StatelessWidget {
     final appSizeConfig = AppSizeConfig(context);
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(appSizeConfig.blockSizeVertical * 5.5),
+        preferredSize: Size.fromHeight(
+          appSizeConfig.blockSizeVertical * 8.5,
+        ),
         child: AppBar(
           backgroundColor: kPrimaryColor,
           automaticallyImplyLeading: false, // Don't show the leading button
