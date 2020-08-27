@@ -29,7 +29,7 @@ class SavedPanel extends StatelessWidget {
               ? SvgPicture.asset(
                   'assets/icons/saved.svg',
                   height: appSizeConfig.blockSizeVertical * 3,
-                  color: kPrimaryColor,
+                  color: kSecondaryRedAccentColor,
                 )
               : SvgPicture.asset(
                   'assets/icons/saved.svg',
