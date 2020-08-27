@@ -81,9 +81,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
         locationState.placeMark != null) {
       ///update current user using the values of location
 
-      String subLocality = "${locationState.placeMark.subLocality}, ";
+      String subLocality = "${locationState.placeMark.subLocality}";
       String locality = "${locationState.placeMark.locality}";
-      currentUser.address = "$subLocality" "$locality";
+      String address = "";
+      if (subLocality.isNotEmpty) {
+        address = address + subLocality + ", ";
+      }
+      if (locality.isNotEmpty) {
+        address = address + locality;
+      }
+
+      currentUser.address = address;
 
       currentUser.geoLocation = locationState.geoPoint;
 

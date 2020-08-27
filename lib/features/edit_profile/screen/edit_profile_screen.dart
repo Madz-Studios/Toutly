@@ -67,10 +67,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     LocationState locationState,
     SearchConfigState searchConfigState,
   ) {
-    String subLocality = "${locationState.placeMark.subLocality}, ";
+    String subLocality = "${locationState.placeMark.subLocality}";
     String locality = "${locationState.placeMark.locality}";
+    String address = "";
+    if (subLocality.isNotEmpty) {
+      address = address + subLocality + ", ";
+    }
+    if (locality.isNotEmpty) {
+      address = address + locality;
+    }
 
-    currentUser.address = "$subLocality" "$locality";
     currentUser.geoLocation = locationState.geoPoint;
 
     _currentUserCubit.updateCurrentLoggedInUser(currentUser);
