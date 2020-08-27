@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class ActionButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final Color color;
 
   ActionButton({
     Key key,
     @required this.title,
     @required this.onPressed,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -18,18 +20,17 @@ class ActionButton extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4.0),
       ),
-      color: kPrimaryColor,
+      color: color ?? kPrimaryColor,
       onPressed: onPressed,
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Text(
           '$title',
           style: TextStyle(
-            fontWeight: FontWeight.normal,
-            fontStyle: FontStyle.normal,
-            fontSize: 14,
-            color: Colors.white,
-          ),
+              fontWeight: FontWeight.normal,
+              fontStyle: FontStyle.normal,
+              fontSize: 14,
+              color: kSecondaryWhiteSeventyColor),
         ),
       ),
     );

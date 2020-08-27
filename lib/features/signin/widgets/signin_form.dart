@@ -77,7 +77,7 @@ class _SignInFormState extends State<SignInForm> {
                     Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: kSecondaryRedAccentColor,
               ),
             );
         }

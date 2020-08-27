@@ -199,7 +199,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
             FlatButton(
               child: Text(
                 "Restart",
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                  color: kSecondaryRedAccentColor,
+                ),
               ),
               onPressed: () {
 //                Navigator.pop(subContext);
@@ -238,7 +240,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
               isDefaultAction: true,
               child: Text(
                 "Restart",
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                  color: kSecondaryRedAccentColor,
+                ),
               ),
               onPressed: () async {
                 SystemChannels.platform
@@ -334,7 +338,7 @@ class _NavigationBar extends StatelessWidget {
                   ? SvgPicture.asset(
                       'assets/icons/chat.svg',
                       height: appSizeConfig.blockSizeVertical * 3,
-                      color: Colors.red,
+                      color: kSecondaryRedAccentColor,
                     )
                   : SvgPicture.asset(
                       'assets/icons/unpressed-chat.svg',

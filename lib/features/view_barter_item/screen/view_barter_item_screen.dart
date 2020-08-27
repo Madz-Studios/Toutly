@@ -140,7 +140,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                           Icon(Icons.error),
                         ],
                       ),
-                      backgroundColor: Colors.red,
+                      backgroundColor: kSecondaryRedAccentColor,
                     ),
                   );
               }
@@ -400,7 +400,9 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
             FlatButton(
               child: Text(
                 "Yes",
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(
+                  color: kSecondaryRedAccentColor,
+                ),
               ),
               onPressed: () {
                 _deleteItemAndGoToUserListings(barterModel, mainContext);
@@ -428,7 +430,9 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
           actions: <Widget>[
             CupertinoDialogAction(
               isDefaultAction: true,
-              textStyle: TextStyle(color: Colors.red),
+              textStyle: TextStyle(
+                color: kSecondaryRedAccentColor,
+              ),
               child: Text("Yes"),
               onPressed: () {
                 _deleteItemAndGoToUserListings(barterModel, mainContext);

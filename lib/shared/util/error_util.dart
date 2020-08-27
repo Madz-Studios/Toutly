@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class LoadingOrErrorWidgetUtil extends StatelessWidget {
         child: Text(
           'Error: $errorString',
           style: TextStyle(
-            color: Colors.red,
+            color: kSecondaryRedAccentColor,
           ),
         ),
       );
@@ -42,7 +43,7 @@ class ScaffoldLoadingOrErrorWidgetUtil extends StatelessWidget {
           child: Text(
             'Error: $errorString',
             style: TextStyle(
-              color: Colors.red,
+              color: kSecondaryRedAccentColor,
             ),
           ),
         ),

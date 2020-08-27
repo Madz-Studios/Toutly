@@ -223,6 +223,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             children: [
               ActionButton(
                 title: 'Logout',
+                color: kSecondaryRedAccentColor,
                 onPressed: () {
                   Navigator.pop(context);
                   _authCubit.signedOut();

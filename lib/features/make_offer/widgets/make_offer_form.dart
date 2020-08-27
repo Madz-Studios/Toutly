@@ -111,7 +111,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                     Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: kSecondaryRedAccentColor,
               ),
             );
         }

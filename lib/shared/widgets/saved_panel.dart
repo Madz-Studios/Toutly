@@ -1,6 +1,7 @@
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,12 +29,12 @@ class SavedPanel extends StatelessWidget {
               ? SvgPicture.asset(
                   'assets/icons/saved.svg',
                   height: appSizeConfig.blockSizeVertical * 3,
-                  color: Colors.red,
+                  color: kPrimaryColor,
                 )
               : SvgPicture.asset(
                   'assets/icons/saved.svg',
                   height: appSizeConfig.blockSizeVertical * 3,
-                  color: Colors.white,
+                  color: kSecondaryWhiteSeventyColor,
                 ),
           onPressed: () {
             _isLiked = !_isLiked;

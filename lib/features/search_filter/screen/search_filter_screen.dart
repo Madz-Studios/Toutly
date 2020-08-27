@@ -166,7 +166,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                 GestureDetector(
                   child: Text(
                     'Reset',
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: kSecondaryRedAccentColor),
                   ),
                   onTap: () {
                     _reset();

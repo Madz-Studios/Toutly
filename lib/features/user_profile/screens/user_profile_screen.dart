@@ -36,7 +36,7 @@ class UserProfileScreen extends StatelessWidget {
                   IconButton(
                     icon: Icon(
                       Icons.edit,
-                      color: Colors.white,
+                      color: kSecondaryWhiteSeventyColor,
                     ),
                     onPressed: () {
                       Navigator.push(

@@ -87,7 +87,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: kSecondaryRedAccentColor,
               ),
             );
         }

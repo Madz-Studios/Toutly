@@ -68,7 +68,7 @@ class PostItemTextField extends StatelessWidget {
             suffixStyle: TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 18,
-              color: Colors.red,
+              color: kSecondaryRedAccentColor,
             ),
             suffixIcon: !readOnly
                 ? Icon(
@@ -77,7 +77,7 @@ class PostItemTextField extends StatelessWidget {
                   )
                 : Icon(
                     Icons.lock,
-                    color: Colors.red,
+                    color: kSecondaryRedAccentColor,
                   ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: Colors.transparent),
