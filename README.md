@@ -23,6 +23,8 @@ flutter build apk --target lib/main-dev.dart --flavor dev
 ### Important!!! - Change buildTypes.release of android/app/build.gradle to "signingConfigs.dev" to use production database in Android
 flutter build apk --target lib/main-prod.dart --flavor prod
 
+flutter build appbundle --target lib/main-prod.dart --flavor prod
+
 # Build using Development Flavor iOS
 
 ### Important!!! - XCode Scheme should be "dev"
