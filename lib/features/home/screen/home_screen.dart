@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/privacy_services/privacy_services_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
@@ -128,6 +129,8 @@ class _BarterItemFeed extends StatefulWidget {
 }
 
 class __BarterItemFeedState extends State<_BarterItemFeed> {
+  final _authCubit = getIt<AuthCubit>();
+
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
@@ -177,12 +180,12 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
           padding: const EdgeInsets.all(8.0),
           child: ActionButton(
             title:
-                'To better serve you. Please enabled location service then restart the app.',
+                'To better serve you. Please enabled location service and re-login.',
             color: Colors.blueAccent,
             onPressed: () {
               debugPrint('Enabled location service');
               AppSettings.openLocationSettings();
-              setState(() {});
+              _authCubit.signedOut();
             },
           ),
         ),
