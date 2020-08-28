@@ -67,6 +67,7 @@ class HomeScreen extends StatelessWidget {
                                 category: searchConfigState.category,
                                 postedWithin: searchConfigState.postedWithin,
                                 address: searchConfigState.address,
+                                range: searchConfigState.range,
                               ),
                             ),
                           );
@@ -146,6 +147,7 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
               algoliaAppId: searchConfigState.algoliaAppId,
               latitude: searchConfigState.latitude,
               longitude: searchConfigState.longitude,
+              range: searchConfigState.range,
             );
             _refreshController.refreshCompleted();
           },
@@ -365,6 +367,7 @@ class __SearchTextFieldState extends State<_SearchTextField> {
               longitude: searchConfigState.longitude,
               algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
               algoliaAppId: searchConfigState.algoliaAppId,
+              range: searchConfigState.range,
             );
 
             _searchConfigCubit.updateSearchText(_searchController.text);
@@ -398,6 +401,7 @@ class __SearchTextFieldState extends State<_SearchTextField> {
                   longitude: searchConfigState.longitude,
                   algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
                   algoliaAppId: searchConfigState.algoliaAppId,
+                  range: searchConfigState.range,
                 );
                 _searchConfigCubit.updateSearchText('');
               },

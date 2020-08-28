@@ -21,6 +21,7 @@ class _$SearchConfigStateTearOff {
       @required String algoliaAppId,
       @required String algoliaSearchApiKey,
       @required String address,
+      @required double range,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
@@ -34,6 +35,7 @@ class _$SearchConfigStateTearOff {
       algoliaAppId: algoliaAppId,
       algoliaSearchApiKey: algoliaSearchApiKey,
       address: address,
+      range: range,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -54,6 +56,7 @@ mixin _$SearchConfigState {
   String get algoliaAppId;
   String get algoliaSearchApiKey;
   String get address;
+  double get range;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -75,6 +78,7 @@ abstract class $SearchConfigStateCopyWith<$Res> {
       String algoliaAppId,
       String algoliaSearchApiKey,
       String address,
+      double range,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -99,6 +103,7 @@ class _$SearchConfigStateCopyWithImpl<$Res>
     Object algoliaAppId = freezed,
     Object algoliaSearchApiKey = freezed,
     Object address = freezed,
+    Object range = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -120,6 +125,7 @@ class _$SearchConfigStateCopyWithImpl<$Res>
           ? _value.algoliaSearchApiKey
           : algoliaSearchApiKey as String,
       address: address == freezed ? _value.address : address as String,
+      range: range == freezed ? _value.range : range as double,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -144,6 +150,7 @@ abstract class _$SearchConfigStateCopyWith<$Res>
       String algoliaAppId,
       String algoliaSearchApiKey,
       String address,
+      double range,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -170,6 +177,7 @@ class __$SearchConfigStateCopyWithImpl<$Res>
     Object algoliaAppId = freezed,
     Object algoliaSearchApiKey = freezed,
     Object address = freezed,
+    Object range = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -191,6 +199,7 @@ class __$SearchConfigStateCopyWithImpl<$Res>
           ? _value.algoliaSearchApiKey
           : algoliaSearchApiKey as String,
       address: address == freezed ? _value.address : address as String,
+      range: range == freezed ? _value.range : range as double,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -210,6 +219,7 @@ class _$_SearchConfigState implements _SearchConfigState {
       @required this.algoliaAppId,
       @required this.algoliaSearchApiKey,
       @required this.address,
+      @required this.range,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
@@ -222,6 +232,7 @@ class _$_SearchConfigState implements _SearchConfigState {
         assert(algoliaAppId != null),
         assert(algoliaSearchApiKey != null),
         assert(address != null),
+        assert(range != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null);
@@ -243,6 +254,8 @@ class _$_SearchConfigState implements _SearchConfigState {
   @override
   final String address;
   @override
+  final double range;
+  @override
   final bool isSubmitting;
   @override
   final bool isSuccess;
@@ -253,7 +266,7 @@ class _$_SearchConfigState implements _SearchConfigState {
 
   @override
   String toString() {
-    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, latitude: $latitude, longitude: $longitude, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, address: $address, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, latitude: $latitude, longitude: $longitude, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, address: $address, range: $range, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -284,6 +297,8 @@ class _$_SearchConfigState implements _SearchConfigState {
             (identical(other.address, address) ||
                 const DeepCollectionEquality()
                     .equals(other.address, address)) &&
+            (identical(other.range, range) ||
+                const DeepCollectionEquality().equals(other.range, range)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -308,6 +323,7 @@ class _$_SearchConfigState implements _SearchConfigState {
       const DeepCollectionEquality().hash(algoliaAppId) ^
       const DeepCollectionEquality().hash(algoliaSearchApiKey) ^
       const DeepCollectionEquality().hash(address) ^
+      const DeepCollectionEquality().hash(range) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
@@ -328,6 +344,7 @@ abstract class _SearchConfigState implements SearchConfigState {
       @required String algoliaAppId,
       @required String algoliaSearchApiKey,
       @required String address,
+      @required double range,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
@@ -349,6 +366,8 @@ abstract class _SearchConfigState implements SearchConfigState {
   String get algoliaSearchApiKey;
   @override
   String get address;
+  @override
+  double get range;
   @override
   bool get isSubmitting;
   @override

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
@@ -10,6 +12,7 @@ import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
@@ -20,12 +23,14 @@ class SearchFilterScreen extends StatefulWidget {
   final String category;
   final String postedWithin;
   final String address;
+  final double range;
 
   SearchFilterScreen({
     @required this.searchText,
     @required this.category,
     @required this.postedWithin,
     @required this.address,
+    @required this.range,
   });
 
   @override
@@ -46,6 +51,8 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
   String _selectedCategory;
   String _selectedPostedWithin;
 
+  double _currentSliderValue;
+
   LocationResult _locationResult;
 
   @override
@@ -54,6 +61,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     _defaultCategoryValue = 'All Categories';
     _defaultPostedWithinValue = AppConstants.filterByTimeList[0];
     _defaultLocation = widget.address;
+    _currentSliderValue = widget.range;
 
     if (widget.category.isNotEmpty) {
       _selectedCategory = widget.category;
@@ -86,6 +94,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       address: _addressController.text,
       latitude: latitude,
       longitude: longitude,
+      range: _currentSliderValue, // default
     );
     _searchCubit.search(
       searchText: widget.searchText,
@@ -98,6 +107,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       algoliaSearchApiKey: algoliaSearchApiKey,
       latitude: latitude,
       longitude: longitude,
+      range: _currentSliderValue,
     );
   }
 
@@ -205,9 +215,10 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                     debugPrint('Reset');
                     setState(() {
                       _locationResult = null;
-                      _addressController.text = _defaultLocation;
+                      _addressController.text = widget.address;
                       _selectedCategory = _defaultCategoryValue;
                       _selectedPostedWithin = _defaultPostedWithinValue;
+                      _currentSliderValue = widget.range;
                     });
                   },
                 ),
@@ -309,9 +320,29 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Center(
+                        child: Text(
+                      '${_currentSliderValue.toInt()} km',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )),
+                    _buildSlider(context),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
                   top: appSizeConfig.safeBlockVertical * 10,
-                  right: appSizeConfig.safeBlockHorizontal * 20,
-                  left: appSizeConfig.safeBlockHorizontal * 20,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
                 ),
                 child: ActionButton(
                   title: 'Apply',
@@ -433,5 +464,34 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
         );
       },
     );
+  }
+
+  Widget _buildSlider(BuildContext context) {
+    if (Platform.isIOS) {
+      return CupertinoSlider(
+        value: _currentSliderValue.toDouble(),
+        min: 1,
+        max: 100.0,
+        divisions: 100,
+        onChanged: (double newValue) {
+          setState(() {
+            _currentSliderValue = newValue;
+          });
+        },
+      );
+    } else {
+      return Slider(
+        value: _currentSliderValue,
+        min: 1,
+        max: 100.0,
+        divisions: 100,
+        label: _currentSliderValue.round().toString(),
+        onChanged: (double value) {
+          setState(() {
+            _currentSliderValue = value;
+          });
+        },
+      );
+    }
   }
 }

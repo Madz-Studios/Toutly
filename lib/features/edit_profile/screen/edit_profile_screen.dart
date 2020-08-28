@@ -94,6 +94,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       searchText: searchConfigState.searchText,
       category: searchConfigState.category,
       postedWithin: searchConfigState.postedWithin,
+      range: searchConfigState.range,
     );
 
     Navigator.pop(context);

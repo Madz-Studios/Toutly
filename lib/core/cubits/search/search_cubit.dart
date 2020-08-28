@@ -25,7 +25,12 @@ class SearchCubit extends Cubit<SearchState> {
     @required String searchText,
     @required String category,
     @required String postedWithin,
+    @required double range,
   }) async {
+    debugPrint(
+        '''algoliaAppId = $algoliaAppId algoliaSearchApiKey = $algoliaSearchApiKey 
+        latitude = $latitude longitude = $longitude searchText = $searchText
+        category = $category postedWithin = $postedWithin range = $range''');
     try {
       emit(SearchState.loading());
       Algolia algolia = Algolia.init(
@@ -45,12 +50,21 @@ class SearchCubit extends Cubit<SearchState> {
         filter = "publicAccess=1 AND $dateFilter";
       }
 
+      //1000 = 1km
+      if (range == null) {
+        range = 50.0 * 1000;
+      } else {
+        range = range * 1000;
+      }
+
+      int finalRange = range.toInt();
+
       AlgoliaQuery algoliaQuery = algolia.instance
           .index('barter_index')
           .search('$searchText')
           .setFacetFilter('category: $category')
           .setAroundLatLng(aroundLatLng)
-          .setAroundRadius(5000) //5,000 meters or 5 km
+          .setAroundRadius(finalRange)
           .setFilters(filter);
 
       final algoliaQuerySnapshot = await algoliaQuery.getObjects();

@@ -110,6 +110,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       longitude:
           locationState.geoPoint.longitude ?? 123.933334, //cebu city longitude
       address: address,
+      range: 50.0, //default
     );
 
     ///initial search
@@ -121,6 +122,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       algoliaAppId: remoteConfigState.algoliaAppId,
       latitude: locationState.geoPoint.latitude,
       longitude: locationState.geoPoint.longitude,
+      range: 50.0, //default
     );
   }
 
@@ -201,8 +203,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 ),
               ),
               onPressed: () {
-//                Navigator.pop(subContext);
-//                SystemNavigator.pop();
                 SystemChannels.platform
                     .invokeMethod<void>('SystemNavigator.pop');
               },

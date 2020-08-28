@@ -11,6 +11,7 @@ abstract class SearchConfigState with _$SearchConfigState {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
     @required String address,
+    @required double range,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -26,6 +27,7 @@ abstract class SearchConfigState with _$SearchConfigState {
         algoliaAppId: '',
         algoliaSearchApiKey: '',
         address: '',
+        range: 0.0,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -41,6 +43,7 @@ abstract class SearchConfigState with _$SearchConfigState {
         algoliaAppId: '',
         algoliaSearchApiKey: '',
         address: '',
+        range: 0.0,
         isSubmitting: true,
         isSuccess: false,
         isFailure: false,
@@ -56,6 +59,7 @@ abstract class SearchConfigState with _$SearchConfigState {
         algoliaAppId: '',
         algoliaSearchApiKey: '',
         address: '',
+        range: 0.0,
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
@@ -71,6 +75,7 @@ abstract class SearchConfigState with _$SearchConfigState {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
     @required String address,
+    @required double range,
     @required String info,
   }) =>
       SearchConfigState(
@@ -82,17 +87,10 @@ abstract class SearchConfigState with _$SearchConfigState {
         algoliaAppId: algoliaAppId,
         algoliaSearchApiKey: algoliaSearchApiKey,
         address: address,
+        range: range,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,
         info: info,
       );
 }
-
-//@required String searchText,
-//@required String category,
-//@required String postedWithin,
-//@required double latitude,
-//@required double longitude,
-//@required String algoliaAppId,
-//@required String algoliaSearchApiKey,

@@ -18,6 +18,7 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
     @required String address,
     @required double latitude,
     @required double longitude,
+    @required double range,
   }) {
     emit(SearchConfigState.loading());
 
@@ -31,6 +32,7 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
           address: address,
           latitude: latitude,
           longitude: longitude,
+          range: range,
           info: 'Success'),
     );
   }
@@ -75,6 +77,12 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
   updateAddressText(String address) {
     emit(state.copyWith(
       address: address,
+    ));
+  }
+
+  updateRange(double range) {
+    emit(state.copyWith(
+      range: range,
     ));
   }
 }
