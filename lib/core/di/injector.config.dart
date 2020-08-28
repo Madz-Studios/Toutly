@@ -71,6 +71,7 @@ import '../cubits/barter_messages/offer/offer_message_cubit.dart';
 import '../cubits/user/other_user/other_user_cubit.dart';
 import '../cubits/password_reset/password_reset_cubit.dart';
 import '../cubits/post_barter/post_barter_cubit.dart';
+import '../cubits/privacy_services/privacy_services_cubit.dart';
 import '../cubits/barter_item/current_user/list/private/private_list_barter_model_current_user_cubit.dart';
 import '../cubits/barter_item/current_user/list/public/public_list_barter_model_current_user_cubit.dart';
 import '../cubits/remote_config/remote_config_cubit.dart';
@@ -157,15 +158,15 @@ Future<GetIt> $initGetIt(
               get<FirestoreBarterMessageRepository>()));
   gh.factory<FirestoreUserRepository>(
       () => FirestoreUserRepositoryImpl(get<FirebaseFirestore>()));
-  gh.lazySingleton<Geolocator>(() => injectableModule.geoLocator);
+  gh.lazySingleton<GeolocatorPlatform>(() => injectableModule.geoLocator);
   gh.lazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
-  gh.lazySingleton<LocationCubit>(() => LocationCubit(get<Geolocator>()));
   gh.lazySingleton<NavigationCubit>(() => NavigationCubit());
   gh.lazySingleton<NotificationCubit>(() => NotificationCubit());
   gh.lazySingleton<OfferItemsCubit>(
       () => OfferItemsCubit(get<FirestoreGetAllOfferItemsUseCase>()));
   gh.lazySingleton<OfferMessageCubit>(
       () => OfferMessageCubit(get<FirestoreGetAllOfferMessagesUseCase>()));
+  gh.lazySingleton<PrivacyServicesCubit>(() => PrivacyServicesCubit());
   gh.lazySingleton<PrivateListBarterModelCurrentUserCubit>(() =>
       PrivateListBarterModelCurrentUserCubit(
           get<FirestoreGetPrivateBarterItemsUsingUserIdUseCase>()));
@@ -179,7 +180,7 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<SavedBarterItemCubit>(() => SavedBarterItemCubit(
       get<FirestoreGetAllLikesBarterItemsUsingUserIdUseCase>()));
   gh.lazySingleton<SearchConfigCubit>(() => SearchConfigCubit());
-  gh.lazySingleton<SearchCubit>(() => SearchCubit(get<Geolocator>()));
+  gh.lazySingleton<SearchCubit>(() => SearchCubit(get<GeolocatorPlatform>()));
   final sharedPreferences = await injectableModule.sharedPreferences;
   gh.factory<SharedPreferences>(() => sharedPreferences);
   gh.lazySingleton<SingleBarterItemOtherUserCubit>(
@@ -239,6 +240,8 @@ Future<GetIt> $initGetIt(
       firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.factory<LocalSharedPrefRepository>(() =>
       LocalUserRepositoryImpl(sharedPreferences: get<SharedPreferences>()));
+  gh.lazySingleton<LocationCubit>(() =>
+      LocationCubit(get<PrivacyServicesCubit>(), get<GeolocatorPlatform>()));
   gh.lazySingleton<MakeOfferCubit>(() => MakeOfferCubit(
         get<FirestoreCreateBarterConversationTextUseCase>(),
         get<FirestoreCreateBarterMessagesUseCase>(),

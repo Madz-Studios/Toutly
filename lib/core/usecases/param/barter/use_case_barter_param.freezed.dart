@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
+// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
 part of 'use_case_barter_param.dart';
 
@@ -12,6 +12,7 @@ T _$identity<T>(T value) => value;
 class _$UseCaseBarterModelParamTearOff {
   const _$UseCaseBarterModelParamTearOff();
 
+// ignore: unused_element
   UseCaseBarterModelParamInit init({BarterModel barterModel}) {
     return UseCaseBarterModelParamInit(
       barterModel: barterModel,
@@ -24,6 +25,25 @@ const $UseCaseBarterModelParam = _$UseCaseBarterModelParamTearOff();
 
 mixin _$UseCaseBarterModelParam {
   BarterModel get barterModel;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(BarterModel barterModel),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(BarterModel barterModel),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseBarterModelParamInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseBarterModelParamInit value),
+    @required Result orElse(),
+  });
 
   $UseCaseBarterModelParamCopyWith<UseCaseBarterModelParam> get copyWith;
 }
@@ -116,6 +136,50 @@ class _$UseCaseBarterModelParamInit implements UseCaseBarterModelParamInit {
   $UseCaseBarterModelParamInitCopyWith<UseCaseBarterModelParamInit>
       get copyWith => _$UseCaseBarterModelParamInitCopyWithImpl<
           UseCaseBarterModelParamInit>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(BarterModel barterModel),
+  }) {
+    assert(init != null);
+    return init(barterModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(BarterModel barterModel),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(barterModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseBarterModelParamInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseBarterModelParamInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class UseCaseBarterModelParamInit implements UseCaseBarterModelParam {
@@ -132,6 +196,7 @@ abstract class UseCaseBarterModelParamInit implements UseCaseBarterModelParam {
 class _$UseCaseUserIdParamTearOff {
   const _$UseCaseUserIdParamTearOff();
 
+// ignore: unused_element
   UseCaseUserIdParamInit init({String userId}) {
     return UseCaseUserIdParamInit(
       userId: userId,
@@ -144,6 +209,25 @@ const $UseCaseUserIdParam = _$UseCaseUserIdParamTearOff();
 
 mixin _$UseCaseUserIdParam {
   String get userId;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(String userId),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String userId),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseUserIdParamInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseUserIdParamInit value),
+    @required Result orElse(),
+  });
 
   $UseCaseUserIdParamCopyWith<UseCaseUserIdParam> get copyWith;
 }
@@ -229,6 +313,50 @@ class _$UseCaseUserIdParamInit implements UseCaseUserIdParamInit {
   $UseCaseUserIdParamInitCopyWith<UseCaseUserIdParamInit> get copyWith =>
       _$UseCaseUserIdParamInitCopyWithImpl<UseCaseUserIdParamInit>(
           this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(String userId),
+  }) {
+    assert(init != null);
+    return init(userId);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String userId),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(userId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseUserIdParamInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseUserIdParamInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
@@ -244,6 +372,7 @@ abstract class UseCaseUserIdParamInit implements UseCaseUserIdParam {
 class _$UseCaseItemIdParamTearOff {
   const _$UseCaseItemIdParamTearOff();
 
+// ignore: unused_element
   UseCaseItemIdParamInit init(String itemId) {
     return UseCaseItemIdParamInit(
       itemId,
@@ -256,6 +385,25 @@ const $UseCaseItemIdParam = _$UseCaseItemIdParamTearOff();
 
 mixin _$UseCaseItemIdParam {
   String get itemId;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(String itemId),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String itemId),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseItemIdParamInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseItemIdParamInit value),
+    @required Result orElse(),
+  });
 
   $UseCaseItemIdParamCopyWith<UseCaseItemIdParam> get copyWith;
 }
@@ -341,6 +489,50 @@ class _$UseCaseItemIdParamInit implements UseCaseItemIdParamInit {
   $UseCaseItemIdParamInitCopyWith<UseCaseItemIdParamInit> get copyWith =>
       _$UseCaseItemIdParamInitCopyWithImpl<UseCaseItemIdParamInit>(
           this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(String itemId),
+  }) {
+    assert(init != null);
+    return init(itemId);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String itemId),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(itemId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseItemIdParamInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseItemIdParamInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class UseCaseItemIdParamInit implements UseCaseItemIdParam {
@@ -356,6 +548,7 @@ abstract class UseCaseItemIdParamInit implements UseCaseItemIdParam {
 class _$UseCaseItemIdListParamTearOff {
   const _$UseCaseItemIdListParamTearOff();
 
+// ignore: unused_element
   UseCaseItemIdListParamInit init(List<String> itemIds) {
     return UseCaseItemIdListParamInit(
       itemIds,
@@ -368,6 +561,25 @@ const $UseCaseItemIdListParam = _$UseCaseItemIdListParamTearOff();
 
 mixin _$UseCaseItemIdListParam {
   List<String> get itemIds;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(List<String> itemIds),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(List<String> itemIds),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseItemIdListParamInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseItemIdListParamInit value),
+    @required Result orElse(),
+  });
 
   $UseCaseItemIdListParamCopyWith<UseCaseItemIdListParam> get copyWith;
 }
@@ -455,6 +667,50 @@ class _$UseCaseItemIdListParamInit implements UseCaseItemIdListParamInit {
       get copyWith =>
           _$UseCaseItemIdListParamInitCopyWithImpl<UseCaseItemIdListParamInit>(
               this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(List<String> itemIds),
+  }) {
+    assert(init != null);
+    return init(itemIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(List<String> itemIds),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(itemIds);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseItemIdListParamInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseItemIdListParamInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class UseCaseItemIdListParamInit implements UseCaseItemIdListParam {

@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/privacy_services/privacy_services_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -12,9 +13,11 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
+import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
 import 'package:Toutly/shared/widgets/saved_panel.dart';
 import 'package:algolia/algolia.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -134,51 +137,79 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SearchConfigCubit, SearchConfigState>(
-      builder: (_, searchConfigState) {
-        return SmartRefresher(
-          controller: _refreshController,
-          onRefresh: () {
-            SearchUtil().searchSubmit(
-              searchText: searchConfigState.searchText,
-              category: searchConfigState.category,
-              postedWithin: searchConfigState.postedWithin,
-              algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-              algoliaAppId: searchConfigState.algoliaAppId,
-              latitude: searchConfigState.latitude,
-              longitude: searchConfigState.longitude,
-              range: searchConfigState.range,
+    return BlocBuilder<PrivacyServicesCubit, PrivacyServicesState>(
+      builder: (_, privacyServicesState) {
+        return BlocBuilder<SearchConfigCubit, SearchConfigState>(
+          builder: (_, searchConfigState) {
+            return SmartRefresher(
+              controller: _refreshController,
+              onRefresh: () {
+                SearchUtil().searchSubmit(
+                  searchText: searchConfigState.searchText,
+                  category: searchConfigState.category,
+                  postedWithin: searchConfigState.postedWithin,
+                  algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
+                  algoliaAppId: searchConfigState.algoliaAppId,
+                  latitude: searchConfigState.latitude,
+                  longitude: searchConfigState.longitude,
+                  range: searchConfigState.range,
+                );
+                _refreshController.refreshCompleted();
+              },
+              onLoading: _onLoading,
+              child: ListView(
+                children: _itemTitle(context, privacyServicesState),
+              ),
             );
-            _refreshController.refreshCompleted();
           },
-          onLoading: _onLoading,
-          child: ListView(
-            children: widget.algoliaQuerySnapshot.hits
-                .map((e) => _itemTitle(e, context))
-                .toList(),
-          ),
         );
       },
     );
   }
 
-  Widget _itemTitle(AlgoliaObjectSnapshot snap, BuildContext context) {
-    final algoliaBarterModel = AlgoliaBarterModel.fromJson(snap.data);
+  List<Widget> _itemTitle(
+      BuildContext context, PrivacyServicesState privacyServicesState) {
+    List<Widget> items = [];
 
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        // Touch and fold the keyboard
-        FocusScope.of(context).requestFocus(FocusNode());
-        _gotoViewBarterItem(
-          context,
-          algoliaBarterModel,
-        );
-      },
-      child: _BarterItem(
-        algoliaBarter: algoliaBarterModel,
-      ),
-    );
+    if (!privacyServicesState.isLocationServiceEnabled) {
+      items.add(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ActionButton(
+            title:
+                'To better serve you. Please enabled location service then restart the app.',
+            color: Colors.blueAccent,
+            onPressed: () {
+              debugPrint('Enabled location service');
+              AppSettings.openLocationSettings();
+              setState(() {});
+            },
+          ),
+        ),
+      );
+    }
+
+    for (AlgoliaObjectSnapshot snap in widget.algoliaQuerySnapshot.hits) {
+      final algoliaBarterModel = AlgoliaBarterModel.fromJson(snap.data);
+      items.add(
+        GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () {
+            // Touch and fold the keyboard
+            FocusScope.of(context).requestFocus(FocusNode());
+            _gotoViewBarterItem(
+              context,
+              algoliaBarterModel,
+            );
+          },
+          child: _BarterItem(
+            algoliaBarter: algoliaBarterModel,
+          ),
+        ),
+      );
+    }
+
+    return items;
   }
 
   _gotoViewBarterItem(
@@ -280,7 +311,7 @@ class _BarterItem extends StatelessWidget {
                           ),
                         )
                       else
-                        Container(),
+                        SizedBox.shrink(),
                     ],
                   ),
                 ),

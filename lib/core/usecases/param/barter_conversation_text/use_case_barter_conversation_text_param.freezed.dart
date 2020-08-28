@@ -1,5 +1,5 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named
+// ignore_for_file: deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies
 
 part of 'use_case_barter_conversation_text_param.dart';
 
@@ -12,6 +12,7 @@ T _$identity<T>(T value) => value;
 class _$UseCaseBarterConversationTextModelParamTearOff {
   const _$UseCaseBarterConversationTextModelParamTearOff();
 
+// ignore: unused_element
   UseCaseBarterTransactionModelParamInit init(
       {@required String barterMessageId,
       @required BarterConversationTextModel barterConversationTextModel}) {
@@ -29,6 +30,28 @@ const $UseCaseBarterConversationTextModelParam =
 mixin _$UseCaseBarterConversationTextModelParam {
   String get barterMessageId;
   BarterConversationTextModel get barterConversationTextModel;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required
+        Result init(String barterMessageId,
+            BarterConversationTextModel barterConversationTextModel),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String barterMessageId,
+        BarterConversationTextModel barterConversationTextModel),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseBarterTransactionModelParamInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseBarterTransactionModelParamInit value),
+    @required Result orElse(),
+  });
 
   $UseCaseBarterConversationTextModelParamCopyWith<
       UseCaseBarterConversationTextModelParam> get copyWith;
@@ -153,6 +176,53 @@ class _$UseCaseBarterTransactionModelParamInit
           UseCaseBarterTransactionModelParamInit>
       get copyWith => _$UseCaseBarterTransactionModelParamInitCopyWithImpl<
           UseCaseBarterTransactionModelParamInit>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required
+        Result init(String barterMessageId,
+            BarterConversationTextModel barterConversationTextModel),
+  }) {
+    assert(init != null);
+    return init(barterMessageId, barterConversationTextModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(String barterMessageId,
+        BarterConversationTextModel barterConversationTextModel),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(barterMessageId, barterConversationTextModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required Result init(UseCaseBarterTransactionModelParamInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseBarterTransactionModelParamInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
 }
 
 abstract class UseCaseBarterTransactionModelParamInit

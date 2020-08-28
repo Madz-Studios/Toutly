@@ -212,7 +212,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                         break;
                       default:
                         debugPrint("Snapshot " + snapshot.toString());
-                        return Container();
+                        return SizedBox.shrink();
                     }
                   },
                 ),

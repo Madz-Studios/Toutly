@@ -190,7 +190,7 @@ class _MessageOfferItem extends StatelessWidget {
                                 ),
                               )
                             else
-                              Container(),
+                              SizedBox.shrink(),
                           ],
                         ),
                       ],
@@ -199,7 +199,7 @@ class _MessageOfferItem extends StatelessWidget {
                 ],
               )
             else
-              Container(),
+              SizedBox.shrink(),
             Padding(
               padding: EdgeInsets.symmetric(
                 horizontal: appSizeConfig.blockSizeHorizontal * 5,

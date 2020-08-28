@@ -12,7 +12,7 @@ part 'search_state.dart';
 
 @lazySingleton
 class SearchCubit extends Cubit<SearchState> {
-  final Geolocator geoLocator;
+  final GeolocatorPlatform geoLocator;
   SearchCubit(
     this.geoLocator,
   ) : super(SearchState.empty());

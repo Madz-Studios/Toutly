@@ -17,7 +17,7 @@ List<Widget> getCachedImages(List<String> photosUrl) {
             ),
           ),
         ),
-        placeholder: (context, url) => Container(),
+        placeholder: (context, url) => SizedBox.shrink(),
         errorWidget: (context, url, error) => Icon(Icons.error),
       ),
     );

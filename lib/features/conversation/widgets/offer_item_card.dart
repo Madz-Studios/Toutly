@@ -126,7 +126,7 @@ class OfferItemCard extends StatelessWidget {
                 children: offeredItems,
               );
             }
-            return Container();
+            return SizedBox.shrink();
           },
         ),
       ),

@@ -114,7 +114,7 @@ class BarterItemCard extends StatelessWidget {
                 );
               }
             }
-            return Container();
+            return SizedBox.shrink();
           },
         ),
       ),

@@ -46,7 +46,6 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
 
   String _defaultCategoryValue;
   String _defaultPostedWithinValue;
-  String _defaultLocation;
 
   String _selectedCategory;
   String _selectedPostedWithin;
@@ -60,7 +59,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     super.initState();
     _defaultCategoryValue = 'All Categories';
     _defaultPostedWithinValue = AppConstants.filterByTimeList[0];
-    _defaultLocation = widget.address;
+//    _defaultLocation = widget.address;
     _currentSliderValue = widget.range;
 
     if (widget.category.isNotEmpty) {
@@ -236,132 +235,134 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           double latitude = searchConfigState.latitude;
           double longitude = searchConfigState.longitude;
           _addressController.text = searchConfigState.address;
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Categories',
-                      style: TextStyle(
-                        fontSize: 12.0,
+          return SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Categories',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 1.5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 1.5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: _buildDropDownCategories(stateCategory),
                 ),
-                child: _buildDropDownCategories(stateCategory),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Posted within',
-                      style: TextStyle(
-                        fontSize: 12.0,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Posted within',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 1.5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 1.5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: _buildDropDownPostedWithin(statePostedWithin),
                 ),
-                child: _buildDropDownPostedWithin(statePostedWithin),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
-                ),
-                child: Row(
-                  children: [
-                    Text(
-                      'Change Location',
-                      style: TextStyle(
-                        fontSize: 12.0,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Change Location',
+                        style: TextStyle(
+                          fontSize: 12.0,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 1.5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 1.5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: _buildAddressForm(context),
                 ),
-                child: _buildAddressForm(context),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 1.5,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 1.5,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Center(
+                          child: Text(
+                        '${_currentSliderValue.toInt()} km',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )),
+                      _buildSlider(context),
+                    ],
+                  ),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Center(
-                        child: Text(
-                      '${_currentSliderValue.toInt()} km',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    )),
-                    _buildSlider(context),
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: appSizeConfig.safeBlockVertical * 10,
+                    right: appSizeConfig.safeBlockHorizontal * 5,
+                    left: appSizeConfig.safeBlockHorizontal * 5,
+                  ),
+                  child: ActionButton(
+                    title: 'Apply',
+                    onPressed: () {
+                      if (_locationResult != null) {
+                        latitude = _locationResult.latLng.latitude;
+                        longitude = _locationResult.latLng.longitude;
+                      }
+                      _applyFilter(
+                        latitude: latitude,
+                        longitude: longitude,
+                        algoliaAppId: algoliaAppId,
+                        algoliaSearchApiKey: algoliaSearchApiKey,
+                      );
+                      Navigator.pop(context);
+                    },
+                  ),
                 ),
-              ),
-              Padding(
-                padding: EdgeInsets.only(
-                  top: appSizeConfig.safeBlockVertical * 10,
-                  right: appSizeConfig.safeBlockHorizontal * 5,
-                  left: appSizeConfig.safeBlockHorizontal * 5,
-                ),
-                child: ActionButton(
-                  title: 'Apply',
-                  onPressed: () {
-                    if (_locationResult != null) {
-                      latitude = _locationResult.latLng.latitude;
-                      longitude = _locationResult.latLng.longitude;
-                    }
-                    _applyFilter(
-                      latitude: latitude,
-                      longitude: longitude,
-                      algoliaAppId: algoliaAppId,
-                      algoliaSearchApiKey: algoliaSearchApiKey,
-                    );
-                    Navigator.pop(context);
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),

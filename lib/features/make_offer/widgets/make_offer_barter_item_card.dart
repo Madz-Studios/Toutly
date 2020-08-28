@@ -50,7 +50,7 @@ class MakeOfferBarterItemCard extends StatelessWidget {
             ),
           );
         } else {
-          return Container();
+          return SizedBox.shrink();
         }
       },
     );

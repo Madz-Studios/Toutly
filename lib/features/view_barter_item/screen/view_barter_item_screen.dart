@@ -209,7 +209,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                   ),
                 )
               else
-                Container(),
+                SizedBox.shrink(),
               SafeArea(
                 child: _getDeleteWidget(
                   context,
@@ -304,13 +304,13 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
                   isEdit
-                      ? Container()
+                      ? SizedBox.shrink()
                       : Text(widget.barterModel.preferredItem ?? ''),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
                   isEdit
-                      ? Container()
+                      ? SizedBox.shrink()
                       : Text(
                           'Location',
                           style: TextStyle(
@@ -321,7 +321,9 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 1.5,
                   ),
-                  isEdit ? Container() : Text(widget.barterModel.address ?? ''),
+                  isEdit
+                      ? SizedBox.shrink()
+                      : Text(widget.barterModel.address ?? ''),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 3,
                   ),
@@ -361,7 +363,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                 _makeOfferPressed(context, barterModel);
               },
             )
-          : Container();
+          : SizedBox.shrink();
     }
   }
 
@@ -385,7 +387,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
         ),
       );
     } else {
-      return Container();
+      return SizedBox.shrink();
     }
   }
 
