@@ -75,7 +75,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     CurrentUserState currentUserState,
   ) {
     final currentUser = currentUserState.currentUserModel;
-
+    String address = "";
     if (currentUser != null &&
         locationState.geoPoint != null &&
         locationState.placeMark != null) {
@@ -83,7 +83,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
       String subLocality = "${locationState.placeMark.subLocality}";
       String locality = "${locationState.placeMark.locality}";
-      String address = "";
+
       if (subLocality.isNotEmpty) {
         address = address + subLocality + ", ";
       }
@@ -109,6 +109,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           locationState.geoPoint.latitude ?? 10.333333, //cebu city latitude
       longitude:
           locationState.geoPoint.longitude ?? 123.933334, //cebu city longitude
+      address: address,
     );
 
     ///initial search
@@ -126,51 +127,47 @@ class _NavigationScreenState extends State<NavigationScreen> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<LocationCubit, LocationState>(
-      builder: (_, locationState) {
-        return BlocBuilder<NavigationCubit, NavigationState>(
-          builder: (context, state) {
-            if (state.isHomeScreen) {
-              return _buildNoAppBarSingleViewScreen(
-                HomeScreen(),
-                state.index,
-              );
-            } else if (state.isSavedScreen) {
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Saved',
-                ),
-                SavedScreen(),
-                state.index,
-              );
-            } else if (state.isPostBarterScreen) {
-              _postBarterCubit.reset();
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Barter',
-                ),
-                PostScreen(),
-                state.index,
-              );
-            } else if (state.isMessagesScreen) {
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Messages',
-                ),
-                MessagesScreen(),
-                state.index,
-              );
-            } else {
-              return _buildNoAppBarSingleViewScreen(
-                UserProfileScreen(),
-                state.index,
-              );
-            }
-          },
-        );
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, state) {
+        if (state.isHomeScreen) {
+          return _buildNoAppBarSingleViewScreen(
+            HomeScreen(),
+            state.index,
+          );
+        } else if (state.isSavedScreen) {
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Saved',
+            ),
+            SavedScreen(),
+            state.index,
+          );
+        } else if (state.isPostBarterScreen) {
+          _postBarterCubit.reset();
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Barter',
+            ),
+            PostScreen(),
+            state.index,
+          );
+        } else if (state.isMessagesScreen) {
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Messages',
+            ),
+            MessagesScreen(),
+            state.index,
+          );
+        } else {
+          return _buildNoAppBarSingleViewScreen(
+            UserProfileScreen(),
+            state.index,
+          );
+        }
       },
     );
   }

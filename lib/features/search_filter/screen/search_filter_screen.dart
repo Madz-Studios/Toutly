@@ -1,22 +1,31 @@
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
+import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_map_location_picker/google_map_location_picker.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class SearchFilterScreen extends StatefulWidget {
   final String searchText;
   final String category;
   final String postedWithin;
+  final String address;
 
   SearchFilterScreen({
     @required this.searchText,
     @required this.category,
     @required this.postedWithin,
+    @required this.address,
   });
 
   @override
@@ -26,18 +35,25 @@ class SearchFilterScreen extends StatefulWidget {
 class _SearchFilterScreenState extends State<SearchFilterScreen> {
   final _searchCubit = getIt<SearchCubit>();
   final _searchConfigCubit = getIt<SearchConfigCubit>();
+  final _locationCubit = getIt<LocationCubit>();
+
+  final _addressController = TextEditingController();
 
   String _defaultCategoryValue;
   String _defaultPostedWithinValue;
+  String _defaultLocation;
 
   String _selectedCategory;
   String _selectedPostedWithin;
+
+  LocationResult _locationResult;
 
   @override
   void initState() {
     super.initState();
     _defaultCategoryValue = 'All Categories';
     _defaultPostedWithinValue = AppConstants.filterByTimeList[0];
+    _defaultLocation = widget.address;
 
     if (widget.category.isNotEmpty) {
       _selectedCategory = widget.category;
@@ -52,11 +68,12 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     }
   }
 
-  void applyFilter(
-      {@required double latitude,
-      @required double longitude,
-      @required String algoliaAppId,
-      @required String algoliaSearchApiKey}) {
+  void _applyFilter({
+    @required double latitude,
+    @required double longitude,
+    @required String algoliaAppId,
+    @required String algoliaSearchApiKey,
+  }) {
     _searchConfigCubit.setConfig(
       searchText: widget.searchText,
       category:
@@ -66,6 +83,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           : _selectedPostedWithin,
       algoliaAppId: algoliaAppId,
       algoliaSearchApiKey: algoliaSearchApiKey,
+      address: _addressController.text,
       latitude: latitude,
       longitude: longitude,
     );
@@ -81,13 +99,6 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       latitude: latitude,
       longitude: longitude,
     );
-  }
-
-  _reset() {
-    setState(() {
-      _selectedCategory = _defaultCategoryValue;
-      _selectedPostedWithin = _defaultPostedWithinValue;
-    });
   }
 
   _onChangeCategoryDropdownItem(String selectedCategory) {
@@ -136,6 +147,26 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     return items;
   }
 
+  _getLocation(BuildContext context, UserModel currentUser,
+      RemoteConfigState remoteConfigState) async {
+    _locationResult = await showLocationPicker(
+      context,
+      remoteConfigState.firebaseApiKey,
+      initialCenter: LatLng(
+        currentUser.geoLocation?.latitude,
+        currentUser.geoLocation?.longitude,
+      ),
+      myLocationButtonEnabled: true,
+      hintText: 'Address',
+    );
+
+    if (_locationResult != null &&
+        _locationResult.address != null &&
+        _locationResult.address.isNotEmpty) {
+      _addressController.text = _locationResult.address;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -170,7 +201,15 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       color: kSecondaryRedAccentColor,
                     ),
                   ),
-                  onTap: _reset,
+                  onTap: () {
+                    debugPrint('Reset');
+                    setState(() {
+                      _locationResult = null;
+                      _addressController.text = _defaultLocation;
+                      _selectedCategory = _defaultCategoryValue;
+                      _selectedPostedWithin = _defaultPostedWithinValue;
+                    });
+                  },
                 ),
               ],
             ),
@@ -185,6 +224,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           String algoliaSearchApiKey = searchConfigState.algoliaSearchApiKey;
           double latitude = searchConfigState.latitude;
           double longitude = searchConfigState.longitude;
+          _addressController.text = searchConfigState.address;
           return Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -243,6 +283,32 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
               ),
               Padding(
                 padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: Row(
+                  children: [
+                    Text(
+                      'Change Location',
+                      style: TextStyle(
+                        fontSize: 12.0,
+                      ),
+                      textAlign: TextAlign.left,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  top: appSizeConfig.safeBlockVertical * 1.5,
+                  right: appSizeConfig.safeBlockHorizontal * 5,
+                  left: appSizeConfig.safeBlockHorizontal * 5,
+                ),
+                child: _buildAddressForm(context),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
                   top: appSizeConfig.safeBlockVertical * 10,
                   right: appSizeConfig.safeBlockHorizontal * 20,
                   left: appSizeConfig.safeBlockHorizontal * 20,
@@ -250,7 +316,11 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                 child: ActionButton(
                   title: 'Apply',
                   onPressed: () {
-                    applyFilter(
+                    if (_locationResult != null) {
+                      latitude = _locationResult.latLng.latitude;
+                      longitude = _locationResult.latLng.longitude;
+                    }
+                    _applyFilter(
                       latitude: latitude,
                       longitude: longitude,
                       algoliaAppId: algoliaAppId,
@@ -328,6 +398,40 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildAddressForm(BuildContext context) {
+    return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
+      builder: (_, remoteConfigDataState) {
+        return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+          builder: (_, currentUserState) {
+            return InkWell(
+              onTap: () {
+                _locationCubit.getInitialUserLocation();
+                _getLocation(
+                  context,
+                  currentUserState.currentUserModel,
+                  remoteConfigDataState,
+                );
+              },
+              child: IgnorePointer(
+                child: SignTextFormField(
+                  controller: _addressController,
+                  textInputType: TextInputType.text,
+                  validator: (_) {
+                    return !currentUserState.isLocationValid
+                        ? 'Invalid Location'
+                        : null;
+                  },
+                  hintText: "Location",
+                  obscureText: false,
+                ),
+              ),
+            );
+          },
+        );
+      },
     );
   }
 }

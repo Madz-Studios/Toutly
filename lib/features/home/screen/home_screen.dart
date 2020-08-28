@@ -66,6 +66,7 @@ class HomeScreen extends StatelessWidget {
                                 searchText: searchConfigState.searchText,
                                 category: searchConfigState.category,
                                 postedWithin: searchConfigState.postedWithin,
+                                address: searchConfigState.address,
                               ),
                             ),
                           );
