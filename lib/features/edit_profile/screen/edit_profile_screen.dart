@@ -323,6 +323,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               onPressed: () {
                 Navigator.pop(context);
+                Navigator.pop(context);
                 _authCubit.signedOut();
               },
             ),
@@ -358,6 +359,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               child: Text("Yes"),
               onPressed: () {
+                Navigator.pop(context);
                 Navigator.pop(context);
                 _authCubit.signedOut();
               },
