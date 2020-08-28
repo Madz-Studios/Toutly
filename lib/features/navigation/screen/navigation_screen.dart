@@ -17,10 +17,8 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/search_util.dart';
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -170,84 +168,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
             state.index,
           );
         }
-      },
-    );
-  }
-
-  void _showMaterialDialog(BuildContext mainContext) {
-    showDialog(
-      barrierDismissible: false,
-      context: mainContext,
-      builder: (BuildContext subContext) {
-        return AlertDialog(
-          title: Text(
-            "Location permission is denied. Please grant Toutly access to your location.",
-          ),
-          actions: [
-            FlatButton(
-              child: Text(
-                "Yes",
-                style: TextStyle(
-                  color: kPrimaryColor,
-                ),
-              ),
-              onPressed: () {
-                AppSettings.openLocationSettings();
-              },
-            ),
-            FlatButton(
-              child: Text(
-                "Restart",
-                style: TextStyle(
-                  color: kSecondaryRedAccentColor,
-                ),
-              ),
-              onPressed: () {
-                SystemChannels.platform
-                    .invokeMethod<void>('SystemNavigator.pop');
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showCupertinoDialog(BuildContext mainContext) {
-    showDialog(
-      barrierDismissible: true,
-      context: mainContext,
-      builder: (BuildContext subContext) {
-        return CupertinoAlertDialog(
-          title: Text(
-            "Location permission is denied. Please grant Toutly access to your location then restart the app.",
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              textStyle: TextStyle(
-                color: kPrimaryColor,
-              ),
-              child: Text("Open Location Settings"),
-              onPressed: () {
-                AppSettings.openLocationSettings();
-              },
-            ),
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text(
-                "Restart",
-                style: TextStyle(
-                  color: kSecondaryRedAccentColor,
-                ),
-              ),
-              onPressed: () async {
-                SystemChannels.platform
-                    .invokeMethod<void>('SystemNavigator.pop');
-              },
-            ),
-          ],
-        );
       },
     );
   }

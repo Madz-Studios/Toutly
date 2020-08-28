@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
@@ -11,6 +13,7 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
@@ -132,12 +135,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     builder: (_, searchConfigState) {
                       return IconButton(
                         icon: Icon(
-                          Icons.check,
-                          color: kPrimaryColor,
+                          Icons.power_settings_new,
+                          color: kSecondaryRedAccentColor,
                         ),
                         onPressed: () {
-                          _onSaveClicked(
-                              currentUser, locationState, searchConfigState);
+                          if (Platform.isIOS) {
+                            _showCupertinoDialog(context);
+                          } else {
+                            _showMaterialDialog(context);
+                          }
                         },
                       );
                     },
@@ -156,84 +162,88 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget _buildEditProfileForm(
       AppSizeConfig appSizeConfig, BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        BlocBuilder<CurrentUserCubit, CurrentUserState>(
-          builder: (_, currentUserState) {
-            final currentUser = currentUserState.currentUserModel;
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 2,
-                ),
-                SelectProfilePhoto(currentUser),
-                SizedBox(
-                  height: appSizeConfig.safeBlockVertical * 3,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                    vertical: appSizeConfig.safeBlockVertical * 3,
+    return BlocBuilder<SearchConfigCubit, SearchConfigState>(
+      builder: (_, searchConfigState) {
+        return BlocBuilder<LocationCubit, LocationState>(
+          builder: (_, locationState) {
+            return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+              builder: (_, currentUserState) {
+                final currentUser = currentUserState.currentUserModel;
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 2,
+                      ),
+                      SelectProfilePhoto(currentUser),
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 3,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                          vertical: appSizeConfig.safeBlockVertical * 3,
+                        ),
+                        child: SignTextFormField(
+                          controller: _nameController,
+                          textInputType: TextInputType.text,
+                          validator: (_) {
+                            return !currentUserState.isNameValid
+                                ? 'Invalid Name'
+                                : null;
+                          },
+                          hintText: "Name",
+                          obscureText: false,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                        ),
+                        child: SignTextFormField(
+                          controller: _emailController,
+                          hintText: 'Email',
+                          textInputType: TextInputType.text,
+                          obscureText: false,
+                          enabled: false,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                          vertical: appSizeConfig.safeBlockVertical * 3,
+                        ),
+                        child: _buildAddressForm(context),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
+                          vertical: appSizeConfig.safeBlockVertical * 5,
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            ActionButton(
+                              title: 'Save',
+                              color: kPrimaryColor,
+                              onPressed: () {
+                                _onSaveClicked(currentUser, locationState,
+                                    searchConfigState);
+                              },
+                            ),
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                  child: SignTextFormField(
-                    controller: _nameController,
-                    textInputType: TextInputType.text,
-                    validator: (_) {
-                      return !currentUserState.isNameValid
-                          ? 'Invalid Name'
-                          : null;
-                    },
-                    hintText: "Name",
-                    obscureText: false,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                  ),
-                  child: SignTextFormField(
-                    controller: _emailController,
-                    hintText: 'Email',
-                    textInputType: TextInputType.text,
-                    obscureText: false,
-                    enabled: false,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                    vertical: appSizeConfig.safeBlockVertical * 3,
-                  ),
-                  child: _buildAddressForm(context),
-                ),
-              ],
+                );
+              },
             );
           },
-        ),
-        Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: appSizeConfig.safeBlockHorizontal * 5,
-            vertical: appSizeConfig.safeBlockVertical * 5,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              ActionButton(
-                title: 'Logout',
-                color: kSecondaryRedAccentColor,
-                onPressed: () {
-                  Navigator.pop(context);
-                  _authCubit.signedOut();
-                },
-              ),
-            ],
-          ),
-        )
-      ],
+        );
+      },
     );
   }
 
@@ -292,5 +302,79 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         result?.latLng?.longitude ?? 0,
       );
     }
+  }
+
+  void _showMaterialDialog(BuildContext mainContext) {
+    showDialog(
+      barrierDismissible: false,
+      context: mainContext,
+      builder: (BuildContext subContext) {
+        return AlertDialog(
+          title: Text(
+            "Are you sure you want to logout?",
+          ),
+          actions: [
+            FlatButton(
+              child: Text(
+                "Yes",
+                style: TextStyle(
+                  color: kSecondaryRedAccentColor,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                _authCubit.signedOut();
+              },
+            ),
+            FlatButton(
+              child: Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _showCupertinoDialog(BuildContext mainContext) {
+    showDialog(
+      barrierDismissible: true,
+      context: mainContext,
+      builder: (BuildContext subContext) {
+        return CupertinoAlertDialog(
+          title: Text(
+            "Are you sure you want to logout?",
+          ),
+          actions: <Widget>[
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              textStyle: TextStyle(
+                color: kSecondaryRedAccentColor,
+              ),
+              child: Text("Yes"),
+              onPressed: () {
+                Navigator.pop(context);
+                _authCubit.signedOut();
+              },
+            ),
+            CupertinoDialogAction(
+              isDefaultAction: true,
+              child: Text(
+                "No",
+                style: TextStyle(),
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }
