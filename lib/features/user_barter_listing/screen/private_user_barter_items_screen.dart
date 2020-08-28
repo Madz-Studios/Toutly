@@ -71,7 +71,7 @@ class _PrivateUserBarterItemsScreenState
             },
           );
         } else {
-          return Container();
+          return SizedBox.shrink();
         }
       },
     );

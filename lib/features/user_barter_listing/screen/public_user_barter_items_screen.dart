@@ -70,7 +70,7 @@ class _PublicUserBarterItemsScreenState
             },
           );
         } else {
-          return Container();
+          return SizedBox.shrink();
         }
       },
     );

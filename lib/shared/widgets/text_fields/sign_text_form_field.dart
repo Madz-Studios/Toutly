@@ -73,7 +73,7 @@ class SignTextFormField extends StatelessWidget {
               )
             : Icon(
                 Icons.lock,
-                color: Colors.red,
+                color: kSecondaryRedAccentColor,
               ),
       ),
     );

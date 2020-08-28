@@ -84,7 +84,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       Icon(Icons.error),
                     ],
                   ),
-                  backgroundColor: Colors.red,
+                  backgroundColor: kSecondaryRedAccentColor,
                 ),
               );
           }

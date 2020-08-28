@@ -17,10 +17,8 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/search_util.dart';
-import 'package:app_settings/app_settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -75,7 +73,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     CurrentUserState currentUserState,
   ) {
     final currentUser = currentUserState.currentUserModel;
-
+    String address = "";
     if (currentUser != null &&
         locationState.geoPoint != null &&
         locationState.placeMark != null) {
@@ -83,7 +81,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
       String subLocality = "${locationState.placeMark.subLocality}";
       String locality = "${locationState.placeMark.locality}";
-      String address = "";
+
       if (subLocality.isNotEmpty) {
         address = address + subLocality + ", ";
       }
@@ -109,6 +107,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
           locationState.geoPoint.latitude ?? 10.333333, //cebu city latitude
       longitude:
           locationState.geoPoint.longitude ?? 123.933334, //cebu city longitude
+      address: address,
+      range: 50.0, //default
     );
 
     ///initial search
@@ -120,133 +120,54 @@ class _NavigationScreenState extends State<NavigationScreen> {
       algoliaAppId: remoteConfigState.algoliaAppId,
       latitude: locationState.geoPoint.latitude,
       longitude: locationState.geoPoint.longitude,
+      range: 50.0, //default
     );
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<LocationCubit, LocationState>(
-      builder: (_, locationState) {
-        return BlocBuilder<NavigationCubit, NavigationState>(
-          builder: (context, state) {
-            if (state.isHomeScreen) {
-              return _buildNoAppBarSingleViewScreen(
-                HomeScreen(),
-                state.index,
-              );
-            } else if (state.isSavedScreen) {
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Saved',
-                ),
-                SavedScreen(),
-                state.index,
-              );
-            } else if (state.isPostBarterScreen) {
-              _postBarterCubit.reset();
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Barter',
-                ),
-                PostScreen(),
-                state.index,
-              );
-            } else if (state.isMessagesScreen) {
-              return _buildSingleViewScreen(
-                _CustomAppBar(
-                  appSizeConfig: appSizeConfig,
-                  title: 'Messages',
-                ),
-                MessagesScreen(),
-                state.index,
-              );
-            } else {
-              return _buildNoAppBarSingleViewScreen(
-                UserProfileScreen(),
-                state.index,
-              );
-            }
-          },
-        );
-      },
-    );
-  }
-
-  void _showMaterialDialog(BuildContext mainContext) {
-    showDialog(
-      barrierDismissible: false,
-      context: mainContext,
-      builder: (BuildContext subContext) {
-        return AlertDialog(
-          title: Text(
-            "Location permission is denied. Please grant Toutly access to your location.",
-          ),
-          actions: [
-            FlatButton(
-              child: Text(
-                "Yes",
-                style: TextStyle(
-                  color: kPrimaryColor,
-                ),
-              ),
-              onPressed: () {
-                AppSettings.openLocationSettings();
-              },
+    return BlocBuilder<NavigationCubit, NavigationState>(
+      builder: (context, state) {
+        if (state.isHomeScreen) {
+          return _buildNoAppBarSingleViewScreen(
+            HomeScreen(),
+            state.index,
+          );
+        } else if (state.isSavedScreen) {
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Saved',
             ),
-            FlatButton(
-              child: Text(
-                "Restart",
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () {
-//                Navigator.pop(subContext);
-//                SystemNavigator.pop();
-                SystemChannels.platform
-                    .invokeMethod<void>('SystemNavigator.pop');
-              },
+            SavedScreen(),
+            state.index,
+          );
+        } else if (state.isPostBarterScreen) {
+          _postBarterCubit.reset();
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Barter',
             ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _showCupertinoDialog(BuildContext mainContext) {
-    showDialog(
-      barrierDismissible: true,
-      context: mainContext,
-      builder: (BuildContext subContext) {
-        return CupertinoAlertDialog(
-          title: Text(
-            "Location permission is denied. Please grant Toutly access to your location then restart the app.",
-          ),
-          actions: <Widget>[
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              textStyle: TextStyle(
-                color: kPrimaryColor,
-              ),
-              child: Text("Open Location Settings"),
-              onPressed: () {
-                AppSettings.openLocationSettings();
-              },
+            PostScreen(),
+            state.index,
+          );
+        } else if (state.isMessagesScreen) {
+          return _buildSingleViewScreen(
+            _CustomAppBar(
+              appSizeConfig: appSizeConfig,
+              title: 'Messages',
             ),
-            CupertinoDialogAction(
-              isDefaultAction: true,
-              child: Text(
-                "Restart",
-                style: TextStyle(color: Colors.red),
-              ),
-              onPressed: () async {
-                SystemChannels.platform
-                    .invokeMethod<void>('SystemNavigator.pop');
-              },
-            ),
-          ],
-        );
+            MessagesScreen(),
+            state.index,
+          );
+        } else {
+          return _buildNoAppBarSingleViewScreen(
+            UserProfileScreen(),
+            state.index,
+          );
+        }
       },
     );
   }
@@ -334,7 +255,7 @@ class _NavigationBar extends StatelessWidget {
                   ? SvgPicture.asset(
                       'assets/icons/chat.svg',
                       height: appSizeConfig.blockSizeVertical * 3,
-                      color: Colors.red,
+                      color: kSecondaryRedAccentColor,
                     )
                   : SvgPicture.asset(
                       'assets/icons/unpressed-chat.svg',
@@ -407,6 +328,7 @@ class _CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize =>
-      Size.fromHeight(appSizeConfig.blockSizeVertical * 5.5);
+  Size get preferredSize => Size.fromHeight(
+        appSizeConfig.blockSizeVertical * 7.5,
+      );
 }

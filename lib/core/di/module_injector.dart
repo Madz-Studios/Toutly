@@ -35,7 +35,7 @@ abstract class InjectableModule {
   FirebaseFirestore get firebaseFirestore => FirebaseFirestore.instance;
 
   @lazySingleton
-  Geolocator get geoLocator => Geolocator()..forceAndroidLocationManager;
+  GeolocatorPlatform get geoLocator => GeolocatorPlatform.instance;
 
   @lazySingleton
   Validators get validators => Validators();

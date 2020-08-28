@@ -44,7 +44,7 @@ class MakeOfferBarterItemList extends StatelessWidget {
                     child: Text(
                       'Error: ${snapshot.error}',
                       style: TextStyle(
-                        color: Colors.red,
+                        color: kSecondaryRedAccentColor,
                       ),
                     ),
                   );

@@ -13,6 +13,7 @@ class SearchUtil {
     @required double longitude,
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
+    @required double range,
   }) {
     debugPrint(
         '''SearchUtil _searchSubmit searchText = $searchText  category = $category  '
@@ -27,6 +28,7 @@ class SearchUtil {
       searchText: searchText,
       category: category,
       postedWithin: postedWithin,
+      range: range,
     );
   }
 }

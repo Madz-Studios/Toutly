@@ -291,7 +291,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
                     ),
                   );
                 } else {
-                  return Container();
+                  return SizedBox.shrink();
                 }
               },
             ),

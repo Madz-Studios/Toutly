@@ -15,8 +15,10 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
     @required String postedWithin,
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
+    @required String address,
     @required double latitude,
     @required double longitude,
+    @required double range,
   }) {
     emit(SearchConfigState.loading());
 
@@ -27,8 +29,10 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
           postedWithin: postedWithin,
           algoliaAppId: algoliaAppId,
           algoliaSearchApiKey: algoliaSearchApiKey,
+          address: address,
           latitude: latitude,
           longitude: longitude,
+          range: range,
           info: 'Success'),
     );
   }
@@ -67,6 +71,18 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
     emit(state.copyWith(
       latitude: latitude,
       longitude: longitude,
+    ));
+  }
+
+  updateAddressText(String address) {
+    emit(state.copyWith(
+      address: address,
+    ));
+  }
+
+  updateRange(double range) {
+    emit(state.copyWith(
+      range: range,
     ));
   }
 }

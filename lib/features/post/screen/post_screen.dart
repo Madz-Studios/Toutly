@@ -37,7 +37,7 @@ class PostScreen extends StatelessWidget {
                     Icon(Icons.error),
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: kSecondaryRedAccentColor,
               ),
             );
         }

@@ -47,7 +47,7 @@ class _MakeOfferBarterItemState extends State<MakeOfferBarterItem> {
                           ),
                         ),
                       ),
-                      placeholder: (context, url) => Container(),
+                      placeholder: (context, url) => SizedBox.shrink(),
                       errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
                     Align(

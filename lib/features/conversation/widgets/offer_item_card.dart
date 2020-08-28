@@ -1,6 +1,7 @@
 import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
+import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +30,7 @@ class OfferItemCard extends StatelessWidget {
                     'Item is no longer available.',
                     style: TextStyle(
                       fontSize: 12,
-                      color: Colors.red,
+                      color: kSecondaryRedAccentColor,
                     ),
                   ),
                 );
@@ -125,7 +126,7 @@ class OfferItemCard extends StatelessWidget {
                 children: offeredItems,
               );
             }
-            return Container();
+            return SizedBox.shrink();
           },
         ),
       ),

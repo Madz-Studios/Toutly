@@ -1,8 +1,8 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
-final kPrimaryColor = Color(0XFF29960F);
+final kPrimaryColor = Color(0XFF3BAF61);
+final kSecondaryRedAccentColor = Colors.redAccent;
+final kSecondaryWhiteSeventyColor = Colors.white;
 
 class AppConstants {
   static const codeErrorAuthDenied = 'ERROR_AUTHORIZATION_DENIED';

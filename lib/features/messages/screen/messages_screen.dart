@@ -44,7 +44,7 @@ class MessagesScreen extends StatelessWidget {
                             color: kPrimaryColor,
                           )
                         else
-                          Container(),
+                          SizedBox.shrink(),
                       ],
                     ),
                     Row(
@@ -59,7 +59,7 @@ class MessagesScreen extends StatelessWidget {
                             color: kPrimaryColor,
                           )
                         else
-                          Container(),
+                          SizedBox.shrink(),
                       ],
                     ),
                   ],

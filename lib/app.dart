@@ -17,6 +17,7 @@ import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/password_reset/password_reset_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
+import 'package:Toutly/core/cubits/privacy_services/privacy_services_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
@@ -174,6 +175,10 @@ class App extends StatelessWidget {
 
         BlocProvider<NotificationCubit>(
           create: (BuildContext context) => getIt<NotificationCubit>(),
+        ),
+
+        BlocProvider<PrivacyServicesCubit>(
+          create: (BuildContext context) => getIt<PrivacyServicesCubit>(),
         ),
 
         /// CUBITS REGISTRATION END
