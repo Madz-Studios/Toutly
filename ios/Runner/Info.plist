@@ -57,15 +57,15 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Toutly needs to access your camera</string>
+	<string>Toutly needs to access your camera to upload your item photos and profile picture.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Toutly needs access to location when open and in the background.</string>
+	<string>Toutly needs access to location when open and in the background to suggest barter item near in your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Toutly needs access to location when in the background.</string>
+	<string>Toutly needs access to location when in the background to suggest barter item near in your location.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Toutly needs access to location when open.</string>
+	<string>Toutly needs access to location when open to suggest barter item near in your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Toutly needs to access your gallery</string>
+	<string>Toutly needs to access your gallery to upload your item photos and profile picture.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>$(ASSET_PREFIX)LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
