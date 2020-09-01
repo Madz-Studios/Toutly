@@ -30,12 +30,12 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>GCP_API_KEY</key>
-	<string>$(GCP_API_KEY)</string>
 	<key>FacebookAppID</key>
 	<string>$(FACEBOOK_ID)</string>
 	<key>FacebookDisplayName</key>
 	<string>$(BUNDLE_NAME)</string>
+	<key>GCP_API_KEY</key>
+	<string>$(GCP_API_KEY)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -66,6 +66,11 @@
 	<string>Toutly needs access to location when open to suggest barter item near in your location.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Toutly needs to access your gallery to upload your item photos and profile picture.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>$(ASSET_PREFIX)LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
