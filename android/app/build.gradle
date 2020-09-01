@@ -123,5 +123,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation "com.google.guava:guava:27.0.1-android"
+    implementation "com.google.firebase:firebase-messaging:20.2.4"
 }
+
 
