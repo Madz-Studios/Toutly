@@ -108,7 +108,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (_, currentUserState) {
-        final currentUser = currentUserState.currentUserModel;
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.white,

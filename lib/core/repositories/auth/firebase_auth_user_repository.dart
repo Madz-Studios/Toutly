@@ -10,6 +10,9 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 ///FirebaseAuthUserRepository repository
 abstract class FirebaseAuthUserRepository {
+  ///Called whn singing in anonymously.
+  Future<void> signInAnonymously();
+
   ///Called whn singing in with google account.
   Future<void> signInWithGoogle();
 
@@ -35,6 +38,14 @@ abstract class FirebaseAuthUserRepository {
   User getUser();
 
   Future<void> sendPasswordResetEmail(String email);
+
+  Future<void> linkCredentialWithEmailPassword(String email, String password);
+
+  Future<void> linkCredentialWithFacebook();
+
+  Future<void> linkCredentialWithGoogle();
+
+  Future<void> linkCredentialWithApple();
 }
 
 @Injectable(as: FirebaseAuthUserRepository)
@@ -52,6 +63,11 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
   });
 
   ///Called when singing in with google account.
+  Future<void> signInAnonymously() async {
+    await firebaseAuth.signInAnonymously();
+  }
+
+  ///Called when singing in with google account.
   Future<void> signInWithGoogle() async {
     final credential = await _getGoogleCredential();
     await firebaseAuth.signInWithCredential(credential);
@@ -60,10 +76,10 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
   Future<AuthCredential> _getGoogleCredential() async {
     try {
       final googleUser = await googleSignIn.signIn();
-      final googleAuth = await googleUser.authentication;
+      final googleAuth = await googleUser?.authentication;
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
+        accessToken: googleAuth?.accessToken ?? '',
+        idToken: googleAuth?.idToken ?? '',
       );
 
       return credential;
@@ -73,10 +89,7 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
         message: 'There was a problem in serving your request. ${e.details}',
       );
     } on Exception {
-      throw PlatformException(
-        code: 'ERROR_AUTHORIZATION_DENIED',
-        message: 'There was a problem is serving your request.',
-      );
+      throw Exception();
     }
   }
 
@@ -147,11 +160,11 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
 
   ///Called when singing in using [email] and [password]
   Future<void> signInWithCredentials(String email, String password) async {
-    final credential = await getEmailPasswordCredential(email, password);
+    final credential = await _getEmailPasswordCredential(email, password);
     await firebaseAuth.signInWithCredential(credential);
   }
 
-  Future<AuthCredential> getEmailPasswordCredential(
+  Future<AuthCredential> _getEmailPasswordCredential(
       String email, String password) async {
     final credential = EmailAuthProvider.credential(
       email: email,
@@ -195,4 +208,43 @@ class FirebaseAuthUserRepositoryImpl implements FirebaseAuthUserRepository {
 
     return Future(null);
   }
+
+  @override
+  Future<void> linkCredentialWithEmailPassword(
+      String email, String password) async {
+    final currentUser = getUser();
+    final credential = await _getEmailPasswordCredential(email, password);
+
+    await currentUser.linkWithCredential(credential);
+  }
+
+  @override
+  Future<void> linkCredentialWithFacebook() async {
+    final currentUser = getUser();
+    final credential = await _getFacebookCredential();
+
+    await currentUser.linkWithCredential(credential);
+  }
+
+  @override
+  Future<void> linkCredentialWithGoogle() async {
+    final currentUser = getUser();
+    final credential = await _getGoogleCredential();
+
+    await currentUser.linkWithCredential(credential);
+  }
+
+  @override
+  Future<void> linkCredentialWithApple() async {
+    final currentUser = getUser();
+    final credential = await _getAppleCredential();
+
+    await currentUser.linkWithCredential(credential);
+  }
+
+//  Future<List<String>> _fetchCredentialProviderList({@required email}) async {
+//    final providerList = await firebaseAuth.fetchSignInMethodsForEmail(email);
+//
+//    return providerList;
+//  }
 }

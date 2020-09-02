@@ -25,6 +25,7 @@ class AuthenticationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    _appleSignCubit.checkIfAppleIsAvailable();
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, authState) {
         if (authState.isAuth) {
@@ -70,7 +71,6 @@ class AuthenticationScreen extends StatelessWidget {
             },
           );
         } else if (!authState.isAuth) {
-          _appleSignCubit.checkIfAppleIsAvailable();
           return SignInScreen();
         } else {
           return ScaffoldLoadingOrErrorWidgetUtil(authState.info);

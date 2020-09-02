@@ -182,6 +182,7 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
             title:
                 'To better serve you. Please enabled location service and re-login.',
             color: Colors.blueAccent,
+            fontSize: 11,
             onPressed: () {
               debugPrint('Enabled location service');
               AppSettings.openLocationSettings();

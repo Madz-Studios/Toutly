@@ -8,6 +8,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_icons/flutter_icons.dart';
 
 class SocialAccountPanel extends StatelessWidget {
+  final bool isAnonymous;
+
+  SocialAccountPanel({
+    @required this.isAnonymous,
+  });
   final _signCubit = getIt<SignCubit>();
 
   @override
@@ -89,7 +94,11 @@ class SocialAccountPanel extends StatelessWidget {
                   ),
                   SocialSignButton(
                     onPressed: () {
-                      _signCubit.signInWithFacebookPressed();
+                      if (isAnonymous) {
+                        _signCubit.linkWithFacebookPressed();
+                      } else {
+                        _signCubit.signInWithFacebookPressed();
+                      }
                     },
                     icon: Icon(
                       Ionicons.logo_facebook,
@@ -100,7 +109,11 @@ class SocialAccountPanel extends StatelessWidget {
                   Spacer(),
                   SocialSignButton(
                     onPressed: () {
-                      _signCubit.signInWithGooglePressed();
+                      if (isAnonymous) {
+                        _signCubit.linkWithGooglePressed();
+                      } else {
+                        _signCubit.signInWithGooglePressed();
+                      }
                     },
                     icon: Icon(
                       Ionicons.logo_google,
@@ -113,7 +126,11 @@ class SocialAccountPanel extends StatelessWidget {
                     visible: state.isAppleSignInAvailable,
                     child: SocialSignButton(
                       onPressed: () {
-                        _signCubit.signInWithApplePressed();
+                        if (isAnonymous) {
+                          _signCubit.linkWithApplePressed();
+                        } else {
+                          _signCubit.signInWithApplePressed();
+                        }
                       },
                       icon: Icon(
                         Ionicons.logo_apple,
