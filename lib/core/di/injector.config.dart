@@ -27,9 +27,14 @@ import '../cubits/barter_item/current_user/single_barter_item/delete/delete_bart
 import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../usecases/auth/firebase_get_user_usecase.dart';
 import '../usecases/auth/firebase_is_signedin_usecase.dart';
+import '../usecases/auth/firebase_link_with_apple_usecase.dart';
+import '../usecases/auth/firebase_link_with_credentials_usecase.dart';
+import '../usecases/auth/firebase_link_with_facebook_usecase.dart';
+import '../usecases/auth/firebase_link_with_google_usecase.dart';
 import '../usecases/auth/firebase_send_reset_password_usecase.dart';
 import '../usecases/auth/firebase_signout_use_case.dart';
 import '../usecases/auth/firebase_signup_usecase.dart';
+import '../usecases/auth/firebase_signin_anonymously_usecase.dart';
 import '../usecases/auth/firebase_signin_with_apple_usecase.dart';
 import '../usecases/auth/firebase_signin_with_credentials_usecase.dart';
 import '../usecases/auth/firebase_signin_with_facebook_usecase.dart';
@@ -213,6 +218,18 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<FirebaseIsSignedInUserUseCase>(() =>
       FirebaseIsSignedInUserUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseLinkCredentialsWithAppleUserUseCase>(() =>
+      FirebaseLinkCredentialsWithAppleUserUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseLinkCredentialsWithEmailPasswordUserUseCase>(() =>
+      FirebaseLinkCredentialsWithEmailPasswordUserUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseLinkCredentialsWithFacebookUserUseCase>(() =>
+      FirebaseLinkCredentialsWithFacebookUserUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseLinkCredentialsWithGoogleUserUseCase>(() =>
+      FirebaseLinkCredentialsWithGoogleUserUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSendResetPasswordUseCase>(() =>
       FirebaseSendResetPasswordUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
@@ -220,6 +237,9 @@ Future<GetIt> $initGetIt(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignUpUseCase>(() => FirebaseSignUpUseCase(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirebaseSignedInAnonymouslyUserUseCase>(() =>
+      FirebaseSignedInAnonymouslyUserUseCase(
+          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignedInWithAppleUserUseCase>(() =>
       FirebaseSignedInWithAppleUserUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
@@ -265,6 +285,11 @@ Future<GetIt> $initGetIt(
         get<FirebaseSignedInWithFacebookUserUseCase>(),
         get<FirebaseSignedInWithAppleUserUseCase>(),
         get<FirebaseSignedInWithCredentialsUserUseCase>(),
+        get<FirebaseSignedInAnonymouslyUserUseCase>(),
+        get<FirebaseLinkCredentialsWithEmailPasswordUserUseCase>(),
+        get<FirebaseLinkCredentialsWithGoogleUserUseCase>(),
+        get<FirebaseLinkCredentialsWithFacebookUserUseCase>(),
+        get<FirebaseLinkCredentialsWithAppleUserUseCase>(),
         get<FirebaseGetUserUseCase>(),
         get<FirestoreCreateUserUseCase>(),
         get<FirestoreGetUserUseCase>(),

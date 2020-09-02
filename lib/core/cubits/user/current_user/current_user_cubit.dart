@@ -52,19 +52,44 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     );
   }
 
+  Future<UserModel> getCurrentUserModel() async {
+    final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final currentUser = await firestoreGetUserUseCase.call(
+      UseCaseUserParamUserId.init(firebaseUser.uid),
+    );
+
+    return currentUser;
+  }
+
   getCurrentLoggedInUser() async {
     emit(CurrentUserState.loading());
     try {
       final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
-      if (firebaseUser != null) {
+      if (firebaseUser != null && !firebaseUser.isAnonymous) {
         final currentUser = await firestoreGetUserUseCase.call(
           UseCaseUserParamUserId.init(firebaseUser.uid),
         );
 
-        emit(CurrentUserState.success(currentUser, 'Success'));
+        emit(CurrentUserState.success(
+          currentUserModel: currentUser,
+          info: 'Success',
+          isAnonymous: false,
+        ));
+      } else if (firebaseUser != null && firebaseUser.isAnonymous) {
+        UserModel currentUser = UserModel(userId: firebaseUser.uid);
+
+        emit(CurrentUserState.success(
+          currentUserModel: currentUser,
+          info: 'Success',
+          isAnonymous: true,
+        ));
       } else {
-        emit(CurrentUserState.success(null, 'Success'));
+        emit(CurrentUserState.success(
+          currentUserModel: null,
+          info: 'Success',
+          isAnonymous: false,
+        ));
       }
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
@@ -105,7 +130,11 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         UseCaseUserParamUserModel.init(currentUser),
       );
 
-      emit(CurrentUserState.success(currentUser, 'Success'));
+      emit(CurrentUserState.success(
+        currentUserModel: currentUser,
+        info: 'Success',
+        isAnonymous: false,
+      ));
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {
@@ -116,10 +145,24 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   updateCurrentLoggedInUser(UserModel currentUser) {
     emit(CurrentUserState.loading());
     try {
-      firestoreUpdateUserUseCase.call(
-        UseCaseUserParamUserModel.init(currentUser),
-      );
-      emit(CurrentUserState.success(currentUser, 'Success'));
+      final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+
+      if (!firebaseUser.isAnonymous) {
+        firestoreUpdateUserUseCase.call(
+          UseCaseUserParamUserModel.init(currentUser),
+        );
+        emit(CurrentUserState.success(
+          currentUserModel: currentUser,
+          info: 'Success',
+          isAnonymous: false,
+        ));
+      } else {
+        emit(CurrentUserState.success(
+          currentUserModel: currentUser,
+          info: 'Success',
+          isAnonymous: true,
+        ));
+      }
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
     } on Exception catch (e) {

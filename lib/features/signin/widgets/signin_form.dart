@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
@@ -20,8 +16,6 @@ class _SignInFormState extends State<SignInForm> {
   final TextEditingController _passwordController = TextEditingController();
 
   final _signCubit = getIt<SignCubit>();
-  final _authCubit = getIt<AuthCubit>();
-
   @override
   void initState() {
     super.initState();
@@ -61,48 +55,7 @@ class _SignInFormState extends State<SignInForm> {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<SignCubit, SignState>(
-      listener: (context, state) {
-        if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text('${state.info}'),
-                    ),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: kSecondaryRedAccentColor,
-              ),
-            );
-        }
-        if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Signing In...'),
-                    Platform.isIOS
-                        ? CupertinoActivityIndicator()
-                        : CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-        }
-        if (state.isSuccess) {
-          _authCubit.signedIn();
-        }
-      },
+    return BlocBuilder<SignCubit, SignState>(
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.symmetric(

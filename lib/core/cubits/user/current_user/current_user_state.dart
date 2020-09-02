@@ -5,6 +5,7 @@ abstract class CurrentUserState implements _$CurrentUserState {
   const CurrentUserState._();
   const factory CurrentUserState({
     UserModel currentUserModel,
+    @required bool isAnonymous,
     @required bool isNameValid,
     @required bool isLocationValid,
     @required bool isSubmitting,
@@ -15,6 +16,7 @@ abstract class CurrentUserState implements _$CurrentUserState {
 
   factory CurrentUserState.empty() => CurrentUserState(
         currentUserModel: UserModel(),
+        isAnonymous: false,
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,
@@ -25,6 +27,7 @@ abstract class CurrentUserState implements _$CurrentUserState {
 
   factory CurrentUserState.loading() => CurrentUserState(
         currentUserModel: UserModel(),
+        isAnonymous: false,
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: true,
@@ -35,6 +38,7 @@ abstract class CurrentUserState implements _$CurrentUserState {
 
   factory CurrentUserState.failure(String info) => CurrentUserState(
         currentUserModel: UserModel(),
+        isAnonymous: false,
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,
@@ -43,9 +47,14 @@ abstract class CurrentUserState implements _$CurrentUserState {
         info: info,
       );
 
-  factory CurrentUserState.success(UserModel currentUserModel, String info) =>
+  factory CurrentUserState.success({
+    @required UserModel currentUserModel,
+    @required String info,
+    @required bool isAnonymous,
+  }) =>
       CurrentUserState(
         currentUserModel: currentUserModel,
+        isAnonymous: isAnonymous,
         isNameValid: true,
         isLocationValid: true,
         isSubmitting: false,

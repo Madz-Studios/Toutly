@@ -15,6 +15,7 @@ class _$CurrentUserStateTearOff {
 // ignore: unused_element
   _CurrentUserState call(
       {UserModel currentUserModel,
+      @required bool isAnonymous,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,
@@ -23,6 +24,7 @@ class _$CurrentUserStateTearOff {
       @required String info}) {
     return _CurrentUserState(
       currentUserModel: currentUserModel,
+      isAnonymous: isAnonymous,
       isNameValid: isNameValid,
       isLocationValid: isLocationValid,
       isSubmitting: isSubmitting,
@@ -38,6 +40,7 @@ const $CurrentUserState = _$CurrentUserStateTearOff();
 
 mixin _$CurrentUserState {
   UserModel get currentUserModel;
+  bool get isAnonymous;
   bool get isNameValid;
   bool get isLocationValid;
   bool get isSubmitting;
@@ -54,6 +57,7 @@ abstract class $CurrentUserStateCopyWith<$Res> {
       _$CurrentUserStateCopyWithImpl<$Res>;
   $Res call(
       {UserModel currentUserModel,
+      bool isAnonymous,
       bool isNameValid,
       bool isLocationValid,
       bool isSubmitting,
@@ -73,6 +77,7 @@ class _$CurrentUserStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object currentUserModel = freezed,
+    Object isAnonymous = freezed,
     Object isNameValid = freezed,
     Object isLocationValid = freezed,
     Object isSubmitting = freezed,
@@ -84,6 +89,8 @@ class _$CurrentUserStateCopyWithImpl<$Res>
       currentUserModel: currentUserModel == freezed
           ? _value.currentUserModel
           : currentUserModel as UserModel,
+      isAnonymous:
+          isAnonymous == freezed ? _value.isAnonymous : isAnonymous as bool,
       isNameValid:
           isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
       isLocationValid: isLocationValid == freezed
@@ -106,6 +113,7 @@ abstract class _$CurrentUserStateCopyWith<$Res>
   @override
   $Res call(
       {UserModel currentUserModel,
+      bool isAnonymous,
       bool isNameValid,
       bool isLocationValid,
       bool isSubmitting,
@@ -127,6 +135,7 @@ class __$CurrentUserStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object currentUserModel = freezed,
+    Object isAnonymous = freezed,
     Object isNameValid = freezed,
     Object isLocationValid = freezed,
     Object isSubmitting = freezed,
@@ -138,6 +147,8 @@ class __$CurrentUserStateCopyWithImpl<$Res>
       currentUserModel: currentUserModel == freezed
           ? _value.currentUserModel
           : currentUserModel as UserModel,
+      isAnonymous:
+          isAnonymous == freezed ? _value.isAnonymous : isAnonymous as bool,
       isNameValid:
           isNameValid == freezed ? _value.isNameValid : isNameValid as bool,
       isLocationValid: isLocationValid == freezed
@@ -155,13 +166,15 @@ class __$CurrentUserStateCopyWithImpl<$Res>
 class _$_CurrentUserState extends _CurrentUserState {
   const _$_CurrentUserState(
       {this.currentUserModel,
+      @required this.isAnonymous,
       @required this.isNameValid,
       @required this.isLocationValid,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(isNameValid != null),
+      : assert(isAnonymous != null),
+        assert(isNameValid != null),
         assert(isLocationValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
@@ -171,6 +184,8 @@ class _$_CurrentUserState extends _CurrentUserState {
 
   @override
   final UserModel currentUserModel;
+  @override
+  final bool isAnonymous;
   @override
   final bool isNameValid;
   @override
@@ -186,7 +201,7 @@ class _$_CurrentUserState extends _CurrentUserState {
 
   @override
   String toString() {
-    return 'CurrentUserState(currentUserModel: $currentUserModel, isNameValid: $isNameValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'CurrentUserState(currentUserModel: $currentUserModel, isAnonymous: $isAnonymous, isNameValid: $isNameValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -196,6 +211,9 @@ class _$_CurrentUserState extends _CurrentUserState {
             (identical(other.currentUserModel, currentUserModel) ||
                 const DeepCollectionEquality()
                     .equals(other.currentUserModel, currentUserModel)) &&
+            (identical(other.isAnonymous, isAnonymous) ||
+                const DeepCollectionEquality()
+                    .equals(other.isAnonymous, isAnonymous)) &&
             (identical(other.isNameValid, isNameValid) ||
                 const DeepCollectionEquality()
                     .equals(other.isNameValid, isNameValid)) &&
@@ -219,6 +237,7 @@ class _$_CurrentUserState extends _CurrentUserState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(currentUserModel) ^
+      const DeepCollectionEquality().hash(isAnonymous) ^
       const DeepCollectionEquality().hash(isNameValid) ^
       const DeepCollectionEquality().hash(isLocationValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
@@ -235,6 +254,7 @@ abstract class _CurrentUserState extends CurrentUserState {
   const _CurrentUserState._() : super._();
   const factory _CurrentUserState(
       {UserModel currentUserModel,
+      @required bool isAnonymous,
       @required bool isNameValid,
       @required bool isLocationValid,
       @required bool isSubmitting,
@@ -244,6 +264,8 @@ abstract class _CurrentUserState extends CurrentUserState {
 
   @override
   UserModel get currentUserModel;
+  @override
+  bool get isAnonymous;
   @override
   bool get isNameValid;
   @override

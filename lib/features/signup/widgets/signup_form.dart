@@ -1,9 +1,5 @@
-import 'dart:io';
-
-import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/sign/sign_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
-import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
@@ -12,6 +8,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SignUpForm extends StatefulWidget {
+  final bool isAnonymous;
+  SignUpForm({
+    @required this.isAnonymous,
+  });
   State<SignUpForm> createState() => _SignUpFormState();
 }
 
@@ -20,7 +20,6 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
 
-  final _authCubit = getIt<AuthCubit>();
   final _signUpCubit = getIt<SignCubit>();
 
   @override
@@ -61,59 +60,25 @@ class _SignUpFormState extends State<SignUpForm> {
   }
 
   void _onFormSubmitted() {
-    _signUpCubit.signUpWithNameEmailPasswordPressed(
-      _nameController.text,
-      _emailController.text,
-      _passwordController.text,
-    );
+    if (widget.isAnonymous) {
+      _signUpCubit.linkWithEmailPassword(
+        _nameController.text,
+        _emailController.text,
+        _passwordController.text,
+      );
+    } else {
+      _signUpCubit.signUpWithNameEmailPasswordPressed(
+        _nameController.text,
+        _emailController.text,
+        _passwordController.text,
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocConsumer<SignCubit, SignState>(
-      listener: (context, state) {
-        if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text('${state.info}'),
-                    ),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: kSecondaryRedAccentColor,
-              ),
-            );
-        }
-        if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Signing Up...'),
-                    Platform.isIOS
-                        ? CupertinoActivityIndicator()
-                        : CircularProgressIndicator(),
-                  ],
-                ),
-              ),
-            );
-        }
-        if (state.isSuccess) {
-          _authCubit.signedIn();
-          Navigator.of(context).pop();
-        }
-      },
+    return BlocBuilder<SignCubit, SignState>(
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.symmetric(

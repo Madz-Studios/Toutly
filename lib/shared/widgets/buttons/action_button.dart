@@ -6,12 +6,14 @@ class ActionButton extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
   final Color color;
+  final double fontSize;
 
   ActionButton({
     Key key,
     @required this.title,
     @required this.onPressed,
     this.color,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -29,7 +31,7 @@ class ActionButton extends StatelessWidget {
           style: TextStyle(
               fontWeight: FontWeight.normal,
               fontStyle: FontStyle.normal,
-              fontSize: 14,
+              fontSize: fontSize ?? 14,
               color: kSecondaryWhiteSeventyColor),
         ),
       ),
