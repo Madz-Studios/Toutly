@@ -7,6 +7,7 @@ import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/features/signup/screen/modal_signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -440,12 +441,29 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
           builder: (_, currentUserState) {
             return InkWell(
               onTap: () {
-                _locationCubit.getInitialUserLocation();
-                _getLocation(
-                  context,
-                  currentUserState.currentUserModel,
-                  remoteConfigDataState,
-                );
+                if (currentUserState.isAnonymous) {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(8.0),
+                      ),
+                    ),
+                    builder: (BuildContext bc) {
+                      return ModalSignUpScreen();
+                    },
+                  );
+                } else {
+                  _locationCubit.getInitialUserLocation();
+                  _getLocation(
+                    context,
+                    currentUserState.currentUserModel,
+                    remoteConfigDataState,
+                  );
+                }
               },
               child: IgnorePointer(
                 child: SignTextFormField(
