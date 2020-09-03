@@ -9,6 +9,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/make_offer/screen/make_offer_screen.dart';
 import 'package:Toutly/features/post/widgets/post_barter_Item_textfield.dart';
+import 'package:Toutly/features/signup/screen/modal_signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
@@ -178,9 +179,9 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                   );
               }
             },
-            builder: (context, currentUserState) {
+            builder: (context, deleteBarterModelCurrentUserState) {
               return _buildViewBarterContent(
-                  appSizeConfig, context, currentUser);
+                  appSizeConfig, context, currentUser, currentUserState);
             },
           ),
         );
@@ -188,8 +189,12 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
     );
   }
 
-  Column _buildViewBarterContent(AppSizeConfig appSizeConfig,
-      BuildContext context, UserModel currentUser) {
+  Column _buildViewBarterContent(
+    AppSizeConfig appSizeConfig,
+    BuildContext context,
+    UserModel currentUser,
+    CurrentUserState currentUserState,
+  ) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -327,7 +332,8 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 3,
                   ),
-                  _getActionButton(context, currentUser, widget.barterModel),
+                  _getActionButton(context, currentUser, widget.barterModel,
+                      currentUserState),
                   SizedBox(
                     height: appSizeConfig.blockSizeVertical * 3,
                   ),
@@ -344,6 +350,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
     BuildContext context,
     UserModel currentUser,
     BarterModel barterModel,
+    CurrentUserState currentUserState,
   ) {
     if (currentUser?.userId == barterModel?.userId) {
       return BlocBuilder<UpdateBarterModelCurrentUserCubit,
@@ -360,7 +367,24 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
           ? ActionButton(
               title: 'Make an offer',
               onPressed: () {
-                _makeOfferPressed(context, barterModel);
+                if (currentUserState.isAnonymous) {
+                  showModalBottomSheet(
+                    context: context,
+                    backgroundColor: Colors.white,
+                    isScrollControlled: true,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(8.0),
+                        topRight: Radius.circular(8.0),
+                      ),
+                    ),
+                    builder: (BuildContext bc) {
+                      return ModalSignUpScreen();
+                    },
+                  );
+                } else {
+                  _makeOfferPressed(context, barterModel);
+                }
               },
             )
           : SizedBox.shrink();
