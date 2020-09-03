@@ -23,6 +23,7 @@ class MakeOfferBarterItemList extends StatelessWidget {
     final appSizeConfig = AppSizeConfig(context);
     return SafeArea(
       child: Container(
+        height: MediaQuery.of(context).copyWith().size.height * 0.75,
         child: BlocBuilder<AllListBarterModelCurrentUserCubit,
             AllListBarterModelCurrentUserState>(
           builder: (context, allListBarterModelCurrentUserState) {
