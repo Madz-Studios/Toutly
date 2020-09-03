@@ -18,46 +18,43 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SignInScreen extends StatelessWidget {
   final _signCubit = getIt<SignCubit>();
   final _authCubit = getIt<AuthCubit>();
+  final _globalScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text('${state.info}'),
-                    ),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: kSecondaryRedAccentColor,
+          _globalScaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text('${state.info}'),
+                  ),
+                  Icon(Icons.error),
+                ],
               ),
-            );
+              backgroundColor: kSecondaryRedAccentColor,
+            ),
+          );
         }
         if (state.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Signing In...'),
-                    Platform.isIOS
-                        ? CupertinoActivityIndicator()
-                        : CircularProgressIndicator(),
-                  ],
-                ),
+          _globalScaffoldKey.currentState.showSnackBar(
+            SnackBar(
+              backgroundColor: kPrimaryColor,
+              content: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Signing In...'),
+                  Platform.isIOS
+                      ? CupertinoActivityIndicator()
+                      : CircularProgressIndicator(),
+                ],
               ),
-            );
+            ),
+          );
         }
         if (state.isSuccess) {
           _authCubit.signedIn();
@@ -65,6 +62,7 @@ class SignInScreen extends StatelessWidget {
       },
       builder: (_, signState) {
         return Scaffold(
+          key: _globalScaffoldKey,
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(

@@ -1,6 +1,7 @@
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/features/signup/screen/modal_signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
@@ -37,9 +38,26 @@ class SavedPanel extends StatelessWidget {
                   color: kSecondaryWhiteSeventyColor,
                 ),
           onPressed: () {
-            _isLiked = !_isLiked;
-            debugPrint('onPress liked = $_isLiked');
-            updateUserLikes(_isLiked, currentUser);
+            if (currentUserState.isAnonymous) {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.white,
+                isScrollControlled: true,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(8.0),
+                    topRight: Radius.circular(8.0),
+                  ),
+                ),
+                builder: (BuildContext bc) {
+                  return ModalSignUpScreen();
+                },
+              );
+            } else {
+              _isLiked = !_isLiked;
+              debugPrint('onPress liked = $_isLiked');
+              updateUserLikes(_isLiked, currentUser);
+            }
           },
         );
       },
