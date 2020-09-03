@@ -417,6 +417,7 @@ class _SelectItemToTrade extends StatelessWidget {
 
   void _showAddBarterBottomSheet(UserModel currentUser, BuildContext context) {
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
