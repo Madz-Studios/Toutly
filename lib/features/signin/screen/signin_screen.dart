@@ -8,7 +8,6 @@ import 'package:Toutly/features/signin/widgets/signin_form.dart';
 import 'package:Toutly/features/signup/screen/signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -105,20 +104,6 @@ class SignInScreen extends StatelessWidget {
                       SizedBox(
                         height: appSizeConfig.safeBlockVertical * 2.5,
                       ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                        ),
-                        child: ActionButton(
-                          title: 'Sign In Anonymously',
-                          onPressed: () {
-                            _signCubit.signInAnonymously();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: appSizeConfig.safeBlockVertical * 2.5,
-                      ),
                       GestureDetector(
                         onTap: () {
                           Navigator.of(context).push(
@@ -179,6 +164,25 @@ class SignInScreen extends StatelessWidget {
                             ),
                           ),
                         ],
+                      ),
+                      SizedBox(
+                        height: appSizeConfig.safeBlockVertical * 2.5,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          _signCubit.signInAnonymously();
+                        },
+                        child: Center(
+                          child: Text(
+                            'Maybe later?',
+                            style: TextStyle(
+                              fontStyle: FontStyle.normal,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.0,
+                              color: Color(0XFF098AE8),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
