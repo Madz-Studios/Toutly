@@ -226,7 +226,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: BackOrCloseButton(
-                    buttonColor: kPrimaryColor,
+                    buttonColor: Colors.white,
                     isDialog: widget.isDialog,
                     onPressed: () {
                       Navigator.pop(context);
@@ -399,7 +399,7 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
         child: IconButton(
           icon: Icon(
             Icons.delete,
-            color: kPrimaryColor,
+            color: kSecondaryRedAccentColor,
           ),
           onPressed: () {
             if (Platform.isIOS) {
