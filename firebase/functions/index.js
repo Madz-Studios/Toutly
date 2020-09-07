@@ -173,7 +173,7 @@ exports.scheduledFirestoreExport = functions.pubsub
 exports.sendMessageNotificationToDevice = functions.https.onCall(
   async (data, context) => {
     // const { tokens } = data; // Data is what you'd send from callable.call
-    const token = data.token;
+    const tokens = data.tokens;
 
     const payload = {
       notification: {
@@ -183,7 +183,7 @@ exports.sendMessageNotificationToDevice = functions.https.onCall(
       },
     };
     console.log("called sendMessageNotificationToDevice");
-    const response = await admin.messaging().sendToDevice(token, payload);
+    const response = await admin.messaging().sendToDevice(tokens, payload);
   }
 );
 

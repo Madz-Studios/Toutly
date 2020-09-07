@@ -1,4 +1,3 @@
-import 'package:Toutly/core/models/user/fcm_token/fcm_token_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -13,7 +12,7 @@ class UserModel {
   DateTime dateCreated;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateUpdated;
-  FcmTokenModel fcmToken;
+  List<String> fcmToken;
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;

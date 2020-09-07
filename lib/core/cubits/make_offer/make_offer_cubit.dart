@@ -120,7 +120,7 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
       ///send fcm notification
       _cloudFunctionCallCubit.sendMessageNotification(
-        token: otherUser.fcmToken.token,
+        tokens: otherUser.fcmToken,
         title: '${otherUser.name} sent you an offer!',
         body: message,
       );

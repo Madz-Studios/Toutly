@@ -12,7 +12,7 @@ class CloudFunctionCallCubit extends Cubit<CloudFunctionCallState> {
   CloudFunctionCallCubit() : super(CloudFunctionCallState.empty());
 
   sendMessageNotification({
-    @required String token,
+    @required List<String> tokens,
     @required String title,
     @required String body,
   }) async {
@@ -23,7 +23,7 @@ class CloudFunctionCallCubit extends Cubit<CloudFunctionCallState> {
       )..timeout = const Duration(seconds: 30);
 
       dynamic result = await callable.call(<String, dynamic>{
-        'token': token,
+        'tokens': tokens,
         'title': title,
         'body': body,
       });

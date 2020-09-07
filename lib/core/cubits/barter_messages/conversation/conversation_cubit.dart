@@ -125,7 +125,7 @@ class ConversationCubit extends Cubit<ConversationState> {
     );
 
     _cloudFunctionCallCubit.sendMessageNotification(
-      token: otherUserModel.fcmToken.token,
+      tokens: otherUserModel.fcmToken,
       title: '${otherUserModel.name} sent you a message!',
       body: message,
     );
