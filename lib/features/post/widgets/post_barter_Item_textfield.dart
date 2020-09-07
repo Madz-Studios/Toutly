@@ -54,6 +54,7 @@ class PostItemTextField extends StatelessWidget {
             fontSize: 16.0,
           ),
           decoration: InputDecoration(
+            counterText: '',
             filled: true,
             fillColor: Color(0XFFF7F7F8),
             hintText: title,

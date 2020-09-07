@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/cloud_functions_call/cloud_function_call_cubit.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/barter_conversation_text/barter_conversation_text_model.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
@@ -18,6 +19,7 @@ part 'make_offer_state.dart';
 
 @lazySingleton
 class MakeOfferCubit extends Cubit<MakeOfferState> {
+  final CloudFunctionCallCubit _cloudFunctionCallCubit;
   final FirestoreCreateBarterConversationTextUseCase
       firestoreCreateBarterConversationTextUseCase;
 
@@ -28,6 +30,7 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
   final Uuid uuid;
 
   MakeOfferCubit(
+    this._cloudFunctionCallCubit,
     this.firestoreCreateBarterConversationTextUseCase,
     this.firestoreCreateBarterMessagesUseCase,
     this.validators,
@@ -63,6 +66,7 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
   submitButtonOfferPressed({
     @required UserModel currentUser,
+    @required UserModel otherUser,
     @required BarterModel otherUserBarterModel,
     @required String message,
   }) async {
@@ -112,6 +116,13 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
           barterMessageId: barterMessageId,
           barterConversationTextModel: barterConversationTextModel,
         ),
+      );
+
+      ///send fcm notification
+      _cloudFunctionCallCubit.sendMessageNotification(
+        token: otherUser.fcmToken.token,
+        title: '${otherUser.name} sent you an offer!',
+        body: message,
       );
 
       emit(MakeOfferState.success('Success'));

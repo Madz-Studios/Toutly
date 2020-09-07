@@ -1,5 +1,7 @@
+import 'package:Toutly/core/cubits/cloud_functions_call/cloud_function_call_cubit.dart';
 import 'package:Toutly/core/models/barter_conversation_text/barter_conversation_text_model.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/barter_conversation_text/firestore_create_barter_conversation_text_use_case.dart';
 import 'package:Toutly/core/usecases/barter_conversation_text/firestore_get_all_conversation_from_message_use_case.dart';
 import 'package:Toutly/core/usecases/barter_messages/firestore_update_barter_messages_use_case.dart';
@@ -17,29 +19,32 @@ part 'conversation_state.dart';
 
 @lazySingleton
 class ConversationCubit extends Cubit<ConversationState> {
+  final CloudFunctionCallCubit _cloudFunctionCallCubit;
+
   final FirestoreGetAllConversationFromMessagesUseCase
-      firestoreGetAllConversationFromMessagesUseCase;
+      _firestoreGetAllConversationFromMessagesUseCase;
 
   final FirestoreCreateBarterConversationTextUseCase
-      firestoreCreateBarterConversationTextUseCase;
+      _firestoreCreateBarterConversationTextUseCase;
 
   final FirestoreUpdateBarterMessagesUseCase
-      firestoreUpdateBarterMessagesUseCase;
+      _firestoreUpdateBarterMessagesUseCase;
 
-  final Uuid uuid;
+  final Uuid _uuid;
 
   ConversationCubit(
-    this.firestoreGetAllConversationFromMessagesUseCase,
-    this.firestoreCreateBarterConversationTextUseCase,
-    this.firestoreUpdateBarterMessagesUseCase,
-    this.uuid,
+    this._cloudFunctionCallCubit,
+    this._firestoreGetAllConversationFromMessagesUseCase,
+    this._firestoreCreateBarterConversationTextUseCase,
+    this._firestoreUpdateBarterMessagesUseCase,
+    this._uuid,
   ) : super(ConversationState.empty());
 
   getAllTextConversation(String messageId) async {
     try {
       emit(ConversationState.loading());
       final barterMessages =
-          firestoreGetAllConversationFromMessagesUseCase.call(
+          _firestoreGetAllConversationFromMessagesUseCase.call(
         UseCaseAllConversationFromMessagesWithMessageIdParam.init(
           messageId: messageId,
         ),
@@ -59,7 +64,7 @@ class ConversationCubit extends Cubit<ConversationState> {
     ///current user the one who offer the item and will update the user offer read.
     barterMessageModel.isUserOfferRead = true;
 
-    firestoreUpdateBarterMessagesUseCase.call(
+    _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
         barterMessageModel: barterMessageModel,
       ),
@@ -72,7 +77,7 @@ class ConversationCubit extends Cubit<ConversationState> {
     ///owner of the barter item will read the last message
     barterMessageModel.isUserBarterRead = true;
 
-    firestoreUpdateBarterMessagesUseCase.call(
+    _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
         barterMessageModel: barterMessageModel,
       ),
@@ -82,19 +87,20 @@ class ConversationCubit extends Cubit<ConversationState> {
   sendConversationText({
     @required String barterMessageId,
     @required String userId,
+    @required UserModel otherUserModel,
     @required String message,
     @required BarterMessageModel barterMessageModel,
-  }) {
+  }) async {
     BarterConversationTextModel barterConversationTextModel =
         BarterConversationTextModel(
-      id: uuid.v4(),
+      id: _uuid.v4(),
       text: message,
       userId: userId,
       dateCreated: DateTime.now(),
       barterMessageId: barterMessageId,
     );
 
-    firestoreCreateBarterConversationTextUseCase.call(
+    _firestoreCreateBarterConversationTextUseCase.call(
       UseCaseBarterConversationTextModelParam.init(
         barterMessageId: barterMessageId,
         barterConversationTextModel: barterConversationTextModel,
@@ -112,10 +118,16 @@ class ConversationCubit extends Cubit<ConversationState> {
     barterMessageModel.isUserOfferRead =
         userId == barterMessageModel.userOffer ? true : false;
 
-    firestoreUpdateBarterMessagesUseCase.call(
+    _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
         barterMessageModel: barterMessageModel,
       ),
+    );
+
+    _cloudFunctionCallCubit.sendMessageNotification(
+      token: otherUserModel.fcmToken.token,
+      title: '${otherUserModel.name} sent you a message!',
+      body: message,
     );
   }
 }

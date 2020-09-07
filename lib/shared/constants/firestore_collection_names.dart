@@ -7,15 +7,9 @@ class FirestoreCollectionNames {
   static String barterConversationCollection = 'barter_conversation';
 
   static String barterItemsCollection = 'barter_items';
+
+  static String fcmTokenCollection = 'fcm_token';
+
   static String userCollection = 'user';
   static String userLikesCollection = 'user_likes';
-
-//  static String getUserBarterInboxCollection(
-//      String userId, String transactionId) {
-//    return "$userCollection/$userId/$barterMessagesCollection/$transactionId";
-//  }
-//
-//  static String getUserBarterTransactionCollection(String userId) {
-//    return "$userCollection/$userId/$barterTransactionCollection";
-//  }
 }

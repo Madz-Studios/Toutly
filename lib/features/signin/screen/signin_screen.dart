@@ -81,8 +81,8 @@ class SignInScreen extends StatelessWidget {
                     children: [
                       SvgPicture.asset(
                         'assets/logos/toutly_logo.svg',
-                        width: appSizeConfig.blockSizeHorizontal * 15,
-                        height: appSizeConfig.blockSizeVertical * 15,
+                        width: appSizeConfig.safeBlockHorizontal * 15,
+                        height: appSizeConfig.safeBlockVertical * 15,
                       ),
                       SizedBox(
                         height: appSizeConfig.safeBlockVertical * 2.5,

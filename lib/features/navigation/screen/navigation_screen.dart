@@ -43,9 +43,15 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _searchConfigCubit = getIt<SearchConfigCubit>();
 
+  final _notificationCubit = getIt<NotificationCubit>();
+
   @override
   void initState() {
     super.initState();
+
+    _notificationCubit.initializeFirebaseMessaging(
+      widget.currentUserState.currentUserModel,
+    );
 
     _updateUserConfig(
       widget.locationState,
@@ -247,7 +253,7 @@ class _NavigationBar extends StatelessWidget {
                       ? SvgPicture.asset(
                           'assets/icons/chat.svg',
                           height: appSizeConfig.blockSizeVertical * 3,
-                          color: kSecondaryRedAccentColor,
+                          color: kSecondaryColor,
                         )
                       : SvgPicture.asset(
                           'assets/icons/unpressed-chat.svg',
