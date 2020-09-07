@@ -9,14 +9,14 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
     address: json['address'] as String,
-    barterTransactionList: (json['barterTransactionList'] as List)
-        ?.map((e) => e as String)
-        ?.toList(),
     barterLikesList:
         (json['barterLikesList'] as List)?.map((e) => e as String)?.toList(),
     dateCreated: UserModel._fromJsonTimestamp(json['dateCreated'] as Timestamp),
     dateUpdated: UserModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     email: json['email'] as String,
+    fcmToken: json['fcmToken'] == null
+        ? null
+        : FcmTokenModel.fromJson(json['fcmToken'] as Map<String, dynamic>),
     geoHash: json['geoHash'] as String,
     geoLocation: UserModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
     name: json['name'] as String,
@@ -29,10 +29,10 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'address': instance.address,
       'barterLikesList': instance.barterLikesList,
-      'barterTransactionList': instance.barterTransactionList,
       'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),
       'dateUpdated': UserModel._toJsonTimestamp(instance.dateUpdated),
+      'fcmToken': instance.fcmToken?.toJson(),
       'geoHash': instance.geoHash,
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
       'name': instance.name,

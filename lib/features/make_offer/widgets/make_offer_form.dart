@@ -5,6 +5,7 @@ import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/fcm_token/fcm_token_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_card.dart';
 import 'package:Toutly/features/make_offer/widgets/make_offer_barter_item_list.dart';
@@ -34,11 +35,12 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
   final _makeOfferCubit = getIt<MakeOfferCubit>();
   final _messageController = TextEditingController();
   final _otherUserCubit = getIt<OtherUserCubit>();
+  UserModel otherUser;
+  List<FcmTokenModel> listFcmTokens;
 
   @override
   void initState() {
     super.initState();
-
     _messageController.addListener(_onMessageChanged);
   }
 
@@ -57,6 +59,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
   _onFormSubmitted() {
     _makeOfferCubit.submitButtonOfferPressed(
       currentUser: widget.currentUser,
+      otherUser: otherUser,
       otherUserBarterModel: widget.otherUserBarterModel,
       message: _messageController.text,
     );
@@ -206,8 +209,8 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                           return LoadingOrErrorWidgetUtil(
                               'Error: ${snapshot.error}');
                         else {
-                          UserModel otherUserModel = snapshot.data;
-                          return ProfileWithRating(otherUserModel);
+                          otherUser = snapshot.data;
+                          return ProfileWithRating(otherUser);
                         }
                         break;
                       default:

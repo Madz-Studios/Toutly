@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 final kPrimaryColor = Color(0XFF3BAF61);
+final kSecondaryColor = Color(0XFF098AE8);
 final kSecondaryRedAccentColor = Colors.redAccent;
 final kSecondaryWhiteSeventyColor = Colors.white;
 

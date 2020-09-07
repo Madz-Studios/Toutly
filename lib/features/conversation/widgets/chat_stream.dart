@@ -147,6 +147,7 @@ class _Conversation extends StatelessWidget {
         messages: messages,
         barterMessageModel: barterMessageModel,
         currentChatUser: currentChatUser,
+        otherUserModel: otherUserModel,
         currentUserModel: currentUserModel,
       );
     } else {
@@ -158,11 +159,13 @@ class _Conversation extends StatelessWidget {
 class _Chat extends StatefulWidget {
   final BarterMessageModel barterMessageModel;
   final UserModel currentUserModel;
+  final UserModel otherUserModel;
   final List<ChatMessage> messages;
   final ChatUser currentChatUser;
   _Chat({
     @required this.barterMessageModel,
     @required this.currentUserModel,
+    @required this.otherUserModel,
     @required this.messages,
     @required this.currentChatUser,
   });
@@ -172,6 +175,11 @@ class _Chat extends StatefulWidget {
 }
 
 class __ChatState extends State<_Chat> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   final _conversationCubit = getIt<ConversationCubit>();
   final GlobalKey<__ChatState> _chatViewKey = GlobalKey<__ChatState>();
 
@@ -234,6 +242,7 @@ class __ChatState extends State<_Chat> {
     _conversationCubit.sendConversationText(
       barterMessageId: widget.barterMessageModel.barterMessageId,
       userId: message.user.uid,
+      otherUserModel: widget.otherUserModel,
       message: message.text,
       barterMessageModel: widget.barterMessageModel,
     );

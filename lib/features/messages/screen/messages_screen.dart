@@ -48,7 +48,7 @@ class MessagesScreen extends StatelessWidget {
                         if (notificationState.hasOfferMessageUnread)
                           Icon(
                             Icons.markunread,
-                            color: kPrimaryColor,
+                            color: kSecondaryColor,
                           )
                         else
                           SizedBox.shrink(),
@@ -63,7 +63,7 @@ class MessagesScreen extends StatelessWidget {
                         if (notificationState.hasBarterMessageUnread)
                           Icon(
                             Icons.markunread,
-                            color: kPrimaryColor,
+                            color: kSecondaryColor,
                           )
                         else
                           SizedBox.shrink(),

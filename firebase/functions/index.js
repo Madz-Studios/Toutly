@@ -1,5 +1,7 @@
 const functions = require("firebase-functions");
 const algoliasearch = require("algoliasearch");
+const admin = require("firebase-admin");
+admin.initializeApp();
 
 // [START init_algolia]
 // Initialize Algolia, requires installing Algolia dependencies:
@@ -54,8 +56,6 @@ exports.onBarterEdited = functions.firestore
 // [END update_index_function]
 
 // [START get_firebase_user]
-const admin = require("firebase-admin");
-admin.initializeApp();
 
 async function getFirebaseUser(req, res, next) {
   console.log("Check if request is authorized with Firebase ID token");
@@ -167,3 +167,24 @@ exports.scheduledFirestoreExport = functions.pubsub
   });
 
 //[END - Automated firestore backup]
+
+//[START - Create Notification when a User start an offer to a barter item]
+
+exports.sendMessageNotificationToDevice = functions.https.onCall(
+  async (data, context) => {
+    // const { tokens } = data; // Data is what you'd send from callable.call
+    const token = data.token;
+
+    const payload = {
+      notification: {
+        title: data.title,
+        body: data.body,
+        click_action: "FLUTTER_NOTIFICATION_CLICK",
+      },
+    };
+    console.log("called sendMessageNotificationToDevice");
+    const response = await admin.messaging().sendToDevice(token, payload);
+  }
+);
+
+//[END - Create Notification when a User start an offer to a barter item]

@@ -1,18 +1,19 @@
+import 'package:Toutly/core/models/user/fcm_token/fcm_token_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UserModel {
   String address;
   List<String> barterLikesList;
-  List<String> barterTransactionList;
   String email;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateCreated;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateUpdated;
+  FcmTokenModel fcmToken;
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;
@@ -22,11 +23,11 @@ class UserModel {
   double userRating;
   UserModel({
     this.address,
-    this.barterTransactionList,
     this.barterLikesList,
     this.dateCreated,
     this.dateUpdated,
     this.email,
+    this.fcmToken,
     this.geoHash,
     this.geoLocation,
     this.name,

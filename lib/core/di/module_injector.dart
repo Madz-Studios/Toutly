@@ -1,6 +1,7 @@
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
@@ -24,6 +25,9 @@ abstract class InjectableModule {
 
   @lazySingleton
   FirebaseStorage get firebaseStorage => FirebaseStorage();
+
+  @lazySingleton
+  FirebaseMessaging get firebaseMessaging => FirebaseMessaging();
 
   @lazySingleton
   GoogleSignIn get googleSignIn => GoogleSignIn();
