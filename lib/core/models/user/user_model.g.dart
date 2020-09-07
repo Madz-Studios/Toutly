@@ -14,9 +14,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     dateCreated: UserModel._fromJsonTimestamp(json['dateCreated'] as Timestamp),
     dateUpdated: UserModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     email: json['email'] as String,
-    fcmToken: json['fcmToken'] == null
-        ? null
-        : FcmTokenModel.fromJson(json['fcmToken'] as Map<String, dynamic>),
+    fcmToken: (json['fcmToken'] as List)?.map((e) => e as String)?.toList(),
     geoHash: json['geoHash'] as String,
     geoLocation: UserModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
     name: json['name'] as String,
@@ -32,7 +30,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),
       'dateUpdated': UserModel._toJsonTimestamp(instance.dateUpdated),
-      'fcmToken': instance.fcmToken?.toJson(),
+      'fcmToken': instance.fcmToken,
       'geoHash': instance.geoHash,
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
       'name': instance.name,

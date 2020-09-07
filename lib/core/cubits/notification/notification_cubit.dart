@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:Toutly/core/models/user/fcm_token/fcm_token_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
@@ -24,15 +23,23 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   initializeFirebaseMessaging(UserModel userModel) async {
     //set fcm token
-    String token = await _firebaseMessaging.getToken();
+    String deviceToken = await _firebaseMessaging.getToken();
 
-    FcmTokenModel fcmTokenModel = FcmTokenModel(
-      dateCreated: DateTime.now(),
-      platform: Platform.operatingSystem,
-      token: token,
-    );
-
-    userModel.fcmToken = fcmTokenModel;
+    bool isDeviceTokenExist = false;
+    if (userModel.fcmToken != null && userModel.fcmToken.isNotEmpty) {
+      for (String fcmToken in userModel.fcmToken) {
+        if (deviceToken == fcmToken) {
+          isDeviceTokenExist = true;
+        }
+      }
+    } else {
+      List<String> fcmTokenList = [];
+      fcmTokenList.add(deviceToken);
+      userModel.fcmToken = fcmTokenList;
+    }
+    if (!isDeviceTokenExist) {
+      userModel.fcmToken.add(deviceToken);
+    }
 
     await _firestoreUpdateUserUseCase
         .call(UseCaseUserParamUserModel.init(userModel));
