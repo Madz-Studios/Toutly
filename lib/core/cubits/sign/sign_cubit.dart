@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_apple_usecase.dart';
@@ -283,6 +285,8 @@ class SignCubit extends Cubit<SignState> {
     final userStore = await firestoreGetUserUseCase
         .call(UseCaseUserParamUserId.init(firebaseUser.uid));
 
+    final rng = Random();
+
     if (userStore == null) {
       // if user is not existed in User Firestore create a User
       UserModel userModel;
@@ -290,7 +294,8 @@ class SignCubit extends Cubit<SignState> {
         userModel = UserModel(
           userId: firebaseUser.uid,
           email: firebaseUser.providerData[0].email,
-          name: firebaseUser.providerData[0].displayName,
+          name: firebaseUser.providerData[0].displayName ??
+              'User${rng.nextInt(1000000)}',
           photoUrl: firebaseUser.providerData[0].photoURL,
           dateCreated: DateTime.now(),
           dateUpdated: DateTime.now(),
@@ -299,7 +304,7 @@ class SignCubit extends Cubit<SignState> {
         userModel = UserModel(
           userId: firebaseUser.uid,
           email: firebaseUser.email,
-          name: firebaseUser.displayName,
+          name: firebaseUser.displayName ?? 'User${rng.nextInt(1000000)}',
           photoUrl: firebaseUser.photoURL,
           dateCreated: DateTime.now(),
           dateUpdated: DateTime.now(),
