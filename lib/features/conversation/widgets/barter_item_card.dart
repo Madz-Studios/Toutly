@@ -5,10 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BarterItemCard extends StatelessWidget {
-  final String barterItemId;
-
-  BarterItemCard({@required this.barterItemId});
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);

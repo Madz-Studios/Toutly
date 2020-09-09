@@ -201,8 +201,9 @@ Future<GetIt> $initGetIt(
           get<FirestoreGetAllBarterItemsUsingUserIdUseCase>()));
   gh.lazySingleton<BarterItemsCubit>(
       () => BarterItemsCubit(get<FirestoreGetAllBarterItemsUseCase>()));
-  gh.lazySingleton<BarterMessageCubit>(
-      () => BarterMessageCubit(get<FirestoreGetAllBarterMessagesUseCase>()));
+  gh.lazySingleton<BarterMessageCubit>(() => BarterMessageCubit(
+      get<FirestoreGetAllBarterMessagesUseCase>(),
+      get<FirestoreGetAllOfferMessagesUseCase>()));
   gh.lazySingleton<ConversationCubit>(() => ConversationCubit(
         get<CloudFunctionCallCubit>(),
         get<FirestoreGetAllConversationFromMessagesUseCase>(),
@@ -277,8 +278,6 @@ Future<GetIt> $initGetIt(
         get<Validators>(),
         get<Uuid>(),
       ));
-  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
-      get<FirestoreUpdateUserUseCase>(), get<FirebaseMessaging>()));
   gh.lazySingleton<OtherUserCubit>(() => OtherUserCubit(
       get<FirestoreGetUserUseCase>(), get<FirestoreGetAllFcmTokenUseCase>()));
   gh.lazySingleton<PasswordResetCubit>(() => PasswordResetCubit(
@@ -331,6 +330,11 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
       LocalSharedPrefPersistUserGeoLocationUseCase(
           localSharedPrefRepository: get<LocalSharedPrefRepository>()));
+  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
+        get<FirestoreUpdateUserUseCase>(),
+        get<FirebaseMessaging>(),
+        get<CurrentUserCubit>(),
+      ));
   return get;
 }
 

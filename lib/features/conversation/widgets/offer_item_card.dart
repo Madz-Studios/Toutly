@@ -7,10 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class OfferItemCard extends StatelessWidget {
-  final List<String> offerItems;
-
-  OfferItemCard({@required this.offerItems});
-
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
