@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 
 class ConversationBarterScreen extends StatelessWidget {
   final BarterMessageModel barterMessageModel;
-  final UserModel barterUser;
+  final UserModel otherUserModel;
 
   ConversationBarterScreen(
     this.barterMessageModel,
-    this.barterUser,
+    this.otherUserModel,
   );
 
   @override
@@ -23,7 +23,7 @@ class ConversationBarterScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          '${barterUser.name}',
+          '${otherUserModel.name}',
           style: TextStyle(
             color: Colors.black,
           ),
@@ -47,13 +47,13 @@ class ConversationBarterScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => BarterOfferItem(
                     barterMessageModel,
-                    barterUser,
+                    otherUserModel,
                   ),
                   fullscreenDialog: true,
                 ),
               );
             },
-          ),
+          )
         ],
       ),
       body: Padding(
@@ -63,7 +63,7 @@ class ConversationBarterScreen extends StatelessWidget {
         ),
         child: ChatStream(
           barterMessageModel: barterMessageModel,
-          otherUser: barterUser,
+          otherUser: otherUserModel,
         ),
       ),
     );

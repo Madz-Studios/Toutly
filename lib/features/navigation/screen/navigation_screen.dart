@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
@@ -45,6 +46,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _notificationCubit = getIt<NotificationCubit>();
 
+  final _barterMessages = getIt<BarterMessageCubit>();
+
   @override
   void initState() {
     super.initState();
@@ -57,6 +60,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       widget.locationState,
       widget.remoteConfigState,
       widget.currentUserState,
+    );
+
+    _barterMessages.getBarterMessages(
+      widget.currentUserState.currentUserModel.userId,
     );
   }
 

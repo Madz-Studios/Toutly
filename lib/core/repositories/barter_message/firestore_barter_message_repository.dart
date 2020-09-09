@@ -49,8 +49,15 @@ class FirestoreBarterMessageRepositoryImpl
     try {
       query = firestore
           .collection(FirestoreCollectionNames.barterMessagesCollection)
-          .where('userBarter', isEqualTo: userId)
-          .orderBy('dateCreated', descending: true)
+          // .where(
+          //   'userBarter',
+          //   arrayContains: [userId],
+          // )
+          .where(
+            'usersInvolved',
+            arrayContainsAny: [userId],
+          )
+          .orderBy('dateUpdated', descending: true)
           .snapshots();
     } on PlatformException catch (platformException) {
       throw PlatformException(code: platformException.code);
@@ -69,7 +76,7 @@ class FirestoreBarterMessageRepositoryImpl
       query = firestore
           .collection(FirestoreCollectionNames.barterMessagesCollection)
           .where('userOffer', isEqualTo: userId)
-          .orderBy('dateCreated', descending: true)
+          .orderBy('dateUpdated', descending: true)
           .snapshots();
     } on PlatformException catch (platformException) {
       throw PlatformException(code: platformException.code);

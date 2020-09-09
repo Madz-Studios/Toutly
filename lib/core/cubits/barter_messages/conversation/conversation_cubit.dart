@@ -61,9 +61,6 @@ class ConversationCubit extends Cubit<ConversationState> {
   messageUserOfferReadUpdate({
     @required BarterMessageModel barterMessageModel,
   }) {
-    ///current user the one who offer the item and will update the user offer read.
-    barterMessageModel.isUserOfferRead = true;
-
     _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
         barterMessageModel: barterMessageModel,
@@ -74,9 +71,6 @@ class ConversationCubit extends Cubit<ConversationState> {
   messageUserBarterReadUpdate({
     @required BarterMessageModel barterMessageModel,
   }) {
-    ///owner of the barter item will read the last message
-    barterMessageModel.isUserBarterRead = true;
-
     _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
         barterMessageModel: barterMessageModel,
@@ -108,15 +102,9 @@ class ConversationCubit extends Cubit<ConversationState> {
     );
 
     barterMessageModel.dateUpdated = DateTime.now();
+    barterMessageModel.isReadLastMessage = false;
     barterMessageModel.lastMessageText = message;
-
-    ///if the message sender is the owner of the  bartered item make it false as 'already read'
-    barterMessageModel.isUserBarterRead =
-        userId == barterMessageModel.userBarter ? true : false;
-
-    ///if the message sender is the one who offer make it true as 'already read'
-    barterMessageModel.isUserOfferRead =
-        userId == barterMessageModel.userOffer ? true : false;
+    barterMessageModel.userLastMessageSender = userId;
 
     _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(

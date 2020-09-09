@@ -84,14 +84,15 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
 
       BarterMessageModel barterMessageModel = BarterMessageModel(
         barterMessageId: barterMessageId,
+        usersInvolved: [currentUser.userId, otherUser.userId],
         barterItemId: otherUserBarterModel.itemId,
         barterOfferItems: barterOfferItems,
         userBarter: otherUserBarterModel.userId,
         userOffer: currentUser.userId,
-        isUserBarterRead: false,
+        isReadLastMessage: false,
+        userLastMessageSender: currentUser.userId,
 
         ///because it was a user who offer and the one who sent the message
-        isUserOfferRead: true,
         dateCreated: DateTime.now(),
         dateUpdated: DateTime.now(),
         lastMessageText: message,

@@ -35,7 +35,9 @@ abstract class BarterMessageState with _$BarterMessageState {
       );
 
   factory BarterMessageState.success(
-          {Stream<QuerySnapshot> barterMessages, String info}) =>
+          {Stream<QuerySnapshot> barterMessages,
+          Stream<QuerySnapshot> offerMessages,
+          String info}) =>
       BarterMessageState(
         barterMessages: barterMessages,
         isSubmitting: false,
