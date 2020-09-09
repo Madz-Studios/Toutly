@@ -8,6 +8,7 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_update_barter_mes
 import 'package:Toutly/core/usecases/param/barter_conversation_text/use_case_barter_conversation_text_param.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -80,7 +81,7 @@ class ConversationCubit extends Cubit<ConversationState> {
 
   sendConversationText({
     @required String barterMessageId,
-    @required String userId,
+    @required UserModel currentUser,
     @required UserModel otherUserModel,
     @required String message,
     @required BarterMessageModel barterMessageModel,
@@ -89,7 +90,7 @@ class ConversationCubit extends Cubit<ConversationState> {
         BarterConversationTextModel(
       id: _uuid.v4(),
       text: message,
-      userId: userId,
+      userId: currentUser.userId,
       dateCreated: DateTime.now(),
       barterMessageId: barterMessageId,
     );
@@ -104,7 +105,7 @@ class ConversationCubit extends Cubit<ConversationState> {
     barterMessageModel.dateUpdated = DateTime.now();
     barterMessageModel.isReadLastMessage = false;
     barterMessageModel.lastMessageText = message;
-    barterMessageModel.userLastMessageSender = userId;
+    barterMessageModel.userLastMessageSender = currentUser.userId;
 
     _firestoreUpdateBarterMessagesUseCase.call(
       UseCaseBarterMessagesModelParam.init(
@@ -114,7 +115,7 @@ class ConversationCubit extends Cubit<ConversationState> {
 
     _cloudFunctionCallCubit.sendMessageNotification(
       tokens: otherUserModel.fcmToken,
-      title: '${otherUserModel.name} sent you a message!',
+      title: '${currentUser.name} sent you a message!',
       body: message,
     );
   }

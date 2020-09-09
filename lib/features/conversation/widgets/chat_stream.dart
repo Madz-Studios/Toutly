@@ -241,7 +241,7 @@ class __ChatState extends State<_Chat> {
 
     _conversationCubit.sendConversationText(
       barterMessageId: widget.barterMessageModel.barterMessageId,
-      userId: message.user.uid,
+      currentUser: widget.currentUserModel,
       otherUserModel: widget.otherUserModel,
       message: message.text,
       barterMessageModel: widget.barterMessageModel,
