@@ -148,7 +148,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           return _buildSingleViewScreen(
             _CustomAppBar(
               appSizeConfig: appSizeConfig,
-              title: 'Barter',
+              title: 'Add Item',
             ),
             PostScreen(),
             state.index,
@@ -243,7 +243,7 @@ class _NavigationBar extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text('Barter'),
+                  title: Text('Add Item'),
                   icon: SvgPicture.asset(
                     'assets/icons/add.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
@@ -260,7 +260,7 @@ class _NavigationBar extends StatelessWidget {
                       ? SvgPicture.asset(
                           'assets/icons/chat.svg',
                           height: appSizeConfig.blockSizeVertical * 3,
-                          color: kSecondaryColor,
+                          color: kPrimaryColor,
                         )
                       : SvgPicture.asset(
                           'assets/icons/unpressed-chat.svg',
