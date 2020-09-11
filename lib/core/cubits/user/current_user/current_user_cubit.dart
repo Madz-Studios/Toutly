@@ -1,7 +1,10 @@
+import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
+import 'package:Toutly/core/usecases/user/firestore_create_saved_item_usecase.dart';
+import 'package:Toutly/core/usecases/user/firestore_delete_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
@@ -18,20 +21,24 @@ part 'current_user_state.dart';
 
 @lazySingleton
 class CurrentUserCubit extends Cubit<CurrentUserState> {
-  final FirebaseGetUserUseCase firebaseGetUserUseCase;
-  final FirestoreGetUserUseCase firestoreGetUserUseCase;
-  final FirestoreUpdateUserUseCase firestoreUpdateUserUseCase;
-  final FirebaseStorage firebaseStorage;
-  final Uuid uuid;
+  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
+  final FirestoreGetUserUseCase _firestoreGetUserUseCase;
+  final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
+  final FirestoreCreateSavedItemUseCase _firestoreCreateSavedItemUseCase;
+  final FirestoreDeleteSavedItemUseCase _firestoreDeleteSavedItemUseCase;
+  final FirebaseStorage _firebaseStorage;
+  final Uuid _uuid;
 
   final Validators validators;
 
   CurrentUserCubit(
-    this.firebaseGetUserUseCase,
-    this.firestoreGetUserUseCase,
-    this.firestoreUpdateUserUseCase,
-    this.firebaseStorage,
-    this.uuid,
+    this._firebaseGetUserUseCase,
+    this._firestoreGetUserUseCase,
+    this._firestoreUpdateUserUseCase,
+    this._firestoreCreateSavedItemUseCase,
+    this._firestoreDeleteSavedItemUseCase,
+    this._firebaseStorage,
+    this._uuid,
     this.validators,
   ) : super(CurrentUserState.empty());
 
@@ -53,8 +60,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   }
 
   Future<UserModel> getCurrentUserModel() async {
-    final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
-    final currentUser = await firestoreGetUserUseCase.call(
+    final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final currentUser = await _firestoreGetUserUseCase.call(
       UseCaseUserParamUserId.init(firebaseUser.uid),
     );
 
@@ -64,10 +71,10 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   getCurrentLoggedInUser() async {
     emit(CurrentUserState.loading());
     try {
-      final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
       if (firebaseUser != null && !firebaseUser.isAnonymous) {
-        final currentUser = await firestoreGetUserUseCase.call(
+        final currentUser = await _firestoreGetUserUseCase.call(
           UseCaseUserParamUserId.init(firebaseUser.uid),
         );
 
@@ -106,13 +113,13 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
       if (currentUser.photoUrl != null) {
         final storageRef =
-            await firebaseStorage.getReferenceFromUrl(currentUser.photoUrl);
+            await _firebaseStorage.getReferenceFromUrl(currentUser.photoUrl);
         storageRef.delete();
       }
 
       ///Upload profile picture in google storage
       final StorageReference storageReference =
-          firebaseStorage.ref().child(uuid.v1());
+          _firebaseStorage.ref().child(_uuid.v1());
       final fileData = await pickedFile.readAsBytes();
 
       final storageTaskSnapshot = await storageReference
@@ -126,7 +133,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       currentUser.photoUrl = url;
 
       ///finally update the current user.
-      firestoreUpdateUserUseCase.call(
+      _firestoreUpdateUserUseCase.call(
         UseCaseUserParamUserModel.init(currentUser),
       );
 
@@ -145,10 +152,10 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   updateCurrentLoggedInUser(UserModel currentUser) {
     emit(CurrentUserState.loading());
     try {
-      final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
       if (!firebaseUser.isAnonymous) {
-        firestoreUpdateUserUseCase.call(
+        _firestoreUpdateUserUseCase.call(
           UseCaseUserParamUserModel.init(currentUser),
         );
         emit(CurrentUserState.success(
@@ -168,5 +175,19 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
     }
+  }
+
+  createSavedItemForCurrentUser(
+      UserModel currentUser, SavedItemModel savedItemModel) async {
+    await _firestoreCreateSavedItemUseCase.call(
+        UseCaseUserParamUserModelWithSavedItemModel.init(
+            currentUser, savedItemModel));
+  }
+
+  deleteSavedItemForCurrentUser(
+      UserModel currentUser, SavedItemModel savedItemModel) async {
+    await _firestoreDeleteSavedItemUseCase.call(
+        UseCaseUserParamUserModelWithSavedItemModel.init(
+            currentUser, savedItemModel));
   }
 }

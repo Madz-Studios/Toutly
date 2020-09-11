@@ -16,9 +16,9 @@ import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/util/search_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
-import 'package:Toutly/shared/widgets/saved_panel.dart';
 import 'package:algolia/algolia.dart';
 import 'package:app_settings/app_settings.dart';
+import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -233,8 +233,7 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
   }
 }
 
-class _BarterItem extends StatelessWidget {
-  final _otherUserCubit = getIt<OtherUserCubit>();
+class _BarterItem extends StatefulWidget {
   _BarterItem({
     @required this.algoliaBarter,
   });
@@ -242,12 +241,32 @@ class _BarterItem extends StatelessWidget {
   final AlgoliaBarterModel algoliaBarter;
 
   @override
+  __BarterItemState createState() => __BarterItemState();
+}
+
+class __BarterItemState extends State<_BarterItem> {
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
+  final _otherUserCubit = getIt<OtherUserCubit>();
+  Future<UserModel> otherUser;
+
+  @override
+  void initState() {
+    super.initState();
+    if (otherUser == null) {
+      _memoizer.runOnce(() async {
+        otherUser = _otherUserCubit.getOtherUser(widget.algoliaBarter.userId);
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (_, currentUserState) {
         final currentUser = currentUserState.currentUserModel;
-        final bool isCurrentUser = currentUser.userId == algoliaBarter.userId;
+        final bool isCurrentUser =
+            currentUser.userId == widget.algoliaBarter.userId;
         return Padding(
           padding: EdgeInsets.symmetric(
             vertical: appSizeConfig.blockSizeVertical * 1,
@@ -265,14 +284,14 @@ class _BarterItem extends StatelessWidget {
                   child: isCurrentUser
                       ? ProfileWithRating(currentUser)
                       : FutureBuilder(
-                          future: _otherUserCubit
-                              .getOtherUser(algoliaBarter.userId),
+                          future: otherUser,
                           builder: (BuildContext context,
                               AsyncSnapshot<UserModel> snapshot) {
                             switch (snapshot.connectionState) {
                               case ConnectionState.done:
                                 if (snapshot.hasError) {
-                                  debugPrint("Snapshot " + snapshot.toString());
+                                  debugPrint("_BarterItem Snapshot " +
+                                      snapshot.toString());
                                   return LoadingOrErrorWidgetUtil(
                                       'Error: ${snapshot.error}');
                                 } else {
@@ -281,7 +300,8 @@ class _BarterItem extends StatelessWidget {
                                 }
                                 break;
                               default:
-                                debugPrint("Snapshot " + snapshot.toString());
+                                debugPrint("_BarterItem Snapshot " +
+                                    snapshot.toString());
                                 return Container();
                             }
                           },
@@ -292,31 +312,18 @@ class _BarterItem extends StatelessWidget {
                     horizontal: appSizeConfig.blockSizeHorizontal * 2,
                     vertical: appSizeConfig.blockSizeVertical * 1,
                   ),
-                  child: Stack(
-                    children: [
-                      Center(
-                        child: Container(
-                          height: appSizeConfig.blockSizeVertical * 22.5,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: CachedNetworkImageProvider(
-                                algoliaBarter.photosUrl[0],
-                              ),
-                              fit: BoxFit.cover,
-                            ),
+                  child: Center(
+                    child: Container(
+                      height: appSizeConfig.blockSizeVertical * 22.5,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: CachedNetworkImageProvider(
+                            widget.algoliaBarter.photosUrl[0],
                           ),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                      if (!isCurrentUser)
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: SavedPanel(
-                            itemId: algoliaBarter.itemId,
-                          ),
-                        )
-                      else
-                        SizedBox.shrink(),
-                    ],
+                    ),
                   ),
                 ),
                 Padding(
@@ -324,7 +331,7 @@ class _BarterItem extends StatelessWidget {
                     horizontal: appSizeConfig.blockSizeHorizontal * 2,
                     vertical: appSizeConfig.blockSizeVertical * 1,
                   ),
-                  child: _BarterItemDescription(algoliaBarter),
+                  child: _BarterItemDescription(widget.algoliaBarter),
                 )
               ],
             ),

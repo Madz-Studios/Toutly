@@ -9,8 +9,11 @@ part of 'user_model.dart';
 UserModel _$UserModelFromJson(Map<String, dynamic> json) {
   return UserModel(
     address: json['address'] as String,
-    barterLikesList:
-        (json['barterLikesList'] as List)?.map((e) => e as String)?.toList(),
+    saveItems: (json['saveItems'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SavedItemModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     dateCreated: UserModel._fromJsonTimestamp(json['dateCreated'] as Timestamp),
     dateUpdated: UserModel._fromJsonTimestamp(json['dateUpdated'] as Timestamp),
     email: json['email'] as String,
@@ -26,7 +29,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'address': instance.address,
-      'barterLikesList': instance.barterLikesList,
+      'saveItems': instance.saveItems?.map((e) => e?.toJson())?.toList(),
       'email': instance.email,
       'dateCreated': UserModel._toJsonTimestamp(instance.dateCreated),
       'dateUpdated': UserModel._toJsonTimestamp(instance.dateUpdated),

@@ -1155,6 +1155,222 @@ abstract class UseCaseUserParamUserIdWithItemIdInit
       UseCaseUserParamUserIdWithItemIdInit> get copyWith;
 }
 
+class _$UseCaseUserParamUserModelWithSavedItemModelTearOff {
+  const _$UseCaseUserParamUserModelWithSavedItemModelTearOff();
+
+// ignore: unused_element
+  UseCaseUserParamUserModelWithSavedItemModelInit init(
+      UserModel user, SavedItemModel savedItemModel) {
+    return UseCaseUserParamUserModelWithSavedItemModelInit(
+      user,
+      savedItemModel,
+    );
+  }
+}
+
+// ignore: unused_element
+const $UseCaseUserParamUserModelWithSavedItemModel =
+    _$UseCaseUserParamUserModelWithSavedItemModelTearOff();
+
+mixin _$UseCaseUserParamUserModelWithSavedItemModel {
+  UserModel get user;
+  SavedItemModel get savedItemModel;
+
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(UserModel user, SavedItemModel savedItemModel),
+  });
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(UserModel user, SavedItemModel savedItemModel),
+    @required Result orElse(),
+  });
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required
+        Result init(UseCaseUserParamUserModelWithSavedItemModelInit value),
+  });
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseUserParamUserModelWithSavedItemModelInit value),
+    @required Result orElse(),
+  });
+
+  $UseCaseUserParamUserModelWithSavedItemModelCopyWith<
+      UseCaseUserParamUserModelWithSavedItemModel> get copyWith;
+}
+
+abstract class $UseCaseUserParamUserModelWithSavedItemModelCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelWithSavedItemModelCopyWith(
+          UseCaseUserParamUserModelWithSavedItemModel value,
+          $Res Function(UseCaseUserParamUserModelWithSavedItemModel) then) =
+      _$UseCaseUserParamUserModelWithSavedItemModelCopyWithImpl<$Res>;
+  $Res call({UserModel user, SavedItemModel savedItemModel});
+}
+
+class _$UseCaseUserParamUserModelWithSavedItemModelCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelWithSavedItemModelCopyWith<$Res> {
+  _$UseCaseUserParamUserModelWithSavedItemModelCopyWithImpl(
+      this._value, this._then);
+
+  final UseCaseUserParamUserModelWithSavedItemModel _value;
+  // ignore: unused_field
+  final $Res Function(UseCaseUserParamUserModelWithSavedItemModel) _then;
+
+  @override
+  $Res call({
+    Object user = freezed,
+    Object savedItemModel = freezed,
+  }) {
+    return _then(_value.copyWith(
+      user: user == freezed ? _value.user : user as UserModel,
+      savedItemModel: savedItemModel == freezed
+          ? _value.savedItemModel
+          : savedItemModel as SavedItemModel,
+    ));
+  }
+}
+
+abstract class $UseCaseUserParamUserModelWithSavedItemModelInitCopyWith<$Res>
+    implements $UseCaseUserParamUserModelWithSavedItemModelCopyWith<$Res> {
+  factory $UseCaseUserParamUserModelWithSavedItemModelInitCopyWith(
+          UseCaseUserParamUserModelWithSavedItemModelInit value,
+          $Res Function(UseCaseUserParamUserModelWithSavedItemModelInit) then) =
+      _$UseCaseUserParamUserModelWithSavedItemModelInitCopyWithImpl<$Res>;
+  @override
+  $Res call({UserModel user, SavedItemModel savedItemModel});
+}
+
+class _$UseCaseUserParamUserModelWithSavedItemModelInitCopyWithImpl<$Res>
+    extends _$UseCaseUserParamUserModelWithSavedItemModelCopyWithImpl<$Res>
+    implements $UseCaseUserParamUserModelWithSavedItemModelInitCopyWith<$Res> {
+  _$UseCaseUserParamUserModelWithSavedItemModelInitCopyWithImpl(
+      UseCaseUserParamUserModelWithSavedItemModelInit _value,
+      $Res Function(UseCaseUserParamUserModelWithSavedItemModelInit) _then)
+      : super(_value,
+            (v) => _then(v as UseCaseUserParamUserModelWithSavedItemModelInit));
+
+  @override
+  UseCaseUserParamUserModelWithSavedItemModelInit get _value =>
+      super._value as UseCaseUserParamUserModelWithSavedItemModelInit;
+
+  @override
+  $Res call({
+    Object user = freezed,
+    Object savedItemModel = freezed,
+  }) {
+    return _then(UseCaseUserParamUserModelWithSavedItemModelInit(
+      user == freezed ? _value.user : user as UserModel,
+      savedItemModel == freezed
+          ? _value.savedItemModel
+          : savedItemModel as SavedItemModel,
+    ));
+  }
+}
+
+class _$UseCaseUserParamUserModelWithSavedItemModelInit
+    implements UseCaseUserParamUserModelWithSavedItemModelInit {
+  const _$UseCaseUserParamUserModelWithSavedItemModelInit(
+      this.user, this.savedItemModel)
+      : assert(user != null),
+        assert(savedItemModel != null);
+
+  @override
+  final UserModel user;
+  @override
+  final SavedItemModel savedItemModel;
+
+  @override
+  String toString() {
+    return 'UseCaseUserParamUserModelWithSavedItemModel.init(user: $user, savedItemModel: $savedItemModel)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is UseCaseUserParamUserModelWithSavedItemModelInit &&
+            (identical(other.user, user) ||
+                const DeepCollectionEquality().equals(other.user, user)) &&
+            (identical(other.savedItemModel, savedItemModel) ||
+                const DeepCollectionEquality()
+                    .equals(other.savedItemModel, savedItemModel)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(user) ^
+      const DeepCollectionEquality().hash(savedItemModel);
+
+  @override
+  $UseCaseUserParamUserModelWithSavedItemModelInitCopyWith<
+          UseCaseUserParamUserModelWithSavedItemModelInit>
+      get copyWith =>
+          _$UseCaseUserParamUserModelWithSavedItemModelInitCopyWithImpl<
+                  UseCaseUserParamUserModelWithSavedItemModelInit>(
+              this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  Result when<Result extends Object>({
+    @required Result init(UserModel user, SavedItemModel savedItemModel),
+  }) {
+    assert(init != null);
+    return init(user, savedItemModel);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeWhen<Result extends Object>({
+    Result init(UserModel user, SavedItemModel savedItemModel),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(user, savedItemModel);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  Result map<Result extends Object>({
+    @required
+        Result init(UseCaseUserParamUserModelWithSavedItemModelInit value),
+  }) {
+    assert(init != null);
+    return init(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  Result maybeMap<Result extends Object>({
+    Result init(UseCaseUserParamUserModelWithSavedItemModelInit value),
+    @required Result orElse(),
+  }) {
+    assert(orElse != null);
+    if (init != null) {
+      return init(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class UseCaseUserParamUserModelWithSavedItemModelInit
+    implements UseCaseUserParamUserModelWithSavedItemModel {
+  const factory UseCaseUserParamUserModelWithSavedItemModelInit(
+          UserModel user, SavedItemModel savedItemModel) =
+      _$UseCaseUserParamUserModelWithSavedItemModelInit;
+
+  @override
+  UserModel get user;
+  @override
+  SavedItemModel get savedItemModel;
+  @override
+  $UseCaseUserParamUserModelWithSavedItemModelInitCopyWith<
+      UseCaseUserParamUserModelWithSavedItemModelInit> get copyWith;
+}
+
 class _$UseCaseUserParamGeoLocationTearOff {
   const _$UseCaseUserParamGeoLocationTearOff();
 

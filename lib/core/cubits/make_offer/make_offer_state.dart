@@ -5,7 +5,6 @@ abstract class MakeOfferState implements _$MakeOfferState {
   const MakeOfferState._();
   const factory MakeOfferState({
     @required Map<String, BarterModel> pickedBarterItems,
-    @required bool isMessageValid,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -14,7 +13,6 @@ abstract class MakeOfferState implements _$MakeOfferState {
 
   factory MakeOfferState.empty() => MakeOfferState(
         pickedBarterItems: Map<String, BarterModel>(),
-        isMessageValid: false,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -23,7 +21,6 @@ abstract class MakeOfferState implements _$MakeOfferState {
 
   factory MakeOfferState.failure({String info}) => MakeOfferState(
         pickedBarterItems: Map<String, BarterModel>(),
-        isMessageValid: true,
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
@@ -31,7 +28,6 @@ abstract class MakeOfferState implements _$MakeOfferState {
       );
   factory MakeOfferState.success(String info) => MakeOfferState(
         pickedBarterItems: Map<String, BarterModel>(),
-        isMessageValid: true,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,

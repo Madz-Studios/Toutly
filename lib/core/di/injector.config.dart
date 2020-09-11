@@ -47,8 +47,10 @@ import '../repositories/barter_item/firestore_barter_repository.dart';
 import '../usecases/barter_conversation_text/firestore_create_barter_conversation_text_use_case.dart';
 import '../usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import '../usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
+import '../usecases/user/firestore_create_saved_item_usecase.dart';
 import '../usecases/user/firestore_create_user_usecase.dart';
 import '../usecases/barter_item/firestore_delete_barter_item_use_case.dart';
+import '../usecases/user/firestore_delete_saved_item_usecase.dart';
 import '../usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
@@ -258,8 +260,14 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<FirebaseSignedInWithGoogleUserUseCase>(() =>
       FirebaseSignedInWithGoogleUserUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
+  gh.lazySingleton<FirestoreCreateSavedItemUseCase>(() =>
+      FirestoreCreateSavedItemUseCase(
+          firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.lazySingleton<FirestoreCreateUserUseCase>(() => FirestoreCreateUserUseCase(
       firestoreUserRepository: get<FirestoreUserRepository>()));
+  gh.lazySingleton<FirestoreDeleteSavedItemUseCase>(() =>
+      FirestoreDeleteSavedItemUseCase(
+          firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.lazySingleton<FirestoreGetAllFcmTokenUseCase>(() =>
       FirestoreGetAllFcmTokenUseCase(
           firestoreUserRepository: get<FirestoreUserRepository>()));
@@ -314,6 +322,8 @@ Future<GetIt> $initGetIt(
         get<FirebaseGetUserUseCase>(),
         get<FirestoreGetUserUseCase>(),
         get<FirestoreUpdateUserUseCase>(),
+        get<FirestoreCreateSavedItemUseCase>(),
+        get<FirestoreDeleteSavedItemUseCase>(),
         get<FirebaseStorage>(),
         get<Uuid>(),
         get<Validators>(),
