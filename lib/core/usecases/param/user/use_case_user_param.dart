@@ -1,3 +1,4 @@
+import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +45,14 @@ abstract class UseCaseUserParamUserModelWithItemId
     with _$UseCaseUserParamUserModelWithItemId {
   const factory UseCaseUserParamUserModelWithItemId.init(
       UserModel user, String itemId) = UseCaseUserParamUserIdWithItemIdInit;
+}
+
+@freezed
+abstract class UseCaseUserParamUserModelWithSavedItemModel
+    with _$UseCaseUserParamUserModelWithSavedItemModel {
+  const factory UseCaseUserParamUserModelWithSavedItemModel.init(
+          UserModel user, SavedItemModel savedItemModel) =
+      UseCaseUserParamUserModelWithSavedItemModelInit;
 }
 
 @freezed

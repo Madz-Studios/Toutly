@@ -37,13 +37,6 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
     this.uuid,
   ) : super(MakeOfferState.empty());
 
-  messageChanged(String message) {
-    emit(state.copyWith(
-      isMessageValid:
-          validators.isValidTextLengthMoreThanOrEqualToFourChars(message),
-    ));
-  }
-
   addItemToOffer(BarterModel barterModel) {
     Map<String, BarterModel> newItems = Map.from(state.pickedBarterItems);
     newItems.putIfAbsent(barterModel.itemId, () => barterModel);

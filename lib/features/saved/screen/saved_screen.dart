@@ -24,8 +24,8 @@ class SavedScreen extends StatelessWidget {
         child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
           builder: (_, currentUserState) {
             final currentUser = currentUserState.currentUserModel;
-            _savedBarterItemCubit.getCurrentUserLikesBarterItems(
-                currentUser.barterLikesList ?? []);
+            _savedBarterItemCubit
+                .getCurrentUserLikesBarterItems(currentUser.saveItems ?? []);
 
             return BlocBuilder<SavedBarterItemCubit, SavedBarterItemsState>(
               builder: (context, savedBarterItemsState) {

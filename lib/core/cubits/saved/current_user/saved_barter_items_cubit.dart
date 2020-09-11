@@ -1,4 +1,5 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:flutter/services.dart';
@@ -18,9 +19,15 @@ class SavedBarterItemCubit extends Cubit<SavedBarterItemsState> {
     this.firestoreGetAllLikesBarterItemsUsingUserIdUseCase,
   ) : super(SavedBarterItemsState.empty());
 
-  getCurrentUserLikesBarterItems(List<String> itemIds) async {
+  getCurrentUserLikesBarterItems(List<SavedItemModel> savedItems) async {
     try {
       emit(SavedBarterItemsState.loading());
+      List<String> itemIds = [];
+
+      for (final items in savedItems) {
+        itemIds.add(items.itemId);
+      }
+
       final listings =
           await firestoreGetAllLikesBarterItemsUsingUserIdUseCase.call(
         UseCaseItemIdListParam.init(itemIds),

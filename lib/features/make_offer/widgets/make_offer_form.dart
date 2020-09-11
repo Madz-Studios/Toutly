@@ -41,7 +41,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
   @override
   void initState() {
     super.initState();
-    _messageController.addListener(_onMessageChanged);
   }
 
   @override
@@ -51,9 +50,7 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
   }
 
   bool isSignInButtonEnabled(MakeOfferState state) {
-    return state.isMakeOfferFormValid &&
-        state.isMessageValid &&
-        !state.isSubmitting;
+    return state.isMakeOfferFormValid && !state.isSubmitting;
   }
 
   _onFormSubmitted() {
@@ -63,10 +60,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
       otherUserBarterModel: widget.otherUserBarterModel,
       message: _messageController.text,
     );
-  }
-
-  void _onMessageChanged() {
-    _makeOfferCubit.messageChanged(_messageController.text);
   }
 
   List<Widget> getSelectedItems(MakeOfferState state) {
@@ -214,7 +207,8 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                         }
                         break;
                       default:
-                        debugPrint("Snapshot " + snapshot.toString());
+                        debugPrint(
+                            "MakeOfferForm Snapshot " + snapshot.toString());
                         return SizedBox.shrink();
                     }
                   },
@@ -229,11 +223,6 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                 ),
                 child: _TradeMessageArea(
                   controller: _messageController,
-                  validator: (_) {
-                    return !makeOfferState.isMessageValid
-                        ? 'Message should have at least 4 characters.'
-                        : null;
-                  },
                 ),
               ),
               Padding(

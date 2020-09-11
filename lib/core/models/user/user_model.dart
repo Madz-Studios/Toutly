@@ -1,3 +1,4 @@
+import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -6,7 +7,7 @@ part 'user_model.g.dart';
 @JsonSerializable(explicitToJson: true)
 class UserModel {
   String address;
-  List<String> barterLikesList;
+  List<SavedItemModel> saveItems;
   String email;
   @JsonKey(fromJson: _fromJsonTimestamp, toJson: _toJsonTimestamp)
   DateTime dateCreated;
@@ -22,7 +23,7 @@ class UserModel {
   double userRating;
   UserModel({
     this.address,
-    this.barterLikesList,
+    this.saveItems,
     this.dateCreated,
     this.dateUpdated,
     this.email,

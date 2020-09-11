@@ -15,14 +15,12 @@ class _$MakeOfferStateTearOff {
 // ignore: unused_element
   _MakeOfferState call(
       {@required Map<String, BarterModel> pickedBarterItems,
-      @required bool isMessageValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
     return _MakeOfferState(
       pickedBarterItems: pickedBarterItems,
-      isMessageValid: isMessageValid,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -36,7 +34,6 @@ const $MakeOfferState = _$MakeOfferStateTearOff();
 
 mixin _$MakeOfferState {
   Map<String, BarterModel> get pickedBarterItems;
-  bool get isMessageValid;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -51,7 +48,6 @@ abstract class $MakeOfferStateCopyWith<$Res> {
       _$MakeOfferStateCopyWithImpl<$Res>;
   $Res call(
       {Map<String, BarterModel> pickedBarterItems,
-      bool isMessageValid,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -69,7 +65,6 @@ class _$MakeOfferStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object pickedBarterItems = freezed,
-    Object isMessageValid = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -79,9 +74,6 @@ class _$MakeOfferStateCopyWithImpl<$Res>
       pickedBarterItems: pickedBarterItems == freezed
           ? _value.pickedBarterItems
           : pickedBarterItems as Map<String, BarterModel>,
-      isMessageValid: isMessageValid == freezed
-          ? _value.isMessageValid
-          : isMessageValid as bool,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -99,7 +91,6 @@ abstract class _$MakeOfferStateCopyWith<$Res>
   @override
   $Res call(
       {Map<String, BarterModel> pickedBarterItems,
-      bool isMessageValid,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -119,7 +110,6 @@ class __$MakeOfferStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object pickedBarterItems = freezed,
-    Object isMessageValid = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -129,9 +119,6 @@ class __$MakeOfferStateCopyWithImpl<$Res>
       pickedBarterItems: pickedBarterItems == freezed
           ? _value.pickedBarterItems
           : pickedBarterItems as Map<String, BarterModel>,
-      isMessageValid: isMessageValid == freezed
-          ? _value.isMessageValid
-          : isMessageValid as bool,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -144,13 +131,11 @@ class __$MakeOfferStateCopyWithImpl<$Res>
 class _$_MakeOfferState extends _MakeOfferState {
   const _$_MakeOfferState(
       {@required this.pickedBarterItems,
-      @required this.isMessageValid,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
       : assert(pickedBarterItems != null),
-        assert(isMessageValid != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
@@ -159,8 +144,6 @@ class _$_MakeOfferState extends _MakeOfferState {
 
   @override
   final Map<String, BarterModel> pickedBarterItems;
-  @override
-  final bool isMessageValid;
   @override
   final bool isSubmitting;
   @override
@@ -172,7 +155,7 @@ class _$_MakeOfferState extends _MakeOfferState {
 
   @override
   String toString() {
-    return 'MakeOfferState(pickedBarterItems: $pickedBarterItems, isMessageValid: $isMessageValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'MakeOfferState(pickedBarterItems: $pickedBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -182,9 +165,6 @@ class _$_MakeOfferState extends _MakeOfferState {
             (identical(other.pickedBarterItems, pickedBarterItems) ||
                 const DeepCollectionEquality()
                     .equals(other.pickedBarterItems, pickedBarterItems)) &&
-            (identical(other.isMessageValid, isMessageValid) ||
-                const DeepCollectionEquality()
-                    .equals(other.isMessageValid, isMessageValid)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -202,7 +182,6 @@ class _$_MakeOfferState extends _MakeOfferState {
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(pickedBarterItems) ^
-      const DeepCollectionEquality().hash(isMessageValid) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
@@ -217,7 +196,6 @@ abstract class _MakeOfferState extends MakeOfferState {
   const _MakeOfferState._() : super._();
   const factory _MakeOfferState(
       {@required Map<String, BarterModel> pickedBarterItems,
-      @required bool isMessageValid,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
@@ -225,8 +203,6 @@ abstract class _MakeOfferState extends MakeOfferState {
 
   @override
   Map<String, BarterModel> get pickedBarterItems;
-  @override
-  bool get isMessageValid;
   @override
   bool get isSubmitting;
   @override
