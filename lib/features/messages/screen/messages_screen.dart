@@ -15,34 +15,43 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MessagesScreen extends StatelessWidget {
+class MessagesScreen extends StatefulWidget {
+  @override
+  _MessagesScreenState createState() => _MessagesScreenState();
+}
+
+class _MessagesScreenState extends State<MessagesScreen> {
+  final _barterMessageCubit = getIt<BarterMessageCubit>();
+  Stream<QuerySnapshot> _messagesStream;
+  @override
+  void initState() {
+    super.initState();
+    _messagesStream = _barterMessageCubit.state.barterMessages;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BarterMessageCubit, BarterMessageState>(
-      builder: (_, barterMessageState) {
-        return StreamBuilder<QuerySnapshot>(
-          stream: barterMessageState.barterMessages,
-          builder: (_, snapshot) {
-            debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
-            switch (snapshot.connectionState) {
-              case ConnectionState.active:
-                if (snapshot.hasError) {
-                  debugPrint('Error: ${snapshot.error}');
-                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                } else {
-                  return _buildMessages(snapshot);
-                }
-                break;
-              default:
-                if (snapshot.hasError) {
-                  debugPrint('Error: ${snapshot.error}');
-                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                } else {
-                  return _buildMessages(snapshot);
-                }
+    return StreamBuilder<QuerySnapshot>(
+      stream: _messagesStream,
+      builder: (_, snapshot) {
+        debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
+        switch (snapshot.connectionState) {
+          case ConnectionState.active:
+            if (snapshot.hasError) {
+              debugPrint('Error: ${snapshot.error}');
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            } else {
+              return _buildMessages(snapshot);
             }
-          },
-        );
+            break;
+          default:
+            if (snapshot.hasError) {
+              debugPrint('Error: ${snapshot.error}');
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            } else {
+              return _buildMessages(snapshot);
+            }
+        }
       },
     );
   }

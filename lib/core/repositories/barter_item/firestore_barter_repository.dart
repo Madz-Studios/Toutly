@@ -1,4 +1,6 @@
+import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -18,6 +20,8 @@ abstract class FirestoreBarterRepository {
       List<String> itemIds);
 
   Future<void> updateBarterItem(BarterModel barterModel);
+
+  Future<void> updateAllBarterItemOfCurrentUser(UserModel userModel);
 
   Future<void> deleteBarterItem(BarterModel barterModel);
 
@@ -181,5 +185,33 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     }
 
     return listBarterItems;
+  }
+
+  @override
+  Future<void> updateAllBarterItemOfCurrentUser(UserModel userModel) async {
+    final barterItems = await firestore
+        .collection(FirestoreCollectionNames.barterItemsCollection)
+        .where('userId', isEqualTo: userModel.userId)
+        .get();
+
+    if (barterItems.docs.isNotEmpty) {
+      for (final item in barterItems.docs) {
+        final barterModel = BarterModel.fromJson(item.data());
+        barterModel.userFullName = userModel.name;
+        barterModel.userPhotoUrl = userModel.photoUrl;
+        barterModel.geoPoint = userModel.geoLocation;
+        barterModel.algoliaGeolocation = AlgoliaGeolocation(
+          lat: userModel.geoLocation.latitude,
+          lng: userModel.geoLocation.longitude,
+        );
+        barterModel.geoHash = userModel.geoHash;
+        barterModel.address = userModel.address;
+
+        await firestore
+            .collection(FirestoreCollectionNames.barterItemsCollection)
+            .doc(barterModel.itemId)
+            .update(barterModel.toJson());
+      }
+    }
   }
 }

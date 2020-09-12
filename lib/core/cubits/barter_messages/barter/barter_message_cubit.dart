@@ -1,5 +1,4 @@
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
-import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
@@ -14,13 +13,8 @@ part 'barter_message_state.dart';
 class BarterMessageCubit extends Cubit<BarterMessageState> {
   final FirestoreGetAllBarterMessagesUseCase
       _firestoreGetAllBarterMessagesUseCase;
-
-  final FirestoreGetAllOfferMessagesUseCase
-      _firestoreGetAllOfferMessagesUseCase;
-
   BarterMessageCubit(
     this._firestoreGetAllBarterMessagesUseCase,
-    this._firestoreGetAllOfferMessagesUseCase,
   ) : super(BarterMessageState.empty());
 
   getBarterMessages(String userId) async {
@@ -29,9 +23,6 @@ class BarterMessageCubit extends Cubit<BarterMessageState> {
       final barterMessages = _firestoreGetAllBarterMessagesUseCase.call(
         UseCaseAllUserMessagesWithUserIdParam.init(userId: userId),
       );
-      // final offerMessages = _firestoreGetAllOfferMessagesUseCase.call(
-      //   UseCaseAllUserMessagesWithUserIdParam.init(userId: userId),
-      // );
       emit(
         BarterMessageState.success(
             barterMessages: barterMessages,

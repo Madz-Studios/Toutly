@@ -8,7 +8,6 @@ import 'package:Toutly/shared/util/error_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class PublicUserBarterItemsScreen extends StatefulWidget {
   final String userId;
@@ -21,10 +20,18 @@ class PublicUserBarterItemsScreen extends StatefulWidget {
 class _PublicUserBarterItemsScreenState
     extends State<PublicUserBarterItemsScreen> {
   final _publicBarterCubit = getIt<PublicListBarterModelCurrentUserCubit>();
+  Stream<QuerySnapshot> _publicItemsStream;
   @override
   void initState() {
     super.initState();
+    getCurrentUserPublicBarterItemsCall();
     _publicBarterCubit.getCurrentUserPublicBarterItems(widget.userId ?? '');
+    _publicItemsStream = _publicBarterCubit.state.userBarterItems;
+  }
+
+  getCurrentUserPublicBarterItemsCall() async {
+    await _publicBarterCubit
+        .getCurrentUserPublicBarterItems(widget.userId ?? '');
   }
 
   @override
@@ -42,35 +49,26 @@ class _PublicUserBarterItemsScreenState
   }
 
   Widget _buildUserBarterItems(AppSizeConfig appSizeConfig) {
-    return BlocBuilder<PublicListBarterModelCurrentUserCubit,
-        PublicListBarterModelCurrentUserState>(
-      builder: (_, publicListBarterModelCurrentUserState) {
-        if (publicListBarterModelCurrentUserState.isSuccess) {
-          return StreamBuilder<QuerySnapshot>(
-            stream: publicListBarterModelCurrentUserState.userBarterItems,
-            builder: (_, snapshot) {
-              debugPrint("PublicUserBarterItemsScreen Snapshot " +
-                  snapshot.toString());
-              switch (snapshot.connectionState) {
-                case ConnectionState.waiting:
-                case ConnectionState.done:
-                  if (snapshot.hasError)
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  else {
-                    return _buildUserBarterItemsView(snapshot, appSizeConfig);
-                  }
-                  break;
-                default:
-                  if (snapshot.hasError)
-                    return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-                  else {
-                    return _buildUserBarterItemsView(snapshot, appSizeConfig);
-                  }
-              }
-            },
-          );
-        } else {
-          return SizedBox.shrink();
+    return StreamBuilder<QuerySnapshot>(
+      stream: _publicItemsStream,
+      builder: (_, snapshot) {
+        debugPrint(
+            "PublicUserBarterItemsScreen Snapshot " + snapshot.toString());
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+          case ConnectionState.done:
+            if (snapshot.hasError)
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            else {
+              return _buildUserBarterItemsView(snapshot, appSizeConfig);
+            }
+            break;
+          default:
+            if (snapshot.hasError)
+              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+            else {
+              return _buildUserBarterItemsView(snapshot, appSizeConfig);
+            }
         }
       },
     );

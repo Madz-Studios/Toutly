@@ -1,10 +1,10 @@
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:flutter/material.dart';
 
 class ProfileWithRating extends StatelessWidget {
-  final UserModel userModel;
-  ProfileWithRating(this.userModel);
+  final String userPhotoUrl;
+  final String name;
+  ProfileWithRating({@required this.userPhotoUrl, @required this.name});
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
@@ -12,10 +12,9 @@ class ProfileWithRating extends StatelessWidget {
     return Row(
       children: <Widget>[
         CircleAvatar(
-          backgroundImage:
-              userModel?.photoUrl == null || userModel.photoUrl.isEmpty
-                  ? AssetImage('assets/images/profile_placeholder.png')
-                  : NetworkImage(userModel.photoUrl),
+          backgroundImage: userPhotoUrl == null || userPhotoUrl.isEmpty
+              ? AssetImage('assets/images/profile_placeholder.png')
+              : NetworkImage(userPhotoUrl),
         ),
         SizedBox(
           width: appSizeConfig.safeBlockHorizontal * 2.5,
@@ -25,7 +24,7 @@ class ProfileWithRating extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              '${userModel?.name ?? ''}',
+              '${name ?? ''}',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16.0,

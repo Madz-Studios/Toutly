@@ -10,7 +10,6 @@ import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.d
 import 'package:Toutly/core/cubits/barter_messages/barter/items/barter_items_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/conversation/conversation_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/offer/items/offer_items_cubit.dart';
-import 'package:Toutly/core/cubits/barter_messages/offer/offer_message_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/make_offer/make_offer_cubit.dart';
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
@@ -131,25 +130,12 @@ class App extends StatelessWidget {
               getIt<PrivateListBarterModelCurrentUserCubit>(),
         ),
 
-        BlocProvider<PublicListBarterModelCurrentUserCubit>(
-          create: (BuildContext context) =>
-              getIt<PublicListBarterModelCurrentUserCubit>(),
-        ),
-
-        BlocProvider<OfferMessageCubit>(
-          create: (BuildContext context) => getIt<OfferMessageCubit>(),
-        ),
+        // BlocProvider<OfferMessageCubit>(
+        //   create: (BuildContext context) => getIt<OfferMessageCubit>(),
+        // ),
 
         BlocProvider<BarterMessageCubit>(
           create: (BuildContext context) => getIt<BarterMessageCubit>(),
-        ),
-
-        BlocProvider<BarterMessageCubit>(
-          create: (BuildContext context) => getIt<BarterMessageCubit>(),
-        ),
-
-        BlocProvider<BarterItemsCubit>(
-          create: (BuildContext context) => getIt<BarterItemsCubit>(),
         ),
 
         BlocProvider<BarterItemsCubit>(

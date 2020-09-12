@@ -8,7 +8,6 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_update_barter_mes
 import 'package:Toutly/core/usecases/param/barter_conversation_text/use_case_barter_conversation_text_param.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

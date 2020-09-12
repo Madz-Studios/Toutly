@@ -12,6 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class PostBarterForm extends StatefulWidget {
+  final UserModel currentUser;
+  PostBarterForm(this.currentUser);
+
   @override
   _PostBarterFormState createState() => _PostBarterFormState();
 }
@@ -88,6 +91,7 @@ class _PostBarterFormState extends State<PostBarterForm> {
 
   void _onFormSubmitted() {
     _postBarterCubit.postButtonPressed(
+      currentUser: widget.currentUser,
       address: _locationController.text,
       category: _selectedCategory,
       description: _descriptionController.text,

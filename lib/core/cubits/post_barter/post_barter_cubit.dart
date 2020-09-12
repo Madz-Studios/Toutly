@@ -1,9 +1,8 @@
 import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -24,19 +23,17 @@ class PostBarterCubit extends Cubit<PostBarterState> {
   final Uuid uuid;
   final Validators validators;
 
-  final FirebaseGetUserUseCase firebaseGetUserUseCase;
-
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
 
   PostBarterCubit(
     this.firebaseStorage,
     this.uuid,
     this.validators,
-    this.firebaseGetUserUseCase,
     this.firestoreCreateBarterItemUseCase,
   ) : super(PostBarterState.empty());
 
   postButtonPressed({
+    @required UserModel currentUser,
     @required String category,
     @required String title,
     @required String description,
@@ -47,10 +44,6 @@ class PostBarterCubit extends Cubit<PostBarterState> {
     @required String privacy,
   }) async {
     try {
-      final firebaseUser = firebaseGetUserUseCase.call(
-        UseCaseNoParam.init(),
-      );
-
       Map<String, PickedFile> pickedFileList = state.pickedFileList;
 
       emit(PostBarterState.loading(pickedFileList));
@@ -94,7 +87,9 @@ class PostBarterCubit extends Cubit<PostBarterState> {
         publicAccess:
             privacy == AppConstants.privacyList[0], // is public access true
         title: title,
-        userId: firebaseUser.uid,
+        userId: currentUser.userId,
+        userPhotoUrl: currentUser.photoUrl,
+        userFullName: currentUser.name,
       );
 
       ///create a barter item in the barter market

@@ -1,3 +1,4 @@
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
@@ -30,6 +31,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   final Uuid _uuid;
 
   final Validators validators;
+  final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
 
   CurrentUserCubit(
     this._firebaseGetUserUseCase,
@@ -38,6 +40,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._firestoreCreateSavedItemUseCase,
     this._firestoreDeleteSavedItemUseCase,
     this._firebaseStorage,
+    this._allListBarterModelCurrentUserCubit,
     this._uuid,
     this.validators,
   ) : super(CurrentUserState.empty());
@@ -149,7 +152,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     }
   }
 
-  updateCurrentLoggedInUser(UserModel currentUser) {
+  updateCurrentLoggedInUser(UserModel currentUser) async {
     emit(CurrentUserState.loading());
     try {
       final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
@@ -158,6 +161,12 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         _firestoreUpdateUserUseCase.call(
           UseCaseUserParamUserModel.init(currentUser),
         );
+
+        _allListBarterModelCurrentUserCubit
+            .updateAllBarterItemsOfCurrentUser(currentUser);
+
+        ///if the current user change name or profile photo, update all the posted barter items.
+
         emit(CurrentUserState.success(
           currentUserModel: currentUser,
           info: 'Success',
