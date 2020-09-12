@@ -1,6 +1,8 @@
+import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';

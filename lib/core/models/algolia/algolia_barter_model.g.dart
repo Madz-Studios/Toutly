@@ -23,6 +23,8 @@ AlgoliaBarterModel _$AlgoliaBarterModelFromJson(Map<String, dynamic> json) {
     preferredItem: json['preferredItem'] as String,
     title: json['title'] as String,
     userId: json['userId'] as String,
+    userFullName: json['userFullName'] as String,
+    userPhotoUrl: json['userPhotoUrl'] as String,
   );
 }
 
@@ -41,4 +43,6 @@ Map<String, dynamic> _$AlgoliaBarterModelToJson(AlgoliaBarterModel instance) =>
       'preferredItem': instance.preferredItem,
       'title': instance.title,
       'userId': instance.userId,
+      'userFullName': instance.userFullName,
+      'userPhotoUrl': instance.userPhotoUrl,
     };

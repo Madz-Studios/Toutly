@@ -2,12 +2,9 @@ import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/privacy_services/privacy_services_cubit.dart';
 import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
-import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
-import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/algolia/algolia_barter_model.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/search_filter/screen/search_filter_screen.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
@@ -18,7 +15,6 @@ import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
 import 'package:algolia/algolia.dart';
 import 'package:app_settings/app_settings.dart';
-import 'package:async/async.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -233,7 +229,7 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
   }
 }
 
-class _BarterItem extends StatefulWidget {
+class _BarterItem extends StatelessWidget {
   _BarterItem({
     @required this.algoliaBarter,
   });
@@ -241,103 +237,55 @@ class _BarterItem extends StatefulWidget {
   final AlgoliaBarterModel algoliaBarter;
 
   @override
-  __BarterItemState createState() => __BarterItemState();
-}
-
-class __BarterItemState extends State<_BarterItem> {
-  final AsyncMemoizer _memoizer = AsyncMemoizer();
-  final _otherUserCubit = getIt<OtherUserCubit>();
-  Future<UserModel> otherUser;
-
-  @override
-  void initState() {
-    super.initState();
-    if (otherUser == null) {
-      _memoizer.runOnce(() async {
-        otherUser = _otherUserCubit.getOtherUser(widget.algoliaBarter.userId);
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-      builder: (_, currentUserState) {
-        final currentUser = currentUserState.currentUserModel;
-        final bool isCurrentUser =
-            currentUser.userId == widget.algoliaBarter.userId;
-        return Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: appSizeConfig.blockSizeVertical * 1,
-          ),
-          child: Card(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: appSizeConfig.blockSizeHorizontal * 3,
-                    top: appSizeConfig.blockSizeVertical * 1,
-                  ),
-                  child: isCurrentUser
-                      ? ProfileWithRating(currentUser)
-                      : FutureBuilder(
-                          future: otherUser,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<UserModel> snapshot) {
-                            switch (snapshot.connectionState) {
-                              case ConnectionState.done:
-                                if (snapshot.hasError) {
-                                  debugPrint("_BarterItem Snapshot " +
-                                      snapshot.toString());
-                                  return LoadingOrErrorWidgetUtil(
-                                      'Error: ${snapshot.error}');
-                                } else {
-                                  UserModel otherUserModel = snapshot.data;
-                                  return ProfileWithRating(otherUserModel);
-                                }
-                                break;
-                              default:
-                                debugPrint("_BarterItem Snapshot " +
-                                    snapshot.toString());
-                                return Container();
-                            }
-                          },
-                        ),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        vertical: appSizeConfig.blockSizeVertical * 1,
+      ),
+      child: Card(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Padding(
+                padding: EdgeInsets.only(
+                  left: appSizeConfig.blockSizeHorizontal * 3,
+                  top: appSizeConfig.blockSizeVertical * 1,
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.blockSizeHorizontal * 2,
-                    vertical: appSizeConfig.blockSizeVertical * 1,
-                  ),
-                  child: Center(
-                    child: Container(
-                      height: appSizeConfig.blockSizeVertical * 22.5,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: CachedNetworkImageProvider(
-                            widget.algoliaBarter.photosUrl[0],
-                          ),
-                          fit: BoxFit.cover,
-                        ),
+                child: ProfileWithRating(
+                  userPhotoUrl: algoliaBarter?.userPhotoUrl,
+                  name: algoliaBarter?.userFullName,
+                )),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                vertical: appSizeConfig.blockSizeVertical * 1,
+              ),
+              child: Center(
+                child: Container(
+                  height: appSizeConfig.blockSizeVertical * 22.5,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: CachedNetworkImageProvider(
+                        algoliaBarter.photosUrl[0],
                       ),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: appSizeConfig.blockSizeHorizontal * 2,
-                    vertical: appSizeConfig.blockSizeVertical * 1,
-                  ),
-                  child: _BarterItemDescription(widget.algoliaBarter),
-                )
-              ],
+              ),
             ),
-          ),
-        );
-      },
+            Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: appSizeConfig.blockSizeHorizontal * 2,
+                vertical: appSizeConfig.blockSizeVertical * 1,
+              ),
+              child: _BarterItemDescription(algoliaBarter),
+            )
+          ],
+        ),
+      ),
     );
   }
 }

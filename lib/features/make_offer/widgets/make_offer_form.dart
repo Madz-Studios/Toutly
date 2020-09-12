@@ -203,7 +203,10 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
                               'Error: ${snapshot.error}');
                         else {
                           otherUser = snapshot.data;
-                          return ProfileWithRating(otherUser);
+                          return ProfileWithRating(
+                            name: otherUser.name,
+                            userPhotoUrl: otherUser.photoUrl,
+                          );
                         }
                         break;
                       default:

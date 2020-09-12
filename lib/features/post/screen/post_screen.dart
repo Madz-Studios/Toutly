@@ -1,7 +1,9 @@
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/features/post/widgets/post_barter_form.dart';
 import 'package:Toutly/features/post/widgets/select_photos.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
@@ -81,15 +83,20 @@ class PostScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(
                     horizontal: appSizeConfig.blockSizeHorizontal * 3,
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      _buildSelectedPhotosSection(
-                        appSizeConfig,
-                      ),
-                      PostBarterForm(),
-                    ],
+                  child: BlocBuilder<CurrentUserCubit, CurrentUserState>(
+                    builder: (_, state) {
+                      final UserModel currentUser = state.currentUserModel;
+                      return Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          _buildSelectedPhotosSection(
+                            appSizeConfig,
+                          ),
+                          PostBarterForm(currentUser),
+                        ],
+                      );
+                    },
                   ),
                 ),
               ],

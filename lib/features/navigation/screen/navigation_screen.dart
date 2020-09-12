@@ -24,15 +24,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 /// Main screen, loads after authentication screen
 class NavigationScreen extends StatefulWidget {
-  final RemoteConfigState remoteConfigState;
-  final CurrentUserState currentUserState;
-  final LocationState locationState;
-  NavigationScreen(
-    this.remoteConfigState,
-    this.currentUserState,
-    this.locationState,
-  );
-
   @override
   _NavigationScreenState createState() => _NavigationScreenState();
 }
@@ -48,79 +39,70 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _barterMessages = getIt<BarterMessageCubit>();
 
-  @override
-  void initState() {
-    super.initState();
+  final _remoteConfigCubit = getIt<RemoteConfigCubit>();
 
-    _notificationCubit.initializeFirebaseMessaging(
-      widget.currentUserState.currentUserModel,
-    );
+  final _locationCubit = getIt<LocationCubit>();
 
-    _updateUserConfig(
-      widget.locationState,
-      widget.remoteConfigState,
-      widget.currentUserState,
-    );
+  updateCurrentUserInitCall() {
+    String subLocality = "${_locationCubit.state.placeMark.subLocality}";
+    String locality = "${_locationCubit.state.placeMark.locality}";
 
-    _barterMessages.getBarterMessages(
-      widget.currentUserState.currentUserModel.userId,
-    );
-  }
-
-  void _updateUserConfig(
-    LocationState locationState,
-    RemoteConfigState remoteConfigState,
-    CurrentUserState currentUserState,
-  ) {
-    final currentUser = currentUserState.currentUserModel;
-    String address = "";
-    if (currentUser != null &&
-        locationState.geoPoint != null &&
-        locationState.placeMark != null) {
-      ///update current user using the values of location
-
-      String subLocality = "${locationState.placeMark.subLocality}";
-      String locality = "${locationState.placeMark.locality}";
-
-      if (subLocality.isNotEmpty) {
-        address = address + subLocality + ", ";
-      }
-      if (locality.isNotEmpty) {
-        address = address + locality;
-      }
-
-      currentUser.address = address;
-
-      currentUser.geoLocation = locationState.geoPoint;
-
-      _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+    String address = '';
+    if (subLocality.isNotEmpty) {
+      address = address + subLocality + ", ";
     }
+    if (locality.isNotEmpty) {
+      address = address + locality;
+    }
+
+    _currentUserCubit.state.currentUserModel.address = address;
+
+    _currentUserCubit.state.currentUserModel.geoLocation =
+        _locationCubit.state.geoPoint;
+
+    _currentUserCubit
+        .updateCurrentLoggedInUser(_currentUserCubit.state.currentUserModel);
 
     ///update search config from the values of remote config and location
     _searchConfigCubit.setConfig(
       searchText: '',
       category: '',
       postedWithin: '',
-      algoliaAppId: remoteConfigState.algoliaAppId,
-      algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-      latitude:
-          locationState.geoPoint.latitude ?? 10.333333, //cebu city latitude
-      longitude:
-          locationState.geoPoint.longitude ?? 123.933334, //cebu city longitude
+      algoliaAppId: _remoteConfigCubit.state.algoliaAppId,
+      algoliaSearchApiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
+      latitude: _locationCubit.state.geoPoint.latitude ??
+          10.333333, //cebu city latitude
+      longitude: _locationCubit.state.geoPoint.longitude ??
+          123.933334, //cebu city longitude
       address: address,
       range: 50.0, //default
     );
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    updateCurrentUserInitCall();
 
     ///initial search
     SearchUtil().searchSubmit(
       searchText: '',
       category: '',
       postedWithin: '',
-      algoliaSearchApiKey: remoteConfigState.algoliaSearchApiKey,
-      algoliaAppId: remoteConfigState.algoliaAppId,
-      latitude: locationState.geoPoint.latitude,
-      longitude: locationState.geoPoint.longitude,
+      algoliaSearchApiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
+      algoliaAppId: _remoteConfigCubit.state.algoliaAppId,
+      latitude: _locationCubit.state.geoPoint.latitude,
+      longitude: _locationCubit.state.geoPoint.longitude,
       range: 50.0, //default
+    );
+
+    _notificationCubit.initializeFirebaseMessaging(
+      _currentUserCubit.state.currentUserModel,
+    );
+
+    _barterMessages.getBarterMessages(
+      _currentUserCubit.state.currentUserModel.userId,
     );
   }
 

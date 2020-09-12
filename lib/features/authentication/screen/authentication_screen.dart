@@ -47,11 +47,7 @@ class AuthenticationScreen extends StatelessWidget {
                         builder: (_, locationState) {
                           if (locationState.isSuccess) {
                             debugPrint('locationState = ${locationState.info}');
-                            return NavigationScreen(
-                              remoteConfigState,
-                              currentUserState,
-                              locationState,
-                            );
+                            return NavigationScreen();
                           }
                           debugPrint('locationState = ${locationState.info}');
                           return ScaffoldLoadingOrErrorWidgetUtil(
@@ -70,10 +66,8 @@ class AuthenticationScreen extends StatelessWidget {
                   '${remoteConfigState.info}');
             },
           );
-        } else if (!authState.isAuth) {
-          return SignInScreen();
         } else {
-          return ScaffoldLoadingOrErrorWidgetUtil(authState.info);
+          return SignInScreen();
         }
       },
     );

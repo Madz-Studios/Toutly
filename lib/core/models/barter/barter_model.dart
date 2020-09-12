@@ -1,6 +1,7 @@
 import 'dart:core';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import '../algolia/algolia_geo_location.dart';
@@ -37,25 +38,29 @@ class BarterModel {
   String preferredItem;
   String title;
   String userId;
+  String userFullName;
+  String userPhotoUrl;
 
   BarterModel({
-    this.algoliaGeolocation,
-    this.active,
-    this.address,
-    this.publicAccess,
-    this.category,
-    this.dateCreated,
+    @required this.algoliaGeolocation,
+    @required this.active,
+    @required this.address,
+    @required this.publicAccess,
+    @required this.category,
+    @required this.dateCreated,
     this.dateDoneDeal,
-    this.dateUpdated,
-    this.description,
-    this.itemId,
-    this.geoHash,
-    this.geoPoint,
-    this.likes,
-    this.photosUrl,
-    this.preferredItem,
-    this.title,
-    this.userId,
+    @required this.dateUpdated,
+    @required this.description,
+    @required this.itemId,
+    @required this.geoHash,
+    @required this.geoPoint,
+    @required this.likes,
+    @required this.photosUrl,
+    @required this.preferredItem,
+    @required this.title,
+    @required this.userId,
+    @required this.userFullName,
+    @required this.userPhotoUrl,
   });
 
   factory BarterModel.fromJson(Map<String, dynamic> json) =>
