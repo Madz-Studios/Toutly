@@ -3,6 +3,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -28,8 +29,10 @@ class BarterItemsCubit extends Cubit<BarterItemsState> {
       emit(BarterItemsState.success(barterItem: barterItem, info: 'Success'));
     } on PlatformException catch (platformException) {
       emit(BarterItemsState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(BarterItemsState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

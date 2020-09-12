@@ -128,7 +128,9 @@ class __$OfferItemsStateCopyWithImpl<$Res>
   }
 }
 
-class _$_OfferItemsState implements _OfferItemsState {
+class _$_OfferItemsState
+    with DiagnosticableTreeMixin
+    implements _OfferItemsState {
   const _$_OfferItemsState(
       {@required this.offerItems,
       @required this.isSubmitting,
@@ -153,8 +155,20 @@ class _$_OfferItemsState implements _OfferItemsState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'OfferItemsState(offerItems: $offerItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'OfferItemsState'))
+      ..add(DiagnosticsProperty('offerItems', offerItems))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

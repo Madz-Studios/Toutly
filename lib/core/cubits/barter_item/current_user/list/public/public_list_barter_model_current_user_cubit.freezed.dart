@@ -136,6 +136,7 @@ class __$PublicListBarterModelCurrentUserStateCopyWithImpl<$Res>
 }
 
 class _$_PublicListBarterModelCurrentUserState
+    with DiagnosticableTreeMixin
     implements _PublicListBarterModelCurrentUserState {
   const _$_PublicListBarterModelCurrentUserState(
       {@required this.userBarterItems,
@@ -161,8 +162,21 @@ class _$_PublicListBarterModelCurrentUserState
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'PublicListBarterModelCurrentUserState(userBarterItems: $userBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(
+          DiagnosticsProperty('type', 'PublicListBarterModelCurrentUserState'))
+      ..add(DiagnosticsProperty('userBarterItems', userBarterItems))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

@@ -135,6 +135,7 @@ class __$SingleBarterItemOtherUserStateCopyWithImpl<$Res>
 }
 
 class _$_SingleBarterItemOtherUserState
+    with DiagnosticableTreeMixin
     implements _SingleBarterItemOtherUserState {
   const _$_SingleBarterItemOtherUserState(
       {@required this.otherUserBarterItem,
@@ -160,8 +161,20 @@ class _$_SingleBarterItemOtherUserState
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SingleBarterItemOtherUserState(otherUserBarterItem: $otherUserBarterItem, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SingleBarterItemOtherUserState'))
+      ..add(DiagnosticsProperty('otherUserBarterItem', otherUserBarterItem))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

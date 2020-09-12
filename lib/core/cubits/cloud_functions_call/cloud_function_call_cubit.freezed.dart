@@ -107,7 +107,9 @@ class __$CloudFunctionCallStateCopyWithImpl<$Res>
   }
 }
 
-class _$_CloudFunctionCallState implements _CloudFunctionCallState {
+class _$_CloudFunctionCallState
+    with DiagnosticableTreeMixin
+    implements _CloudFunctionCallState {
   const _$_CloudFunctionCallState(
       {@required this.isSubmitting,
       @required this.isSuccess,
@@ -128,8 +130,19 @@ class _$_CloudFunctionCallState implements _CloudFunctionCallState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CloudFunctionCallState(isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CloudFunctionCallState'))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

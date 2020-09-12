@@ -3,6 +3,7 @@ import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_all_fcm_token_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -41,9 +42,9 @@ class OtherUserCubit extends Cubit<OtherUserState> {
       );
       return tokens;
     } on PlatformException catch (platformException) {
-      throw PlatformException(code: platformException.code);
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
-      throw Exception(e);
+      throw FlutterError(e.toString());
     }
   }
 }

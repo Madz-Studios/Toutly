@@ -1,6 +1,7 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/barter_messages/items/firestore_get_all_user_offer_items_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -26,8 +27,10 @@ class OfferItemsCubit extends Cubit<OfferItemsState> {
       emit(OfferItemsState.success(offerItems: offerItems, info: 'Success'));
     } on PlatformException catch (platformException) {
       emit(OfferItemsState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(OfferItemsState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

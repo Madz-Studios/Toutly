@@ -1,4 +1,5 @@
 import 'package:cloud_functions/cloud_functions.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,20 +32,13 @@ class CloudFunctionCallCubit extends Cubit<CloudFunctionCallState> {
       emit(CloudFunctionCallState.success(info: result.toString()));
     } on CloudFunctionsException catch (e) {
       emit(CloudFunctionCallState.failure(info: e.message));
-      print('caught firebase functions CloudFunctionsException exception');
-      print(e.code);
-      print(e.message);
-      print(e.details);
+      throw FlutterError(e.message);
     } on PlatformException catch (e) {
       emit(CloudFunctionCallState.failure(info: e.message));
-      print('caught firebase functions PlatformException exception');
-      print(e.code);
-      print(e.message);
-      print(e.details);
+      throw FlutterError(e.message);
     } catch (e) {
       emit(CloudFunctionCallState.failure(info: e.message));
-      print('caught generic exception');
-      print(e);
+      throw FlutterError(e.message);
     }
   }
 }

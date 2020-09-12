@@ -1,6 +1,7 @@
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,8 +32,10 @@ class BarterMessageCubit extends Cubit<BarterMessageState> {
       );
     } on PlatformException catch (platformException) {
       emit(BarterMessageState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(BarterMessageState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

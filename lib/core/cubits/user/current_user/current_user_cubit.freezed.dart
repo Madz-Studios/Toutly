@@ -163,7 +163,8 @@ class __$CurrentUserStateCopyWithImpl<$Res>
   }
 }
 
-class _$_CurrentUserState extends _CurrentUserState {
+class _$_CurrentUserState extends _CurrentUserState
+    with DiagnosticableTreeMixin {
   const _$_CurrentUserState(
       {this.currentUserModel,
       @required this.isAnonymous,
@@ -200,8 +201,23 @@ class _$_CurrentUserState extends _CurrentUserState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'CurrentUserState(currentUserModel: $currentUserModel, isAnonymous: $isAnonymous, isNameValid: $isNameValid, isLocationValid: $isLocationValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'CurrentUserState'))
+      ..add(DiagnosticsProperty('currentUserModel', currentUserModel))
+      ..add(DiagnosticsProperty('isAnonymous', isAnonymous))
+      ..add(DiagnosticsProperty('isNameValid', isNameValid))
+      ..add(DiagnosticsProperty('isLocationValid', isLocationValid))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

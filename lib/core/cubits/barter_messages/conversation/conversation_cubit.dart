@@ -8,6 +8,7 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_update_barter_mes
 import 'package:Toutly/core/usecases/param/barter_conversation_text/use_case_barter_conversation_text_param.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -53,19 +54,29 @@ class ConversationCubit extends Cubit<ConversationState> {
           barterMessages: barterMessages, info: 'Success'));
     } on PlatformException catch (platformException) {
       emit(ConversationState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(ConversationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
   messageUserOfferReadUpdate({
     @required BarterMessageModel barterMessageModel,
   }) {
-    _firestoreUpdateBarterMessagesUseCase.call(
-      UseCaseBarterMessagesModelParam.init(
-        barterMessageModel: barterMessageModel,
-      ),
-    );
+    try {
+      _firestoreUpdateBarterMessagesUseCase.call(
+        UseCaseBarterMessagesModelParam.init(
+          barterMessageModel: barterMessageModel,
+        ),
+      );
+    } on PlatformException catch (platformException) {
+      emit(ConversationState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
+    } on Exception catch (e) {
+      emit(ConversationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
+    }
   }
 
   messageUserBarterReadUpdate({
@@ -85,37 +96,45 @@ class ConversationCubit extends Cubit<ConversationState> {
     @required String message,
     @required BarterMessageModel barterMessageModel,
   }) async {
-    BarterConversationTextModel barterConversationTextModel =
-        BarterConversationTextModel(
-      id: _uuid.v4(),
-      text: message,
-      userId: currentUser.userId,
-      dateCreated: DateTime.now(),
-      barterMessageId: barterMessageId,
-    );
-
-    _firestoreCreateBarterConversationTextUseCase.call(
-      UseCaseBarterConversationTextModelParam.init(
+    try {
+      BarterConversationTextModel barterConversationTextModel =
+          BarterConversationTextModel(
+        id: _uuid.v4(),
+        text: message,
+        userId: currentUser.userId,
+        dateCreated: DateTime.now(),
         barterMessageId: barterMessageId,
-        barterConversationTextModel: barterConversationTextModel,
-      ),
-    );
+      );
 
-    barterMessageModel.dateUpdated = DateTime.now();
-    barterMessageModel.isReadLastMessage = false;
-    barterMessageModel.lastMessageText = message;
-    barterMessageModel.userLastMessageSender = currentUser.userId;
+      _firestoreCreateBarterConversationTextUseCase.call(
+        UseCaseBarterConversationTextModelParam.init(
+          barterMessageId: barterMessageId,
+          barterConversationTextModel: barterConversationTextModel,
+        ),
+      );
 
-    _firestoreUpdateBarterMessagesUseCase.call(
-      UseCaseBarterMessagesModelParam.init(
-        barterMessageModel: barterMessageModel,
-      ),
-    );
+      barterMessageModel.dateUpdated = DateTime.now();
+      barterMessageModel.isReadLastMessage = false;
+      barterMessageModel.lastMessageText = message;
+      barterMessageModel.userLastMessageSender = currentUser.userId;
 
-    _cloudFunctionCallCubit.sendMessageNotification(
-      tokens: otherUserModel.fcmToken,
-      title: '${currentUser.name} sent you a message!',
-      body: message,
-    );
+      _firestoreUpdateBarterMessagesUseCase.call(
+        UseCaseBarterMessagesModelParam.init(
+          barterMessageModel: barterMessageModel,
+        ),
+      );
+
+      _cloudFunctionCallCubit.sendMessageNotification(
+        tokens: otherUserModel.fcmToken,
+        title: '${currentUser.name} sent you a message!',
+        body: message,
+      );
+    } on PlatformException catch (platformException) {
+      emit(ConversationState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
+    } on Exception catch (e) {
+      emit(ConversationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
+    }
   }
 }

@@ -154,7 +154,9 @@ class __$NotificationStateCopyWithImpl<$Res>
   }
 }
 
-class _$_NotificationState implements _NotificationState {
+class _$_NotificationState
+    with DiagnosticableTreeMixin
+    implements _NotificationState {
   const _$_NotificationState(
       {@required this.hasUnreadMessage,
       @required this.hasOfferMessageUnread,
@@ -187,8 +189,23 @@ class _$_NotificationState implements _NotificationState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'NotificationState(hasUnreadMessage: $hasUnreadMessage, hasOfferMessageUnread: $hasOfferMessageUnread, hasBarterMessageUnread: $hasBarterMessageUnread, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'NotificationState'))
+      ..add(DiagnosticsProperty('hasUnreadMessage', hasUnreadMessage))
+      ..add(DiagnosticsProperty('hasOfferMessageUnread', hasOfferMessageUnread))
+      ..add(
+          DiagnosticsProperty('hasBarterMessageUnread', hasBarterMessageUnread))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

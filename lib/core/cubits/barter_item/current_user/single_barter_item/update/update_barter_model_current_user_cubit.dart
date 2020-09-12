@@ -2,6 +2,7 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_update_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -53,8 +54,10 @@ class UpdateBarterModelCurrentUserCubit
     } on PlatformException catch (platformException) {
       emit(UpdateBarterModelCurrentUserState.failure(
           info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(UpdateBarterModelCurrentUserState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

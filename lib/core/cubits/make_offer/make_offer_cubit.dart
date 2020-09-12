@@ -8,6 +8,7 @@ import 'package:Toutly/core/usecases/barter_messages/firestore_create_barter_mes
 import 'package:Toutly/core/usecases/param/barter_conversation_text/use_case_barter_conversation_text_param.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:Toutly/shared/util/validators.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -122,8 +123,10 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
       emit(MakeOfferState.success('Success'));
     } on PlatformException catch (platFormException) {
       emit(MakeOfferState.failure(info: platFormException.message));
+      throw FlutterError(platFormException.message);
     } on Exception catch (e) {
       emit(MakeOfferState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

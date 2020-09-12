@@ -1,6 +1,7 @@
 import 'package:Toutly/core/usecases/barter_item/firestore_get_public_barter_items_using_user_id.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -31,8 +32,10 @@ class PublicListBarterModelCurrentUserCubit
     } on PlatformException catch (platformException) {
       emit(PublicListBarterModelCurrentUserState.failure(
           info: platformException.message));
+      throw FlutterError(platformException.message);
     } on Exception catch (e) {
       emit(PublicListBarterModelCurrentUserState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 }

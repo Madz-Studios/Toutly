@@ -114,6 +114,7 @@ class __$DeleteBarterModelCurrentUserStateCopyWithImpl<$Res>
 }
 
 class _$_DeleteBarterModelCurrentUserState
+    with DiagnosticableTreeMixin
     implements _DeleteBarterModelCurrentUserState {
   const _$_DeleteBarterModelCurrentUserState(
       {@required this.isSubmitting,
@@ -135,8 +136,19 @@ class _$_DeleteBarterModelCurrentUserState
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'DeleteBarterModelCurrentUserState(isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'DeleteBarterModelCurrentUserState'))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

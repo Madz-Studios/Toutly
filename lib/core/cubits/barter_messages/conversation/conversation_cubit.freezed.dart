@@ -128,7 +128,9 @@ class __$BarterMessageStateCopyWithImpl<$Res>
   }
 }
 
-class _$_BarterMessageState implements _BarterMessageState {
+class _$_BarterMessageState
+    with DiagnosticableTreeMixin
+    implements _BarterMessageState {
   const _$_BarterMessageState(
       {@required this.barterMessages,
       @required this.isSubmitting,
@@ -153,8 +155,20 @@ class _$_BarterMessageState implements _BarterMessageState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'ConversationState(barterMessages: $barterMessages, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'ConversationState'))
+      ..add(DiagnosticsProperty('barterMessages', barterMessages))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

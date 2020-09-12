@@ -51,6 +51,7 @@ class LocationCubit extends Cubit<LocationState> {
       _setDefaultLocation(permissionDeniedException);
     } on Exception catch (e) {
       emit(LocationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -68,8 +69,10 @@ class LocationCubit extends Cubit<LocationState> {
           geoPoint: geoPoint, placeMark: place, info: 'Success'));
     } on PermissionDeniedException catch (permissionDeniedException) {
       _setDefaultLocation(permissionDeniedException);
+      throw FlutterError(permissionDeniedException.message);
     } on Exception catch (e) {
       emit(LocationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 

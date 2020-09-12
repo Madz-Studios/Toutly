@@ -159,7 +159,7 @@ class __$UpdateBarterModelCurrentUserStateCopyWithImpl<$Res>
 }
 
 class _$_UpdateBarterModelCurrentUserState
-    extends _UpdateBarterModelCurrentUserState {
+    extends _UpdateBarterModelCurrentUserState with DiagnosticableTreeMixin {
   const _$_UpdateBarterModelCurrentUserState(
       {@required this.isTitleValid,
       @required this.isDescriptionValid,
@@ -193,8 +193,22 @@ class _$_UpdateBarterModelCurrentUserState
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'UpdateBarterModelCurrentUserState(isTitleValid: $isTitleValid, isDescriptionValid: $isDescriptionValid, isPreferredItemValid: $isPreferredItemValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UpdateBarterModelCurrentUserState'))
+      ..add(DiagnosticsProperty('isTitleValid', isTitleValid))
+      ..add(DiagnosticsProperty('isDescriptionValid', isDescriptionValid))
+      ..add(DiagnosticsProperty('isPreferredItemValid', isPreferredItemValid))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

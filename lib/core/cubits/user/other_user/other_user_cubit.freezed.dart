@@ -107,7 +107,9 @@ class __$OtherUserStateCopyWithImpl<$Res>
   }
 }
 
-class _$_OtherUserState implements _OtherUserState {
+class _$_OtherUserState
+    with DiagnosticableTreeMixin
+    implements _OtherUserState {
   const _$_OtherUserState(
       {@required this.isSubmitting,
       @required this.isSuccess,
@@ -128,8 +130,19 @@ class _$_OtherUserState implements _OtherUserState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'OtherUserState(isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'OtherUserState'))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

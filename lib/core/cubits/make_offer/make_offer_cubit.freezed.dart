@@ -128,7 +128,7 @@ class __$MakeOfferStateCopyWithImpl<$Res>
   }
 }
 
-class _$_MakeOfferState extends _MakeOfferState {
+class _$_MakeOfferState extends _MakeOfferState with DiagnosticableTreeMixin {
   const _$_MakeOfferState(
       {@required this.pickedBarterItems,
       @required this.isSubmitting,
@@ -154,8 +154,20 @@ class _$_MakeOfferState extends _MakeOfferState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'MakeOfferState(pickedBarterItems: $pickedBarterItems, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'MakeOfferState'))
+      ..add(DiagnosticsProperty('pickedBarterItems', pickedBarterItems))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override

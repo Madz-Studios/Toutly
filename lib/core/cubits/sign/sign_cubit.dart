@@ -19,6 +19,7 @@ import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -105,9 +106,20 @@ class SignCubit extends Cubit<SignState> {
   }
 
   signInAnonymously() async {
-    emit(SignState.loading());
-    await firebaseSignedInAnonymouslyUserUseCase.call(UseCaseNoParam.init());
-    emit(SignState.success(info: 'Successfully logged in.'));
+    try {
+      emit(SignState.loading());
+      await firebaseSignedInAnonymouslyUserUseCase.call(UseCaseNoParam.init());
+      emit(SignState.success(info: 'Successfully logged in.'));
+    } on PlatformException catch (platFormException) {
+      emit(SignState.failure(info: platFormException.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
+    } on Exception catch (e) {
+      emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
+    }
   }
 
   signUpWithNameEmailPasswordPressed(
@@ -122,12 +134,15 @@ class SignCubit extends Cubit<SignState> {
       );
 
       emit(SignState.success(info: 'Successfully registered'));
-    } on PlatformException catch (platformException) {
-      emit(SignState.failure(info: platformException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+    } on PlatformException catch (platFormException) {
+      emit(SignState.failure(info: platFormException.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -143,10 +158,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -175,10 +193,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully linked account.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -191,10 +212,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -207,10 +231,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully linked google account.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -223,10 +250,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -239,10 +269,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully linked facebook account.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -254,13 +287,14 @@ class SignCubit extends Cubit<SignState> {
 
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
-      if (platFormException.code != 'ERROR_ABORTED_BY_USER') {
-        emit(SignState.failure(info: platFormException.message));
-      }
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      emit(SignState.failure(info: platFormException.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -273,10 +307,13 @@ class SignCubit extends Cubit<SignState> {
       emit(SignState.success(info: 'Successfully linked apple account.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
-    } on FirebaseAuthException catch (e) {
-      emit(SignState.failure(info: e.message));
+      throw FlutterError(platFormException.message);
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(SignState.failure(info: firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(SignState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 

@@ -11,6 +11,8 @@ import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:image_picker/image_picker.dart';
@@ -179,24 +181,42 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
           isAnonymous: true,
         ));
       }
-    } on FirebaseAuthException catch (FirebaseAuthException) {
-      emit(CurrentUserState.failure(FirebaseAuthException.message));
+    } on FirebaseAuthException catch (firebaseAuthException) {
+      emit(CurrentUserState.failure(firebaseAuthException.message));
+      throw FlutterError(firebaseAuthException.message);
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
   createSavedItemForCurrentUser(
       UserModel currentUser, SavedItemModel savedItemModel) async {
-    await _firestoreCreateSavedItemUseCase.call(
-        UseCaseUserParamUserModelWithSavedItemModel.init(
-            currentUser, savedItemModel));
+    try {
+      await _firestoreCreateSavedItemUseCase.call(
+          UseCaseUserParamUserModelWithSavedItemModel.init(
+              currentUser, savedItemModel));
+    } on PlatformException catch (platformException) {
+      emit(CurrentUserState.failure(platformException.message));
+      throw FlutterError(platformException.message);
+    } on Exception catch (e) {
+      emit(CurrentUserState.failure(e.toString()));
+      throw FlutterError(e.toString());
+    }
   }
 
   deleteSavedItemForCurrentUser(
       UserModel currentUser, SavedItemModel savedItemModel) async {
-    await _firestoreDeleteSavedItemUseCase.call(
-        UseCaseUserParamUserModelWithSavedItemModel.init(
-            currentUser, savedItemModel));
+    try {
+      await _firestoreDeleteSavedItemUseCase.call(
+          UseCaseUserParamUserModelWithSavedItemModel.init(
+              currentUser, savedItemModel));
+    } on PlatformException catch (platformException) {
+      emit(CurrentUserState.failure(platformException.message));
+      throw FlutterError(platformException.message);
+    } on Exception catch (e) {
+      emit(CurrentUserState.failure(e.toString()));
+      throw FlutterError(e.toString());
+    }
   }
 }

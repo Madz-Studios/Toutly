@@ -145,7 +145,7 @@ class __$SignStateCopyWithImpl<$Res> extends _$SignStateCopyWithImpl<$Res>
   }
 }
 
-class _$_SignState extends _SignState {
+class _$_SignState extends _SignState with DiagnosticableTreeMixin {
   const _$_SignState(
       {@required this.isNameValid,
       @required this.isEmailValid,
@@ -179,8 +179,22 @@ class _$_SignState extends _SignState {
   final String info;
 
   @override
-  String toString() {
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
     return 'SignState(isNameValid: $isNameValid, isEmailValid: $isEmailValid, isPasswordValid: $isPasswordValid, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'SignState'))
+      ..add(DiagnosticsProperty('isNameValid', isNameValid))
+      ..add(DiagnosticsProperty('isEmailValid', isEmailValid))
+      ..add(DiagnosticsProperty('isPasswordValid', isPasswordValid))
+      ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
+      ..add(DiagnosticsProperty('isSuccess', isSuccess))
+      ..add(DiagnosticsProperty('isFailure', isFailure))
+      ..add(DiagnosticsProperty('info', info));
   }
 
   @override
