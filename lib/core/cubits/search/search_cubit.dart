@@ -26,6 +26,7 @@ class SearchCubit extends Cubit<SearchState> {
     @required String category,
     @required String postedWithin,
     @required double range,
+    @required bool isNoLimitRange,
   }) async {
     debugPrint(
         '''algoliaAppId = $algoliaAppId algoliaSearchApiKey = $algoliaSearchApiKey 
@@ -51,7 +52,7 @@ class SearchCubit extends Cubit<SearchState> {
       }
 
       //1000 = 1km
-      if (range == null) {
+      if (range == 0) {
         range = 50.0 * 1000;
       } else {
         range = range * 1000;
@@ -59,13 +60,23 @@ class SearchCubit extends Cubit<SearchState> {
 
       int finalRange = range.toInt();
 
-      AlgoliaQuery algoliaQuery = algolia.instance
-          .index('barter_index')
-          .search('$searchText')
-          .setFacetFilter('category: $category')
-          .setAroundLatLng(aroundLatLng)
-          .setAroundRadius(finalRange)
-          .setFilters(filter);
+      AlgoliaQuery algoliaQuery;
+
+      if (!isNoLimitRange) {
+        algoliaQuery = algolia.instance
+            .index('barter_index')
+            .search('$searchText')
+            .setFacetFilter('category: $category')
+            .setAroundLatLng(aroundLatLng)
+            .setAroundRadius(finalRange)
+            .setFilters(filter);
+      } else {
+        algoliaQuery = algolia.instance
+            .index('barter_index')
+            .search('$searchText')
+            .setFacetFilter('category: $category')
+            .setFilters(filter);
+      }
 
       final algoliaQuerySnapshot = await algoliaQuery.getObjects();
       emit(SearchState.success(

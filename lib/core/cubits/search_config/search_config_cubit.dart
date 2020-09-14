@@ -18,6 +18,7 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
     @required String address,
     @required double latitude,
     @required double longitude,
+    @required bool isNoLimitRange,
     @required double range,
   }) {
     emit(SearchConfigState.loading());
@@ -33,6 +34,7 @@ class SearchConfigCubit extends Cubit<SearchConfigState> {
           latitude: latitude,
           longitude: longitude,
           range: range,
+          isNoLimitRange: isNoLimitRange,
           info: 'Success'),
     );
   }
