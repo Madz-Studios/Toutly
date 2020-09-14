@@ -14,6 +14,7 @@ class SearchUtil {
     @required String algoliaAppId,
     @required String algoliaSearchApiKey,
     @required double range,
+    @required bool isNoLimitRange,
   }) {
     debugPrint(
         '''SearchUtil _searchSubmit searchText = $searchText  category = $category  '
@@ -29,6 +30,7 @@ class SearchUtil {
       category: category,
       postedWithin: postedWithin,
       range: range,
+      isNoLimitRange: isNoLimitRange,
     );
   }
 }

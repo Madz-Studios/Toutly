@@ -43,6 +43,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _locationCubit = getIt<LocationCubit>();
 
+  final double _defaultSearchRange = 100.0;
+  final bool _defaultNoLimitRange = true;
+
   updateCurrentUserInitCall() {
     String subLocality = "${_locationCubit.state.placeMark.subLocality}";
     String locality = "${_locationCubit.state.placeMark.locality}";
@@ -75,7 +78,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
       longitude: _locationCubit.state.geoPoint.longitude ??
           123.933334, //cebu city longitude
       address: address,
-      range: 50.0, //default
+      range: _defaultSearchRange, //default
+      isNoLimitRange: _defaultNoLimitRange,
     );
   }
 
@@ -94,7 +98,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
       algoliaAppId: _remoteConfigCubit.state.algoliaAppId,
       latitude: _locationCubit.state.geoPoint.latitude,
       longitude: _locationCubit.state.geoPoint.longitude,
-      range: 50.0, //default
+      range: _defaultSearchRange, //default
+      isNoLimitRange: _defaultNoLimitRange,
     );
 
     _notificationCubit.initializeFirebaseMessaging(

@@ -98,6 +98,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       category: searchConfigState.category,
       postedWithin: searchConfigState.postedWithin,
       range: searchConfigState.range,
+      isNoLimitRange: searchConfigState.isNoLimitRange,
     );
 
     Navigator.pop(context);
