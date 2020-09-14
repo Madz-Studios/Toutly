@@ -197,20 +197,22 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
     if (barterItems.docs.isNotEmpty) {
       for (final item in barterItems.docs) {
         final barterModel = BarterModel.fromJson(item.data());
-        barterModel.userFullName = userModel.name;
-        barterModel.userPhotoUrl = userModel.photoUrl;
-        barterModel.geoPoint = userModel.geoLocation;
-        barterModel.algoliaGeolocation = AlgoliaGeolocation(
-          lat: userModel.geoLocation.latitude,
-          lng: userModel.geoLocation.longitude,
-        );
-        barterModel.geoHash = userModel.geoHash;
-        barterModel.address = userModel.address;
+        if (barterModel.userId == userModel.userId) {
+          barterModel.userFullName = userModel.name;
+          barterModel.userPhotoUrl = userModel.photoUrl;
+          barterModel.geoPoint = userModel.geoLocation;
+          barterModel.algoliaGeolocation = AlgoliaGeolocation(
+            lat: userModel.geoLocation.latitude,
+            lng: userModel.geoLocation.longitude,
+          );
+          barterModel.geoHash = userModel.geoHash;
+          barterModel.address = userModel.address;
 
-        await firestore
-            .collection(FirestoreCollectionNames.barterItemsCollection)
-            .doc(barterModel.itemId)
-            .update(barterModel.toJson());
+          await firestore
+              .collection(FirestoreCollectionNames.barterItemsCollection)
+              .doc(barterModel.itemId)
+              .update(barterModel.toJson());
+        }
       }
     }
   }
