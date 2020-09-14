@@ -333,7 +333,7 @@ class SignCubit extends Cubit<SignState> {
           email: firebaseUser.providerData[0].email,
           name: firebaseUser.providerData[0].displayName ??
               'User${rng.nextInt(1000000)}',
-          photoUrl: firebaseUser.providerData[0].photoURL,
+          // photoUrl: firebaseUser.providerData[0].photoURL,
           dateCreated: DateTime.now(),
           dateUpdated: DateTime.now(),
         );
@@ -342,7 +342,7 @@ class SignCubit extends Cubit<SignState> {
           userId: firebaseUser.uid,
           email: firebaseUser.email,
           name: firebaseUser.displayName ?? 'User${rng.nextInt(1000000)}',
-          photoUrl: firebaseUser.photoURL,
+          // photoUrl: firebaseUser.photoURL,
           dateCreated: DateTime.now(),
           dateUpdated: DateTime.now(),
         );
