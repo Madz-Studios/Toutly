@@ -1,4 +1,5 @@
 import 'package:Toutly/core/cubits/privacy_services/privacy_services_cubit.dart';
+import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,26 +26,32 @@ class LocationCubit extends Cubit<LocationState> {
 
   getInitialUserLocation() async {
     try {
-      emit(LocationState.loading());
-      Position position = await geoLocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.low);
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        emit(LocationState.loading());
+        Position position = await geoLocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.low);
 
-      GeoPoint geoPoint = GeoPoint(position.latitude, position.longitude);
+        GeoPoint geoPoint = GeoPoint(position.latitude, position.longitude);
 
-      debugPrint(
-          'getInitialUserLocation Position latitude = ${position.latitude}');
-      debugPrint(
-          'getInitialUserLocation Position longitude = ${position.longitude}');
+        debugPrint(
+            'getInitialUserLocation Position latitude = ${position.latitude}');
+        debugPrint(
+            'getInitialUserLocation Position longitude = ${position.longitude}');
 
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(position.latitude, position.longitude);
+        List<Placemark> placemarks = await placemarkFromCoordinates(
+            position.latitude, position.longitude);
 
-      Placemark place = placemarks[0];
+        Placemark place = placemarks[0];
 
-      privacyServicesCubit.setLocationServiceEnabled(true);
+        privacyServicesCubit.setLocationServiceEnabled(true);
 
-      emit(LocationState.success(
-          geoPoint: geoPoint, placeMark: place, info: 'Success'));
+        emit(LocationState.success(
+            geoPoint: geoPoint, placeMark: place, info: 'Success'));
+      } else {
+        emit(LocationState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
+      }
     } on PermissionDeniedException catch (permissionDeniedException) {
       ///put a default location if the user denied location service access
 
@@ -58,15 +65,21 @@ class LocationCubit extends Cubit<LocationState> {
   updateUserLocation(double latitude, double longitude) async {
     try {
       emit(LocationState.loading());
-      GeoPoint geoPoint = GeoPoint(latitude, longitude);
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        GeoPoint geoPoint = GeoPoint(latitude, longitude);
 
-      List<Placemark> placemarks =
-          await placemarkFromCoordinates(latitude, longitude);
+        List<Placemark> placemarks =
+            await placemarkFromCoordinates(latitude, longitude);
 
-      Placemark place = placemarks[0];
+        Placemark place = placemarks[0];
 
-      emit(LocationState.success(
-          geoPoint: geoPoint, placeMark: place, info: 'Success'));
+        emit(LocationState.success(
+            geoPoint: geoPoint, placeMark: place, info: 'Success'));
+      } else {
+        emit(LocationState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
+      }
     } on PermissionDeniedException catch (permissionDeniedException) {
       _setDefaultLocation(permissionDeniedException);
       throw FlutterError(permissionDeniedException.message);

@@ -10,13 +10,11 @@ import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
 
 class SearchFilterScreen extends StatefulWidget {
   final String searchText;
   final String category;
   final String postedWithin;
-  final String address;
   final double range;
   final bool isNoLimitRange;
 
@@ -24,7 +22,6 @@ class SearchFilterScreen extends StatefulWidget {
     @required this.searchText,
     @required this.category,
     @required this.postedWithin,
-    @required this.address,
     @required this.range,
     @required this.isNoLimitRange,
   });
@@ -36,7 +33,6 @@ class SearchFilterScreen extends StatefulWidget {
 class _SearchFilterScreenState extends State<SearchFilterScreen> {
   final _searchCubit = getIt<SearchCubit>();
   final _searchConfigCubit = getIt<SearchConfigCubit>();
-  final _addressController = TextEditingController();
 
   String _defaultCategoryValue;
   String _defaultPostedWithinValue;
@@ -46,13 +42,12 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
 
   double _currentSliderValue;
 
-  LocationResult _locationResult;
-  bool _defaultNoLimitRange;
+  bool _isNoLimitRange;
 
   @override
   void initState() {
     super.initState();
-    _defaultNoLimitRange = widget.isNoLimitRange;
+    _isNoLimitRange = widget.isNoLimitRange;
     _defaultCategoryValue = 'All Categories';
     _defaultPostedWithinValue = AppConstants.filterByTimeList[0];
 
@@ -71,12 +66,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
     }
   }
 
-  void _applyFilter({
-    @required double latitude,
-    @required double longitude,
-    @required String algoliaAppId,
-    @required String algoliaSearchApiKey,
-  }) {
+  void _applyFilter() {
     _searchConfigCubit.setConfig(
       searchText: widget.searchText,
       category:
@@ -84,13 +74,8 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
           ? ''
           : _selectedPostedWithin,
-      algoliaAppId: algoliaAppId,
-      algoliaSearchApiKey: algoliaSearchApiKey,
-      address: _addressController.text,
-      latitude: latitude,
-      longitude: longitude,
       range: _currentSliderValue,
-      isNoLimitRange: _defaultNoLimitRange,
+      isNoLimitRange: _isNoLimitRange,
     );
     _searchCubit.search(
       searchText: widget.searchText,
@@ -99,12 +84,8 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
       postedWithin: _selectedPostedWithin == _defaultPostedWithinValue
           ? ''
           : _selectedPostedWithin,
-      algoliaAppId: algoliaAppId,
-      algoliaSearchApiKey: algoliaSearchApiKey,
-      latitude: latitude,
-      longitude: longitude,
       range: _currentSliderValue,
-      isNoLimitRange: _defaultNoLimitRange,
+      isNoLimitRange: _isNoLimitRange,
     );
   }
 
@@ -191,8 +172,6 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   onTap: () {
                     debugPrint('Reset');
                     setState(() {
-                      _locationResult = null;
-                      _addressController.text = widget.address;
                       _selectedCategory = _defaultCategoryValue;
                       _selectedPostedWithin = _defaultPostedWithinValue;
                       _currentSliderValue = widget.range;
@@ -208,11 +187,6 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
         builder: (_, searchConfigState) {
           String stateCategory = searchConfigState.category;
           String statePostedWithin = searchConfigState.postedWithin;
-          String algoliaAppId = searchConfigState.algoliaAppId;
-          String algoliaSearchApiKey = searchConfigState.algoliaSearchApiKey;
-          double latitude = searchConfigState.latitude;
-          double longitude = searchConfigState.longitude;
-          _addressController.text = searchConfigState.address;
           return SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -287,10 +261,10 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                       ),
                       Spacer(),
                       Checkbox(
-                        value: _defaultNoLimitRange,
+                        value: _isNoLimitRange,
                         onChanged: (bool value) {
                           setState(() {
-                            _defaultNoLimitRange = !_defaultNoLimitRange;
+                            _isNoLimitRange = !_isNoLimitRange;
                           });
                         },
                       ),
@@ -298,7 +272,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: _defaultNoLimitRange == true ? false : true,
+                  visible: _isNoLimitRange == true ? false : true,
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: appSizeConfig.safeBlockVertical * 5,
@@ -319,7 +293,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   ),
                 ),
                 Visibility(
-                  visible: _defaultNoLimitRange == true ? false : true,
+                  visible: _isNoLimitRange == true ? false : true,
                   child: Padding(
                     padding: EdgeInsets.only(
                       top: appSizeConfig.safeBlockVertical * 1.5,
@@ -350,16 +324,7 @@ class _SearchFilterScreenState extends State<SearchFilterScreen> {
                   child: ActionButton(
                     title: 'Apply',
                     onPressed: () {
-                      if (_locationResult != null) {
-                        latitude = _locationResult.latLng.latitude;
-                        longitude = _locationResult.latLng.longitude;
-                      }
-                      _applyFilter(
-                        latitude: latitude,
-                        longitude: longitude,
-                        algoliaAppId: algoliaAppId,
-                        algoliaSearchApiKey: algoliaSearchApiKey,
-                      );
+                      _applyFilter();
                       Navigator.pop(context);
                     },
                   ),

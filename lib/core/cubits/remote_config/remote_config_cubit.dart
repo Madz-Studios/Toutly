@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -19,31 +20,37 @@ class RemoteConfigCubit extends Cubit<RemoteConfigState> {
   ) : super(RemoteConfigState.empty());
 
   getConfigData() async {
-    emit(RemoteConfigState.loading());
     try {
-      await remoteConfig.fetch();
-      await remoteConfig.activateFetched();
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        emit(RemoteConfigState.loading());
+        await remoteConfig.fetch();
+        await remoteConfig.activateFetched();
 
-      String algoliaAppId = remoteConfig.getString('algolia_app_id');
-      String algoliaSearchApiKey =
-          remoteConfig.getString('algolia_search_api_key');
+        String algoliaAppId = remoteConfig.getString('algolia_app_id');
+        String algoliaSearchApiKey =
+            remoteConfig.getString('algolia_search_api_key');
 
-      String firebaseApiKey;
-      if (Platform.isIOS) {
-        firebaseApiKey = remoteConfig.getString('ios_gcp_api_key');
+        String firebaseApiKey;
+        if (Platform.isIOS) {
+          firebaseApiKey = remoteConfig.getString('ios_gcp_api_key');
+        } else {
+          firebaseApiKey = remoteConfig.getString('android_gcp_api_key');
+        }
+
+        debugPrint('algoliaAppId = $algoliaAppId');
+        debugPrint('algoliaSearchApiKey = $algoliaSearchApiKey');
+        debugPrint('firebaseApiKey = $firebaseApiKey');
+        emit(RemoteConfigState.success(
+          firebaseApiKey: firebaseApiKey,
+          algoliaAppId: algoliaAppId,
+          algoliaSearchApiKey: algoliaSearchApiKey,
+          info: 'Remote Config Success',
+        ));
       } else {
-        firebaseApiKey = remoteConfig.getString('android_gcp_api_key');
+        emit(RemoteConfigState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
       }
-
-      debugPrint('algoliaAppId = $algoliaAppId');
-      debugPrint('algoliaSearchApiKey = $algoliaSearchApiKey');
-      debugPrint('firebaseApiKey = $firebaseApiKey');
-      emit(RemoteConfigState.success(
-        firebaseApiKey: firebaseApiKey,
-        algoliaAppId: algoliaAppId,
-        algoliaSearchApiKey: algoliaSearchApiKey,
-        info: 'Remote Config Success',
-      ));
     } on PlatformException catch (platFormException) {
       emit(RemoteConfigState.failure(info: platFormException.message));
     } on Exception catch (e) {

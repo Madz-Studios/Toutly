@@ -1,8 +1,12 @@
 import 'dart:io';
 
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
+import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -15,16 +19,25 @@ part 'notification_state.dart';
 
 @lazySingleton
 class NotificationCubit extends Cubit<NotificationState> {
+  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
+  final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirebaseMessaging _firebaseMessaging;
   final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
 
   NotificationCubit(
+    this._firebaseGetUserUseCase,
+    this._firestoreGetUserUseCase,
     this._firestoreUpdateUserUseCase,
     this._firebaseMessaging,
   ) : super(NotificationState.empty());
 
-  initializeFirebaseMessaging(UserModel userModel) async {
+  initializeFirebaseMessaging() async {
     try {
+      final User firebaseUser =
+          _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      final UserModel userModel = await _firestoreGetUserUseCase
+          .call(UseCaseUserParamUserId.init(firebaseUser.uid));
+
       //set fcm token
       String deviceToken = await _firebaseMessaging.getToken();
 

@@ -1,4 +1,5 @@
 import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
@@ -8,6 +9,7 @@ import 'package:Toutly/core/usecases/user/firestore_create_saved_item_usecase.da
 import 'package:Toutly/core/usecases/user/firestore_delete_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
+import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -35,6 +37,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   final Validators validators;
   final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
 
+  final LocationCubit _locationCubit;
+
   CurrentUserCubit(
     this._firebaseGetUserUseCase,
     this._firestoreGetUserUseCase,
@@ -45,6 +49,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._allListBarterModelCurrentUserCubit,
     this._uuid,
     this.validators,
+      this._locationCubit,
   ) : super(CurrentUserState.empty());
 
   nameChanged(String name) {
@@ -74,34 +79,41 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   }
 
   getCurrentLoggedInUser() async {
-    emit(CurrentUserState.loading());
     try {
-      final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        emit(CurrentUserState.loading());
+        final User firebaseUser =
+            _firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
-      if (firebaseUser != null && !firebaseUser.isAnonymous) {
-        final currentUser = await _firestoreGetUserUseCase.call(
-          UseCaseUserParamUserId.init(firebaseUser.uid),
-        );
+        if (firebaseUser != null && !firebaseUser.isAnonymous) {
+          final currentUser = await _firestoreGetUserUseCase.call(
+            UseCaseUserParamUserId.init(firebaseUser.uid),
+          );
 
-        emit(CurrentUserState.success(
-          currentUserModel: currentUser,
-          info: 'Success',
-          isAnonymous: false,
-        ));
-      } else if (firebaseUser != null && firebaseUser.isAnonymous) {
-        UserModel currentUser = UserModel(userId: firebaseUser.uid);
+          emit(CurrentUserState.success(
+            currentUserModel: currentUser,
+            info: 'Success',
+            isAnonymous: false,
+          ));
+        } else if (firebaseUser != null && firebaseUser.isAnonymous) {
+          UserModel currentUser = UserModel(userId: firebaseUser.uid);
 
-        emit(CurrentUserState.success(
-          currentUserModel: currentUser,
-          info: 'Success',
-          isAnonymous: true,
-        ));
+          emit(CurrentUserState.success(
+            currentUserModel: currentUser,
+            info: 'Success',
+            isAnonymous: true,
+          ));
+        } else {
+          emit(CurrentUserState.success(
+            currentUserModel: null,
+            info: 'Success',
+            isAnonymous: false,
+          ));
+        }
       } else {
-        emit(CurrentUserState.success(
-          currentUserModel: null,
-          info: 'Success',
-          isAnonymous: false,
-        ));
+        emit(CurrentUserState.failure(
+            'There was no connection. Please connect to the internet.'));
       }
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
@@ -142,6 +154,10 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         UseCaseUserParamUserModel.init(currentUser),
       );
 
+      /// update the user items in algolia
+      _allListBarterModelCurrentUserCubit
+          .updateAllBarterItemsOfCurrentUser(currentUser);
+
       emit(CurrentUserState.success(
         currentUserModel: currentUser,
         info: 'Success',
@@ -160,14 +176,31 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
       if (!firebaseUser.isAnonymous) {
+
+        ///update the current user address based on the current location
+        String subLocality = "${_locationCubit.state.placeMark.subLocality}";
+        String locality = "${_locationCubit.state.placeMark.locality}";
+
+        String address = '';
+        if (subLocality.isNotEmpty) {
+          address = address + subLocality + ", ";
+        }
+        if (locality.isNotEmpty) {
+          address = address + locality;
+        }
+
+        currentUser.address = address;
+
+        currentUser.geoLocation =
+            _locationCubit.state.geoPoint;
+
         _firestoreUpdateUserUseCase.call(
           UseCaseUserParamUserModel.init(currentUser),
         );
 
+        ///if the current user change name or profile photo, update all the posted barter items.
         _allListBarterModelCurrentUserCubit
             .updateAllBarterItemsOfCurrentUser(currentUser);
-
-        ///if the current user change name or profile photo, update all the posted barter items.
 
         emit(CurrentUserState.success(
           currentUserModel: currentUser,
