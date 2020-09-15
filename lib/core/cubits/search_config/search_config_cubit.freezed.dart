@@ -17,11 +17,6 @@ class _$SearchConfigStateTearOff {
       {@required String searchText,
       @required String category,
       @required String postedWithin,
-      @required double latitude,
-      @required double longitude,
-      @required String algoliaAppId,
-      @required String algoliaSearchApiKey,
-      @required String address,
       @required double range,
       @required bool isNoLimitRange,
       @required bool isSubmitting,
@@ -32,11 +27,6 @@ class _$SearchConfigStateTearOff {
       searchText: searchText,
       category: category,
       postedWithin: postedWithin,
-      latitude: latitude,
-      longitude: longitude,
-      algoliaAppId: algoliaAppId,
-      algoliaSearchApiKey: algoliaSearchApiKey,
-      address: address,
       range: range,
       isNoLimitRange: isNoLimitRange,
       isSubmitting: isSubmitting,
@@ -54,11 +44,6 @@ mixin _$SearchConfigState {
   String get searchText;
   String get category;
   String get postedWithin;
-  double get latitude;
-  double get longitude;
-  String get algoliaAppId;
-  String get algoliaSearchApiKey;
-  String get address;
   double get range;
   bool get isNoLimitRange;
   bool get isSubmitting;
@@ -77,11 +62,6 @@ abstract class $SearchConfigStateCopyWith<$Res> {
       {String searchText,
       String category,
       String postedWithin,
-      double latitude,
-      double longitude,
-      String algoliaAppId,
-      String algoliaSearchApiKey,
-      String address,
       double range,
       bool isNoLimitRange,
       bool isSubmitting,
@@ -103,11 +83,6 @@ class _$SearchConfigStateCopyWithImpl<$Res>
     Object searchText = freezed,
     Object category = freezed,
     Object postedWithin = freezed,
-    Object latitude = freezed,
-    Object longitude = freezed,
-    Object algoliaAppId = freezed,
-    Object algoliaSearchApiKey = freezed,
-    Object address = freezed,
     Object range = freezed,
     Object isNoLimitRange = freezed,
     Object isSubmitting = freezed,
@@ -122,15 +97,6 @@ class _$SearchConfigStateCopyWithImpl<$Res>
       postedWithin: postedWithin == freezed
           ? _value.postedWithin
           : postedWithin as String,
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
-      algoliaAppId: algoliaAppId == freezed
-          ? _value.algoliaAppId
-          : algoliaAppId as String,
-      algoliaSearchApiKey: algoliaSearchApiKey == freezed
-          ? _value.algoliaSearchApiKey
-          : algoliaSearchApiKey as String,
-      address: address == freezed ? _value.address : address as String,
       range: range == freezed ? _value.range : range as double,
       isNoLimitRange: isNoLimitRange == freezed
           ? _value.isNoLimitRange
@@ -154,11 +120,6 @@ abstract class _$SearchConfigStateCopyWith<$Res>
       {String searchText,
       String category,
       String postedWithin,
-      double latitude,
-      double longitude,
-      String algoliaAppId,
-      String algoliaSearchApiKey,
-      String address,
       double range,
       bool isNoLimitRange,
       bool isSubmitting,
@@ -182,11 +143,6 @@ class __$SearchConfigStateCopyWithImpl<$Res>
     Object searchText = freezed,
     Object category = freezed,
     Object postedWithin = freezed,
-    Object latitude = freezed,
-    Object longitude = freezed,
-    Object algoliaAppId = freezed,
-    Object algoliaSearchApiKey = freezed,
-    Object address = freezed,
     Object range = freezed,
     Object isNoLimitRange = freezed,
     Object isSubmitting = freezed,
@@ -201,15 +157,6 @@ class __$SearchConfigStateCopyWithImpl<$Res>
       postedWithin: postedWithin == freezed
           ? _value.postedWithin
           : postedWithin as String,
-      latitude: latitude == freezed ? _value.latitude : latitude as double,
-      longitude: longitude == freezed ? _value.longitude : longitude as double,
-      algoliaAppId: algoliaAppId == freezed
-          ? _value.algoliaAppId
-          : algoliaAppId as String,
-      algoliaSearchApiKey: algoliaSearchApiKey == freezed
-          ? _value.algoliaSearchApiKey
-          : algoliaSearchApiKey as String,
-      address: address == freezed ? _value.address : address as String,
       range: range == freezed ? _value.range : range as double,
       isNoLimitRange: isNoLimitRange == freezed
           ? _value.isNoLimitRange
@@ -228,11 +175,6 @@ class _$_SearchConfigState implements _SearchConfigState {
       {@required this.searchText,
       @required this.category,
       @required this.postedWithin,
-      @required this.latitude,
-      @required this.longitude,
-      @required this.algoliaAppId,
-      @required this.algoliaSearchApiKey,
-      @required this.address,
       @required this.range,
       @required this.isNoLimitRange,
       @required this.isSubmitting,
@@ -242,11 +184,6 @@ class _$_SearchConfigState implements _SearchConfigState {
       : assert(searchText != null),
         assert(category != null),
         assert(postedWithin != null),
-        assert(latitude != null),
-        assert(longitude != null),
-        assert(algoliaAppId != null),
-        assert(algoliaSearchApiKey != null),
-        assert(address != null),
         assert(range != null),
         assert(isNoLimitRange != null),
         assert(isSubmitting != null),
@@ -259,16 +196,6 @@ class _$_SearchConfigState implements _SearchConfigState {
   final String category;
   @override
   final String postedWithin;
-  @override
-  final double latitude;
-  @override
-  final double longitude;
-  @override
-  final String algoliaAppId;
-  @override
-  final String algoliaSearchApiKey;
-  @override
-  final String address;
   @override
   final double range;
   @override
@@ -284,7 +211,7 @@ class _$_SearchConfigState implements _SearchConfigState {
 
   @override
   String toString() {
-    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, latitude: $latitude, longitude: $longitude, algoliaAppId: $algoliaAppId, algoliaSearchApiKey: $algoliaSearchApiKey, address: $address, range: $range, isNoLimitRange: $isNoLimitRange, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'SearchConfigState(searchText: $searchText, category: $category, postedWithin: $postedWithin, range: $range, isNoLimitRange: $isNoLimitRange, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -300,21 +227,6 @@ class _$_SearchConfigState implements _SearchConfigState {
             (identical(other.postedWithin, postedWithin) ||
                 const DeepCollectionEquality()
                     .equals(other.postedWithin, postedWithin)) &&
-            (identical(other.latitude, latitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.latitude, latitude)) &&
-            (identical(other.longitude, longitude) ||
-                const DeepCollectionEquality()
-                    .equals(other.longitude, longitude)) &&
-            (identical(other.algoliaAppId, algoliaAppId) ||
-                const DeepCollectionEquality()
-                    .equals(other.algoliaAppId, algoliaAppId)) &&
-            (identical(other.algoliaSearchApiKey, algoliaSearchApiKey) ||
-                const DeepCollectionEquality()
-                    .equals(other.algoliaSearchApiKey, algoliaSearchApiKey)) &&
-            (identical(other.address, address) ||
-                const DeepCollectionEquality()
-                    .equals(other.address, address)) &&
             (identical(other.range, range) ||
                 const DeepCollectionEquality().equals(other.range, range)) &&
             (identical(other.isNoLimitRange, isNoLimitRange) ||
@@ -339,11 +251,6 @@ class _$_SearchConfigState implements _SearchConfigState {
       const DeepCollectionEquality().hash(searchText) ^
       const DeepCollectionEquality().hash(category) ^
       const DeepCollectionEquality().hash(postedWithin) ^
-      const DeepCollectionEquality().hash(latitude) ^
-      const DeepCollectionEquality().hash(longitude) ^
-      const DeepCollectionEquality().hash(algoliaAppId) ^
-      const DeepCollectionEquality().hash(algoliaSearchApiKey) ^
-      const DeepCollectionEquality().hash(address) ^
       const DeepCollectionEquality().hash(range) ^
       const DeepCollectionEquality().hash(isNoLimitRange) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
@@ -361,11 +268,6 @@ abstract class _SearchConfigState implements SearchConfigState {
       {@required String searchText,
       @required String category,
       @required String postedWithin,
-      @required double latitude,
-      @required double longitude,
-      @required String algoliaAppId,
-      @required String algoliaSearchApiKey,
-      @required String address,
       @required double range,
       @required bool isNoLimitRange,
       @required bool isSubmitting,
@@ -379,16 +281,6 @@ abstract class _SearchConfigState implements SearchConfigState {
   String get category;
   @override
   String get postedWithin;
-  @override
-  double get latitude;
-  @override
-  double get longitude;
-  @override
-  String get algoliaAppId;
-  @override
-  String get algoliaSearchApiKey;
-  @override
-  String get address;
   @override
   double get range;
   @override

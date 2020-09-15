@@ -5,6 +5,9 @@ final kSecondaryColor = Color(0XFF098AE8);
 final kSecondaryRedAccentColor = Colors.redAccent;
 final kSecondaryWhiteSeventyColor = Colors.white;
 
+final double kDefaultSearchRange = 100.0;
+final bool kDefaultNoLimitRange = true;
+
 class AppConstants {
   static const codeErrorAuthDenied = 'ERROR_AUTHORIZATION_DENIED';
   static const codeErrorAbortedByUser = 'ERROR_ABORTED_BY_USER';

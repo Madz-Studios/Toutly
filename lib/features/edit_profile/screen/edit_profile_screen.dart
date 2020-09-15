@@ -2,8 +2,6 @@ import 'dart:io';
 
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
-import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
-import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -16,8 +14,6 @@ import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_map_location_picker/google_map_location_picker.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final UserModel currentUser;
@@ -30,23 +26,17 @@ class EditProfileScreen extends StatefulWidget {
 class _EditProfileScreenState extends State<EditProfileScreen> {
   final _currentUserCubit = getIt<CurrentUserCubit>();
   final _authCubit = getIt<AuthCubit>();
-  final _locationCubit = getIt<LocationCubit>();
-  final _searchCubit = getIt<SearchCubit>();
-  final _searchConfigCubit = getIt<SearchConfigCubit>();
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _addressController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _nameController.addListener(_onNameChanged);
-    _addressController.addListener(_onAddressChanged);
 
     _nameController.text = widget.currentUser.name;
     _emailController.text = widget.currentUser.email;
-    _addressController.text = widget.currentUser.address;
   }
 
   @override
@@ -54,52 +44,15 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     super.dispose();
     _nameController.dispose();
     _emailController.dispose();
-    _addressController.dispose();
   }
 
   void _onNameChanged() {
     _currentUserCubit.nameChanged(_nameController.text);
   }
 
-  void _onAddressChanged() {
-    _currentUserCubit.locationChanged(_addressController.text);
-  }
-
-  _onSaveClicked(
-    UserModel currentUser,
-    LocationState locationState,
-    SearchConfigState searchConfigState,
-  ) {
+  _onSaveClicked(UserModel currentUser) {
     currentUser.name = _nameController.text;
-
-    String subLocality = "${locationState.placeMark.subLocality}";
-    String locality = "${locationState.placeMark.locality}";
-    String address = "";
-    if (subLocality.isNotEmpty) {
-      address = address + subLocality + ", ";
-    }
-    if (locality.isNotEmpty) {
-      address = address + locality;
-    }
-
-    currentUser.geoLocation = locationState.geoPoint;
-
     _currentUserCubit.updateCurrentLoggedInUser(currentUser);
-
-    _searchConfigCubit.updateLatLng(
-        locationState.geoPoint.latitude, locationState.geoPoint.longitude);
-
-    _searchCubit.search(
-      algoliaAppId: searchConfigState.algoliaAppId,
-      algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-      latitude: locationState.geoPoint.latitude,
-      longitude: locationState.geoPoint.longitude,
-      searchText: searchConfigState.searchText,
-      category: searchConfigState.category,
-      postedWithin: searchConfigState.postedWithin,
-      range: searchConfigState.range,
-      isNoLimitRange: searchConfigState.isNoLimitRange,
-    );
 
     Navigator.pop(context);
   }
@@ -213,13 +166,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Padding(
                         padding: EdgeInsets.symmetric(
                           horizontal: appSizeConfig.safeBlockHorizontal * 5,
-                          vertical: appSizeConfig.safeBlockVertical * 3,
-                        ),
-                        child: _buildAddressForm(context),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: appSizeConfig.safeBlockHorizontal * 5,
                           vertical: appSizeConfig.safeBlockVertical * 5,
                         ),
                         child: Column(
@@ -229,8 +175,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                               title: 'Save',
                               color: kPrimaryColor,
                               onPressed: () {
-                                _onSaveClicked(currentUser, locationState,
-                                    searchConfigState);
+                                _onSaveClicked(currentUser);
                               },
                             ),
                           ],
@@ -245,63 +190,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         );
       },
     );
-  }
-
-  Widget _buildAddressForm(BuildContext context) {
-    return BlocBuilder<RemoteConfigCubit, RemoteConfigState>(
-      builder: (_, remoteConfigDataState) {
-        return BlocBuilder<CurrentUserCubit, CurrentUserState>(
-          builder: (_, currentUserState) {
-            return InkWell(
-              onTap: () {
-                _locationCubit.getInitialUserLocation();
-                _getLocation(
-                  context,
-                  currentUserState.currentUserModel,
-                  remoteConfigDataState,
-                );
-              },
-              child: IgnorePointer(
-                child: SignTextFormField(
-                  controller: _addressController,
-                  textInputType: TextInputType.text,
-                  validator: (_) {
-                    return !currentUserState.isLocationValid
-                        ? 'Invalid Location'
-                        : null;
-                  },
-                  hintText: "Address",
-                  obscureText: false,
-                ),
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  _getLocation(BuildContext context, UserModel currentUser,
-      RemoteConfigState remoteConfigState) async {
-    LocationResult result = await showLocationPicker(
-      context,
-      remoteConfigState.firebaseApiKey,
-      initialCenter: LatLng(
-        currentUser.geoLocation?.latitude,
-        currentUser.geoLocation?.longitude,
-      ),
-      myLocationButtonEnabled: true,
-      hintText: 'Address',
-    );
-
-    if (result != null && result.address != null && result.address.isNotEmpty) {
-      _addressController.text = result.address;
-
-      _locationCubit.updateUserLocation(
-        result?.latLng?.latitude ?? 0,
-        result?.latLng?.longitude ?? 0,
-      );
-    }
   }
 
   void _showMaterialDialog(BuildContext mainContext) {

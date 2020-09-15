@@ -1,10 +1,12 @@
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
+import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:algolia/algolia.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
 part 'search_cubit.freezed.dart';
@@ -12,34 +14,32 @@ part 'search_state.dart';
 
 @lazySingleton
 class SearchCubit extends Cubit<SearchState> {
-  final GeolocatorPlatform geoLocator;
+  final RemoteConfigCubit _remoteConfigCubit;
+  final LocationCubit _locationCubit;
   SearchCubit(
-    this.geoLocator,
+    this._locationCubit,
+    this._remoteConfigCubit,
   ) : super(SearchState.empty());
 
   search({
-    @required String algoliaAppId,
-    @required String algoliaSearchApiKey,
-    @required double latitude,
-    @required double longitude,
     @required String searchText,
     @required String category,
     @required String postedWithin,
     @required double range,
     @required bool isNoLimitRange,
   }) async {
-    debugPrint(
-        '''algoliaAppId = $algoliaAppId algoliaSearchApiKey = $algoliaSearchApiKey 
-        latitude = $latitude longitude = $longitude searchText = $searchText
+    debugPrint('''searchText = $searchText
         category = $category postedWithin = $postedWithin range = $range''');
     try {
       emit(SearchState.loading());
+
       Algolia algolia = Algolia.init(
-        applicationId: algoliaAppId,
-        apiKey: algoliaSearchApiKey,
+        applicationId: _remoteConfigCubit.state.algoliaAppId,
+        apiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
       );
 
-      final aroundLatLng = '$latitude, $longitude';
+      final aroundLatLng =
+          '${_locationCubit.state.geoPoint.latitude ?? 10.333333}, ${_locationCubit.state.geoPoint.longitude ?? 123.933334}';
       final dateFilter = _processedDateFilterValue(postedWithin);
 
       ///
@@ -77,12 +77,17 @@ class SearchCubit extends Cubit<SearchState> {
             .setFacetFilter('category: $category')
             .setFilters(filter);
       }
-
-      final algoliaQuerySnapshot = await algoliaQuery.getObjects();
-      emit(SearchState.success(
-        algoliaQuerySnapshot: algoliaQuerySnapshot,
-        info: 'Success',
-      ));
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        final algoliaQuerySnapshot = await algoliaQuery.getObjects();
+        emit(SearchState.success(
+          algoliaQuerySnapshot: algoliaQuerySnapshot,
+          info: 'Success',
+        ));
+      } else {
+        emit(SearchState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
+      }
     } on PlatformException catch (platFormException) {
       emit(SearchState.failure(info: platFormException.message));
     } on Exception catch (e) {

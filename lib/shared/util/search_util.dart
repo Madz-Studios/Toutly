@@ -9,23 +9,14 @@ class SearchUtil {
     @required String searchText,
     @required String category,
     @required String postedWithin,
-    @required double latitude,
-    @required double longitude,
-    @required String algoliaAppId,
-    @required String algoliaSearchApiKey,
     @required double range,
     @required bool isNoLimitRange,
   }) {
     debugPrint(
         '''SearchUtil _searchSubmit searchText = $searchText  category = $category  '
-        postedWithin = $postedWithin  algoliaAppId = $algoliaAppId algoliaSearchApiKey = $algoliaSearchApiKey 
-            'latitude = $latitude longitude = $longitude''');
+        postedWithin = $postedWithin''');
 
     _searchCubit.search(
-      algoliaAppId: algoliaAppId,
-      algoliaSearchApiKey: algoliaSearchApiKey,
-      latitude: latitude,
-      longitude: longitude,
       searchText: searchText,
       category: category,
       postedWithin: postedWithin,

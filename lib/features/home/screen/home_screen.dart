@@ -66,7 +66,6 @@ class HomeScreen extends StatelessWidget {
                                 searchText: searchConfigState.searchText,
                                 category: searchConfigState.category,
                                 postedWithin: searchConfigState.postedWithin,
-                                address: searchConfigState.address,
                                 range: searchConfigState.range,
                                 isNoLimitRange:
                                     searchConfigState.isNoLimitRange,
@@ -149,10 +148,6 @@ class __BarterItemFeedState extends State<_BarterItemFeed> {
                   searchText: searchConfigState.searchText,
                   category: searchConfigState.category,
                   postedWithin: searchConfigState.postedWithin,
-                  algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-                  algoliaAppId: searchConfigState.algoliaAppId,
-                  latitude: searchConfigState.latitude,
-                  longitude: searchConfigState.longitude,
                   range: searchConfigState.range,
                   isNoLimitRange: searchConfigState.isNoLimitRange,
                 );
@@ -356,10 +351,6 @@ class __SearchTextFieldState extends State<_SearchTextField> {
               searchText: searchText,
               category: searchConfigState.category,
               postedWithin: searchConfigState.postedWithin,
-              latitude: searchConfigState.latitude,
-              longitude: searchConfigState.longitude,
-              algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-              algoliaAppId: searchConfigState.algoliaAppId,
               range: searchConfigState.range,
               isNoLimitRange: searchConfigState.isNoLimitRange,
             );
@@ -391,10 +382,6 @@ class __SearchTextFieldState extends State<_SearchTextField> {
                   searchText: '',
                   category: searchConfigState.category,
                   postedWithin: searchConfigState.postedWithin,
-                  latitude: searchConfigState.latitude,
-                  longitude: searchConfigState.longitude,
-                  algoliaSearchApiKey: searchConfigState.algoliaSearchApiKey,
-                  algoliaAppId: searchConfigState.algoliaAppId,
                   range: searchConfigState.range,
                   isNoLimitRange: searchConfigState.isNoLimitRange,
                 );

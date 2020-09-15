@@ -4,6 +4,7 @@ import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/cubits/search/search_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -16,7 +17,6 @@ import 'package:Toutly/features/user_profile/screens/user_profile_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/constants/app_navigation_index.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/util/search_util.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,29 +39,18 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   final _barterMessages = getIt<BarterMessageCubit>();
 
-  final _remoteConfigCubit = getIt<RemoteConfigCubit>();
-
   final _locationCubit = getIt<LocationCubit>();
 
-  final double _defaultSearchRange = 100.0;
-  final bool _defaultNoLimitRange = true;
+  final _searchCubit = getIt<SearchCubit>();
 
-  updateCurrentUserInitCall() {
-    String subLocality = "${_locationCubit.state.placeMark.subLocality}";
-    String locality = "${_locationCubit.state.placeMark.locality}";
+  final _remoteConfigCubit = getIt<RemoteConfigCubit>();
 
-    String address = '';
-    if (subLocality.isNotEmpty) {
-      address = address + subLocality + ", ";
-    }
-    if (locality.isNotEmpty) {
-      address = address + locality;
-    }
-
-    _currentUserCubit.state.currentUserModel.address = address;
-
-    _currentUserCubit.state.currentUserModel.geoLocation =
-        _locationCubit.state.geoPoint;
+  initialize() async {
+    await _currentUserCubit.getCurrentLoggedInUser();
+    await _remoteConfigCubit.getConfigData();
+    await _locationCubit.getInitialUserLocation();
+    await _notificationCubit.initializeFirebaseMessaging();
+    await _barterMessages.getCurrentBarterMessages();
 
     _currentUserCubit
         .updateCurrentLoggedInUser(_currentUserCubit.state.currentUserModel);
@@ -71,15 +60,17 @@ class _NavigationScreenState extends State<NavigationScreen> {
       searchText: '',
       category: '',
       postedWithin: '',
-      algoliaAppId: _remoteConfigCubit.state.algoliaAppId,
-      algoliaSearchApiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
-      latitude: _locationCubit.state.geoPoint.latitude ??
-          10.333333, //cebu city latitude
-      longitude: _locationCubit.state.geoPoint.longitude ??
-          123.933334, //cebu city longitude
-      address: address,
-      range: _defaultSearchRange, //default
-      isNoLimitRange: _defaultNoLimitRange,
+      range: kDefaultSearchRange, //default
+      isNoLimitRange: kDefaultNoLimitRange,
+    );
+
+    ///initial search
+    _searchCubit.search(
+      searchText: '',
+      category: '',
+      postedWithin: '',
+      range: kDefaultSearchRange, //default
+      isNoLimitRange: kDefaultNoLimitRange,
     );
   }
 
@@ -87,28 +78,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void initState() {
     super.initState();
 
-    updateCurrentUserInitCall();
-
-    ///initial search
-    SearchUtil().searchSubmit(
-      searchText: '',
-      category: '',
-      postedWithin: '',
-      algoliaSearchApiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
-      algoliaAppId: _remoteConfigCubit.state.algoliaAppId,
-      latitude: _locationCubit.state.geoPoint.latitude,
-      longitude: _locationCubit.state.geoPoint.longitude,
-      range: _defaultSearchRange, //default
-      isNoLimitRange: _defaultNoLimitRange,
-    );
-
-    _notificationCubit.initializeFirebaseMessaging(
-      _currentUserCubit.state.currentUserModel,
-    );
-
-    _barterMessages.getBarterMessages(
-      _currentUserCubit.state.currentUserModel.userId,
-    );
+    initialize();
   }
 
   @override
@@ -206,7 +176,7 @@ class _NavigationBar extends StatelessWidget {
               },
               items: <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
-                  title: Text('Feed'),
+                  label: 'Home',
                   icon: SvgPicture.asset(
                     'assets/icons/unpressed-home.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
@@ -218,7 +188,7 @@ class _NavigationBar extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text('Saved'),
+                  label: 'Saved',
                   icon: SvgPicture.asset(
                     'assets/icons/unpressed-saved.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
@@ -230,7 +200,7 @@ class _NavigationBar extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text('Add Item'),
+                  label: 'Add Item',
                   icon: SvgPicture.asset(
                     'assets/icons/add.svg',
                     height: appSizeConfig.blockSizeVertical * 3,
@@ -242,7 +212,7 @@ class _NavigationBar extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text('Messages'),
+                  label: 'Messages',
                   icon: notificationState.hasUnreadMessage
                       ? SvgPicture.asset(
                           'assets/icons/chat.svg',
@@ -260,7 +230,7 @@ class _NavigationBar extends StatelessWidget {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  title: Text('Profile'),
+                  label: 'Profile',
                   icon: SvgPicture.asset(
                     'assets/icons/profile.svg',
                     height: appSizeConfig.blockSizeVertical * 3,

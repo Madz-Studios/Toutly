@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 
 import 'app.dart';
 import 'core/di/injector.dart';
@@ -53,8 +54,10 @@ void commonMain(String env) async {
 //  SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
 
   runApp(
-    App(
-      env: env,
+    Phoenix(
+      child: App(
+        env: env,
+      ),
     ),
   );
 }

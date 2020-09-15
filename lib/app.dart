@@ -104,7 +104,8 @@ class App extends StatelessWidget {
         ),
 
         BlocProvider<RemoteConfigCubit>(
-          create: (BuildContext context) => getIt<RemoteConfigCubit>(),
+          create: (BuildContext context) =>
+              getIt<RemoteConfigCubit>()..getConfigData(),
         ),
 
         BlocProvider<SearchCubit>(

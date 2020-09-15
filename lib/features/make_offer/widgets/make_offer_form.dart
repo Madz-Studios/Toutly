@@ -452,7 +452,6 @@ class _TradeMessageArea extends StatelessWidget {
         fontWeight: FontWeight.w300,
         fontSize: 12.0,
       ),
-      autovalidate: true,
       validator: validator,
       decoration: InputDecoration(
         filled: true,

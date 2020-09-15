@@ -1,6 +1,10 @@
+import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
+import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
+import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,24 +16,34 @@ part 'barter_message_state.dart';
 
 @lazySingleton
 class BarterMessageCubit extends Cubit<BarterMessageState> {
+  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
   final FirestoreGetAllBarterMessagesUseCase
       _firestoreGetAllBarterMessagesUseCase;
   BarterMessageCubit(
+    this._firebaseGetUserUseCase,
     this._firestoreGetAllBarterMessagesUseCase,
   ) : super(BarterMessageState.empty());
 
-  getBarterMessages(String userId) async {
+  getCurrentBarterMessages() async {
     try {
       emit(BarterMessageState.loading());
-      final barterMessages = _firestoreGetAllBarterMessagesUseCase.call(
-        UseCaseAllUserMessagesWithUserIdParam.init(userId: userId),
-      );
-      emit(
-        BarterMessageState.success(
-            barterMessages: barterMessages,
-            // offerMessages: offerMessages,
-            info: 'Success'),
-      );
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        final User firebaseUser =
+            _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+        final barterMessages = _firestoreGetAllBarterMessagesUseCase.call(
+          UseCaseAllUserMessagesWithUserIdParam.init(userId: firebaseUser.uid),
+        );
+        emit(
+          BarterMessageState.success(
+              barterMessages: barterMessages,
+              // offerMessages: offerMessages,
+              info: 'Success'),
+        );
+      } else {
+        emit(BarterMessageState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
+      }
     } on PlatformException catch (platformException) {
       emit(BarterMessageState.failure(info: platformException.message));
       throw FlutterError(platformException.message);
