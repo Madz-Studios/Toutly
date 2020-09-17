@@ -1,12 +1,7 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
-import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -19,25 +14,16 @@ part 'notification_state.dart';
 
 @lazySingleton
 class NotificationCubit extends Cubit<NotificationState> {
-  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
-  final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirebaseMessaging _firebaseMessaging;
-  final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
+  final CurrentUserCubit _currentUserCubit;
 
   NotificationCubit(
-    this._firebaseGetUserUseCase,
-    this._firestoreGetUserUseCase,
-    this._firestoreUpdateUserUseCase,
+    this._currentUserCubit,
     this._firebaseMessaging,
   ) : super(NotificationState.empty());
 
-  initializeFirebaseMessaging() async {
+  initializeFirebaseMessaging(UserModel userModel) async {
     try {
-      final User firebaseUser =
-          _firebaseGetUserUseCase.call(UseCaseNoParam.init());
-      final UserModel userModel = await _firestoreGetUserUseCase
-          .call(UseCaseUserParamUserId.init(firebaseUser.uid));
-
       //set fcm token
       String deviceToken = await _firebaseMessaging.getToken();
 
@@ -48,30 +34,28 @@ class NotificationCubit extends Cubit<NotificationState> {
             isDeviceTokenExist = true;
           }
         }
+        if (!isDeviceTokenExist) {
+          userModel.fcmToken.add(deviceToken);
+        }
       } else {
         List<String> fcmTokenList = [];
         fcmTokenList.add(deviceToken);
         userModel.fcmToken = fcmTokenList;
       }
-      if (!isDeviceTokenExist) {
-        userModel.fcmToken.add(deviceToken);
-      }
-
-      await _firestoreUpdateUserUseCase
-          .call(UseCaseUserParamUserModel.init(userModel));
+      await _currentUserCubit.updateCurrentLoggedInUser(userModel);
 
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage: $message");
-          hasUnreadBarterMessage(true);
+          this.setUnreadMessage(true);
         },
         onLaunch: (Map<String, dynamic> message) async {
           print("onLaunch: $message");
-          hasUnreadBarterMessage(true);
+          this.setUnreadMessage(true);
         },
         onResume: (Map<String, dynamic> message) async {
           print("onResume: $message");
-          hasUnreadBarterMessage(true);
+          this.setUnreadMessage(true);
         },
         onBackgroundMessage:
             Platform.isIOS ? null : _myBackgroundMessageHandler,
@@ -98,12 +82,13 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  hasUnreadBarterMessage(bool hasUnreadMessage) {
+  setUnreadMessage(bool hasUnreadMessage) {
+    emit(NotificationState.loading());
+
     emit(
-      state.copyWith(
-        hasUnreadMessage: hasUnreadMessage,
-        hasBarterMessageUnread: hasUnreadMessage,
-      ),
+      NotificationState.success(
+          info: "Unread messages = $hasUnreadMessage",
+          hasUnreadMessage: hasUnreadMessage),
     );
   }
 }

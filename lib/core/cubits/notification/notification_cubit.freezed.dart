@@ -15,16 +15,12 @@ class _$NotificationStateTearOff {
 // ignore: unused_element
   _NotificationState call(
       {@required bool hasUnreadMessage,
-      @required bool hasOfferMessageUnread,
-      @required bool hasBarterMessageUnread,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
     return _NotificationState(
       hasUnreadMessage: hasUnreadMessage,
-      hasOfferMessageUnread: hasOfferMessageUnread,
-      hasBarterMessageUnread: hasBarterMessageUnread,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -38,8 +34,6 @@ const $NotificationState = _$NotificationStateTearOff();
 
 mixin _$NotificationState {
   bool get hasUnreadMessage;
-  bool get hasOfferMessageUnread;
-  bool get hasBarterMessageUnread;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -54,8 +48,6 @@ abstract class $NotificationStateCopyWith<$Res> {
       _$NotificationStateCopyWithImpl<$Res>;
   $Res call(
       {bool hasUnreadMessage,
-      bool hasOfferMessageUnread,
-      bool hasBarterMessageUnread,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -73,8 +65,6 @@ class _$NotificationStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object hasUnreadMessage = freezed,
-    Object hasOfferMessageUnread = freezed,
-    Object hasBarterMessageUnread = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -84,12 +74,6 @@ class _$NotificationStateCopyWithImpl<$Res>
       hasUnreadMessage: hasUnreadMessage == freezed
           ? _value.hasUnreadMessage
           : hasUnreadMessage as bool,
-      hasOfferMessageUnread: hasOfferMessageUnread == freezed
-          ? _value.hasOfferMessageUnread
-          : hasOfferMessageUnread as bool,
-      hasBarterMessageUnread: hasBarterMessageUnread == freezed
-          ? _value.hasBarterMessageUnread
-          : hasBarterMessageUnread as bool,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -107,8 +91,6 @@ abstract class _$NotificationStateCopyWith<$Res>
   @override
   $Res call(
       {bool hasUnreadMessage,
-      bool hasOfferMessageUnread,
-      bool hasBarterMessageUnread,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -128,8 +110,6 @@ class __$NotificationStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object hasUnreadMessage = freezed,
-    Object hasOfferMessageUnread = freezed,
-    Object hasBarterMessageUnread = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
@@ -139,12 +119,6 @@ class __$NotificationStateCopyWithImpl<$Res>
       hasUnreadMessage: hasUnreadMessage == freezed
           ? _value.hasUnreadMessage
           : hasUnreadMessage as bool,
-      hasOfferMessageUnread: hasOfferMessageUnread == freezed
-          ? _value.hasOfferMessageUnread
-          : hasOfferMessageUnread as bool,
-      hasBarterMessageUnread: hasBarterMessageUnread == freezed
-          ? _value.hasBarterMessageUnread
-          : hasBarterMessageUnread as bool,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -159,15 +133,11 @@ class _$_NotificationState
     implements _NotificationState {
   const _$_NotificationState(
       {@required this.hasUnreadMessage,
-      @required this.hasOfferMessageUnread,
-      @required this.hasBarterMessageUnread,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
       : assert(hasUnreadMessage != null),
-        assert(hasOfferMessageUnread != null),
-        assert(hasBarterMessageUnread != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
@@ -175,10 +145,6 @@ class _$_NotificationState
 
   @override
   final bool hasUnreadMessage;
-  @override
-  final bool hasOfferMessageUnread;
-  @override
-  final bool hasBarterMessageUnread;
   @override
   final bool isSubmitting;
   @override
@@ -190,7 +156,7 @@ class _$_NotificationState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NotificationState(hasUnreadMessage: $hasUnreadMessage, hasOfferMessageUnread: $hasOfferMessageUnread, hasBarterMessageUnread: $hasBarterMessageUnread, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'NotificationState(hasUnreadMessage: $hasUnreadMessage, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -199,9 +165,6 @@ class _$_NotificationState
     properties
       ..add(DiagnosticsProperty('type', 'NotificationState'))
       ..add(DiagnosticsProperty('hasUnreadMessage', hasUnreadMessage))
-      ..add(DiagnosticsProperty('hasOfferMessageUnread', hasOfferMessageUnread))
-      ..add(
-          DiagnosticsProperty('hasBarterMessageUnread', hasBarterMessageUnread))
       ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
       ..add(DiagnosticsProperty('isSuccess', isSuccess))
       ..add(DiagnosticsProperty('isFailure', isFailure))
@@ -215,12 +178,6 @@ class _$_NotificationState
             (identical(other.hasUnreadMessage, hasUnreadMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.hasUnreadMessage, hasUnreadMessage)) &&
-            (identical(other.hasOfferMessageUnread, hasOfferMessageUnread) ||
-                const DeepCollectionEquality().equals(
-                    other.hasOfferMessageUnread, hasOfferMessageUnread)) &&
-            (identical(other.hasBarterMessageUnread, hasBarterMessageUnread) ||
-                const DeepCollectionEquality().equals(
-                    other.hasBarterMessageUnread, hasBarterMessageUnread)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -238,8 +195,6 @@ class _$_NotificationState
   int get hashCode =>
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(hasUnreadMessage) ^
-      const DeepCollectionEquality().hash(hasOfferMessageUnread) ^
-      const DeepCollectionEquality().hash(hasBarterMessageUnread) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
@@ -253,8 +208,6 @@ class _$_NotificationState
 abstract class _NotificationState implements NotificationState {
   const factory _NotificationState(
       {@required bool hasUnreadMessage,
-      @required bool hasOfferMessageUnread,
-      @required bool hasBarterMessageUnread,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
@@ -262,10 +215,6 @@ abstract class _NotificationState implements NotificationState {
 
   @override
   bool get hasUnreadMessage;
-  @override
-  bool get hasOfferMessageUnread;
-  @override
-  bool get hasBarterMessageUnread;
   @override
   bool get isSubmitting;
   @override

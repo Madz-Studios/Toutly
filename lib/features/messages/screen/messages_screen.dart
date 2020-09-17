@@ -234,7 +234,7 @@ class _MessageBarterItem extends StatelessWidget {
       BuildContext context, UserModel otherUserModel, UserModel currentUser) {
     debugPrint('_onTappedMessageItem');
 
-    _notificationCubit.hasUnreadBarterMessage(false);
+    _notificationCubit.setUnreadMessage(false);
 
     barterMessageModel.isReadLastMessage = true;
 

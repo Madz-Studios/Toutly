@@ -49,10 +49,11 @@ class _NavigationScreenState extends State<NavigationScreen> {
     await _currentUserCubit.getCurrentLoggedInUser();
     await _remoteConfigCubit.getConfigData();
     await _locationCubit.getInitialUserLocation();
-    await _notificationCubit.initializeFirebaseMessaging();
     await _barterMessages.getCurrentBarterMessages();
 
-    _currentUserCubit
+    await _notificationCubit
+        .initializeFirebaseMessaging(_currentUserCubit.state.currentUserModel);
+    await _currentUserCubit
         .updateCurrentLoggedInUser(_currentUserCubit.state.currentUserModel);
 
     ///update search config from the values of remote config and location
@@ -164,6 +165,8 @@ class _NavigationBar extends StatelessWidget {
     final appSizeConfig = AppSizeConfig(context);
     return BlocBuilder<NotificationCubit, NotificationState>(
       builder: (_, notificationState) {
+        debugPrint(
+            "notificationState.hasUnreadMessage = ${notificationState.hasUnreadMessage}");
         return BlocBuilder<CurrentUserCubit, CurrentUserState>(
           builder: (_, currentUserState) {
             final isAnonymous = currentUserState.isAnonymous;

@@ -174,15 +174,24 @@ exports.sendMessageNotificationToDevice = functions.https.onCall(
   async (data, context) => {
     // const { tokens } = data; // Data is what you'd send from callable.call
     const tokens = data.tokens;
+    const title = data.title;
+    const body = data.body;
 
     const payload = {
       notification: {
-        title: data.title,
-        body: data.body,
+        title: title,
+        body: body,
         click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
     };
-    console.log("called sendMessageNotificationToDevice");
+    console.log(
+      "called sendMessageNotificationToDevice title = " +
+        title +
+        " body = " +
+        body +
+        " tokens = " +
+        tokens
+    );
     const response = await admin.messaging().sendToDevice(tokens, payload);
   }
 );

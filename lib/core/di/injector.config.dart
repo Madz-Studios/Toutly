@@ -284,12 +284,6 @@ Future<GetIt> $initGetIt(
         get<Validators>(),
         get<Uuid>(),
       ));
-  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
-        get<FirebaseGetUserUseCase>(),
-        get<FirestoreGetUserUseCase>(),
-        get<FirestoreUpdateUserUseCase>(),
-        get<FirebaseMessaging>(),
-      ));
   gh.lazySingleton<OtherUserCubit>(() => OtherUserCubit(
       get<FirestoreGetUserUseCase>(), get<FirestoreGetAllFcmTokenUseCase>()));
   gh.lazySingleton<PasswordResetCubit>(() => PasswordResetCubit(
@@ -354,6 +348,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
       LocalSharedPrefPersistUserGeoLocationUseCase(
           localSharedPrefRepository: get<LocalSharedPrefRepository>()));
+  gh.lazySingleton<NotificationCubit>(() =>
+      NotificationCubit(get<CurrentUserCubit>(), get<FirebaseMessaging>()));
   return get;
 }
 

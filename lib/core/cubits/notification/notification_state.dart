@@ -4,8 +4,8 @@ part of 'notification_cubit.dart';
 abstract class NotificationState with _$NotificationState {
   const factory NotificationState({
     @required bool hasUnreadMessage,
-    @required bool hasOfferMessageUnread,
-    @required bool hasBarterMessageUnread,
+    // @required bool hasOfferMessageUnread,
+    // @required bool hasBarterMessageUnread,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -14,8 +14,6 @@ abstract class NotificationState with _$NotificationState {
 
   factory NotificationState.empty() => NotificationState(
         hasUnreadMessage: false,
-        hasOfferMessageUnread: false,
-        hasBarterMessageUnread: false,
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -24,8 +22,6 @@ abstract class NotificationState with _$NotificationState {
 
   factory NotificationState.loading() => NotificationState(
         hasUnreadMessage: false,
-        hasOfferMessageUnread: false,
-        hasBarterMessageUnread: false,
         isSubmitting: true,
         isSuccess: false,
         isFailure: false,
@@ -34,22 +30,15 @@ abstract class NotificationState with _$NotificationState {
 
   factory NotificationState.failure({String info}) => NotificationState(
         hasUnreadMessage: false,
-        hasOfferMessageUnread: false,
-        hasBarterMessageUnread: false,
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
         info: info,
       );
 
-  factory NotificationState.success(
-          {bool hasOfferMessageUnread,
-          bool hasBarterMessageUnread,
-          String info}) =>
+  factory NotificationState.success({hasUnreadMessage, String info}) =>
       NotificationState(
-        hasUnreadMessage: hasOfferMessageUnread || hasBarterMessageUnread,
-        hasOfferMessageUnread: hasOfferMessageUnread,
-        hasBarterMessageUnread: hasBarterMessageUnread,
+        hasUnreadMessage: hasUnreadMessage,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,
