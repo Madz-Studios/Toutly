@@ -50,11 +50,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     await _remoteConfigCubit.getConfigData();
     await _locationCubit.getInitialUserLocation();
     await _barterMessages.getCurrentBarterMessages();
-
     await _notificationCubit
         .initializeFirebaseMessaging(_currentUserCubit.state.currentUserModel);
-    await _currentUserCubit
-        .updateCurrentLoggedInUser(_currentUserCubit.state.currentUserModel);
 
     ///update search config from the values of remote config and location
     _searchConfigCubit.setConfig(
