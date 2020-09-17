@@ -49,7 +49,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._allListBarterModelCurrentUserCubit,
     this._uuid,
     this.validators,
-      this._locationCubit,
+    this._locationCubit,
   ) : super(CurrentUserState.empty());
 
   nameChanged(String name) {
@@ -117,8 +117,10 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       }
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
+      throw FlutterError(FirebaseAuthException.message);
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -165,8 +167,10 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       ));
     } on FirebaseAuthException catch (FirebaseAuthException) {
       emit(CurrentUserState.failure(FirebaseAuthException.message));
+      throw FlutterError(FirebaseAuthException.message);
     } on Exception catch (e) {
       emit(CurrentUserState.failure(e.toString()));
+      throw FlutterError(e.toString());
     }
   }
 
@@ -176,7 +180,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
 
       if (!firebaseUser.isAnonymous) {
-
         ///update the current user address based on the current location
         String subLocality = "${_locationCubit.state.placeMark.subLocality}";
         String locality = "${_locationCubit.state.placeMark.locality}";
@@ -191,8 +194,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
         currentUser.address = address;
 
-        currentUser.geoLocation =
-            _locationCubit.state.geoPoint;
+        currentUser.geoLocation = _locationCubit.state.geoPoint;
 
         _firestoreUpdateUserUseCase.call(
           UseCaseUserParamUserModel.init(currentUser),

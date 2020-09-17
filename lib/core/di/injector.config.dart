@@ -322,7 +322,11 @@ Future<GetIt> $initGetIt(
       UpdateBarterModelCurrentUserCubit(
           get<FirestoreUpdateBarterItemUseCase>(), get<Validators>()));
   gh.lazySingleton<AuthCubit>(() => AuthCubit(
-      get<FirebaseIsSignedInUserUseCase>(), get<FirebaseSignOutUserUseCase>()));
+        get<FirebaseIsSignedInUserUseCase>(),
+        get<FirebaseGetUserUseCase>(),
+        get<FirestoreGetUserUseCase>(),
+        get<FirebaseSignOutUserUseCase>(),
+      ));
   gh.lazySingleton<BarterMessageCubit>(() => BarterMessageCubit(
       get<FirebaseGetUserUseCase>(),
       get<FirestoreGetAllBarterMessagesUseCase>()));
