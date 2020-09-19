@@ -31,10 +31,13 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthState.loading());
     final isSignedIn =
         firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
+
     final User firebaseUser =
         _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+
     final UserModel user = await _firestoreGetUserUseCase
-        .call(UseCaseUserParamUserId.init(firebaseUser.uid));
+        .call(UseCaseUserParamUserId.init(firebaseUser.uid ?? ''));
+
     if (user == null) {
       await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
     }
