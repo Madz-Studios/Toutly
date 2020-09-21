@@ -20,34 +20,26 @@ class _BarterItemFeed extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildContent(context, null);
-  }
-
-  Widget _buildContent(
-      BuildContext context, AsyncSnapshot<List<DocumentSnapshot>> snapshot) {
-    return Container(
-      child: SmartRefresher(
-        controller: _refreshController,
-        onLoading: _onLoading,
-        onRefresh: () {
-          SearchUtil().searchSubmit(
-            searchText: _searchConfigCubit.state.searchText,
-            category: _searchConfigCubit.state.category,
-            postedWithin: _searchConfigCubit.state.postedWithin,
-            range: _searchConfigCubit.state.range,
-            isNoLimitRange: _searchConfigCubit.state.isNoLimitRange,
-          );
-          _refreshController.refreshCompleted();
-        },
-        child: ListView(
-          children: _itemTitle(context, snapshot),
-        ),
+    return SmartRefresher(
+      controller: _refreshController,
+      onLoading: _onLoading,
+      onRefresh: () {
+        SearchUtil().searchSubmit(
+          searchText: _searchConfigCubit.state.searchText,
+          category: _searchConfigCubit.state.category,
+          postedWithin: _searchConfigCubit.state.postedWithin,
+          range: _searchConfigCubit.state.range,
+          isNoLimitRange: _searchConfigCubit.state.isNoLimitRange,
+        );
+        _refreshController.refreshCompleted();
+      },
+      child: ListView(
+        children: _itemTitle(context),
       ),
     );
   }
 
-  List<Widget> _itemTitle(BuildContext context,
-      AsyncSnapshot<List<DocumentSnapshot>> asyncSnapshot) {
+  List<Widget> _itemTitle(BuildContext context) {
     List<Widget> items = [];
     items.add(
       _LocationReminder(),
@@ -70,7 +62,6 @@ class _BarterItemFeed extends StatelessWidget {
         final algoliaJson = algoliaBarterModel.toJson();
 
         barterModel = BarterModel.fromJson(algoliaJson);
-      } else if (asyncSnapshot != null) {
       } else {
         barterModel = item;
       }
