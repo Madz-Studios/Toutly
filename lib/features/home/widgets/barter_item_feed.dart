@@ -34,12 +34,12 @@ class _BarterItemFeed extends StatelessWidget {
         _refreshController.refreshCompleted();
       },
       child: ListView(
-        children: _itemTitle(context),
+        children: _itemContent(context),
       ),
     );
   }
 
-  List<Widget> _itemTitle(BuildContext context) {
+  List<Widget> _itemContent(BuildContext context) {
     List<Widget> items = [];
     items.add(
       _LocationReminder(),
