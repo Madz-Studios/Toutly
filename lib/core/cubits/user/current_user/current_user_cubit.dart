@@ -1,5 +1,6 @@
 import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
@@ -17,6 +18,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -33,6 +35,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirestoreDeleteSavedItemUseCase _firestoreDeleteSavedItemUseCase;
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
+  final Geoflutterfire _geoFlutterFire;
 
   final Validators validators;
   final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
@@ -48,6 +51,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._firebaseStorage,
     this._allListBarterModelCurrentUserCubit,
     this._uuid,
+    this._geoFlutterFire,
     this.validators,
     this._locationCubit,
   ) : super(CurrentUserState.empty());
@@ -181,8 +185,9 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
       if (!firebaseUser.isAnonymous) {
         ///update the current user address based on the current location
-        String subLocality = "${_locationCubit.state.placeMark.subLocality}";
-        String locality = "${_locationCubit.state.placeMark.locality}";
+        String subLocality =
+            "${_locationCubit.state.placeMark.subLocality ?? ''}";
+        String locality = "${_locationCubit.state.placeMark.locality ?? ''}";
 
         String address = '';
         if (subLocality.isNotEmpty) {
@@ -195,6 +200,21 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         currentUser.address = address;
 
         currentUser.geoLocation = _locationCubit.state.geoPoint;
+
+        GeoFirePoint geoFirePoint = _geoFlutterFire.point(
+          latitude: _locationCubit.state.geoPoint.latitude,
+          longitude: _locationCubit.state.geoPoint.longitude,
+        );
+
+        ///update current user geo hash
+        currentUser.geoHash = geoFirePoint.hash;
+
+        GeoFirePointData geoFirePointData = GeoFirePointData(
+          geopoint: geoFirePoint.geoPoint,
+          geohash: geoFirePoint.hash,
+        );
+
+        currentUser.geoFirePointData = geoFirePointData;
 
         _firestoreUpdateUserUseCase.call(
           UseCaseUserParamUserModel.init(currentUser),

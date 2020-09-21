@@ -25,6 +25,10 @@ abstract class BarterItemsState with _$BarterItemsState {
           active: false,
           algoliaGeolocation: AlgoliaGeolocation(lng: 0, lat: 0),
           geoPoint: GeoPoint(0, 0),
+          geoFirePointData: GeoFirePointData(
+            geohash: '',
+            geopoint: GeoPoint(0, 0),
+          ),
           likes: 0,
           photosUrl: [],
           publicAccess: false,
@@ -53,6 +57,10 @@ abstract class BarterItemsState with _$BarterItemsState {
           active: false,
           algoliaGeolocation: AlgoliaGeolocation(lng: 0, lat: 0),
           geoPoint: GeoPoint(0, 0),
+          geoFirePointData: GeoFirePointData(
+            geohash: '',
+            geopoint: GeoPoint(0, 0),
+          ),
           likes: 0,
           photosUrl: [],
           publicAccess: false,
@@ -81,6 +89,10 @@ abstract class BarterItemsState with _$BarterItemsState {
           active: false,
           algoliaGeolocation: AlgoliaGeolocation(lng: 0, lat: 0),
           geoPoint: GeoPoint(0, 0),
+          geoFirePointData: GeoFirePointData(
+            geohash: '',
+            geopoint: GeoPoint(0, 0),
+          ),
           likes: 0,
           photosUrl: [],
           publicAccess: false,

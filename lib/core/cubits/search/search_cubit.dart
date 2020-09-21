@@ -1,8 +1,11 @@
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/remote_config/remote_config_cubit.dart';
+import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:algolia/algolia.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,9 +17,11 @@ part 'search_state.dart';
 
 @lazySingleton
 class SearchCubit extends Cubit<SearchState> {
+  final FirestoreBarterRepository _firestoreBarterRepository;
   final RemoteConfigCubit _remoteConfigCubit;
   final LocationCubit _locationCubit;
   SearchCubit(
+    this._firestoreBarterRepository,
     this._locationCubit,
     this._remoteConfigCubit,
   ) : super(SearchState.empty());
@@ -33,33 +38,72 @@ class SearchCubit extends Cubit<SearchState> {
     try {
       emit(SearchState.loading());
 
-      Algolia algolia = Algolia.init(
-        applicationId: _remoteConfigCubit.state.algoliaAppId,
-        apiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
-      );
-
-      final aroundLatLng =
-          '${_locationCubit.state.geoPoint.latitude ?? 10.333333}, ${_locationCubit.state.geoPoint.longitude ?? 123.933334}';
-      final dateFilter = _processedDateFilterValue(postedWithin);
-
-      ///
-      /// Perform Query
-      ///
-
-      String filter = "publicAccess=1"; //public access
-      if (dateFilter.isNotEmpty) {
-        filter = "publicAccess=1 AND $dateFilter";
-      }
-
-      //1000 = 1km
-      if (range == 0) {
-        range = 50.0 * 1000;
+      if (searchText.isNotEmpty) {
+        _searchUsingAlgolia(
+          searchText: searchText,
+          category: category,
+          postedWithin: postedWithin,
+          range: range,
+          isNoLimitRange: isNoLimitRange,
+        );
       } else {
-        range = range * 1000;
+        if (!isNoLimitRange) {
+          _searchUsingAlgolia(
+            searchText: searchText,
+            category: category,
+            postedWithin: postedWithin,
+            range: range,
+            isNoLimitRange: isNoLimitRange,
+          );
+        } else {
+          _searchUsingFireStore(
+            category: category,
+            postedWithin: postedWithin,
+            range: range,
+            isNoLimitRange: isNoLimitRange,
+          );
+        }
       }
+    } on PlatformException catch (platFormException) {
+      emit(SearchState.failure(info: platFormException.message));
+    } on Exception catch (e) {
+      emit(SearchState.failure(info: e.toString()));
+    }
+  }
 
-      int finalRange = range.toInt();
+  void _searchUsingAlgolia({
+    @required String searchText,
+    @required String category,
+    @required String postedWithin,
+    @required double range,
+    @required bool isNoLimitRange,
+  }) async {
+    Algolia algolia = Algolia.init(
+      applicationId: _remoteConfigCubit.state.algoliaAppId,
+      apiKey: _remoteConfigCubit.state.algoliaSearchApiKey,
+    );
+    final aroundLatLng =
+        '${_locationCubit.state.geoPoint.latitude ?? 10.333333}, ${_locationCubit.state.geoPoint.longitude ?? 123.933334}';
 
+    ///
+    /// Perform Query
+    ///
+    final dateFilter = _processedDateFilterValue(postedWithin);
+    String filter = "publicAccess=1"; //public access
+    if (dateFilter.isNotEmpty) {
+      filter = "publicAccess=1 AND $dateFilter";
+    }
+
+    //1000 = 1km
+    if (range == 0) {
+      range = 50.0 * 1000;
+    } else {
+      range = range * 1000;
+    }
+
+    int finalRange = range.toInt();
+    bool isConnected = await isConnectedToInternet();
+    if (isConnected) {
       AlgoliaQuery algoliaQuery;
 
       if (!isNoLimitRange) {
@@ -77,21 +121,35 @@ class SearchCubit extends Cubit<SearchState> {
             .setFacetFilter('category: $category')
             .setFilters(filter);
       }
-      bool isConnected = await isConnectedToInternet();
-      if (isConnected) {
-        final algoliaQuerySnapshot = await algoliaQuery.getObjects();
-        emit(SearchState.success(
-          algoliaQuerySnapshot: algoliaQuerySnapshot,
-          info: 'Success',
-        ));
-      } else {
-        emit(SearchState.failure(
-            info: 'There was no connection. Please connect to the internet.'));
-      }
-    } on PlatformException catch (platFormException) {
-      emit(SearchState.failure(info: platFormException.message));
-    } on Exception catch (e) {
-      emit(SearchState.failure(info: e.toString()));
+      final algoliaQuerySnapshot = await algoliaQuery.getObjects();
+      emit(SearchState.success(
+        algoliaQuerySnapshot: algoliaQuerySnapshot,
+        info: 'Success',
+      ));
+    } else {
+      emit(SearchState.failure(
+          info: 'There was no connection. Please connect to the internet.'));
+    }
+  }
+
+  void _searchUsingFireStore({
+    String category,
+    String postedWithin,
+    double range,
+    bool isNoLimitRange,
+  }) async {
+    bool isConnected = await isConnectedToInternet();
+    if (isConnected) {
+      List<BarterModel> listBarterModels = [];
+      listBarterModels = await _firestoreBarterRepository.getAllBarterItems(
+          category: category);
+      emit(SearchState.success(
+        listBarterModels: listBarterModels,
+        info: 'Success',
+      ));
+    } else {
+      emit(SearchState.failure(
+          info: 'There was no connection. Please connect to the internet.'));
     }
   }
 

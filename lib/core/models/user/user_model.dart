@@ -1,3 +1,4 @@
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -17,6 +18,7 @@ class UserModel {
   String geoHash;
   @JsonKey(fromJson: _fromJsonGeoPoint, toJson: _toJsonGeoPoint)
   GeoPoint geoLocation;
+  GeoFirePointData geoFirePointData;
   String name;
   String photoUrl;
   String userId;
@@ -30,6 +32,7 @@ class UserModel {
     this.fcmToken,
     this.geoHash,
     this.geoLocation,
+    this.geoFirePointData,
     this.name,
     this.photoUrl,
     this.userId,

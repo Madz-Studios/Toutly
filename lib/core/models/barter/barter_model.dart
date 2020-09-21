@@ -1,5 +1,6 @@
 import 'dart:core';
 
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -33,6 +34,7 @@ class BarterModel {
     toJson: _toJsonGeoPoint,
   )
   GeoPoint geoPoint;
+  GeoFirePointData geoFirePointData;
   int likes;
   List<String> photosUrl;
   String preferredItem;
@@ -54,6 +56,7 @@ class BarterModel {
     @required this.itemId,
     @required this.geoHash,
     @required this.geoPoint,
+    @required this.geoFirePointData,
     @required this.likes,
     @required this.photosUrl,
     @required this.preferredItem,

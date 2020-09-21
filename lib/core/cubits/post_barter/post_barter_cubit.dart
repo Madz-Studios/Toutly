@@ -1,5 +1,7 @@
+import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
@@ -10,6 +12,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -22,6 +25,8 @@ class PostBarterCubit extends Cubit<PostBarterState> {
   final FirebaseStorage firebaseStorage;
   final Uuid uuid;
   final Validators validators;
+  final Geoflutterfire _geoFlutterFire;
+  final LocationCubit _locationCubit;
 
   final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
 
@@ -29,6 +34,8 @@ class PostBarterCubit extends Cubit<PostBarterState> {
     this.firebaseStorage,
     this.uuid,
     this.validators,
+    this._geoFlutterFire,
+    this._locationCubit,
     this.firestoreCreateBarterItemUseCase,
   ) : super(PostBarterState.empty());
 
@@ -66,6 +73,17 @@ class PostBarterCubit extends Cubit<PostBarterState> {
       }
 
       String itemId = uuid.v4();
+
+      GeoFirePoint geoFirePoint = _geoFlutterFire.point(
+        latitude: _locationCubit.state.geoPoint.latitude,
+        longitude: _locationCubit.state.geoPoint.longitude,
+      );
+
+      GeoFirePointData geoFirePointData = GeoFirePointData(
+        geopoint: geoFirePoint.geoPoint,
+        geohash: geoFirePoint.hash,
+      );
+
       BarterModel barterModel = BarterModel(
         active: true,
         category: category,
@@ -77,6 +95,7 @@ class PostBarterCubit extends Cubit<PostBarterState> {
         itemId: itemId,
         geoHash: geoHash,
         geoPoint: geoLocation,
+        geoFirePointData: geoFirePointData,
         algoliaGeolocation: AlgoliaGeolocation(
           lat: geoLocation.latitude,
           lng: geoLocation.longitude,

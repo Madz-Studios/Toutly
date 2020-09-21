@@ -4,7 +4,10 @@ import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/shared/constants/firestore_collection_names.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class FirestoreBarterRepository {
@@ -19,6 +22,13 @@ abstract class FirestoreBarterRepository {
   Future<List<BarterModel>> getFutureAllBarterItemsUsingItemIdList(
       List<String> itemIds);
 
+  Future<List<BarterModel>> getAllBarterItems({@required String category});
+
+  Stream<List<DocumentSnapshot>> getAllBarterItemsUsingGeoAndRadius({
+    @required GeoFirePoint geoFirePoint,
+    @required double radius,
+  });
+
   Future<void> updateBarterItem(BarterModel barterModel);
 
   Future<void> updateAllBarterItemOfCurrentUser(UserModel userModel);
@@ -32,10 +42,12 @@ abstract class FirestoreBarterRepository {
 @lazySingleton
 class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   FirestoreBarterRepositoryImpl(
+    this._geoFlutterFire,
     this.firestore,
     this.firebaseStorage,
   );
 
+  final Geoflutterfire _geoFlutterFire;
   final FirebaseFirestore firestore;
   final FirebaseStorage firebaseStorage;
 
@@ -188,6 +200,77 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
   }
 
   @override
+  Future<List<BarterModel>> getAllBarterItems(
+      {@required String category}) async {
+    List<BarterModel> listBarterItems = [];
+    try {
+      QuerySnapshot barterItems;
+      if (category.isEmpty) {
+        barterItems = await firestore
+            .collection(FirestoreCollectionNames.barterItemsCollection)
+            .where('publicAccess', isEqualTo: true)
+            .orderBy('dateCreated', descending: true)
+            .limit(50)
+            .get();
+      } else {
+        barterItems = await firestore
+            .collection(FirestoreCollectionNames.barterItemsCollection)
+            .where('publicAccess', isEqualTo: true)
+            .where('category', isEqualTo: category)
+            .orderBy('dateCreated', descending: true)
+            .limit(50)
+            .get();
+      }
+
+      if (barterItems.docs.isNotEmpty) {
+        for (final item in barterItems.docs) {
+          final barterModel = BarterModel.fromJson(item.data());
+
+          listBarterItems.add(barterModel);
+        }
+      }
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+
+    return listBarterItems;
+  }
+
+  @override
+  Stream<List<DocumentSnapshot>> getAllBarterItemsUsingGeoAndRadius(
+      {@required GeoFirePoint geoFirePoint, @required double radius}) {
+    debugPrint(
+        'getAllBarterItemsUsingGeoAndRadius geoFirePoint = ${geoFirePoint.toString()}, radius = $radius');
+    Stream<List<DocumentSnapshot>> stream;
+
+    try {
+      Query query = firestore
+          .collection(FirestoreCollectionNames.barterItemsCollection)
+          .where('publicAccess', isEqualTo: true)
+          .orderBy('dateCreated', descending: true)
+          .limit(50);
+
+      stream = _geoFlutterFire.collection(collectionRef: query).within(
+            center: geoFirePoint,
+            radius: radius,
+            field: FirestoreCollectionNames.geoFirePointDataField,
+            strictMode: true,
+          );
+
+      stream.listen((List<DocumentSnapshot> documentList) {
+        print('documentList.length ${documentList.length}');
+      });
+    } on PlatformException catch (platformException) {
+      throw PlatformException(code: platformException.code);
+    } on Exception catch (e) {
+      throw Exception(e);
+    }
+    return stream;
+  }
+
+  @override
   Future<void> updateAllBarterItemOfCurrentUser(UserModel userModel) async {
     final barterItems = await firestore
         .collection(FirestoreCollectionNames.barterItemsCollection)
@@ -207,6 +290,7 @@ class FirestoreBarterRepositoryImpl extends FirestoreBarterRepository {
           );
           barterModel.geoHash = userModel.geoHash;
           barterModel.address = userModel.address;
+          barterModel.geoFirePointData = userModel.geoFirePointData;
 
           await firestore
               .collection(FirestoreCollectionNames.barterItemsCollection)

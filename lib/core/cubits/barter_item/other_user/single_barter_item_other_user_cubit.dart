@@ -1,5 +1,6 @@
 import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
