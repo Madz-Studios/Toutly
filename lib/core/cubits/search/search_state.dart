@@ -3,7 +3,8 @@ part of 'search_cubit.dart';
 @freezed
 abstract class SearchState with _$SearchState {
   const factory SearchState({
-    @required AlgoliaQuerySnapshot algoliaQuerySnapshot,
+    List<BarterModel> listBarterModels,
+    AlgoliaQuerySnapshot algoliaQuerySnapshot,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -11,6 +12,7 @@ abstract class SearchState with _$SearchState {
   }) = _SearchState;
 
   factory SearchState.empty() => SearchState(
+        listBarterModels: [],
         algoliaQuerySnapshot: AlgoliaQuerySnapshot(),
         isSubmitting: false,
         isSuccess: false,
@@ -19,6 +21,7 @@ abstract class SearchState with _$SearchState {
       );
 
   factory SearchState.loading() => SearchState(
+        listBarterModels: [],
         algoliaQuerySnapshot: AlgoliaQuerySnapshot(),
         isSubmitting: true,
         isSuccess: false,
@@ -27,6 +30,7 @@ abstract class SearchState with _$SearchState {
       );
 
   factory SearchState.failure({String info}) => SearchState(
+        listBarterModels: [],
         algoliaQuerySnapshot: AlgoliaQuerySnapshot(),
         isSubmitting: false,
         isSuccess: false,
@@ -35,10 +39,13 @@ abstract class SearchState with _$SearchState {
       );
 
   factory SearchState.success({
-    @required AlgoliaQuerySnapshot algoliaQuerySnapshot,
+    List<BarterModel> listBarterModels,
+    AlgoliaQuerySnapshot algoliaQuerySnapshot,
+    Stream<List<DocumentSnapshot>> streamListDocumentSnapshot,
     @required String info,
   }) =>
       SearchState(
+        listBarterModels: listBarterModels,
         algoliaQuerySnapshot: algoliaQuerySnapshot,
         isSubmitting: false,
         isSuccess: true,

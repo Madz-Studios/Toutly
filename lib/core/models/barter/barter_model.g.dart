@@ -25,6 +25,10 @@ BarterModel _$BarterModelFromJson(Map<String, dynamic> json) {
     itemId: json['itemId'] as String,
     geoHash: json['geoHash'] as String,
     geoPoint: BarterModel._fromJsonGeoPoint(json['geoPoint'] as GeoPoint),
+    geoFirePointData: json['geoFirePointData'] == null
+        ? null
+        : GeoFirePointData.fromJson(
+            json['geoFirePointData'] as Map<String, dynamic>),
     likes: json['likes'] as int,
     photosUrl: (json['photosUrl'] as List)?.map((e) => e as String)?.toList(),
     preferredItem: json['preferredItem'] as String,
@@ -49,6 +53,7 @@ Map<String, dynamic> _$BarterModelToJson(BarterModel instance) =>
       'itemId': instance.itemId,
       'geoHash': instance.geoHash,
       'geoPoint': BarterModel._toJsonGeoPoint(instance.geoPoint),
+      'geoFirePointData': instance.geoFirePointData?.toJson(),
       'likes': instance.likes,
       'photosUrl': instance.photosUrl,
       'preferredItem': instance.preferredItem,

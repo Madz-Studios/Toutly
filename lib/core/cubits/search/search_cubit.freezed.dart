@@ -14,12 +14,14 @@ class _$SearchStateTearOff {
 
 // ignore: unused_element
   _SearchState call(
-      {@required AlgoliaQuerySnapshot algoliaQuerySnapshot,
+      {List<BarterModel> listBarterModels,
+      AlgoliaQuerySnapshot algoliaQuerySnapshot,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       String info}) {
     return _SearchState(
+      listBarterModels: listBarterModels,
       algoliaQuerySnapshot: algoliaQuerySnapshot,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
@@ -33,6 +35,7 @@ class _$SearchStateTearOff {
 const $SearchState = _$SearchStateTearOff();
 
 mixin _$SearchState {
+  List<BarterModel> get listBarterModels;
   AlgoliaQuerySnapshot get algoliaQuerySnapshot;
   bool get isSubmitting;
   bool get isSuccess;
@@ -47,7 +50,8 @@ abstract class $SearchStateCopyWith<$Res> {
           SearchState value, $Res Function(SearchState) then) =
       _$SearchStateCopyWithImpl<$Res>;
   $Res call(
-      {AlgoliaQuerySnapshot algoliaQuerySnapshot,
+      {List<BarterModel> listBarterModels,
+      AlgoliaQuerySnapshot algoliaQuerySnapshot,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -63,6 +67,7 @@ class _$SearchStateCopyWithImpl<$Res> implements $SearchStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object listBarterModels = freezed,
     Object algoliaQuerySnapshot = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
@@ -70,6 +75,9 @@ class _$SearchStateCopyWithImpl<$Res> implements $SearchStateCopyWith<$Res> {
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
+      listBarterModels: listBarterModels == freezed
+          ? _value.listBarterModels
+          : listBarterModels as List<BarterModel>,
       algoliaQuerySnapshot: algoliaQuerySnapshot == freezed
           ? _value.algoliaQuerySnapshot
           : algoliaQuerySnapshot as AlgoliaQuerySnapshot,
@@ -89,7 +97,8 @@ abstract class _$SearchStateCopyWith<$Res>
       __$SearchStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {AlgoliaQuerySnapshot algoliaQuerySnapshot,
+      {List<BarterModel> listBarterModels,
+      AlgoliaQuerySnapshot algoliaQuerySnapshot,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -107,6 +116,7 @@ class __$SearchStateCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object listBarterModels = freezed,
     Object algoliaQuerySnapshot = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
@@ -114,6 +124,9 @@ class __$SearchStateCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
     Object info = freezed,
   }) {
     return _then(_SearchState(
+      listBarterModels: listBarterModels == freezed
+          ? _value.listBarterModels
+          : listBarterModels as List<BarterModel>,
       algoliaQuerySnapshot: algoliaQuerySnapshot == freezed
           ? _value.algoliaQuerySnapshot
           : algoliaQuerySnapshot as AlgoliaQuerySnapshot,
@@ -128,16 +141,18 @@ class __$SearchStateCopyWithImpl<$Res> extends _$SearchStateCopyWithImpl<$Res>
 
 class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
   const _$_SearchState(
-      {@required this.algoliaQuerySnapshot,
+      {this.listBarterModels,
+      this.algoliaQuerySnapshot,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       this.info})
-      : assert(algoliaQuerySnapshot != null),
-        assert(isSubmitting != null),
+      : assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null);
 
+  @override
+  final List<BarterModel> listBarterModels;
   @override
   final AlgoliaQuerySnapshot algoliaQuerySnapshot;
   @override
@@ -151,7 +166,7 @@ class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'SearchState(algoliaQuerySnapshot: $algoliaQuerySnapshot, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'SearchState(listBarterModels: $listBarterModels, algoliaQuerySnapshot: $algoliaQuerySnapshot, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -159,6 +174,7 @@ class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'SearchState'))
+      ..add(DiagnosticsProperty('listBarterModels', listBarterModels))
       ..add(DiagnosticsProperty('algoliaQuerySnapshot', algoliaQuerySnapshot))
       ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
       ..add(DiagnosticsProperty('isSuccess', isSuccess))
@@ -170,6 +186,9 @@ class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _SearchState &&
+            (identical(other.listBarterModels, listBarterModels) ||
+                const DeepCollectionEquality()
+                    .equals(other.listBarterModels, listBarterModels)) &&
             (identical(other.algoliaQuerySnapshot, algoliaQuerySnapshot) ||
                 const DeepCollectionEquality().equals(
                     other.algoliaQuerySnapshot, algoliaQuerySnapshot)) &&
@@ -189,6 +208,7 @@ class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(listBarterModels) ^
       const DeepCollectionEquality().hash(algoliaQuerySnapshot) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
@@ -202,12 +222,15 @@ class _$_SearchState with DiagnosticableTreeMixin implements _SearchState {
 
 abstract class _SearchState implements SearchState {
   const factory _SearchState(
-      {@required AlgoliaQuerySnapshot algoliaQuerySnapshot,
+      {List<BarterModel> listBarterModels,
+      AlgoliaQuerySnapshot algoliaQuerySnapshot,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       String info}) = _$_SearchState;
 
+  @override
+  List<BarterModel> get listBarterModels;
   @override
   AlgoliaQuerySnapshot get algoliaQuerySnapshot;
   @override

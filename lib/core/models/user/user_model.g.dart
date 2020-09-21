@@ -20,6 +20,10 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) {
     fcmToken: (json['fcmToken'] as List)?.map((e) => e as String)?.toList(),
     geoHash: json['geoHash'] as String,
     geoLocation: UserModel._fromJsonGeoPoint(json['geoLocation'] as GeoPoint),
+    geoFirePointData: json['geoFirePointData'] == null
+        ? null
+        : GeoFirePointData.fromJson(
+            json['geoFirePointData'] as Map<String, dynamic>),
     name: json['name'] as String,
     photoUrl: json['photoUrl'] as String,
     userId: json['userId'] as String,
@@ -36,6 +40,7 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'fcmToken': instance.fcmToken,
       'geoHash': instance.geoHash,
       'geoLocation': UserModel._toJsonGeoPoint(instance.geoLocation),
+      'geoFirePointData': instance.geoFirePointData?.toJson(),
       'name': instance.name,
       'photoUrl': instance.photoUrl,
       'userId': instance.userId,

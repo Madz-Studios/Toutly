@@ -12,6 +12,9 @@ class NavigationCubit extends Cubit<NavigationState> {
       : super(NavigationState.homeScreen(AppNavigationIndex.homeIndex));
 
   goToHomeScreen() {
+    emit(state.copyWith(
+      isHomeScreen: true,
+    ));
     emit(NavigationState.homeScreen(AppNavigationIndex.homeIndex));
   }
 

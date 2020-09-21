@@ -5,6 +5,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:injectable/injectable.dart';
@@ -40,6 +41,9 @@ abstract class InjectableModule {
 
   @lazySingleton
   GeolocatorPlatform get geoLocator => GeolocatorPlatform.instance;
+
+  @lazySingleton
+  Geoflutterfire get geoFlutterFire => Geoflutterfire();
 
   @lazySingleton
   Validators get validators => Validators();
