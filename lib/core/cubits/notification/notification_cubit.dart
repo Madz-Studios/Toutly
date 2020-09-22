@@ -2,9 +2,17 @@ import 'dart:io';
 
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
+import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
+import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
+import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
+import 'package:Toutly/shared/util/connection_util.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
@@ -17,9 +25,15 @@ class NotificationCubit extends Cubit<NotificationState> {
   final FirebaseMessaging _firebaseMessaging;
   final CurrentUserCubit _currentUserCubit;
 
+  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
+  final FirestoreGetAllBarterMessagesUseCase
+      _firestoreGetAllBarterMessagesUseCase;
+
   NotificationCubit(
     this._currentUserCubit,
     this._firebaseMessaging,
+    this._firebaseGetUserUseCase,
+    this._firestoreGetAllBarterMessagesUseCase,
   ) : super(NotificationState.empty());
 
   initializeFirebaseMessaging(UserModel userModel) async {
@@ -47,15 +61,12 @@ class NotificationCubit extends Cubit<NotificationState> {
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage: $message");
-          this.setUnreadMessage(true);
         },
         onLaunch: (Map<String, dynamic> message) async {
           print("onLaunch: $message");
-          this.setUnreadMessage(true);
         },
         onResume: (Map<String, dynamic> message) async {
           print("onResume: $message");
-          this.setUnreadMessage(true);
         },
         onBackgroundMessage:
             Platform.isIOS ? null : _myBackgroundMessageHandler,
@@ -82,14 +93,48 @@ class NotificationCubit extends Cubit<NotificationState> {
     }
   }
 
-  setUnreadMessage(bool hasUnreadMessage) {
-    emit(NotificationState.loading());
+  ///this call will get all the messages to check if there is unread messages
+  getCurrentUnreadBarterMessages() async {
+    try {
+      emit(NotificationState.loading());
+      bool isConnected = await isConnectedToInternet();
+      if (isConnected) {
+        final User firebaseUser =
+            _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+        final barterMessages = _firestoreGetAllBarterMessagesUseCase.call(
+          UseCaseAllUserMessagesWithUserIdParam.init(userId: firebaseUser.uid),
+        );
+        emit(
+          NotificationState.success(
+              barterMessages: barterMessages,
+              // offerMessages: offerMessages,
+              info: 'Success'),
+        );
+      } else {
+        emit(NotificationState.failure(
+            info: 'There was no connection. Please connect to the internet.'));
+      }
+    } on PlatformException catch (platformException) {
+      emit(NotificationState.failure(info: platformException.message));
+      throw FlutterError(platformException.message);
+    } on Exception catch (e) {
+      emit(NotificationState.failure(info: e.toString()));
+      throw FlutterError(e.toString());
+    }
+  }
 
-    emit(
-      NotificationState.success(
-          info: "Unread messages = $hasUnreadMessage",
-          hasUnreadMessage: hasUnreadMessage),
-    );
+  setAppIconBadge(bool hasUnreadMessage, int count) async {
+    ///app icon badge update
+
+    bool isAppBadgeSupported = await FlutterAppBadger.isAppBadgeSupported();
+    print('isAppBadgeSupported = $isAppBadgeSupported');
+    if (isAppBadgeSupported) {
+      if (hasUnreadMessage) {
+        FlutterAppBadger.updateBadgeCount(count);
+      } else {
+        FlutterAppBadger.removeBadge();
+      }
+    }
   }
 }
 

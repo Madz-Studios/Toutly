@@ -64,52 +64,42 @@ class LoadingOrErrorWidgetUtil extends StatelessWidget {
   }
 }
 
-// class ScaffoldLoadingOrErrorWidgetUtil extends StatelessWidget {
-//   final String errorString;
-//   ScaffoldLoadingOrErrorWidgetUtil(this.errorString);
-//   @override
-//   Widget build(BuildContext context) {
-//     final appSizeConfig = AppSizeConfig(context);
-//     if (errorString.isNotEmpty) {
-//       return Scaffold(
-//         body: Center(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             children: [
-//               Text(
-//                 'Error: $errorString',
-//                 style: TextStyle(
-//                   color: kSecondaryRedAccentColor,
-//                 ),
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.symmetric(
-//                     vertical: appSizeConfig.safeBlockVertical * 5),
-//                 child: ActionButton(
-//                   title: 'Retry',
-//                   onPressed: () {
-//                     Phoenix.rebirth(context);
-//                   },
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     } else {
-//       if (Platform.isIOS) {
-//         return Scaffold(
-//           body: Center(
-//             child: CupertinoActivityIndicator(),
-//           ),
-//         );
-//       } else {
-//         return Scaffold(
-//           body: Center(
-//             child: CircularProgressIndicator(),
-//           ),
-//         );
-//       }
-//     }
-//   }
-// }
+class ScaffoldLoadingOrErrorWidgetUtil extends StatelessWidget {
+  final String errorString;
+  ScaffoldLoadingOrErrorWidgetUtil(this.errorString);
+  @override
+  Widget build(BuildContext context) {
+    final appSizeConfig = AppSizeConfig(context);
+    if (errorString.isNotEmpty) {
+      return Scaffold(
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Error: $errorString',
+                style: TextStyle(
+                  color: kSecondaryRedAccentColor,
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    } else {
+      if (Platform.isIOS) {
+        return Scaffold(
+          body: Center(
+            child: CupertinoActivityIndicator(),
+          ),
+        );
+      } else {
+        return Scaffold(
+          body: Center(
+            child: CircularProgressIndicator(),
+          ),
+        );
+      }
+    }
+  }
+}

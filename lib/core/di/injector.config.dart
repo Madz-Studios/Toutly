@@ -359,8 +359,12 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
       LocalSharedPrefPersistUserGeoLocationUseCase(
           localSharedPrefRepository: get<LocalSharedPrefRepository>()));
-  gh.lazySingleton<NotificationCubit>(() =>
-      NotificationCubit(get<CurrentUserCubit>(), get<FirebaseMessaging>()));
+  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
+        get<CurrentUserCubit>(),
+        get<FirebaseMessaging>(),
+        get<FirebaseGetUserUseCase>(),
+        get<FirestoreGetAllBarterMessagesUseCase>(),
+      ));
   return get;
 }
 
