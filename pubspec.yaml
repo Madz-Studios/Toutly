@@ -5,7 +5,7 @@ description: A new Flutter project.
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.2.1+121
+version: 1.2.3+123
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -17,10 +17,10 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  google_map_location_picker:
-    git:
-      url: git://github.com/madz/google_map_location_picker.git
-      ref: master
+#  badges:
+#    git:
+#      url: git://github.com/yako-dev/flutter_badges.git
+#      ref: master
 
 
   #UI libs
@@ -31,6 +31,8 @@ dependencies:
   carousel_slider: ^2.2.1
   dash_chat: ^1.1.14
   pull_to_refresh: ^1.6.2
+  flutter_app_badger: ^1.1.2
+  badges: ^1.1.1
 
 
   #bloc related libs

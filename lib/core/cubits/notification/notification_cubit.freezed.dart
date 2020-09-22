@@ -14,13 +14,13 @@ class _$NotificationStateTearOff {
 
 // ignore: unused_element
   _NotificationState call(
-      {@required bool hasUnreadMessage,
+      {@required Stream<QuerySnapshot> barterMessages,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) {
     return _NotificationState(
-      hasUnreadMessage: hasUnreadMessage,
+      barterMessages: barterMessages,
       isSubmitting: isSubmitting,
       isSuccess: isSuccess,
       isFailure: isFailure,
@@ -33,7 +33,7 @@ class _$NotificationStateTearOff {
 const $NotificationState = _$NotificationStateTearOff();
 
 mixin _$NotificationState {
-  bool get hasUnreadMessage;
+  Stream<QuerySnapshot> get barterMessages;
   bool get isSubmitting;
   bool get isSuccess;
   bool get isFailure;
@@ -47,7 +47,7 @@ abstract class $NotificationStateCopyWith<$Res> {
           NotificationState value, $Res Function(NotificationState) then) =
       _$NotificationStateCopyWithImpl<$Res>;
   $Res call(
-      {bool hasUnreadMessage,
+      {Stream<QuerySnapshot> barterMessages,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -64,16 +64,16 @@ class _$NotificationStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object hasUnreadMessage = freezed,
+    Object barterMessages = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
     return _then(_value.copyWith(
-      hasUnreadMessage: hasUnreadMessage == freezed
-          ? _value.hasUnreadMessage
-          : hasUnreadMessage as bool,
+      barterMessages: barterMessages == freezed
+          ? _value.barterMessages
+          : barterMessages as Stream<QuerySnapshot>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -90,7 +90,7 @@ abstract class _$NotificationStateCopyWith<$Res>
       __$NotificationStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool hasUnreadMessage,
+      {Stream<QuerySnapshot> barterMessages,
       bool isSubmitting,
       bool isSuccess,
       bool isFailure,
@@ -109,16 +109,16 @@ class __$NotificationStateCopyWithImpl<$Res>
 
   @override
   $Res call({
-    Object hasUnreadMessage = freezed,
+    Object barterMessages = freezed,
     Object isSubmitting = freezed,
     Object isSuccess = freezed,
     Object isFailure = freezed,
     Object info = freezed,
   }) {
     return _then(_NotificationState(
-      hasUnreadMessage: hasUnreadMessage == freezed
-          ? _value.hasUnreadMessage
-          : hasUnreadMessage as bool,
+      barterMessages: barterMessages == freezed
+          ? _value.barterMessages
+          : barterMessages as Stream<QuerySnapshot>,
       isSubmitting:
           isSubmitting == freezed ? _value.isSubmitting : isSubmitting as bool,
       isSuccess: isSuccess == freezed ? _value.isSuccess : isSuccess as bool,
@@ -132,19 +132,19 @@ class _$_NotificationState
     with DiagnosticableTreeMixin
     implements _NotificationState {
   const _$_NotificationState(
-      {@required this.hasUnreadMessage,
+      {@required this.barterMessages,
       @required this.isSubmitting,
       @required this.isSuccess,
       @required this.isFailure,
       @required this.info})
-      : assert(hasUnreadMessage != null),
+      : assert(barterMessages != null),
         assert(isSubmitting != null),
         assert(isSuccess != null),
         assert(isFailure != null),
         assert(info != null);
 
   @override
-  final bool hasUnreadMessage;
+  final Stream<QuerySnapshot> barterMessages;
   @override
   final bool isSubmitting;
   @override
@@ -156,7 +156,7 @@ class _$_NotificationState
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'NotificationState(hasUnreadMessage: $hasUnreadMessage, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
+    return 'NotificationState(barterMessages: $barterMessages, isSubmitting: $isSubmitting, isSuccess: $isSuccess, isFailure: $isFailure, info: $info)';
   }
 
   @override
@@ -164,7 +164,7 @@ class _$_NotificationState
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'NotificationState'))
-      ..add(DiagnosticsProperty('hasUnreadMessage', hasUnreadMessage))
+      ..add(DiagnosticsProperty('barterMessages', barterMessages))
       ..add(DiagnosticsProperty('isSubmitting', isSubmitting))
       ..add(DiagnosticsProperty('isSuccess', isSuccess))
       ..add(DiagnosticsProperty('isFailure', isFailure))
@@ -175,9 +175,9 @@ class _$_NotificationState
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _NotificationState &&
-            (identical(other.hasUnreadMessage, hasUnreadMessage) ||
+            (identical(other.barterMessages, barterMessages) ||
                 const DeepCollectionEquality()
-                    .equals(other.hasUnreadMessage, hasUnreadMessage)) &&
+                    .equals(other.barterMessages, barterMessages)) &&
             (identical(other.isSubmitting, isSubmitting) ||
                 const DeepCollectionEquality()
                     .equals(other.isSubmitting, isSubmitting)) &&
@@ -194,7 +194,7 @@ class _$_NotificationState
   @override
   int get hashCode =>
       runtimeType.hashCode ^
-      const DeepCollectionEquality().hash(hasUnreadMessage) ^
+      const DeepCollectionEquality().hash(barterMessages) ^
       const DeepCollectionEquality().hash(isSubmitting) ^
       const DeepCollectionEquality().hash(isSuccess) ^
       const DeepCollectionEquality().hash(isFailure) ^
@@ -207,14 +207,14 @@ class _$_NotificationState
 
 abstract class _NotificationState implements NotificationState {
   const factory _NotificationState(
-      {@required bool hasUnreadMessage,
+      {@required Stream<QuerySnapshot> barterMessages,
       @required bool isSubmitting,
       @required bool isSuccess,
       @required bool isFailure,
       @required String info}) = _$_NotificationState;
 
   @override
-  bool get hasUnreadMessage;
+  Stream<QuerySnapshot> get barterMessages;
   @override
   bool get isSubmitting;
   @override

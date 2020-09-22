@@ -184,6 +184,14 @@ exports.sendMessageNotificationToDevice = functions.https.onCall(
         click_action: "FLUTTER_NOTIFICATION_CLICK",
       },
     };
+
+    var options = {
+      priority: "high",
+      timeToLive: 60 * 60 * 24,
+      mutable_content: true,
+      content_available: true,
+    };
+
     console.log(
       "called sendMessageNotificationToDevice title = " +
         title +
@@ -192,7 +200,9 @@ exports.sendMessageNotificationToDevice = functions.https.onCall(
         " tokens = " +
         tokens
     );
-    const response = await admin.messaging().sendToDevice(tokens, payload);
+    const response = await admin
+      .messaging()
+      .sendToDevice(tokens, payload, options);
   }
 );
 

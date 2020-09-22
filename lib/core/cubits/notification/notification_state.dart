@@ -3,9 +3,7 @@ part of 'notification_cubit.dart';
 @freezed
 abstract class NotificationState with _$NotificationState {
   const factory NotificationState({
-    @required bool hasUnreadMessage,
-    // @required bool hasOfferMessageUnread,
-    // @required bool hasBarterMessageUnread,
+    @required Stream<QuerySnapshot> barterMessages,
     @required bool isSubmitting,
     @required bool isSuccess,
     @required bool isFailure,
@@ -13,7 +11,7 @@ abstract class NotificationState with _$NotificationState {
   }) = _NotificationState;
 
   factory NotificationState.empty() => NotificationState(
-        hasUnreadMessage: false,
+        barterMessages: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
         isFailure: false,
@@ -21,7 +19,7 @@ abstract class NotificationState with _$NotificationState {
       );
 
   factory NotificationState.loading() => NotificationState(
-        hasUnreadMessage: false,
+        barterMessages: Stream.empty(),
         isSubmitting: true,
         isSuccess: false,
         isFailure: false,
@@ -29,16 +27,17 @@ abstract class NotificationState with _$NotificationState {
       );
 
   factory NotificationState.failure({String info}) => NotificationState(
-        hasUnreadMessage: false,
+        barterMessages: Stream.empty(),
         isSubmitting: false,
         isSuccess: false,
         isFailure: true,
         info: info,
       );
 
-  factory NotificationState.success({hasUnreadMessage, String info}) =>
+  factory NotificationState.success(
+          {@required Stream<QuerySnapshot> barterMessages, String info}) =>
       NotificationState(
-        hasUnreadMessage: hasUnreadMessage,
+        barterMessages: barterMessages,
         isSubmitting: false,
         isSuccess: true,
         isFailure: false,

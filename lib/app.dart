@@ -29,11 +29,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_map_location_picker/generated/i18n.dart'
-    as location_picker;
-import 'package:google_map_location_picker/generated/i18n.dart';
 
 import 'core/cubits/saved/current_user/saved_barter_items_cubit.dart';
 import 'flavors.dart';
@@ -178,16 +174,6 @@ class App extends StatelessWidget {
             Theme.of(context).textTheme,
           ),
         ),
-        localizationsDelegates: const [
-          location_picker.S.delegate,
-          S.delegate,
-          GlobalMaterialLocalizations.delegate,
-          GlobalWidgetsLocalizations.delegate,
-          GlobalCupertinoLocalizations.delegate,
-        ],
-        supportedLocales: const <Locale>[
-          Locale('en', ''),
-        ],
         home: AuthenticationScreen(),
         navigatorObservers: [
           FirebaseAnalyticsObserver(analytics: analytics),

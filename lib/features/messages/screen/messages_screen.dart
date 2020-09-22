@@ -1,6 +1,5 @@
 import 'package:Toutly/core/cubits/barter_messages/barter/barter_message_cubit.dart';
 import 'package:Toutly/core/cubits/barter_messages/conversation/conversation_cubit.dart';
-import 'package:Toutly/core/cubits/notification/notification_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/other_user/other_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
@@ -15,24 +14,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MessagesScreen extends StatefulWidget {
-  @override
-  _MessagesScreenState createState() => _MessagesScreenState();
-}
-
-class _MessagesScreenState extends State<MessagesScreen> {
+class MessagesScreen extends StatelessWidget {
   final _barterMessageCubit = getIt<BarterMessageCubit>();
-  Stream<QuerySnapshot> _messagesStream;
-  @override
-  void initState() {
-    super.initState();
-    _messagesStream = _barterMessageCubit.state.barterMessages;
-  }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: _messagesStream,
+      stream: _barterMessageCubit.state.barterMessages,
       builder: (_, snapshot) {
         debugPrint("BarterMessagesTab Snapshot " + snapshot.toString());
         switch (snapshot.connectionState) {
@@ -58,8 +46,6 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
   Widget _buildMessages(AsyncSnapshot<QuerySnapshot> snapshot) {
     if (snapshot.data != null && snapshot.data.docs.isNotEmpty) {
-      ///merge two stream results
-
       List<_MessageBarterItem> messageItems = [];
       for (final message in snapshot.data.docs) {
         final barterMessageModel = BarterMessageModel.fromJson(message.data());
@@ -95,7 +81,6 @@ class _MessageBarterItem extends StatelessWidget {
 
   final _otherUserCubit = getIt<OtherUserCubit>();
 
-  final _notificationCubit = getIt<NotificationCubit>();
   final _conversationCubit = getIt<ConversationCubit>();
 
   @override
@@ -234,7 +219,7 @@ class _MessageBarterItem extends StatelessWidget {
       BuildContext context, UserModel otherUserModel, UserModel currentUser) {
     debugPrint('_onTappedMessageItem');
 
-    _notificationCubit.setUnreadMessage(false);
+    // _notificationCubit.setUnreadMessage(false);
 
     barterMessageModel.isReadLastMessage = true;
 
