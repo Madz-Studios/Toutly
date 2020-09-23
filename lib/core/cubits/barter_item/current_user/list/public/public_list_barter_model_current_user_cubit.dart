@@ -1,5 +1,4 @@
-import 'package:Toutly/core/usecases/barter_item/firestore_get_public_barter_items_using_user_id.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -13,20 +12,19 @@ part 'public_list_barter_model_current_user_state.dart';
 @lazySingleton
 class PublicListBarterModelCurrentUserCubit
     extends Cubit<PublicListBarterModelCurrentUserState> {
-  final FirestoreGetPublicBarterItemsUsingUserIdUseCase
-      firestoreGetPublicBarterItemsUsingUserIdUseCase;
+  final FirestoreBarterRepository _firestoreBarterRepository;
 
   PublicListBarterModelCurrentUserCubit(
-    this.firestoreGetPublicBarterItemsUsingUserIdUseCase,
+    this._firestoreBarterRepository,
   ) : super(PublicListBarterModelCurrentUserState.empty());
 
   getCurrentUserPublicBarterItems(String userId) async {
     try {
       emit(PublicListBarterModelCurrentUserState.loading());
 
-      final listings = firestoreGetPublicBarterItemsUsingUserIdUseCase.call(
-        UseCaseUserIdParam.init(userId: userId),
-      );
+      final Stream<QuerySnapshot> listings =
+          _firestoreBarterRepository.getPublicBarterItemsUsingUserId(userId);
+
       emit(PublicListBarterModelCurrentUserState.success(
           userBarterItems: listings, info: 'Success'));
     } on PlatformException catch (platformException) {
