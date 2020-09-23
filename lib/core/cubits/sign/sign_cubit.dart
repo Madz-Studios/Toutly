@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signup_usecase.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
@@ -20,8 +19,6 @@ part 'sign_state.dart';
 
 @lazySingleton
 class SignCubit extends Cubit<SignState> {
-  final FirebaseSignUpUseCase firebaseSignUpUseCase;
-
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
@@ -29,7 +26,6 @@ class SignCubit extends Cubit<SignState> {
   final Validators validators;
 
   SignCubit(
-    this.firebaseSignUpUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -88,12 +84,8 @@ class SignCubit extends Cubit<SignState> {
       String name, String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseSignUpUseCase.call(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.signUp(
+          email: email, password: password);
 
       final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
