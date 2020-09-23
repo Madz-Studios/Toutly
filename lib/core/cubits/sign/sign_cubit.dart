@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_anonymously_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_apple_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_credentials_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_facebook_usecase.dart';
@@ -35,8 +34,6 @@ class SignCubit extends Cubit<SignState> {
       firebaseSignedInWithAppleUserUseCase;
   final FirebaseSignedInWithCredentialsUserUseCase
       firebaseSignedInWithCredentialsUserUseCase;
-  final FirebaseSignedInAnonymouslyUserUseCase
-      firebaseSignedInAnonymouslyUserUseCase;
 
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
@@ -50,7 +47,6 @@ class SignCubit extends Cubit<SignState> {
     this.firebaseSignedInWithFacebookUserUseCase,
     this.firebaseSignedInWithAppleUserUseCase,
     this.firebaseSignedInWithCredentialsUserUseCase,
-    this.firebaseSignedInAnonymouslyUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -91,7 +87,7 @@ class SignCubit extends Cubit<SignState> {
   signInAnonymously() async {
     try {
       emit(SignState.loading());
-      await firebaseSignedInAnonymouslyUserUseCase.call(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInAnonymously();
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
