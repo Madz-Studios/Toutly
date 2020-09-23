@@ -3,7 +3,6 @@ import 'package:Toutly/core/models/barter_conversation_text/barter_conversation_
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
-import 'package:Toutly/core/usecases/barter_conversation_text/firestore_get_all_conversation_from_message_use_case.dart';
 import 'package:Toutly/core/usecases/barter_messages/firestore_update_barter_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,9 +20,6 @@ part 'conversation_state.dart';
 class ConversationCubit extends Cubit<ConversationState> {
   final CloudFunctionCallCubit _cloudFunctionCallCubit;
 
-  final FirestoreGetAllConversationFromMessagesUseCase
-      _firestoreGetAllConversationFromMessagesUseCase;
-
   final FirestoreUpdateBarterMessagesUseCase
       _firestoreUpdateBarterMessagesUseCase;
 
@@ -34,7 +30,6 @@ class ConversationCubit extends Cubit<ConversationState> {
 
   ConversationCubit(
     this._cloudFunctionCallCubit,
-    this._firestoreGetAllConversationFromMessagesUseCase,
     this._firestoreUpdateBarterMessagesUseCase,
     this._firestoreBarterConversationTextRepository,
     this._uuid,
@@ -43,12 +38,9 @@ class ConversationCubit extends Cubit<ConversationState> {
   getAllTextConversation(String messageId) async {
     try {
       emit(ConversationState.loading());
-      final barterMessages =
-          _firestoreGetAllConversationFromMessagesUseCase.call(
-        UseCaseAllConversationFromMessagesWithMessageIdParam.init(
-          messageId: messageId,
-        ),
-      );
+      final Stream<QuerySnapshot> barterMessages =
+          _firestoreBarterConversationTextRepository
+              .getStreamAllConversationUsingMessageId(messageId);
       emit(ConversationState.success(
           barterMessages: barterMessages, info: 'Success'));
     } on PlatformException catch (platformException) {

@@ -40,7 +40,6 @@ import '../usecases/user/firestore_delete_saved_item_usecase.dart';
 import '../usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
 import '../usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
-import '../usecases/barter_conversation_text/firestore_get_all_conversation_from_message_use_case.dart';
 import '../usecases/user/firestore_get_all_fcm_token_usecase.dart';
 import '../usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
 import '../usecases/barter_messages/items/firestore_get_all_user_offer_items_use_case.dart';
@@ -110,10 +109,6 @@ Future<GetIt> $initGetIt(
       FirestoreGetAllBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
               get<FirestoreBarterMessageRepository>()));
-  gh.lazySingleton<FirestoreGetAllConversationFromMessagesUseCase>(() =>
-      FirestoreGetAllConversationFromMessagesUseCase(
-          firestoreBarterConversationTextRepository:
-              get<FirestoreBarterConversationTextRepository>()));
   gh.lazySingleton<FirestoreGetAllOfferMessagesUseCase>(() =>
       FirestoreGetAllOfferMessagesUseCase(
           firestoreBarterMessagesRepository:
@@ -142,7 +137,6 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<Validators>(() => injectableModule.validators);
   gh.lazySingleton<ConversationCubit>(() => ConversationCubit(
         get<CloudFunctionCallCubit>(),
-        get<FirestoreGetAllConversationFromMessagesUseCase>(),
         get<FirestoreUpdateBarterMessagesUseCase>(),
         get<FirestoreBarterConversationTextRepository>(),
         get<Uuid>(),
