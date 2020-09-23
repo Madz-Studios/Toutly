@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_credentials_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_facebook_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signup_usecase.dart';
@@ -29,8 +28,6 @@ class SignCubit extends Cubit<SignState> {
       firebaseSignedInWithGoogleUserUseCase;
   final FirebaseSignedInWithFacebookUserUseCase
       firebaseSignedInWithFacebookUserUseCase;
-  final FirebaseSignedInWithCredentialsUserUseCase
-      firebaseSignedInWithCredentialsUserUseCase;
 
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
@@ -42,7 +39,6 @@ class SignCubit extends Cubit<SignState> {
     this.firebaseSignUpUseCase,
     this.firebaseSignedInWithGoogleUserUseCase,
     this.firebaseSignedInWithFacebookUserUseCase,
-    this.firebaseSignedInWithCredentialsUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -135,12 +131,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithEmailPasswordPressed(String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithCredentialsUserUseCase(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.signInWithCredentials(email, password);
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
