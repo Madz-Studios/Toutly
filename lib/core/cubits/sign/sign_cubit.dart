@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_credentials_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_facebook_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_anonymously_usecase.dart';
@@ -41,8 +40,6 @@ class SignCubit extends Cubit<SignState> {
   final FirebaseSignedInAnonymouslyUserUseCase
       firebaseSignedInAnonymouslyUserUseCase;
 
-  final FirebaseLinkCredentialsWithEmailPasswordUserUseCase
-      firebaseLinkCredentialsWithEmailPasswordUserUseCase;
   final FirebaseLinkCredentialsWithGoogleUserUseCase
       linkCredentialsWithGoogleUserUseCase;
   final FirebaseLinkCredentialsWithFacebookUserUseCase
@@ -61,7 +58,6 @@ class SignCubit extends Cubit<SignState> {
     this.firebaseSignedInWithAppleUserUseCase,
     this.firebaseSignedInWithCredentialsUserUseCase,
     this.firebaseSignedInAnonymouslyUserUseCase,
-    this.firebaseLinkCredentialsWithEmailPasswordUserUseCase,
     this.linkCredentialsWithGoogleUserUseCase,
     this.linkCredentialsWithFacebookUserUseCase,
     this.firestoreCreateUserUseCase,
@@ -178,12 +174,8 @@ class SignCubit extends Cubit<SignState> {
   linkWithEmailPassword(String name, String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseLinkCredentialsWithEmailPasswordUserUseCase(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.linkCredentialWithEmailPassword(
+          email, password);
 
       final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
