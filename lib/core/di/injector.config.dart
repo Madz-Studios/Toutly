@@ -31,7 +31,6 @@ import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
-import '../usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
 import '../usecases/user/firestore_create_saved_item_usecase.dart';
 import '../usecases/user/firestore_create_user_usecase.dart';
 import '../usecases/user/firestore_delete_saved_item_usecase.dart';
@@ -91,10 +90,6 @@ Future<GetIt> $initGetIt(
   gh.factory<FirestoreBarterMessageRepository>(() =>
       FirestoreBarterMessageRepositoryImpl(
           firestore: get<FirebaseFirestore>()));
-  gh.lazySingleton<FirestoreCreateBarterMessagesUseCase>(() =>
-      FirestoreCreateBarterMessagesUseCase(
-          firestoreBarterMessagesRepository:
-              get<FirestoreBarterMessageRepository>()));
   gh.lazySingleton<FirestoreGetAllBarterMessagesUseCase>(() =>
       FirestoreGetAllBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
@@ -162,7 +157,7 @@ Future<GetIt> $initGetIt(
       LocationCubit(get<PrivacyServicesCubit>(), get<GeolocatorPlatform>()));
   gh.lazySingleton<MakeOfferCubit>(() => MakeOfferCubit(
         get<CloudFunctionCallCubit>(),
-        get<FirestoreCreateBarterMessagesUseCase>(),
+        get<FirestoreBarterMessageRepository>(),
         get<FirestoreBarterConversationTextRepository>(),
         get<Validators>(),
         get<Uuid>(),
