@@ -3,8 +3,7 @@ import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_delete_saved_item_usecase.dart';
@@ -28,7 +27,6 @@ part 'current_user_state.dart';
 
 @lazySingleton
 class CurrentUserCubit extends Cubit<CurrentUserState> {
-  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
   final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
   final FirestoreCreateSavedItemUseCase _firestoreCreateSavedItemUseCase;
@@ -37,13 +35,14 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   final Uuid _uuid;
   final Geoflutterfire _geoFlutterFire;
 
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final Validators validators;
   final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
 
   final LocationCubit _locationCubit;
 
   CurrentUserCubit(
-    this._firebaseGetUserUseCase,
+    this._firebaseAuthUserRepository,
     this._firestoreGetUserUseCase,
     this._firestoreUpdateUserUseCase,
     this._firestoreCreateSavedItemUseCase,
@@ -74,7 +73,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   }
 
   Future<UserModel> getCurrentUserModel() async {
-    final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final User firebaseUser = _firebaseAuthUserRepository.getUser();
     final currentUser = await _firestoreGetUserUseCase.call(
       UseCaseUserParamUserId.init(firebaseUser.uid),
     );
@@ -87,8 +86,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       bool isConnected = await isConnectedToInternet();
       if (isConnected) {
         emit(CurrentUserState.loading());
-        final User firebaseUser =
-            _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+        final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
         if (firebaseUser != null && !firebaseUser.isAnonymous) {
           final currentUser = await _firestoreGetUserUseCase.call(
@@ -181,7 +179,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   updateCurrentLoggedInUser(UserModel currentUser) async {
     emit(CurrentUserState.loading());
     try {
-      final firebaseUser = _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+      final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       if (!firebaseUser.isAnonymous) {
         ///update the current user address based on the current location

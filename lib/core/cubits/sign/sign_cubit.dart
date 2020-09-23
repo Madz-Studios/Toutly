@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_apple_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_credentials_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_facebook_usecase.dart';
@@ -51,10 +51,10 @@ class SignCubit extends Cubit<SignState> {
   final FirebaseLinkCredentialsWithAppleUserUseCase
       linkCredentialsWithAppleUserUseCase;
 
-  final FirebaseGetUserUseCase firebaseGetUserUseCase;
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final Validators validators;
 
   SignCubit(
@@ -68,10 +68,10 @@ class SignCubit extends Cubit<SignState> {
     this.linkCredentialsWithGoogleUserUseCase,
     this.linkCredentialsWithFacebookUserUseCase,
     this.linkCredentialsWithAppleUserUseCase,
-    this.firebaseGetUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
+    this._firebaseAuthUserRepository,
   ) : super((SignState.empty()));
 
   reset() {
@@ -133,10 +133,10 @@ class SignCubit extends Cubit<SignState> {
         ),
       );
 
-      final user = firebaseGetUserUseCase(UseCaseNoParam.init());
+      final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       UserModel userModel = UserModel(
-        userId: user.uid,
+        userId: firebaseUser.uid,
         email: email,
         name: name,
       );
@@ -189,10 +189,10 @@ class SignCubit extends Cubit<SignState> {
         ),
       );
 
-      final user = firebaseGetUserUseCase(UseCaseNoParam.init());
+      final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       UserModel userModel = UserModel(
-        userId: user.uid,
+        userId: firebaseUser.uid,
         email: email,
         name: name,
       );
@@ -328,7 +328,7 @@ class SignCubit extends Cubit<SignState> {
   }
 
   Future<void> _createNewUserForSocialSignIn() async {
-    final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final User firebaseUser = _firebaseAuthUserRepository.getUser();
     final userStore = await firestoreGetUserUseCase
         .call(UseCaseUserParamUserId.init(firebaseUser.uid));
 

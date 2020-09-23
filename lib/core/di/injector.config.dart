@@ -28,7 +28,6 @@ import '../cubits/barter_messages/conversation/conversation_cubit.dart';
 import '../cubits/user/current_user/current_user_cubit.dart';
 import '../cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
 import '../repositories/auth/firebase_auth_user_repository.dart';
-import '../usecases/auth/firebase_get_user_usecase.dart';
 import '../usecases/auth/firebase_is_signedin_usecase.dart';
 import '../usecases/auth/firebase_link_with_apple_usecase.dart';
 import '../usecases/auth/firebase_link_with_credentials_usecase.dart';
@@ -171,8 +170,6 @@ Future<GetIt> $initGetIt(
         googleSignIn: get<GoogleSignIn>(),
         facebookLogin: get<FacebookLogin>(),
       ));
-  gh.lazySingleton<FirebaseGetUserUseCase>(() => FirebaseGetUserUseCase(
-      firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseIsSignedInUserUseCase>(() =>
       FirebaseIsSignedInUserUseCase(
           firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
@@ -308,10 +305,10 @@ Future<GetIt> $initGetIt(
         get<FirebaseLinkCredentialsWithGoogleUserUseCase>(),
         get<FirebaseLinkCredentialsWithFacebookUserUseCase>(),
         get<FirebaseLinkCredentialsWithAppleUserUseCase>(),
-        get<FirebaseGetUserUseCase>(),
         get<FirestoreCreateUserUseCase>(),
         get<FirestoreGetUserUseCase>(),
         get<Validators>(),
+        get<FirebaseAuthUserRepository>(),
       ));
   gh.lazySingleton<UpdateBarterModelCurrentUserCubit>(() =>
       UpdateBarterModelCurrentUserCubit(
@@ -321,18 +318,18 @@ Future<GetIt> $initGetIt(
           get<FirestoreGetAllBarterItemsUsingUserIdUseCase>(),
           get<FirestoreUpdateAllBarterItemUseCase>()));
   gh.lazySingleton<AuthCubit>(() => AuthCubit(
+        get<FirebaseAuthUserRepository>(),
         get<FirebaseIsSignedInUserUseCase>(),
-        get<FirebaseGetUserUseCase>(),
         get<FirestoreGetUserUseCase>(),
         get<FirebaseSignOutUserUseCase>(),
       ));
   gh.lazySingleton<BarterItemsCubit>(
       () => BarterItemsCubit(get<FirestoreGetAllBarterItemsUseCase>()));
   gh.lazySingleton<BarterMessageCubit>(() => BarterMessageCubit(
-      get<FirebaseGetUserUseCase>(),
+      get<FirebaseAuthUserRepository>(),
       get<FirestoreGetAllBarterMessagesUseCase>()));
   gh.lazySingleton<CurrentUserCubit>(() => CurrentUserCubit(
-        get<FirebaseGetUserUseCase>(),
+        get<FirebaseAuthUserRepository>(),
         get<FirestoreGetUserUseCase>(),
         get<FirestoreUpdateUserUseCase>(),
         get<FirestoreCreateSavedItemUseCase>(),
@@ -360,9 +357,9 @@ Future<GetIt> $initGetIt(
       LocalSharedPrefPersistUserGeoLocationUseCase(
           localSharedPrefRepository: get<LocalSharedPrefRepository>()));
   gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
+        get<FirebaseAuthUserRepository>(),
         get<CurrentUserCubit>(),
         get<FirebaseMessaging>(),
-        get<FirebaseGetUserUseCase>(),
         get<FirestoreGetAllBarterMessagesUseCase>(),
       ));
   return get;

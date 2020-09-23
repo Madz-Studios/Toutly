@@ -2,10 +2,9 @@ import 'dart:io';
 
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/barter_messages/firestore_get_all_user_barter_messages_use_case.dart';
 import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,14 +24,15 @@ class NotificationCubit extends Cubit<NotificationState> {
   final FirebaseMessaging _firebaseMessaging;
   final CurrentUserCubit _currentUserCubit;
 
-  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
   final FirestoreGetAllBarterMessagesUseCase
       _firestoreGetAllBarterMessagesUseCase;
 
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
+
   NotificationCubit(
+    this._firebaseAuthUserRepository,
     this._currentUserCubit,
     this._firebaseMessaging,
-    this._firebaseGetUserUseCase,
     this._firestoreGetAllBarterMessagesUseCase,
   ) : super(NotificationState.empty());
 
@@ -99,8 +99,7 @@ class NotificationCubit extends Cubit<NotificationState> {
       emit(NotificationState.loading());
       bool isConnected = await isConnectedToInternet();
       if (isConnected) {
-        final User firebaseUser =
-            _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+        final User firebaseUser = _firebaseAuthUserRepository.getUser();
         final barterMessages = _firestoreGetAllBarterMessagesUseCase.call(
           UseCaseAllUserMessagesWithUserIdParam.init(userId: firebaseUser.uid),
         );

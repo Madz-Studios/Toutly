@@ -1,5 +1,5 @@
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/auth/firebase_is_signedin_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signout_use_case.dart';
 import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
@@ -15,14 +15,14 @@ part 'auth_state.dart';
 
 @lazySingleton
 class AuthCubit extends Cubit<AuthState> {
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final FirebaseIsSignedInUserUseCase firebaseIsSignedInUserUseCase;
-  final FirebaseGetUserUseCase _firebaseGetUserUseCase;
   final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirebaseSignOutUserUseCase firebaseSignOutUserUseCase;
 
   AuthCubit(
+    this._firebaseAuthUserRepository,
     this.firebaseIsSignedInUserUseCase,
-    this._firebaseGetUserUseCase,
     this._firestoreGetUserUseCase,
     this.firebaseSignOutUserUseCase,
   ) : super(AuthState.empty());
@@ -32,8 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
     final isSignedIn =
         firebaseIsSignedInUserUseCase.call(UseCaseNoParam.init());
 
-    final User firebaseUser =
-        _firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
     final UserModel user = await _firestoreGetUserUseCase
         .call(UseCaseUserParamUserId.init(firebaseUser.uid ?? ''));
