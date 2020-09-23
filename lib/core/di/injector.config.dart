@@ -28,7 +28,6 @@ import '../cubits/barter_messages/conversation/conversation_cubit.dart';
 import '../cubits/user/current_user/current_user_cubit.dart';
 import '../cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
 import '../repositories/auth/firebase_auth_user_repository.dart';
-import '../usecases/auth/firebase_send_reset_password_usecase.dart';
 import '../usecases/auth/firebase_signout_use_case.dart';
 import '../usecases/auth/firebase_signup_usecase.dart';
 import '../usecases/auth/firebase_signin_anonymously_usecase.dart';
@@ -165,9 +164,6 @@ Future<GetIt> $initGetIt(
         googleSignIn: get<GoogleSignIn>(),
         facebookLogin: get<FacebookLogin>(),
       ));
-  gh.lazySingleton<FirebaseSendResetPasswordUseCase>(() =>
-      FirebaseSendResetPasswordUseCase(
-          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignOutUserUseCase>(() => FirebaseSignOutUserUseCase(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignUpUseCase>(() => FirebaseSignUpUseCase(
@@ -251,8 +247,8 @@ Future<GetIt> $initGetIt(
       () => OfferItemsCubit(get<FirestoreGetAllOfferItemsUseCase>()));
   gh.lazySingleton<OtherUserCubit>(() => OtherUserCubit(
       get<FirestoreGetUserUseCase>(), get<FirestoreGetAllFcmTokenUseCase>()));
-  gh.lazySingleton<PasswordResetCubit>(() => PasswordResetCubit(
-      get<FirebaseSendResetPasswordUseCase>(), get<Validators>()));
+  gh.lazySingleton<PasswordResetCubit>(() =>
+      PasswordResetCubit(get<FirebaseAuthUserRepository>(), get<Validators>()));
   gh.lazySingleton<PostBarterCubit>(() => PostBarterCubit(
         get<FirebaseStorage>(),
         get<Uuid>(),
