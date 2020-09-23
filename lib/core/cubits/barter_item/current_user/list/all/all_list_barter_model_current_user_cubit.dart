@@ -1,7 +1,6 @@
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/barter_item/firestore_get_all_barter_items_using_user_id.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:Toutly/core/usecases/barter_item/firestore_update_all_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -16,22 +15,20 @@ part 'all_list_barter_model_current_user_state.dart';
 @lazySingleton
 class AllListBarterModelCurrentUserCubit
     extends Cubit<AllListBarterModelCurrentUserState> {
-  final FirestoreGetAllBarterItemsUsingUserIdUseCase
-      firestoreGetAllBarterItemsUsingUserIdUseCase;
+  final FirestoreBarterRepository _firestoreBarterRepository;
   final FirestoreUpdateAllBarterItemUseCase
       _firestoreUpdateAllBarterItemUseCase;
 
   AllListBarterModelCurrentUserCubit(
-    this.firestoreGetAllBarterItemsUsingUserIdUseCase,
+    this._firestoreBarterRepository,
     this._firestoreUpdateAllBarterItemUseCase,
   ) : super(AllListBarterModelCurrentUserState.empty());
 
   getCurrentUserAllBarterItems(String userId) async {
     try {
       emit(AllListBarterModelCurrentUserState.loading());
-      final listings = firestoreGetAllBarterItemsUsingUserIdUseCase.call(
-        UseCaseUserIdParam.init(userId: userId),
-      );
+      final Stream<QuerySnapshot> listings =
+          _firestoreBarterRepository.getAllBarterItemsUsingUserId(userId);
       emit(AllListBarterModelCurrentUserState.success(
           userBarterItems: listings, info: 'Success'));
     } on PlatformException catch (platformException) {
@@ -50,9 +47,8 @@ class AllListBarterModelCurrentUserCubit
       _firestoreUpdateAllBarterItemUseCase.call(
         UseCaseUserParamUserModel.init(userModel),
       );
-      final listings = firestoreGetAllBarterItemsUsingUserIdUseCase.call(
-        UseCaseUserIdParam.init(userId: userModel.userId),
-      );
+      final Stream<QuerySnapshot> listings = _firestoreBarterRepository
+          .getAllBarterItemsUsingUserId(userModel.userId);
 
       emit(AllListBarterModelCurrentUserState.success(
           userBarterItems: listings, info: 'Success'));
