@@ -1,7 +1,5 @@
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
-import 'package:Toutly/core/usecases/barter_item/firestore_update_all_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -16,12 +14,9 @@ part 'all_list_barter_model_current_user_state.dart';
 class AllListBarterModelCurrentUserCubit
     extends Cubit<AllListBarterModelCurrentUserState> {
   final FirestoreBarterRepository _firestoreBarterRepository;
-  final FirestoreUpdateAllBarterItemUseCase
-      _firestoreUpdateAllBarterItemUseCase;
 
   AllListBarterModelCurrentUserCubit(
     this._firestoreBarterRepository,
-    this._firestoreUpdateAllBarterItemUseCase,
   ) : super(AllListBarterModelCurrentUserState.empty());
 
   getCurrentUserAllBarterItems(String userId) async {
@@ -44,9 +39,10 @@ class AllListBarterModelCurrentUserCubit
   updateAllBarterItemsOfCurrentUser(UserModel userModel) async {
     try {
       emit(AllListBarterModelCurrentUserState.loading());
-      _firestoreUpdateAllBarterItemUseCase.call(
-        UseCaseUserParamUserModel.init(userModel),
-      );
+
+      await _firestoreBarterRepository
+          .updateAllBarterItemOfCurrentUser(userModel);
+
       final Stream<QuerySnapshot> listings = _firestoreBarterRepository
           .getAllBarterItemsUsingUserId(userModel.userId);
 
