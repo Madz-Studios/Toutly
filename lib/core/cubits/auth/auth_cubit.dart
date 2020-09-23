@@ -1,7 +1,5 @@
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signout_use_case.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -16,12 +14,10 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final FirestoreGetUserUseCase _firestoreGetUserUseCase;
-  final FirebaseSignOutUserUseCase firebaseSignOutUserUseCase;
 
   AuthCubit(
     this._firebaseAuthUserRepository,
     this._firestoreGetUserUseCase,
-    this.firebaseSignOutUserUseCase,
   ) : super(AuthState.empty());
 
   authCheckRequested() async {
@@ -34,7 +30,7 @@ class AuthCubit extends Cubit<AuthState> {
         .call(UseCaseUserParamUserId.init(firebaseUser.uid ?? ''));
 
     if (user == null) {
-      await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signOut();
     }
     if (isSignedIn && user != null) {
       emit(AuthState.authenticated('User Authenticated'));
@@ -49,7 +45,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   signedOut() async {
     emit(AuthState.loading());
-    await firebaseSignOutUserUseCase.call(UseCaseNoParam.init());
+    await _firebaseAuthUserRepository.signOut();
     emit(AuthState.notAuthenticated('User Not Authenticated'));
   }
 }
