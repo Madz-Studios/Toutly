@@ -1,8 +1,7 @@
 import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
-import 'package:Toutly/core/usecases/barter_messages/items/firestore_get_all_user_barter_items_use_case.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
@@ -15,18 +14,18 @@ part 'barter_items_state.dart';
 
 @lazySingleton
 class BarterItemsCubit extends Cubit<BarterItemsState> {
-  final FirestoreGetAllBarterItemsUseCase firestoreGetAllBarterItemsUseCase;
+  final FirestoreBarterRepository _firestoreBarterRepository;
 
   BarterItemsCubit(
-    this.firestoreGetAllBarterItemsUseCase,
+    this._firestoreBarterRepository,
   ) : super(BarterItemsState.empty());
 
   getBarterItem(String itemId) async {
     try {
       emit(BarterItemsState.loading());
-      final barterItem = await firestoreGetAllBarterItemsUseCase.call(
-        UseCaseItemIdParam.init(itemId),
-      );
+      final BarterModel barterItem =
+          await _firestoreBarterRepository.getBarterUsingItemId(itemId);
+
       emit(BarterItemsState.success(barterItem: barterItem, info: 'Success'));
     } on PlatformException catch (platformException) {
       emit(BarterItemsState.failure(info: platformException.message));
