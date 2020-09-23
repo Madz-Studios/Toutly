@@ -31,7 +31,6 @@ import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
-import '../usecases/barter_conversation_text/firestore_create_barter_conversation_text_use_case.dart';
 import '../usecases/barter_item/firestore_create_barter_item_use_case.dart';
 import '../usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
 import '../usecases/user/firestore_create_saved_item_usecase.dart';
@@ -103,10 +102,6 @@ Future<GetIt> $initGetIt(
   gh.factory<FirestoreBarterMessageRepository>(() =>
       FirestoreBarterMessageRepositoryImpl(
           firestore: get<FirebaseFirestore>()));
-  gh.lazySingleton<FirestoreCreateBarterConversationTextUseCase>(() =>
-      FirestoreCreateBarterConversationTextUseCase(
-          firestoreBarterConversationTextRepository:
-              get<FirestoreBarterConversationTextRepository>()));
   gh.lazySingleton<FirestoreCreateBarterMessagesUseCase>(() =>
       FirestoreCreateBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
@@ -148,8 +143,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<ConversationCubit>(() => ConversationCubit(
         get<CloudFunctionCallCubit>(),
         get<FirestoreGetAllConversationFromMessagesUseCase>(),
-        get<FirestoreCreateBarterConversationTextUseCase>(),
         get<FirestoreUpdateBarterMessagesUseCase>(),
+        get<FirestoreBarterConversationTextRepository>(),
         get<Uuid>(),
       ));
   gh.factory<FirebaseAuthUserRepository>(() => FirebaseAuthUserRepositoryImpl(
@@ -212,8 +207,8 @@ Future<GetIt> $initGetIt(
       LocationCubit(get<PrivacyServicesCubit>(), get<GeolocatorPlatform>()));
   gh.lazySingleton<MakeOfferCubit>(() => MakeOfferCubit(
         get<CloudFunctionCallCubit>(),
-        get<FirestoreCreateBarterConversationTextUseCase>(),
         get<FirestoreCreateBarterMessagesUseCase>(),
+        get<FirestoreBarterConversationTextRepository>(),
         get<Validators>(),
         get<Uuid>(),
       ));
