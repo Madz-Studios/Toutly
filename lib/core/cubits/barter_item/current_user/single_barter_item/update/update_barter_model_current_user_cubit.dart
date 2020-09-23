@@ -1,6 +1,5 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
-import 'package:Toutly/core/usecases/barter_item/firestore_update_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -14,11 +13,11 @@ part 'update_barter_model_current_user_state.dart';
 @lazySingleton
 class UpdateBarterModelCurrentUserCubit
     extends Cubit<UpdateBarterModelCurrentUserState> {
-  final FirestoreUpdateBarterItemUseCase firestoreUpdateBarterItemUseCase;
+  final FirestoreBarterRepository _firestoreBarterRepository;
   final Validators validators;
 
   UpdateBarterModelCurrentUserCubit(
-    this.firestoreUpdateBarterItemUseCase,
+    this._firestoreBarterRepository,
     this.validators,
   ) : super(UpdateBarterModelCurrentUserState.empty());
 
@@ -43,13 +42,12 @@ class UpdateBarterModelCurrentUserCubit
     ));
   }
 
-  updateBarterItem(BarterModel barterModel) {
+  updateBarterItem(BarterModel barterModel) async {
     try {
       emit(UpdateBarterModelCurrentUserState.loading());
 
-      firestoreUpdateBarterItemUseCase.call(
-        UseCaseBarterModelParam.init(barterModel: barterModel),
-      );
+      await _firestoreBarterRepository.updateBarterItem(barterModel);
+
       emit(UpdateBarterModelCurrentUserState.success('Update Success'));
     } on PlatformException catch (platformException) {
       emit(UpdateBarterModelCurrentUserState.failure(
