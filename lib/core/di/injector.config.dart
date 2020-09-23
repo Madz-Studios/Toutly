@@ -35,7 +35,6 @@ import '../usecases/user/firestore_create_saved_item_usecase.dart';
 import '../usecases/user/firestore_create_user_usecase.dart';
 import '../usecases/user/firestore_delete_saved_item_usecase.dart';
 import '../usecases/user/firestore_get_all_fcm_token_usecase.dart';
-import '../usecases/barter_messages/firestore_get_all_user_offer_messages_use_case.dart';
 import '../usecases/user/firestore_get_user_usecase.dart';
 import '../usecases/barter_messages/firestore_update_barter_messages_use_case.dart';
 import '../usecases/user/firestore_update_user_usecase.dart';
@@ -89,10 +88,6 @@ Future<GetIt> $initGetIt(
   gh.factory<FirestoreBarterMessageRepository>(() =>
       FirestoreBarterMessageRepositoryImpl(
           firestore: get<FirebaseFirestore>()));
-  gh.lazySingleton<FirestoreGetAllOfferMessagesUseCase>(() =>
-      FirestoreGetAllOfferMessagesUseCase(
-          firestoreBarterMessagesRepository:
-              get<FirestoreBarterMessageRepository>()));
   gh.lazySingleton<FirestoreUpdateBarterMessagesUseCase>(() =>
       FirestoreUpdateBarterMessagesUseCase(
           firestoreBarterMessagesRepository:
