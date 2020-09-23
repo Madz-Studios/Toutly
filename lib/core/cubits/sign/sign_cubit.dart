@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_anonymously_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_apple_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signin_with_credentials_usecase.dart';
@@ -39,9 +38,6 @@ class SignCubit extends Cubit<SignState> {
   final FirebaseSignedInAnonymouslyUserUseCase
       firebaseSignedInAnonymouslyUserUseCase;
 
-  final FirebaseLinkCredentialsWithGoogleUserUseCase
-      linkCredentialsWithGoogleUserUseCase;
-
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
@@ -55,7 +51,6 @@ class SignCubit extends Cubit<SignState> {
     this.firebaseSignedInWithAppleUserUseCase,
     this.firebaseSignedInWithCredentialsUserUseCase,
     this.firebaseSignedInAnonymouslyUserUseCase,
-    this.linkCredentialsWithGoogleUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -219,8 +214,7 @@ class SignCubit extends Cubit<SignState> {
   linkWithGooglePressed() async {
     emit(SignState.loading());
     try {
-      await linkCredentialsWithGoogleUserUseCase(UseCaseNoParam.init());
-      await _createNewUserForSocialSignIn();
+      await _firebaseAuthUserRepository.linkCredentialWithGoogle();
 
       emit(SignState.success(info: 'Successfully linked google account.'));
     } on PlatformException catch (platFormException) {
