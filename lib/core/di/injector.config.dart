@@ -30,7 +30,6 @@ import '../cubits/barter_item/current_user/single_barter_item/delete/delete_bart
 import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../usecases/auth/firebase_signout_use_case.dart';
 import '../usecases/auth/firebase_signup_usecase.dart';
-import '../usecases/auth/firebase_signin_with_google_usecase.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
@@ -164,9 +163,6 @@ Future<GetIt> $initGetIt(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.lazySingleton<FirebaseSignUpUseCase>(() => FirebaseSignUpUseCase(
       firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
-  gh.lazySingleton<FirebaseSignedInWithGoogleUserUseCase>(() =>
-      FirebaseSignedInWithGoogleUserUseCase(
-          firebaseAuthUserRepository: get<FirebaseAuthUserRepository>()));
   gh.factory<FirestoreBarterRepository>(() => FirestoreBarterRepositoryImpl(
         get<Geoflutterfire>(),
         get<FirebaseFirestore>(),
@@ -256,7 +252,6 @@ Future<GetIt> $initGetIt(
       ));
   gh.lazySingleton<SignCubit>(() => SignCubit(
         get<FirebaseSignUpUseCase>(),
-        get<FirebaseSignedInWithGoogleUserUseCase>(),
         get<FirestoreCreateUserUseCase>(),
         get<FirestoreGetUserUseCase>(),
         get<Validators>(),

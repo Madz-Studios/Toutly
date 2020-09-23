@@ -2,9 +2,7 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_signup_usecase.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
@@ -23,8 +21,6 @@ part 'sign_state.dart';
 @lazySingleton
 class SignCubit extends Cubit<SignState> {
   final FirebaseSignUpUseCase firebaseSignUpUseCase;
-  final FirebaseSignedInWithGoogleUserUseCase
-      firebaseSignedInWithGoogleUserUseCase;
 
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
@@ -34,7 +30,6 @@ class SignCubit extends Cubit<SignState> {
 
   SignCubit(
     this.firebaseSignUpUseCase,
-    this.firebaseSignedInWithGoogleUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -174,7 +169,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithGooglePressed() async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithGoogleUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInWithGoogle();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully logged in.'));
