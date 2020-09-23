@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_apple_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_credentials_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_facebook_usecase.dart';
 import 'package:Toutly/core/usecases/auth/firebase_link_with_google_usecase.dart';
@@ -48,8 +47,6 @@ class SignCubit extends Cubit<SignState> {
       linkCredentialsWithGoogleUserUseCase;
   final FirebaseLinkCredentialsWithFacebookUserUseCase
       linkCredentialsWithFacebookUserUseCase;
-  final FirebaseLinkCredentialsWithAppleUserUseCase
-      linkCredentialsWithAppleUserUseCase;
 
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
@@ -67,7 +64,6 @@ class SignCubit extends Cubit<SignState> {
     this.firebaseLinkCredentialsWithEmailPasswordUserUseCase,
     this.linkCredentialsWithGoogleUserUseCase,
     this.linkCredentialsWithFacebookUserUseCase,
-    this.linkCredentialsWithAppleUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
@@ -311,7 +307,7 @@ class SignCubit extends Cubit<SignState> {
   linkWithApplePressed() async {
     emit(SignState.loading());
     try {
-      await linkCredentialsWithAppleUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.linkCredentialWithApple();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully linked apple account.'));
