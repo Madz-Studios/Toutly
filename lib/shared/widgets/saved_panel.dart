@@ -28,12 +28,13 @@ class _SavedPanelState extends State<SavedPanel> {
     bool _isLiked = false;
     return BlocBuilder<CurrentUserCubit, CurrentUserState>(
       builder: (_, currentUserState) {
-        final currentUser = currentUserState.currentUserModel;
-        // _isLiked = currentUser.saveItems?.map(itemId) ?? false;
+        final UserModel currentUser = currentUserState.currentUserModel;
         if (currentUserState.isSuccess) {
-          for (final savedItem in currentUser?.saveItems) {
-            if (savedItem.itemId == widget.itemId) {
-              _isLiked = true;
+          if (currentUser != null && currentUser.saveItems != null) {
+            for (final savedItem in currentUser?.saveItems) {
+              if (savedItem.itemId == widget.itemId) {
+                _isLiked = true;
+              }
             }
           }
         }

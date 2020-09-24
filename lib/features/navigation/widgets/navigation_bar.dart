@@ -16,35 +16,39 @@ class _NavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
-    final isAnonymous = _currentUserCubit.state.isAnonymous;
 
-    return StreamBuilder<QuerySnapshot>(
-      stream: _notificationCubit.state.barterMessages,
-      builder: (_, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.active:
-            if (snapshot.hasError) {
-              debugPrint('Error: ${snapshot.error}');
-              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-            } else {
-              return _buildBottomNavigationBar(
-                  isAnonymous, context, appSizeConfig, snapshot);
+    return BlocBuilder<CurrentUserCubit, CurrentUserState>(
+      builder: (_, currentUserState) {
+        final isAnonymous = currentUserState.isAnonymous;
+        return StreamBuilder<QuerySnapshot>(
+          stream: _notificationCubit.state.barterMessages,
+          builder: (_, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.active:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildBottomNavigationBar(
+                      isAnonymous, context, appSizeConfig, snapshot);
+                }
+                break;
+              default:
+                if (snapshot.hasError) {
+                  debugPrint('Error: ${snapshot.error}');
+                  return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
+                } else {
+                  return _buildBottomNavigationBar(
+                    isAnonymous,
+                    context,
+                    appSizeConfig,
+                    snapshot,
+                  );
+                  ;
+                }
             }
-            break;
-          default:
-            if (snapshot.hasError) {
-              debugPrint('Error: ${snapshot.error}');
-              return LoadingOrErrorWidgetUtil('Error: ${snapshot.error}');
-            } else {
-              return _buildBottomNavigationBar(
-                isAnonymous,
-                context,
-                appSizeConfig,
-                snapshot,
-              );
-              ;
-            }
-        }
+          },
+        );
       },
     );
   }

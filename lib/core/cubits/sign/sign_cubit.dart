@@ -1,18 +1,7 @@
 import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/auth/firebase_get_user_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_apple_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_credentials_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_facebook_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_link_with_google_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_anonymously_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_apple_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_credentials_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_facebook_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signin_with_google_usecase.dart';
-import 'package:Toutly/core/usecases/auth/firebase_signup_usecase.dart';
-import 'package:Toutly/core/usecases/param/use_case_no_param.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
 import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
@@ -30,48 +19,17 @@ part 'sign_state.dart';
 
 @lazySingleton
 class SignCubit extends Cubit<SignState> {
-  final FirebaseSignUpUseCase firebaseSignUpUseCase;
-  final FirebaseSignedInWithGoogleUserUseCase
-      firebaseSignedInWithGoogleUserUseCase;
-  final FirebaseSignedInWithFacebookUserUseCase
-      firebaseSignedInWithFacebookUserUseCase;
-  final FirebaseSignedInWithAppleUserUseCase
-      firebaseSignedInWithAppleUserUseCase;
-  final FirebaseSignedInWithCredentialsUserUseCase
-      firebaseSignedInWithCredentialsUserUseCase;
-  final FirebaseSignedInAnonymouslyUserUseCase
-      firebaseSignedInAnonymouslyUserUseCase;
-
-  final FirebaseLinkCredentialsWithEmailPasswordUserUseCase
-      firebaseLinkCredentialsWithEmailPasswordUserUseCase;
-  final FirebaseLinkCredentialsWithGoogleUserUseCase
-      linkCredentialsWithGoogleUserUseCase;
-  final FirebaseLinkCredentialsWithFacebookUserUseCase
-      linkCredentialsWithFacebookUserUseCase;
-  final FirebaseLinkCredentialsWithAppleUserUseCase
-      linkCredentialsWithAppleUserUseCase;
-
-  final FirebaseGetUserUseCase firebaseGetUserUseCase;
   final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final Validators validators;
 
   SignCubit(
-    this.firebaseSignUpUseCase,
-    this.firebaseSignedInWithGoogleUserUseCase,
-    this.firebaseSignedInWithFacebookUserUseCase,
-    this.firebaseSignedInWithAppleUserUseCase,
-    this.firebaseSignedInWithCredentialsUserUseCase,
-    this.firebaseSignedInAnonymouslyUserUseCase,
-    this.firebaseLinkCredentialsWithEmailPasswordUserUseCase,
-    this.linkCredentialsWithGoogleUserUseCase,
-    this.linkCredentialsWithFacebookUserUseCase,
-    this.linkCredentialsWithAppleUserUseCase,
-    this.firebaseGetUserUseCase,
     this.firestoreCreateUserUseCase,
     this.firestoreGetUserUseCase,
     this.validators,
+    this._firebaseAuthUserRepository,
   ) : super((SignState.empty()));
 
   reset() {
@@ -108,7 +66,7 @@ class SignCubit extends Cubit<SignState> {
   signInAnonymously() async {
     try {
       emit(SignState.loading());
-      await firebaseSignedInAnonymouslyUserUseCase.call(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInAnonymously();
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
@@ -126,17 +84,13 @@ class SignCubit extends Cubit<SignState> {
       String name, String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseSignUpUseCase.call(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.signUp(
+          email: email, password: password);
 
-      final user = firebaseGetUserUseCase(UseCaseNoParam.init());
+      final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       UserModel userModel = UserModel(
-        userId: user.uid,
+        userId: firebaseUser.uid,
         email: email,
         name: name,
       );
@@ -160,12 +114,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithEmailPasswordPressed(String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithCredentialsUserUseCase(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.signInWithCredentials(email, password);
       emit(SignState.success(info: 'Successfully logged in.'));
     } on PlatformException catch (platFormException) {
       emit(SignState.failure(info: platFormException.message));
@@ -182,17 +131,13 @@ class SignCubit extends Cubit<SignState> {
   linkWithEmailPassword(String name, String email, String password) async {
     emit(SignState.loading());
     try {
-      await firebaseLinkCredentialsWithEmailPasswordUserUseCase(
-        UseCaseUserParamEmailPassword.init(
-          email,
-          password,
-        ),
-      );
+      await _firebaseAuthUserRepository.linkCredentialWithEmailPassword(
+          email, password);
 
-      final user = firebaseGetUserUseCase(UseCaseNoParam.init());
+      final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       UserModel userModel = UserModel(
-        userId: user.uid,
+        userId: firebaseUser.uid,
         email: email,
         name: name,
       );
@@ -216,7 +161,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithGooglePressed() async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithGoogleUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInWithGoogle();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully logged in.'));
@@ -235,8 +180,7 @@ class SignCubit extends Cubit<SignState> {
   linkWithGooglePressed() async {
     emit(SignState.loading());
     try {
-      await linkCredentialsWithGoogleUserUseCase(UseCaseNoParam.init());
-      await _createNewUserForSocialSignIn();
+      await _firebaseAuthUserRepository.linkCredentialWithGoogle();
 
       emit(SignState.success(info: 'Successfully linked google account.'));
     } on PlatformException catch (platFormException) {
@@ -254,7 +198,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithFacebookPressed() async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithFacebookUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInWithFacebook();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully logged in.'));
@@ -273,7 +217,7 @@ class SignCubit extends Cubit<SignState> {
   linkWithFacebookPressed() async {
     emit(SignState.loading());
     try {
-      await linkCredentialsWithFacebookUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.linkCredentialWithFacebook();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully linked facebook account.'));
@@ -292,7 +236,7 @@ class SignCubit extends Cubit<SignState> {
   signInWithApplePressed() async {
     emit(SignState.loading());
     try {
-      await firebaseSignedInWithAppleUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.signInWithApple();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully logged in.'));
@@ -311,7 +255,7 @@ class SignCubit extends Cubit<SignState> {
   linkWithApplePressed() async {
     emit(SignState.loading());
     try {
-      await linkCredentialsWithAppleUserUseCase(UseCaseNoParam.init());
+      await _firebaseAuthUserRepository.linkCredentialWithApple();
       await _createNewUserForSocialSignIn();
 
       emit(SignState.success(info: 'Successfully linked apple account.'));
@@ -328,7 +272,7 @@ class SignCubit extends Cubit<SignState> {
   }
 
   Future<void> _createNewUserForSocialSignIn() async {
-    final firebaseUser = firebaseGetUserUseCase.call(UseCaseNoParam.init());
+    final User firebaseUser = _firebaseAuthUserRepository.getUser();
     final userStore = await firestoreGetUserUseCase
         .call(UseCaseUserParamUserId.init(firebaseUser.uid));
 

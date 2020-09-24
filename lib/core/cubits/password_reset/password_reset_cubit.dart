@@ -1,5 +1,4 @@
-import 'package:Toutly/core/usecases/auth/firebase_send_reset_password_usecase.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
+import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -11,17 +10,17 @@ part 'password_reset_state.dart';
 
 @lazySingleton
 class PasswordResetCubit extends Cubit<PasswordResetState> {
-  final FirebaseSendResetPasswordUseCase firebaseSendResetPasswordUseCase;
-  final Validators validators;
+  final FirebaseAuthUserRepository _firebaseAuthUserRepository;
+  final Validators _validators;
 
   PasswordResetCubit(
-    this.firebaseSendResetPasswordUseCase,
-    this.validators,
+    this._firebaseAuthUserRepository,
+    this._validators,
   ) : super(PasswordResetState.empty());
 
   emailChanged(String email) {
     emit(state.copyWith(
-      isEmailValid: validators.isValidEmail(email),
+      isEmailValid: _validators.isValidEmail(email),
       isFailure: false,
       isSubmitting: false,
       isSuccess: false,
@@ -31,9 +30,7 @@ class PasswordResetCubit extends Cubit<PasswordResetState> {
   void sendPasswordResetPressed(String email) async {
     try {
       emit(PasswordResetState.loading());
-      firebaseSendResetPasswordUseCase.call(
-        UseCaseUserParamEmail.init(email),
-      );
+      _firebaseAuthUserRepository.sendPasswordResetEmail(email);
       emit(PasswordResetState.success(info: 'Reset Password Success'));
     } on PlatformException catch (platformException) {
       emit(PasswordResetState.failure(info: platformException.message));

@@ -3,8 +3,7 @@ import 'package:Toutly/core/models/algolia/algolia_geo_location.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/barter_item/firestore_create_barter_item_use_case.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,15 +27,14 @@ class PostBarterCubit extends Cubit<PostBarterState> {
   final Geoflutterfire _geoFlutterFire;
   final LocationCubit _locationCubit;
 
-  final FirestoreCreateBarterItemUseCase firestoreCreateBarterItemUseCase;
-
+  final FirestoreBarterRepository _firestoreBarterRepository;
   PostBarterCubit(
     this.firebaseStorage,
     this.uuid,
     this.validators,
     this._geoFlutterFire,
     this._locationCubit,
-    this.firestoreCreateBarterItemUseCase,
+    this._firestoreBarterRepository,
   ) : super(PostBarterState.empty());
 
   postButtonPressed({
@@ -112,11 +110,8 @@ class PostBarterCubit extends Cubit<PostBarterState> {
       );
 
       ///create a barter item in the barter market
-      await firestoreCreateBarterItemUseCase.call(
-        UseCaseBarterModelParam.init(
-          barterModel: barterModel,
-        ),
-      );
+
+      await _firestoreBarterRepository.createBarterMarketItem(barterModel);
 
       emit(PostBarterState.success(
         info: 'Successfully posted the item.',

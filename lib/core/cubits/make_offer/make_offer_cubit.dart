@@ -3,10 +3,8 @@ import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/barter_conversation_text/barter_conversation_text_model.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
-import 'package:Toutly/core/usecases/barter_conversation_text/firestore_create_barter_conversation_text_use_case.dart';
-import 'package:Toutly/core/usecases/barter_messages/firestore_create_barter_messages_use_case.dart';
-import 'package:Toutly/core/usecases/param/barter_conversation_text/use_case_barter_conversation_text_param.dart';
-import 'package:Toutly/core/usecases/param/barter_messages/use_case_barter_messages_param.dart';
+import 'package:Toutly/core/repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
+import 'package:Toutly/core/repositories/barter_message/firestore_barter_message_repository.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -21,19 +19,18 @@ part 'make_offer_state.dart';
 @lazySingleton
 class MakeOfferCubit extends Cubit<MakeOfferState> {
   final CloudFunctionCallCubit _cloudFunctionCallCubit;
-  final FirestoreCreateBarterConversationTextUseCase
-      firestoreCreateBarterConversationTextUseCase;
 
-  final FirestoreCreateBarterMessagesUseCase
-      firestoreCreateBarterMessagesUseCase;
+  final FirestoreBarterMessageRepository _firestoreBarterMessagesRepository;
 
+  final FirestoreBarterConversationTextRepository
+      _firestoreBarterConversationTextRepository;
   final Validators validators;
   final Uuid uuid;
 
   MakeOfferCubit(
     this._cloudFunctionCallCubit,
-    this.firestoreCreateBarterConversationTextUseCase,
-    this.firestoreCreateBarterMessagesUseCase,
+    this._firestoreBarterMessagesRepository,
+    this._firestoreBarterConversationTextRepository,
     this.validators,
     this.uuid,
   ) : super(MakeOfferState.empty());
@@ -92,10 +89,8 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
         lastMessageText: message,
       );
 
-      await firestoreCreateBarterMessagesUseCase.call(
-        UseCaseBarterMessagesModelParam.init(
-            barterMessageModel: barterMessageModel),
-      );
+      await _firestoreBarterMessagesRepository
+          .createBarterMessage(barterMessageModel);
 
       BarterConversationTextModel barterConversationTextModel =
           BarterConversationTextModel(
@@ -106,12 +101,8 @@ class MakeOfferCubit extends Cubit<MakeOfferState> {
         barterMessageId: barterMessageId,
       );
 
-      await firestoreCreateBarterConversationTextUseCase.call(
-        UseCaseBarterConversationTextModelParam.init(
-          barterMessageId: barterMessageId,
-          barterConversationTextModel: barterConversationTextModel,
-        ),
-      );
+      _firestoreBarterConversationTextRepository.createBarterConversationText(
+          barterMessageId, barterConversationTextModel);
 
       ///send fcm notification
       _cloudFunctionCallCubit.sendMessageNotification(

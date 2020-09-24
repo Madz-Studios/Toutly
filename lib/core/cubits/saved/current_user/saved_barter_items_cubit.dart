@@ -1,7 +1,6 @@
 import 'package:Toutly/core/models/barter/barter_model.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
-import 'package:Toutly/core/usecases/barter_item/firestore_get_all_likes_barter_items_using_user_id.dart';
-import 'package:Toutly/core/usecases/param/barter/use_case_barter_param.dart';
+import 'package:Toutly/core/repositories/barter_item/firestore_barter_repository.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,11 +12,10 @@ part 'saved_barter_items_state.dart';
 
 @lazySingleton
 class SavedBarterItemCubit extends Cubit<SavedBarterItemsState> {
-  final FirestoreGetAllLikesBarterItemsUsingUserIdUseCase
-      firestoreGetAllLikesBarterItemsUsingUserIdUseCase;
+  final FirestoreBarterRepository _firestoreBarterRepository;
 
   SavedBarterItemCubit(
-    this.firestoreGetAllLikesBarterItemsUsingUserIdUseCase,
+    this._firestoreBarterRepository,
   ) : super(SavedBarterItemsState.empty());
 
   getCurrentUserLikesBarterItems(List<SavedItemModel> savedItems) async {
@@ -31,10 +29,8 @@ class SavedBarterItemCubit extends Cubit<SavedBarterItemsState> {
 
       bool isConnected = await isConnectedToInternet();
       if (isConnected) {
-        final listings =
-            await firestoreGetAllLikesBarterItemsUsingUserIdUseCase.call(
-          UseCaseItemIdListParam.init(itemIds),
-        );
+        final List<BarterModel> listings = await _firestoreBarterRepository
+            .getFutureAllBarterItemsUsingItemIdList(itemIds);
         emit(
             SavedBarterItemsState.success(listings: listings, info: 'Success'));
       } else {

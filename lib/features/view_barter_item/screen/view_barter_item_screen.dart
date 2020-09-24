@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/delete/delete_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/current_user/single_barter_item/update/update_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/barter_item/other_user/single_barter_item_other_user_cubit.dart';
+import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter/barter_model.dart';
@@ -12,6 +13,7 @@ import 'package:Toutly/features/post/widgets/post_barter_Item_textfield.dart';
 import 'package:Toutly/features/signup/screen/modal_signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/util/search_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
@@ -37,6 +39,8 @@ class ViewBarterItemScreen extends StatefulWidget {
 
 class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
   final _currentUserCubit = getIt<CurrentUserCubit>();
+  final _searchConfigCubit = getIt<SearchConfigCubit>();
+
   final _updateBarterModelCurrentUserCubit =
       getIt<UpdateBarterModelCurrentUserCubit>();
 
@@ -177,6 +181,14 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
                       ),
                     ),
                   );
+
+                SearchUtil().searchSubmit(
+                  searchText: _searchConfigCubit.state.searchText,
+                  category: _searchConfigCubit.state.category,
+                  postedWithin: _searchConfigCubit.state.postedWithin,
+                  range: _searchConfigCubit.state.range,
+                  isNoLimitRange: _searchConfigCubit.state.isNoLimitRange,
+                );
               }
             },
             builder: (context, deleteBarterModelCurrentUserState) {
