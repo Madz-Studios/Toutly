@@ -10,7 +10,7 @@ flutter run --target lib/main-dev.dart -d all --flavor dev
 
 # Run using Prod Flavor
 
-Important!!! - Change buildTypes.release of android/app/build.gradle to "signingConfigs.prod" if want you to use production database in Android
+### Important!!! - Change buildTypes.release of android/app/build.gradle to "signingConfigs.prod" if want you to use production database in Android
 flutter run --target lib/main-prod.dart -d all --flavor prod
 
 # Build using Development Flavor Android
