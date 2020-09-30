@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
+import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_create_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:bloc/bloc.dart';
@@ -19,14 +19,14 @@ part 'sign_state.dart';
 
 @lazySingleton
 class SignCubit extends Cubit<SignState> {
-  final FirestoreCreateUserUseCase firestoreCreateUserUseCase;
+  final FirestoreUserRepository _firestoreUserRepository;
   final FirestoreGetUserUseCase firestoreGetUserUseCase;
 
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final Validators validators;
 
   SignCubit(
-    this.firestoreCreateUserUseCase,
+    this._firestoreUserRepository,
     this.firestoreGetUserUseCase,
     this.validators,
     this._firebaseAuthUserRepository,
@@ -95,8 +95,7 @@ class SignCubit extends Cubit<SignState> {
         name: name,
       );
 
-      await firestoreCreateUserUseCase
-          .call(UseCaseUserParamUserModel.init(userModel));
+      await _firestoreUserRepository.createUser(userModel);
 
       emit(SignState.success(info: 'Successfully registered'));
     } on PlatformException catch (platFormException) {
@@ -142,8 +141,7 @@ class SignCubit extends Cubit<SignState> {
         name: name,
       );
 
-      await firestoreCreateUserUseCase
-          .call(UseCaseUserParamUserModel.init(userModel));
+      await _firestoreUserRepository.createUser(userModel);
 
       emit(SignState.success(info: 'Successfully linked account.'));
     } on PlatformException catch (platFormException) {
@@ -299,8 +297,7 @@ class SignCubit extends Cubit<SignState> {
           dateUpdated: DateTime.now(),
         );
       }
-      await firestoreCreateUserUseCase
-          .call(UseCaseUserParamUserModel.init(userModel));
+      await _firestoreUserRepository.createUser(userModel);
     }
   }
 }
