@@ -4,8 +4,8 @@ import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
+import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_create_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_delete_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
@@ -29,13 +29,13 @@ part 'current_user_state.dart';
 class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
-  final FirestoreCreateSavedItemUseCase _firestoreCreateSavedItemUseCase;
   final FirestoreDeleteSavedItemUseCase _firestoreDeleteSavedItemUseCase;
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
   final Geoflutterfire _geoFlutterFire;
 
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
+  final FirestoreUserRepository _firestoreUserRepository;
   final Validators validators;
   final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
 
@@ -43,9 +43,9 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
   CurrentUserCubit(
     this._firebaseAuthUserRepository,
+    this._firestoreUserRepository,
     this._firestoreGetUserUseCase,
     this._firestoreUpdateUserUseCase,
-    this._firestoreCreateSavedItemUseCase,
     this._firestoreDeleteSavedItemUseCase,
     this._firebaseStorage,
     this._allListBarterModelCurrentUserCubit,
@@ -246,9 +246,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   createSavedItemForCurrentUser(
       UserModel currentUser, SavedItemModel savedItemModel) async {
     try {
-      await _firestoreCreateSavedItemUseCase.call(
-          UseCaseUserParamUserModelWithSavedItemModel.init(
-              currentUser, savedItemModel));
+      await _firestoreUserRepository.createSavedItem(
+          currentUser, savedItemModel);
     } on PlatformException catch (platformException) {
       emit(CurrentUserState.failure(platformException.message));
       throw FlutterError(platformException.message);
