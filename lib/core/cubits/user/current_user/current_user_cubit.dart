@@ -6,7 +6,6 @@ import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_delete_saved_item_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
@@ -29,7 +28,6 @@ part 'current_user_state.dart';
 class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
-  final FirestoreDeleteSavedItemUseCase _firestoreDeleteSavedItemUseCase;
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
   final Geoflutterfire _geoFlutterFire;
@@ -46,7 +44,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._firestoreUserRepository,
     this._firestoreGetUserUseCase,
     this._firestoreUpdateUserUseCase,
-    this._firestoreDeleteSavedItemUseCase,
     this._firebaseStorage,
     this._allListBarterModelCurrentUserCubit,
     this._uuid,
@@ -260,9 +257,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   deleteSavedItemForCurrentUser(
       UserModel currentUser, SavedItemModel savedItemModel) async {
     try {
-      await _firestoreDeleteSavedItemUseCase.call(
-          UseCaseUserParamUserModelWithSavedItemModel.init(
-              currentUser, savedItemModel));
+      await _firestoreUserRepository.deleteSavedItem(
+          currentUser, savedItemModel);
     } on PlatformException catch (platformException) {
       emit(CurrentUserState.failure(platformException.message));
       throw FlutterError(platformException.message);
