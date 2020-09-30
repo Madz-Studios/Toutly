@@ -168,7 +168,6 @@ Future<GetIt> $initGetIt(
         get<FirebaseAuthUserRepository>(),
         get<FirestoreUserRepository>(),
         get<FirebaseStorage>(),
-        get<AllListBarterModelCurrentUserCubit>(),
         get<Uuid>(),
         get<Geoflutterfire>(),
         get<Validators>(),

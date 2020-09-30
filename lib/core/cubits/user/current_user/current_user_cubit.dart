@@ -1,4 +1,3 @@
-import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
@@ -30,7 +29,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final FirestoreUserRepository _firestoreUserRepository;
   final Validators validators;
-  final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit;
 
   final LocationCubit _locationCubit;
 
@@ -38,7 +36,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     this._firebaseAuthUserRepository,
     this._firestoreUserRepository,
     this._firebaseStorage,
-    this._allListBarterModelCurrentUserCubit,
     this._uuid,
     this._geoFlutterFire,
     this.validators,
@@ -143,10 +140,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
       ///finally update the current user.
       _firestoreUserRepository.updateUserUsingUserModel(currentUser);
-
-      /// update the user items in algolia
-      _allListBarterModelCurrentUserCubit
-          .updateAllBarterItemsOfCurrentUser(currentUser);
 
       emit(CurrentUserState.success(
         currentUserModel: currentUser,
