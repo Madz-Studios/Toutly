@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
@@ -18,7 +19,9 @@ class SelectProfilePhoto extends StatefulWidget {
 }
 
 class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
-  final _currentUserCubit = getIt<CurrentUserCubit>();
+  final CurrentUserCubit _currentUserCubit = getIt<CurrentUserCubit>();
+  final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit =
+      getIt<AllListBarterModelCurrentUserCubit>();
 
   final ImagePicker _picker = ImagePicker();
   PickedFile _imageFile;
@@ -122,8 +125,13 @@ class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
     return null;
   }
 
-  void updateProfilePicture(PickedFile pickedFile, UserModel currentUser) {
-    _currentUserCubit.updateCurrentLoggedInUserProfilePicture(
+  void updateProfilePicture(
+      PickedFile pickedFile, UserModel currentUser) async {
+    await _currentUserCubit.updateCurrentLoggedInUserProfilePicture(
         pickedFile, currentUser);
+
+    /// update the user items in algolia
+    await _allListBarterModelCurrentUserCubit.updateAllBarterItemsOfCurrentUser(
+        _currentUserCubit.state.currentUserModel);
   }
 }

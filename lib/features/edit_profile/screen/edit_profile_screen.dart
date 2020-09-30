@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:Toutly/core/cubits/auth/auth_cubit.dart';
+import 'package:Toutly/core/cubits/barter_item/current_user/list/all/all_list_barter_model_current_user_cubit.dart';
 import 'package:Toutly/core/cubits/location/location_cubit.dart';
 import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -24,8 +25,10 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  final _currentUserCubit = getIt<CurrentUserCubit>();
-  final _authCubit = getIt<AuthCubit>();
+  final CurrentUserCubit _currentUserCubit = getIt<CurrentUserCubit>();
+  final AuthCubit _authCubit = getIt<AuthCubit>();
+  final AllListBarterModelCurrentUserCubit _allListBarterModelCurrentUserCubit =
+      getIt<AllListBarterModelCurrentUserCubit>();
 
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
@@ -50,9 +53,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _currentUserCubit.nameChanged(_nameController.text);
   }
 
-  _onSaveClicked(UserModel currentUser) {
+  _onSaveClicked(UserModel currentUser) async {
     currentUser.name = _nameController.text;
-    _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+    await _currentUserCubit.updateCurrentLoggedInUser(currentUser: currentUser);
+
+    ///if the current user change name or profile photo, update all the posted barter items.
+    await _allListBarterModelCurrentUserCubit.updateAllBarterItemsOfCurrentUser(
+        _currentUserCubit.state.currentUserModel);
 
     Navigator.pop(context);
   }

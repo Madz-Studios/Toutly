@@ -9,6 +9,7 @@ import 'package:Toutly/core/cubits/search_config/search_config_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/core/models/barter_message/barter_message_model.dart';
+import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/features/home/screen/home_screen.dart';
 import 'package:Toutly/features/messages/screen/messages_screen.dart';
 import 'package:Toutly/features/post/screen/post_screen.dart';
@@ -25,6 +26,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:geoflutterfire/geoflutterfire.dart';
 
 part '../widgets/custom_app_bar.dart';
 part '../widgets/navigation_bar.dart';
@@ -51,15 +53,22 @@ class _NavigationScreenState extends State<NavigationScreen> {
   final _searchCubit = getIt<SearchCubit>();
 
   final _remoteConfigCubit = getIt<RemoteConfigCubit>();
+  final Geoflutterfire _geoFlutterFire = getIt<Geoflutterfire>();
 
   initialize() async {
-    await _currentUserCubit.getCurrentLoggedInUser();
     await _remoteConfigCubit.getConfigData();
+
+    await _currentUserCubit.getCurrentLoggedInUser();
     await _locationCubit.getInitialUserLocation();
+
+    updateCurrentUserLocation();
+
     await _barterMessagesCubit.getCurrentBarterMessages();
     await _notificationCubit.getCurrentUnreadBarterMessages();
     await _notificationCubit
         .initializeFirebaseMessaging(_currentUserCubit.state.currentUserModel);
+
+    updateCurrentUserFcmToken();
 
     ///update search config from the values of remote config and location
     _searchConfigCubit.setConfig(
@@ -85,6 +94,50 @@ class _NavigationScreenState extends State<NavigationScreen> {
     super.initState();
 
     initialize();
+  }
+
+  updateCurrentUserFcmToken() async {
+    String deviceToken = await _notificationCubit.getDeviceToken();
+    await _currentUserCubit.updateCurrentLoggedInUserFcmToken(deviceToken: deviceToken);
+
+  }
+
+  updateCurrentUserLocation() {
+    ///update the current user address based on the current location
+    String subLocality = "${_locationCubit.state.placeMark.subLocality ?? ''}";
+    String locality = "${_locationCubit.state.placeMark.locality ?? ''}";
+
+    String address = '';
+    if (subLocality.isNotEmpty) {
+      address = address + subLocality + ", ";
+    }
+    if (locality.isNotEmpty) {
+      address = address + locality;
+    }
+
+    _currentUserCubit.state.currentUserModel.address = address;
+
+    _currentUserCubit.state.currentUserModel.geoLocation =
+        _locationCubit.state.geoPoint;
+
+    GeoFirePoint geoFirePoint = _geoFlutterFire.point(
+      latitude: _locationCubit.state.geoPoint.latitude,
+      longitude: _locationCubit.state.geoPoint.longitude,
+    );
+
+    ///update current user geo hash
+    _currentUserCubit.state.currentUserModel.geoHash = geoFirePoint.hash;
+
+    GeoFirePointData geoFirePointData = GeoFirePointData(
+      geopoint: geoFirePoint.geoPoint,
+      geohash: geoFirePoint.hash,
+    );
+
+    _currentUserCubit.state.currentUserModel.geoFirePointData =
+        geoFirePointData;
+
+    _currentUserCubit.updateCurrentLoggedInUser(
+        currentUser: _currentUserCubit.state.currentUserModel);
   }
 
   @override
