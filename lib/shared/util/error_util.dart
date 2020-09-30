@@ -69,7 +69,6 @@ class ScaffoldLoadingOrErrorWidgetUtil extends StatelessWidget {
   ScaffoldLoadingOrErrorWidgetUtil(this.errorString);
   @override
   Widget build(BuildContext context) {
-    final appSizeConfig = AppSizeConfig(context);
     if (errorString.isNotEmpty) {
       return Scaffold(
         body: Center(

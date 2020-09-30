@@ -44,7 +44,6 @@ class _NavigationBar extends StatelessWidget {
                     appSizeConfig,
                     snapshot,
                   );
-                  ;
                 }
             }
           },
