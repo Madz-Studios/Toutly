@@ -31,7 +31,6 @@ import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
-import '../usecases/user/firestore_get_all_fcm_token_usecase.dart';
 import '../usecases/user/firestore_get_user_usecase.dart';
 import '../usecases/user/firestore_update_user_usecase.dart';
 import '../repositories/user/firestore_user_repository.dart';
@@ -118,9 +117,6 @@ Future<GetIt> $initGetIt(
         get<FirebaseFirestore>(),
         get<FirebaseStorage>(),
       ));
-  gh.lazySingleton<FirestoreGetAllFcmTokenUseCase>(() =>
-      FirestoreGetAllFcmTokenUseCase(
-          firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.lazySingleton<FirestoreGetUserUseCase>(() => FirestoreGetUserUseCase(
       firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.lazySingleton<FirestoreUpdateUserUseCase>(() => FirestoreUpdateUserUseCase(
@@ -139,7 +135,7 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<OfferItemsCubit>(
       () => OfferItemsCubit(get<FirestoreBarterRepository>()));
   gh.lazySingleton<OtherUserCubit>(() => OtherUserCubit(
-      get<FirestoreGetUserUseCase>(), get<FirestoreGetAllFcmTokenUseCase>()));
+      get<FirestoreUserRepository>(), get<FirestoreGetUserUseCase>()));
   gh.lazySingleton<PasswordResetCubit>(() =>
       PasswordResetCubit(get<FirebaseAuthUserRepository>(), get<Validators>()));
   gh.lazySingleton<PostBarterCubit>(() => PostBarterCubit(
