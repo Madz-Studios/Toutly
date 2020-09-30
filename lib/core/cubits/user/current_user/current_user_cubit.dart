@@ -5,8 +5,6 @@ import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,7 +23,6 @@ part 'current_user_state.dart';
 
 @lazySingleton
 class CurrentUserCubit extends Cubit<CurrentUserState> {
-  final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
   final Geoflutterfire _geoFlutterFire;
@@ -40,7 +37,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   CurrentUserCubit(
     this._firebaseAuthUserRepository,
     this._firestoreUserRepository,
-    this._firestoreUpdateUserUseCase,
     this._firebaseStorage,
     this._allListBarterModelCurrentUserCubit,
     this._uuid,
@@ -146,9 +142,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       currentUser.photoUrl = url;
 
       ///finally update the current user.
-      _firestoreUpdateUserUseCase.call(
-        UseCaseUserParamUserModel.init(currentUser),
-      );
+      _firestoreUserRepository.updateUserUsingUserModel(currentUser);
 
       /// update the user items in algolia
       _allListBarterModelCurrentUserCubit
@@ -206,9 +200,7 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
         currentUser.geoFirePointData = geoFirePointData;
 
-        _firestoreUpdateUserUseCase.call(
-          UseCaseUserParamUserModel.init(currentUser),
-        );
+        _firestoreUserRepository.updateUserUsingUserModel(currentUser);
 
         ///if the current user change name or profile photo, update all the posted barter items.
         _allListBarterModelCurrentUserCubit

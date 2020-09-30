@@ -31,7 +31,6 @@ import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
-import '../usecases/user/firestore_update_user_usecase.dart';
 import '../repositories/user/firestore_user_repository.dart';
 import 'module_injector.dart';
 import '../usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
@@ -118,8 +117,6 @@ Future<GetIt> $initGetIt(
         get<FirebaseFirestore>(),
         get<FirebaseStorage>(),
       ));
-  gh.lazySingleton<FirestoreUpdateUserUseCase>(() => FirestoreUpdateUserUseCase(
-      firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.factory<LocalSharedPrefRepository>(() =>
       LocalUserRepositoryImpl(sharedPreferences: get<SharedPreferences>()));
   gh.lazySingleton<LocationCubit>(() =>
@@ -174,7 +171,6 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<CurrentUserCubit>(() => CurrentUserCubit(
         get<FirebaseAuthUserRepository>(),
         get<FirestoreUserRepository>(),
-        get<FirestoreUpdateUserUseCase>(),
         get<FirebaseStorage>(),
         get<AllListBarterModelCurrentUserCubit>(),
         get<Uuid>(),
