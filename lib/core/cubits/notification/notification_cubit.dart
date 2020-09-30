@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/repositories/barter_message/firestore_barter_message_repository.dart';
@@ -21,40 +20,24 @@ part 'notification_state.dart';
 @lazySingleton
 class NotificationCubit extends Cubit<NotificationState> {
   final FirebaseMessaging _firebaseMessaging;
-  final CurrentUserCubit _currentUserCubit;
 
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final FirestoreBarterMessageRepository _firestoreBarterMessagesRepository;
 
   NotificationCubit(
     this._firebaseAuthUserRepository,
-    this._currentUserCubit,
     this._firebaseMessaging,
     this._firestoreBarterMessagesRepository,
   ) : super(NotificationState.empty());
 
+  Future<String> getDeviceToken() async {
+    String deviceToken = await _firebaseMessaging.getToken();
+
+    return deviceToken;
+  }
+
   initializeFirebaseMessaging(UserModel userModel) async {
     try {
-      //set fcm token
-      String deviceToken = await _firebaseMessaging.getToken();
-
-      bool isDeviceTokenExist = false;
-      if (userModel.fcmToken != null && userModel.fcmToken.isNotEmpty) {
-        for (String fcmToken in userModel.fcmToken) {
-          if (deviceToken == fcmToken) {
-            isDeviceTokenExist = true;
-          }
-        }
-        if (!isDeviceTokenExist) {
-          userModel.fcmToken.add(deviceToken);
-        }
-      } else {
-        List<String> fcmTokenList = [];
-        fcmTokenList.add(deviceToken);
-        userModel.fcmToken = fcmTokenList;
-      }
-      await _currentUserCubit.updateCurrentLoggedInUser(userModel);
-
       _firebaseMessaging.configure(
         onMessage: (Map<String, dynamic> message) async {
           print("onMessage: $message");

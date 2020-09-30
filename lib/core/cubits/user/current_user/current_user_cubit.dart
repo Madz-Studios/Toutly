@@ -1,5 +1,3 @@
-import 'package:Toutly/core/cubits/location/location_cubit.dart';
-import 'package:Toutly/core/models/geo_firepoint_data/geo_fire_point_data.dart';
 import 'package:Toutly/core/models/user/saved_items/saved_item_model.dart';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
@@ -12,7 +10,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:geoflutterfire/geoflutterfire.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:injectable/injectable.dart';
 import 'package:uuid/uuid.dart';
@@ -24,22 +21,17 @@ part 'current_user_state.dart';
 class CurrentUserCubit extends Cubit<CurrentUserState> {
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
-  final Geoflutterfire _geoFlutterFire;
 
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final FirestoreUserRepository _firestoreUserRepository;
   final Validators validators;
-
-  final LocationCubit _locationCubit;
 
   CurrentUserCubit(
     this._firebaseAuthUserRepository,
     this._firestoreUserRepository,
     this._firebaseStorage,
     this._uuid,
-    this._geoFlutterFire,
     this.validators,
-    this._locationCubit,
   ) : super(CurrentUserState.empty());
 
   nameChanged(String name) {
@@ -155,49 +147,15 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
     }
   }
 
-  updateCurrentLoggedInUser(UserModel currentUser) async {
+  updateCurrentLoggedInUser({@required UserModel currentUser
+  }) async {
     emit(CurrentUserState.loading());
     try {
       final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
       if (!firebaseUser.isAnonymous) {
-        ///update the current user address based on the current location
-        String subLocality =
-            "${_locationCubit.state.placeMark.subLocality ?? ''}";
-        String locality = "${_locationCubit.state.placeMark.locality ?? ''}";
-
-        String address = '';
-        if (subLocality.isNotEmpty) {
-          address = address + subLocality + ", ";
-        }
-        if (locality.isNotEmpty) {
-          address = address + locality;
-        }
-
-        currentUser.address = address;
-
-        currentUser.geoLocation = _locationCubit.state.geoPoint;
-
-        GeoFirePoint geoFirePoint = _geoFlutterFire.point(
-          latitude: _locationCubit.state.geoPoint.latitude,
-          longitude: _locationCubit.state.geoPoint.longitude,
-        );
-
-        ///update current user geo hash
-        currentUser.geoHash = geoFirePoint.hash;
-
-        GeoFirePointData geoFirePointData = GeoFirePointData(
-          geopoint: geoFirePoint.geoPoint,
-          geohash: geoFirePoint.hash,
-        );
-
-        currentUser.geoFirePointData = geoFirePointData;
 
         _firestoreUserRepository.updateUserUsingUserModel(currentUser);
-
-        ///if the current user change name or profile photo, update all the posted barter items.
-        _allListBarterModelCurrentUserCubit
-            .updateAllBarterItemsOfCurrentUser(currentUser);
 
         emit(CurrentUserState.success(
           currentUserModel: currentUser,
@@ -246,5 +204,29 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
       emit(CurrentUserState.failure(e.toString()));
       throw FlutterError(e.toString());
     }
+  }
+
+  updateCurrentLoggedInUserFcmToken({@required String deviceToken}) {
+
+    UserModel currentUserModel = state.currentUserModel;
+    bool isDeviceTokenExist = false;
+    if (currentUserModel.fcmToken != null && currentUserModel.fcmToken.isNotEmpty) {
+      for (String fcmToken in currentUserModel.fcmToken) {
+        if (deviceToken == fcmToken) {
+          isDeviceTokenExist = true;
+        }
+      }
+      if (!isDeviceTokenExist) {
+        currentUserModel.fcmToken.add(deviceToken);
+        updateCurrentLoggedInUser(currentUser: currentUserModel);
+      }
+    } else {
+      List<String> fcmTokenList = [];
+      fcmTokenList.add(deviceToken);
+      currentUserModel.fcmToken = fcmTokenList;
+      updateCurrentLoggedInUser(currentUser: currentUserModel);
+    }
+
+
   }
 }

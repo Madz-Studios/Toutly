@@ -124,6 +124,11 @@ Future<GetIt> $initGetIt(
         get<Validators>(),
         get<Uuid>(),
       ));
+  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
+        get<FirebaseAuthUserRepository>(),
+        get<FirebaseMessaging>(),
+        get<FirestoreBarterMessageRepository>(),
+      ));
   gh.lazySingleton<OfferItemsCubit>(
       () => OfferItemsCubit(get<FirestoreBarterRepository>()));
   gh.lazySingleton<PasswordResetCubit>(() =>
@@ -169,18 +174,10 @@ Future<GetIt> $initGetIt(
         get<FirestoreUserRepository>(),
         get<FirebaseStorage>(),
         get<Uuid>(),
-        get<Geoflutterfire>(),
         get<Validators>(),
-        get<LocationCubit>(),
       ));
   gh.lazySingleton<DeleteBarterModelCurrentUserCubit>(() =>
       DeleteBarterModelCurrentUserCubit(get<FirestoreBarterRepository>()));
-  gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
-        get<FirebaseAuthUserRepository>(),
-        get<CurrentUserCubit>(),
-        get<FirebaseMessaging>(),
-        get<FirestoreBarterMessageRepository>(),
-      ));
   return get;
 }
 

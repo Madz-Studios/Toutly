@@ -125,12 +125,13 @@ class _SelectProfilePhotoState extends State<SelectProfilePhoto> {
     return null;
   }
 
-  void updateProfilePicture(PickedFile pickedFile, UserModel currentUser) {
-    _currentUserCubit.updateCurrentLoggedInUserProfilePicture(
+  void updateProfilePicture(
+      PickedFile pickedFile, UserModel currentUser) async {
+    await _currentUserCubit.updateCurrentLoggedInUserProfilePicture(
         pickedFile, currentUser);
 
     /// update the user items in algolia
-    _allListBarterModelCurrentUserCubit
-        .updateAllBarterItemsOfCurrentUser(currentUser);Z
+    await _allListBarterModelCurrentUserCubit.updateAllBarterItemsOfCurrentUser(
+        _currentUserCubit.state.currentUserModel);
   }
 }

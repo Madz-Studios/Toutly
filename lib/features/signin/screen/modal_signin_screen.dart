@@ -47,7 +47,8 @@ class ModalSignInScreen extends StatelessWidget {
 
               currentUser.geoLocation = locationState.geoPoint;
 
-              _currentUserCubit.updateCurrentLoggedInUser(currentUser);
+              _currentUserCubit.updateCurrentLoggedInUser(
+                  currentUser: currentUser);
 
               Navigator.pop(context);
             }
