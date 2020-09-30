@@ -3,8 +3,6 @@ import 'dart:math';
 import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
-import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/shared/util/validators.dart';
 import 'package:bloc/bloc.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -20,14 +18,11 @@ part 'sign_state.dart';
 @lazySingleton
 class SignCubit extends Cubit<SignState> {
   final FirestoreUserRepository _firestoreUserRepository;
-  final FirestoreGetUserUseCase firestoreGetUserUseCase;
-
   final FirebaseAuthUserRepository _firebaseAuthUserRepository;
   final Validators validators;
 
   SignCubit(
     this._firestoreUserRepository,
-    this.firestoreGetUserUseCase,
     this.validators,
     this._firebaseAuthUserRepository,
   ) : super((SignState.empty()));
@@ -271,8 +266,8 @@ class SignCubit extends Cubit<SignState> {
 
   Future<void> _createNewUserForSocialSignIn() async {
     final User firebaseUser = _firebaseAuthUserRepository.getUser();
-    final userStore = await firestoreGetUserUseCase
-        .call(UseCaseUserParamUserId.init(firebaseUser.uid));
+    final userStore =
+        await _firestoreUserRepository.getUserUsingUserId(firebaseUser.uid);
 
     final rng = Random();
 

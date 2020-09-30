@@ -31,7 +31,6 @@ import '../repositories/auth/firebase_auth_user_repository.dart';
 import '../repositories/barter_conversation_text/firestore_barter_conversation_text_repository.dart';
 import '../repositories/barter_message/firestore_barter_message_repository.dart';
 import '../repositories/barter_item/firestore_barter_repository.dart';
-import '../usecases/user/firestore_get_user_usecase.dart';
 import '../usecases/user/firestore_update_user_usecase.dart';
 import '../repositories/user/firestore_user_repository.dart';
 import 'module_injector.dart';
@@ -89,6 +88,8 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<GeolocatorPlatform>(() => injectableModule.geoLocator);
   gh.lazySingleton<GoogleSignIn>(() => injectableModule.googleSignIn);
   gh.lazySingleton<NavigationCubit>(() => NavigationCubit());
+  gh.lazySingleton<OtherUserCubit>(
+      () => OtherUserCubit(get<FirestoreUserRepository>()));
   gh.lazySingleton<PrivacyServicesCubit>(() => PrivacyServicesCubit());
   final remoteConfig = await injectableModule.remoteConfig;
   gh.factory<RemoteConfig>(() => remoteConfig);
@@ -117,8 +118,6 @@ Future<GetIt> $initGetIt(
         get<FirebaseFirestore>(),
         get<FirebaseStorage>(),
       ));
-  gh.lazySingleton<FirestoreGetUserUseCase>(() => FirestoreGetUserUseCase(
-      firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.lazySingleton<FirestoreUpdateUserUseCase>(() => FirestoreUpdateUserUseCase(
       firestoreUserRepository: get<FirestoreUserRepository>()));
   gh.factory<LocalSharedPrefRepository>(() =>
@@ -134,8 +133,6 @@ Future<GetIt> $initGetIt(
       ));
   gh.lazySingleton<OfferItemsCubit>(
       () => OfferItemsCubit(get<FirestoreBarterRepository>()));
-  gh.lazySingleton<OtherUserCubit>(() => OtherUserCubit(
-      get<FirestoreUserRepository>(), get<FirestoreGetUserUseCase>()));
   gh.lazySingleton<PasswordResetCubit>(() =>
       PasswordResetCubit(get<FirebaseAuthUserRepository>(), get<Validators>()));
   gh.lazySingleton<PostBarterCubit>(() => PostBarterCubit(
@@ -159,7 +156,6 @@ Future<GetIt> $initGetIt(
       ));
   gh.lazySingleton<SignCubit>(() => SignCubit(
         get<FirestoreUserRepository>(),
-        get<FirestoreGetUserUseCase>(),
         get<Validators>(),
         get<FirebaseAuthUserRepository>(),
       ));
@@ -169,7 +165,7 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<AllListBarterModelCurrentUserCubit>(() =>
       AllListBarterModelCurrentUserCubit(get<FirestoreBarterRepository>()));
   gh.lazySingleton<AuthCubit>(() => AuthCubit(
-      get<FirebaseAuthUserRepository>(), get<FirestoreGetUserUseCase>()));
+      get<FirebaseAuthUserRepository>(), get<FirestoreUserRepository>()));
   gh.lazySingleton<BarterItemsCubit>(
       () => BarterItemsCubit(get<FirestoreBarterRepository>()));
   gh.lazySingleton<BarterMessageCubit>(() => BarterMessageCubit(
@@ -178,7 +174,6 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<CurrentUserCubit>(() => CurrentUserCubit(
         get<FirebaseAuthUserRepository>(),
         get<FirestoreUserRepository>(),
-        get<FirestoreGetUserUseCase>(),
         get<FirestoreUpdateUserUseCase>(),
         get<FirebaseStorage>(),
         get<AllListBarterModelCurrentUserCubit>(),

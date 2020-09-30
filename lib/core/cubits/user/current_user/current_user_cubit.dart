@@ -6,7 +6,6 @@ import 'package:Toutly/core/models/user/user_model.dart';
 import 'package:Toutly/core/repositories/auth/firebase_auth_user_repository.dart';
 import 'package:Toutly/core/repositories/user/firestore_user_repository.dart';
 import 'package:Toutly/core/usecases/param/user/use_case_user_param.dart';
-import 'package:Toutly/core/usecases/user/firestore_get_user_usecase.dart';
 import 'package:Toutly/core/usecases/user/firestore_update_user_usecase.dart';
 import 'package:Toutly/shared/util/connection_util.dart';
 import 'package:Toutly/shared/util/validators.dart';
@@ -26,7 +25,6 @@ part 'current_user_state.dart';
 
 @lazySingleton
 class CurrentUserCubit extends Cubit<CurrentUserState> {
-  final FirestoreGetUserUseCase _firestoreGetUserUseCase;
   final FirestoreUpdateUserUseCase _firestoreUpdateUserUseCase;
   final FirebaseStorage _firebaseStorage;
   final Uuid _uuid;
@@ -42,7 +40,6 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
   CurrentUserCubit(
     this._firebaseAuthUserRepository,
     this._firestoreUserRepository,
-    this._firestoreGetUserUseCase,
     this._firestoreUpdateUserUseCase,
     this._firebaseStorage,
     this._allListBarterModelCurrentUserCubit,
@@ -71,9 +68,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
 
   Future<UserModel> getCurrentUserModel() async {
     final User firebaseUser = _firebaseAuthUserRepository.getUser();
-    final currentUser = await _firestoreGetUserUseCase.call(
-      UseCaseUserParamUserId.init(firebaseUser.uid),
-    );
+    final currentUser =
+        await _firestoreUserRepository.getUserUsingUserId(firebaseUser.uid);
 
     return currentUser;
   }
@@ -86,9 +82,8 @@ class CurrentUserCubit extends Cubit<CurrentUserState> {
         final User firebaseUser = _firebaseAuthUserRepository.getUser();
 
         if (firebaseUser != null && !firebaseUser.isAnonymous) {
-          final currentUser = await _firestoreGetUserUseCase.call(
-            UseCaseUserParamUserId.init(firebaseUser.uid),
-          );
+          final currentUser = await _firestoreUserRepository
+              .getUserUsingUserId(firebaseUser.uid);
 
           emit(CurrentUserState.success(
             currentUserModel: currentUser,
