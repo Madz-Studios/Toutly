@@ -33,10 +33,6 @@ import '../repositories/barter_message/firestore_barter_message_repository.dart'
 import '../repositories/barter_item/firestore_barter_repository.dart';
 import '../repositories/user/firestore_user_repository.dart';
 import 'module_injector.dart';
-import '../usecases/local_shared_pref/local_shared_pref_delete_all_save_data_usecase.dart';
-import '../usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_latitude_usecase.dart';
-import '../usecases/local_shared_pref/local_shared_pref_get_current_user_geo_location_longitude_usecase.dart';
-import '../usecases/local_shared_pref/local_shared_pref_persist_user_geo_location_usecase.dart';
 import '../repositories/local/local_shared_pref_repository.dart';
 import '../cubits/location/location_cubit.dart';
 import '../cubits/make_offer/make_offer_cubit.dart';
@@ -180,18 +176,6 @@ Future<GetIt> $initGetIt(
       ));
   gh.lazySingleton<DeleteBarterModelCurrentUserCubit>(() =>
       DeleteBarterModelCurrentUserCubit(get<FirestoreBarterRepository>()));
-  gh.lazySingleton<LocalSharedDeleteAllSaveDataUseCase>(() =>
-      LocalSharedDeleteAllSaveDataUseCase(
-          localSharedPrefRepository: get<LocalSharedPrefRepository>()));
-  gh.lazySingleton<LocalSharedPrefGetCurrentUserGeoLocationLatitudeUseCase>(
-      () => LocalSharedPrefGetCurrentUserGeoLocationLatitudeUseCase(
-          localSharedPrefRepository: get<LocalSharedPrefRepository>()));
-  gh.lazySingleton<LocalSharedPrefGetCurrentUserGeoLocationLongitudeUseCase>(
-      () => LocalSharedPrefGetCurrentUserGeoLocationLongitudeUseCase(
-          localSharedPrefRepository: get<LocalSharedPrefRepository>()));
-  gh.lazySingleton<LocalSharedPrefPersistUserGeoLocationUseCase>(() =>
-      LocalSharedPrefPersistUserGeoLocationUseCase(
-          localSharedPrefRepository: get<LocalSharedPrefRepository>()));
   gh.lazySingleton<NotificationCubit>(() => NotificationCubit(
         get<FirebaseAuthUserRepository>(),
         get<CurrentUserCubit>(),
