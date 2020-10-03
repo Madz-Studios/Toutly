@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:Toutly/core/cubits/navigation/navigation_cubit.dart';
 import 'package:Toutly/core/cubits/post_barter/post_barter_cubit.dart';
 import 'package:Toutly/core/cubits/user/current_user/current_user_cubit.dart';
@@ -9,7 +11,7 @@ import 'package:Toutly/features/post/widgets/select_photos.dart';
 import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
-import 'package:Toutly/shared/util/error_util.dart';
+import 'package:Toutly/shared/widgets/loading_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,13 +20,23 @@ import 'package:google_fonts/google_fonts.dart';
 class PostScreen extends StatelessWidget {
   final _postBarterCubit = getIt<PostBarterCubit>();
   final _navCubit = getIt<NavigationCubit>();
+  final LoadingWidget _loadingWidget = LoadingWidget();
 
   @override
   Widget build(BuildContext context) {
     final appSizeConfig = AppSizeConfig(context);
+    bool isShowDialog = false;
 
     return BlocConsumer<PostBarterCubit, PostBarterState>(
       listener: (context, state) {
+        if (state.isSubmitting) {
+          if (Platform.isIOS) {
+            _loadingWidget.showCupertinoDialog(context);
+          } else {
+            _loadingWidget.showMaterialDialog(context);
+          }
+          isShowDialog = true;
+        }
         if (state.isFailure) {
           Scaffold.of(context)
             ..hideCurrentSnackBar()
@@ -44,19 +56,10 @@ class PostScreen extends StatelessWidget {
             );
         }
         if (state.isSuccess) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Successfully Posted'),
-                  ],
-                ),
-              ),
-            );
+          if (isShowDialog) {
+            Navigator.of(context).pop();
+            isShowDialog = false;
+          }
 
           ///clear the photo list for the next post
           _postBarterCubit.reset();
@@ -65,9 +68,6 @@ class PostScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.isSubmitting) {
-          return LoadingOrErrorWidgetUtil('');
-        }
         return SingleChildScrollView(
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,

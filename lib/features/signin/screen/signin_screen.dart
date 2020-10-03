@@ -8,6 +8,7 @@ import 'package:Toutly/features/signin/widgets/signin_form.dart';
 import 'package:Toutly/features/signup/screen/signup_screen.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/widgets/loading_widget.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +19,10 @@ class SignInScreen extends StatelessWidget {
   final _signCubit = getIt<SignCubit>();
   final _authCubit = getIt<AuthCubit>();
   final _globalScaffoldKey = GlobalKey<ScaffoldState>();
+  final LoadingWidget _loadingWidget = LoadingWidget();
   @override
   Widget build(BuildContext context) {
+    bool isShowDialog = false;
     final appSizeConfig = AppSizeConfig(context);
     return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
@@ -40,22 +43,18 @@ class SignInScreen extends StatelessWidget {
           );
         }
         if (state.isSubmitting) {
-          _globalScaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              backgroundColor: kPrimaryColor,
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Signing In...'),
-                  Platform.isIOS
-                      ? CupertinoActivityIndicator()
-                      : CircularProgressIndicator(),
-                ],
-              ),
-            ),
-          );
+          if (Platform.isIOS) {
+            _loadingWidget.showCupertinoDialog(context);
+          } else {
+            _loadingWidget.showMaterialDialog(context);
+          }
+          isShowDialog = true;
         }
         if (state.isSuccess) {
+          if (isShowDialog) {
+            Navigator.of(context).pop();
+            isShowDialog = false;
+          }
           _authCubit.signedIn();
         }
       },
