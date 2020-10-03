@@ -6,6 +6,7 @@ import 'package:Toutly/core/di/injector.dart';
 import 'package:Toutly/features/signup/widgets/signup_form.dart';
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
+import 'package:Toutly/shared/widgets/loading_widget.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SignUpScreen extends StatelessWidget {
   final _authCubit = getIt<AuthCubit>();
   final _globalScaffoldKey = GlobalKey<ScaffoldState>();
+  final LoadingWidget _loadingWidget = LoadingWidget();
+
   @override
   Widget build(BuildContext context) {
+    bool isShowDialog = false;
     final appSizeConfig = AppSizeConfig(context);
     return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
@@ -37,22 +41,19 @@ class SignUpScreen extends StatelessWidget {
           );
         }
         if (state.isSubmitting) {
-          _globalScaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              backgroundColor: kPrimaryColor,
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Signing Up...'),
-                  Platform.isIOS
-                      ? CupertinoActivityIndicator()
-                      : CircularProgressIndicator(),
-                ],
-              ),
-            ),
-          );
+          if (Platform.isIOS) {
+            _loadingWidget.showCupertinoDialog(context);
+          } else {
+            _loadingWidget.showMaterialDialog(context);
+          }
+          isShowDialog = true;
         }
         if (state.isSuccess) {
+          if (isShowDialog) {
+            Navigator.of(context).pop();
+            isShowDialog = false;
+          }
+
           _authCubit.signedIn();
           Navigator.of(context).pop();
         }
