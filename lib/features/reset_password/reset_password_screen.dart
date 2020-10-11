@@ -7,6 +7,7 @@ import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/text_fields/sign_text_form_field.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -71,22 +72,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       body: BlocConsumer<PasswordResetCubit, PasswordResetState>(
         listener: (context, state) {
           if (state.isFailure) {
-            Scaffold.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                SnackBar(
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Expanded(
-                        child: Text('${state.info}'),
-                      ),
-                      Icon(Icons.error),
-                    ],
-                  ),
-                  backgroundColor: kSecondaryRedAccentColor,
-                ),
-              );
+            Flushbar(
+              message: "${state.info}",
+              backgroundColor: kSecondaryRedAccentColor,
+              duration: Duration(seconds: 3),
+            )..show(context);
           }
           if (state.isSuccess) {
             if (Platform.isIOS) {

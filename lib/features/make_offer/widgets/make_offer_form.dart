@@ -14,6 +14,7 @@ import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/util/error_util.dart';
 import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/profile_with_rating.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -111,20 +112,13 @@ class _MakeOfferFormState extends State<MakeOfferForm> {
               ),
             );
         }
+
         if (makeOfferState.isSubmitting) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                backgroundColor: kPrimaryColor,
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Submitting offer...'),
-                  ],
-                ),
-              ),
-            );
+          Flushbar(
+            message: "Submitting offer...",
+            backgroundColor: kSecondaryRedAccentColor,
+            duration: Duration(seconds: 3),
+          )..show(context);
         }
         if (makeOfferState.isSuccess) {
           Navigator.pop(context);

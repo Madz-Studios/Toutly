@@ -18,6 +18,7 @@ import 'package:Toutly/shared/widgets/buttons/action_button.dart';
 import 'package:Toutly/shared/widgets/buttons/back_or_close_button.dart';
 import 'package:Toutly/shared/widgets/carousel/carousel_slider_custom.dart';
 import 'package:Toutly/shared/widgets/saved_panel.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -131,56 +132,25 @@ class _ViewBarterItemScreenState extends State<ViewBarterItemScreen> {
               DeleteBarterModelCurrentUserState>(
             listener: (context, deleteBarterModelCurrentUserState) {
               if (deleteBarterModelCurrentUserState.isFailure) {
-                Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Text(
-                                '${deleteBarterModelCurrentUserState.info}'),
-                          ),
-                          Icon(Icons.error),
-                        ],
-                      ),
-                      backgroundColor: kSecondaryRedAccentColor,
-                    ),
-                  );
+                Flushbar(
+                  message: "${deleteBarterModelCurrentUserState.info}",
+                  backgroundColor: kSecondaryRedAccentColor,
+                  duration: Duration(seconds: 3),
+                )..show(context);
               }
               if (deleteBarterModelCurrentUserState.isSubmitting) {
-                Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      backgroundColor: kPrimaryColor,
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Deleting...'),
-                          Platform.isIOS
-                              ? CupertinoActivityIndicator()
-                              : CircularProgressIndicator(),
-                        ],
-                      ),
-                    ),
-                  );
+                Flushbar(
+                  message: "Deleting...",
+                  backgroundColor: kSecondaryRedAccentColor,
+                  duration: Duration(seconds: 3),
+                )..show(context);
               }
               if (deleteBarterModelCurrentUserState.isSuccess) {
-                Scaffold.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(
-                    SnackBar(
-                      backgroundColor: kPrimaryColor,
-                      content: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Successfully Deleted'),
-                        ],
-                      ),
-                    ),
-                  );
+                Flushbar(
+                  message: "Successfully Deleted",
+                  backgroundColor: kSecondaryRedAccentColor,
+                  duration: Duration(seconds: 3),
+                )..show(context);
 
                 SearchUtil().searchSubmit(
                   searchText: _searchConfigCubit.state.searchText,

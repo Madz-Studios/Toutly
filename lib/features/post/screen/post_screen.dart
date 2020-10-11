@@ -12,6 +12,7 @@ import 'package:Toutly/features/view_barter_item/screen/view_barter_item_screen.
 import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/loading_widget.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,22 +39,11 @@ class PostScreen extends StatelessWidget {
           isShowDialog = true;
         }
         if (state.isFailure) {
-          Scaffold.of(context)
-            ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(
-                content: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text('${state.info}'),
-                    ),
-                    Icon(Icons.error),
-                  ],
-                ),
-                backgroundColor: kSecondaryRedAccentColor,
-              ),
-            );
+          Flushbar(
+            message: "${state.info}",
+            backgroundColor: kSecondaryRedAccentColor,
+            duration: Duration(seconds: 3),
+          )..show(context);
         }
         if (state.isSuccess) {
           if (isShowDialog) {

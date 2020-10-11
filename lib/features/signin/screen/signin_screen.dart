@@ -10,37 +10,33 @@ import 'package:Toutly/shared/constants/app_constants.dart';
 import 'package:Toutly/shared/util/app_size_config.dart';
 import 'package:Toutly/shared/widgets/loading_widget.dart';
 import 'package:Toutly/shared/widgets/panels/social_account_panel.dart';
+import 'package:flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+// ignore: must_be_immutable
 class SignInScreen extends StatelessWidget {
   final _signCubit = getIt<SignCubit>();
   final _authCubit = getIt<AuthCubit>();
-  final _globalScaffoldKey = GlobalKey<ScaffoldState>();
   final LoadingWidget _loadingWidget = LoadingWidget();
+  bool isShowDialog = false;
   @override
   Widget build(BuildContext context) {
-    bool isShowDialog = false;
     final appSizeConfig = AppSizeConfig(context);
     return BlocConsumer<SignCubit, SignState>(
       listener: (context, state) {
         if (state.isFailure) {
-          _globalScaffoldKey.currentState.showSnackBar(
-            SnackBar(
-              content: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    child: Text('${state.info}'),
-                  ),
-                  Icon(Icons.error),
-                ],
-              ),
-              backgroundColor: kSecondaryRedAccentColor,
-            ),
-          );
+          if (isShowDialog) {
+            Navigator.of(context).pop();
+            isShowDialog = false;
+          }
+          Flushbar(
+            message: "${state.info}",
+            backgroundColor: kSecondaryRedAccentColor,
+            duration: Duration(seconds: 2),
+          )..show(context);
         }
         if (state.isSubmitting) {
           if (Platform.isIOS) {
@@ -60,7 +56,6 @@ class SignInScreen extends StatelessWidget {
       },
       builder: (_, signState) {
         return Scaffold(
-          key: _globalScaffoldKey,
           body: SafeArea(
             child: SingleChildScrollView(
               child: Padding(
